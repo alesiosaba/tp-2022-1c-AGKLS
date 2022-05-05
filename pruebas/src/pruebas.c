@@ -147,7 +147,6 @@ void agregar_nuevo_parametro(nodo_instruccion* nodo_instruccion, char* parametro
 
 	// TO DO: USAR nuevo_nodo_parametro
 
-
 	// uso este auxiliar para recorrer la lista de parametros de la instruccion
 	nodo_parametro* aux = nodo_instruccion->instruccion.parametros;
 
@@ -156,13 +155,7 @@ void agregar_nuevo_parametro(nodo_instruccion* nodo_instruccion, char* parametro
 		aux = aux->sig;
 	}
 
-	aux->parametro = atoi(parametro);
-
-	aux->sig = nuevo_nodo
-
-	NO_OP->I/O->WRITE->
-
-		aux
-	4->42->
+	// aux->sig = nuevo_nodo_parametro
+	// aux->sig.parametro = atoi(parametro);
 
 };
