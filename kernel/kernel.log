@@ -1,0 +1,25 @@
+[INFO] 16:46:56:720 Kernel Log/(4207:4207): Servidor listo para recibir al cliente
+[INFO] 16:47:02:398 Kernel Log/(4207:4213): Se conecto un cliente!
+[INFO] 16:47:02:398 Kernel Log/(4207:4228): Me llego el mensaje valor
+[INFO] 16:47:10:225 Kernel Log/(4207:4228): Me llegaron los siguientes valores:
+
+[INFO] 16:47:10:226 Kernel Log/(4207:4228): operacion 1 
+[INFO] 16:47:10:228 Kernel Log/(4207:4228): operacion 2
+[ERROR] 16:47:10:228 Kernel Log/(4207:4228): el cliente se desconecto. Terminando servidor
+[INFO] 16:47:30:885 Kernel Log/(4207:4213): Se conecto un cliente!
+[INFO] 16:47:30:886 Kernel Log/(4207:4265): Me llego el mensaje valor
+[INFO] 16:47:33:617 Kernel Log/(4207:4213): Se conecto un cliente!
+[INFO] 16:47:33:622 Kernel Log/(4207:4277): Me llego el mensaje valor
+[INFO] 16:47:46:558 Kernel Log/(4207:4277): Me llegaron los siguientes valores:
+
+[INFO] 16:47:46:558 Kernel Log/(4207:4277): cliente2
+[ERROR] 16:47:46:559 Kernel Log/(4207:4277): el cliente se desconecto. Terminando servidor
+[INFO] 16:47:53:703 Kernel Log/(4207:4265): Me llegaron los siguientes valores:
+
+[INFO] 16:47:53:703 Kernel Log/(4207:4265): ciente3
+[ERROR] 16:47:53:704 Kernel Log/(4207:4265): el cliente se desconecto. Terminando servidor
+[DEBUG] 16:48:13:729 Kernel Log/(4207:4207): Archivo de configuracion cerrado
+[DEBUG] 16:48:13:730 Kernel Log/(4207:4207): Terminando el Log
+[INFO] 16:52:34:548 Kernel Log/(4634:4634): Servidor listo para recibir al cliente
+[DEBUG] 16:52:38:245 Kernel Log/(4634:4634): Archivo de configuracion cerrado
+[DEBUG] 16:52:38:246 Kernel Log/(4634:4634): Terminando el Log
