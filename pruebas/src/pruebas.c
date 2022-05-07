@@ -37,7 +37,7 @@ void agregar_nuevo_parametro(nodo_instruccion* nodo_instruccion, char* parametro
 
 int main() {
 
-	// este nodo apuntar� al primer nodo de la lista de instrucciones para poder recorrerla
+	// este nodo apuntara al primer nodo de la lista de instrucciones para poder recorrerla
 	nodo_instruccion* lista_instrucciones;
 
 	char* path_pseudocodigo = "script.txt";
@@ -155,27 +155,28 @@ void completar_nodo_instruccion(nodo_instruccion* nodo_instruccion, char* buffer
 	strcpy(str, buffer);
 	char separator[] = " ";
 	char* token;
+	char* rest = str;
 
 	// get the first token
-	token = strtok(str, separator);
+	token = strtok_r(str, separator, &rest);
 
 	// cargo el identificador de la instruccion
 	strcpy(nodo_instruccion->instruccion.identificador, token);
 
 	// leo el primer parametro si existiera
-	token = strtok(NULL, separator);
+	token = strtok_r(NULL, separator, &rest);
 
 	// si la lista de parametros no está iniciada Y buffer leyó al menos 1 parametro
 	if(nodo_instruccion->instruccion.parametros == NULL && token != NULL){
 		nodo_instruccion->instruccion.parametros = agregar_primer_parametro(token);
 	}
 
-	token = strtok(NULL, separator);
+	token = strtok_r(NULL, separator, &rest);
 
 	// walk through other tokens
 	while(token != NULL) {
 		agregar_nuevo_parametro(nodo_instruccion, token);
-		token = strtok(NULL, separator);
+		token = strtok_r(NULL, separator, &rest);
 	}
 
 };
