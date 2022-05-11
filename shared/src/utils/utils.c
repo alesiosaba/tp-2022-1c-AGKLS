@@ -1,39 +1,19 @@
 #include "../include/utils/utils.h"
 
-// Implementaciones obligatorias
-
-void inicializar(){
-//Logs y Config
-	char* log_level;
-	config = iniciar_config();
-	log_level = config_get_string_value(config, "LOG_LEVEL");
-	logger = iniciar_logger(log_level);
-
-}
-
-void terminar_programa()
-{
-	config_destroy(config);
-	log_debug(logger,CONFIGURACION_CERRADA);
-//	close(conexion);
-	log_debug(logger,TERMINANDO_EL_LOG);
-	log_destroy(logger);
-}
-
 
 // Implementacion de Comportamientos del Logger & Config
 
-t_log* iniciar_logger(char* log_level)
+t_log* iniciar_logger(char* log_level, char* logger_path, char* logger)
 {
 	t_log* nuevo_logger;
-	nuevo_logger = log_create(ARCHIVO_DE_LOG, LOGGER ,true,log_level_from_string(log_level));
+	nuevo_logger = log_create(logger_path, logger ,true,log_level_from_string(log_level));
 	return nuevo_logger;
 }
 
-t_config* iniciar_config(void)
+t_config* iniciar_config(char* config_path)
 {
 	t_config* nuevo_config;
-	nuevo_config = config_create(ARCHIVO_DE_CONFIGURACION);
+	nuevo_config = config_create(config_path);
 	return nuevo_config;
 }
 

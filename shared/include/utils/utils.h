@@ -17,9 +17,6 @@
 
 #define IP "127.0.0.1"
 #define PUERTO "4444"
-#define ARCHIVO_DE_CONFIGURACION "kernel.config"
-#define ARCHIVO_DE_LOG "kernel.log"
-#define LOGGER "Kernel Log"
 
 // Mensajes y Returns
 
@@ -59,14 +56,11 @@ t_config* config;
 
 // Definicion de Implementacion obligatoria (Inicialización & Terminacion)
 
-void inicializar();
-void terminar_programa();
-
 
 // Definicion de Comportamientos Logger & Config
 
-t_log* iniciar_logger(char*);
-t_config* iniciar_config(void);
+t_log* iniciar_logger(char* log_level, char* logger_path, char* logger);
+t_config* iniciar_config(char* config_path);
 
 
 // Definicion de Comportamientos de Cliente

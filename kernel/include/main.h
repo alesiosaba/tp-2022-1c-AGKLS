@@ -1,3 +1,6 @@
+#ifndef MAIN_H_
+#define MAIN_H_
+
 #include<stdio.h>
 #include<stdlib.h>
 #include <commons/log.h>
@@ -7,6 +10,11 @@
 #include <readline/readline.h>
 #include <pthread.h>
 #include "../../shared/include/utils/utils.h"
+
+
+#define ARCHIVO_DE_CONFIGURACION "kernel.config"
+#define ARCHIVO_DE_LOG "kernel.log"
+#define LOGGER "Kernel Log"
 
 
 typedef struct nodo_parametro
@@ -38,6 +46,14 @@ typedef struct
 	int estimacion_rafaga;
 } t_pcb;
 
+
+// Definiciones de Inicio y Fin de programa
+void terminar_programa();
+void inicializar();
+
+// Definiciones Utiles
 void iterator(char* value);
 int manejarConexion(int socket_cliente);
 void manejar_consolas(int server_fd);
+
+#endif

@@ -1,4 +1,4 @@
-#include "../include/kernel.h"
+#include "../include/main.h"
 
 
 int main(void) {
@@ -32,6 +32,25 @@ int main(void) {
 
 	terminar_programa();
 	return EXIT_SUCCESS;
+}
+
+
+void inicializar(){
+//Logs y Config
+	char* log_level;
+	config = iniciar_config(ARCHIVO_DE_CONFIGURACION);
+	log_level = config_get_string_value(config, "LOG_LEVEL");
+	logger = iniciar_logger(log_level, ARCHIVO_DE_LOG, LOGGER);
+
+}
+
+void terminar_programa()
+{
+	config_destroy(config);
+	log_debug(logger,CONFIGURACION_CERRADA);
+//	close(conexion);
+	log_debug(logger,TERMINANDO_EL_LOG);
+	log_destroy(logger);
 }
 
 
