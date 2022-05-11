@@ -6,7 +6,7 @@
 #include <commons/bitarray.h>
 #include <readline/readline.h>
 #include <pthread.h>
-#include "utils.h"
+#include "../../shared/include/utils/utils.h"
 
 
 typedef struct nodo_parametro
