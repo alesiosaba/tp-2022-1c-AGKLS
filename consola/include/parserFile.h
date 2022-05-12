@@ -1,10 +1,12 @@
+#ifndef PARSERFILE_H_
+#define PARSERFILE_H_
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <commons/log.h>
 #include <commons/string.h>
 #include <commons/config.h>
-
 
 typedef struct nodo_parametro
 {
@@ -36,3 +38,5 @@ void completar_nodo_instruccion(nodo_instruccion* nodo_instruccion, char* buffer
 nodo_parametro* nuevo_nodo_parametro();
 nodo_parametro* agregar_primer_parametro(char* parametro);
 void agregar_nuevo_parametro(nodo_instruccion* nodo_instruccion, char* parametro);
+
+#endif
