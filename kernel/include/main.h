@@ -9,12 +9,8 @@
 #include <commons/bitarray.h>
 #include <readline/readline.h>
 #include <pthread.h>
+#include "init.h"
 #include "../../shared/include/utils/utils.h"
-
-
-#define ARCHIVO_DE_CONFIGURACION "kernel.config"
-#define ARCHIVO_DE_LOG "kernel.log"
-#define LOGGER "Kernel Log"
 
 
 typedef struct nodo_parametro
@@ -49,7 +45,6 @@ typedef struct
 
 // Definiciones de Inicio y Fin de programa
 void terminar_programa();
-void inicializar();
 
 // Definiciones Utiles
 void iterator(char* value);

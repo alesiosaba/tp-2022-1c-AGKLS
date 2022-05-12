@@ -35,14 +35,7 @@ int main(void) {
 }
 
 
-void inicializar(){
-//Logs y Config
-	char* log_level;
-	config = iniciar_config(ARCHIVO_DE_CONFIGURACION);
-	log_level = config_get_string_value(config, "LOG_LEVEL");
-	logger = iniciar_logger(log_level, ARCHIVO_DE_LOG, LOGGER);
 
-}
 
 void terminar_programa()
 {
