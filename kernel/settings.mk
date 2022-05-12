@@ -9,7 +9,7 @@
 LIBS= commons shared readline pthread cunit 
 
 # Custom libraries' paths
-SHARED_LIBPATHS= /home/utnso/shared/tp-2022-1c-AGKLS/shared
+SHARED_LIBPATHS= ../shared
 STATIC_LIBPATHS=
 
 # Compiler flags

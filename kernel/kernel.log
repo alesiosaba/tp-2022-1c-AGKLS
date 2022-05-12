@@ -24,3 +24,28 @@
 [DEBUG] 16:52:38:245 Kernel Log/(4634:4634): Archivo de configuracion cerrado
 [DEBUG] 16:52:38:246 Kernel Log/(4634:4634): Terminando el Log
 [INFO] 18:00:48:506 Kernel Log/(12751:12751): Servidor listo para recibir al cliente
+[INFO] 18:51:13:977 Kernel Log/(15204:15204): Servidor listo para recibir al cliente
+[INFO] 11:50:43:120 Kernel Log/(24162:24162): Servidor listo para recibir al cliente
+[INFO] 11:51:33:820 Kernel Log/(24162:24163): Se conecto un cliente!
+[INFO] 11:51:33:821 Kernel Log/(24162:24250): Me llego el mensaje valor
+[INFO] 11:51:49:961 Kernel Log/(24162:24250): Me llegaron los siguientes valores:
+
+[INFO] 11:51:49:963 Kernel Log/(24162:24250): Hola 
+[INFO] 11:51:49:964 Kernel Log/(24162:24250): Esto 
+[INFO] 11:51:49:964 Kernel Log/(24162:24250): Es 
+[INFO] 11:51:49:964 Kernel Log/(24162:24250): Un 
+[INFO] 11:51:49:965 Kernel Log/(24162:24250): Paquete
+[ERROR] 11:51:49:965 Kernel Log/(24162:24250): el cliente se desconecto. Terminando servidor
+[INFO] 11:52:04:171 Kernel Log/(24162:24163): Se conecto un cliente!
+[INFO] 11:52:04:175 Kernel Log/(24162:24279): Me llego el mensaje valor
+[INFO] 11:53:25:614 Kernel Log/(24162:24279): Me llegaron los siguientes valores:
+
+[ERROR] 11:53:25:615 Kernel Log/(24162:24279): el cliente se desconecto. Terminando servidor
+[INFO] 11:53:56:191 Kernel Log/(24162:24163): Se conecto un cliente!
+[INFO] 11:53:56:194 Kernel Log/(24162:24371): Me llego el mensaje valor
+[INFO] 11:54:00:837 Kernel Log/(24162:24371): Me llegaron los siguientes valores:
+
+[INFO] 11:54:00:837 Kernel Log/(24162:24371): exit
+[ERROR] 11:54:00:838 Kernel Log/(24162:24371): el cliente se desconecto. Terminando servidor
+[INFO] 17:54:07:793 Kernel Log/(9877:9877): Servidor listo para recibir al cliente
+[INFO] 17:55:10:286 Kernel Log/(10044:10044): Servidor listo para recibir al cliente
