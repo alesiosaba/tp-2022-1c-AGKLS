@@ -9,6 +9,7 @@
 #include <commons/config.h>
 
 #include "parserFile.h"
+#include "init.h"
 
 #include "../../shared/include/utils/utils.h"
 
