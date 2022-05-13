@@ -29,6 +29,16 @@ int main(int argc, char** argv) {
 	// Mostrar por pantalla la lista de instrucciones:
 	mostrar_lista(lista_instrucciones);
 
-	// log_info(logger, "Finalizo correctamente el programa");
+	log_info(logger, "Finalizo correctamente el programa");
+	terminar_programa();
 	return EXIT_SUCCESS;
+}
+
+void terminar_programa()
+{
+	config_destroy(config);
+	log_debug(logger,CONFIGURACION_CERRADA);
+//	close(conexion);
+	log_debug(logger,TERMINANDO_EL_LOG);
+	log_destroy(logger);
 }
