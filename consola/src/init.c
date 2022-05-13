@@ -12,6 +12,7 @@ void inicializar(){
 	log_level = config_values.log_level;
 	logger = iniciar_logger(log_level, ARCHIVO_DE_LOG, LOGGER);
 
+	log_info(logger, "Se generó correctamente el logger");
 
 }
 
