@@ -78,6 +78,11 @@ int manejarConexion(int socket_cliente){
 			log_info(logger, LECTURA_DE_VALORES);
 			list_iterate(lista, (void*) iterator);
 			break;
+		case PAQUETE_CONSOLA:
+			lista = recibir_paquete(socket_cliente);
+			log_info(logger, LECTURA_DE_VALORES);
+			list_iterate(lista, (void*) iterator);
+			break;
 		case -1:
 			log_error(logger, SERVIDOR_DESCONEXION);
 			return EXIT_FAILURE;

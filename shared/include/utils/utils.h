@@ -33,7 +33,8 @@
 typedef enum
 {
 	MENSAJE,
-	PAQUETE
+	PAQUETE,
+	PAQUETE_CONSOLA
 }op_code;
 
 typedef struct
@@ -52,7 +53,7 @@ typedef struct
 
 t_log* logger;
 t_config* config;
-
+int conexion;
 
 // Definicion de Implementacion obligatoria (Inicialización & Terminacion)
 
