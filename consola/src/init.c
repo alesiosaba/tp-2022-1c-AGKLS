@@ -21,6 +21,8 @@ void inicializar(){
 
 	ip = config_get_string_value(config, "IP_KERNEL");
 	puerto = config_get_string_value(config, "PUERTO_KERNEL");
+
+	// se crea la conexion con el modulo kernel
 	conexion = crear_conexion(ip, puerto);
 
 	log_info(logger, "Se generó correctamente la conexion");
