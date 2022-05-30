@@ -79,8 +79,9 @@ int manejarConexion(int socket_cliente){
 			break;
 		case PAQUETE_CONSOLA:
 			lista = recibir_paquete(socket_cliente);
-			log_info(logger, LECTURA_DE_VALORES);
-			list_iterate(lista, (void*) iterator);
+			log_info(logger, RECEPCION_PAQUETE_CONSOLA);
+			// armar_PCB(lista);
+			log_info(logger, "Se armó un PCB correctamente.");
 			break;
 		case -1:
 			log_error(logger, SERVIDOR_DESCONEXION);

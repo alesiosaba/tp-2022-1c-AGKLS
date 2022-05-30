@@ -1,22 +1,22 @@
 #ifndef UTILS_H_
 #define UTILS_H_
 
-#include<stdio.h>
-#include<stdlib.h>
-#include<signal.h>
-#include<unistd.h>
-#include<sys/socket.h>
-#include<netdb.h>
-#include<string.h>
-#include<assert.h>
-#include<commons/log.h>
-#include<commons/config.h>
-#include<commons/collections/list.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <signal.h>
+#include <unistd.h>
+#include <sys/socket.h>
+#include <netdb.h>
+#include <string.h>
+#include <assert.h>
+#include <commons/log.h>
+#include <commons/string.h>
+#include <commons/config.h>
+#include <commons/collections/list.h>
 
 // Definiciones Utiles
 
 #define IP "127.0.0.1"
-#define PUERTO "4444"
 
 // Mensajes y Returns
 
@@ -27,6 +27,7 @@
 #define SERVIDOR_DESCONEXION "el cliente se desconecto. Terminando servidor"
 #define OPERACION_DESCONOCIDA "Operacion desconocida. No quieras meter la pata"
 #define LECTURA_DE_VALORES "Me llegaron los siguientes valores:\n"
+#define RECEPCION_PAQUETE_CONSOLA "Recibi un paquete de consola"
 
 // Nuevos tipos y estructuras de datos
 
@@ -48,6 +49,36 @@ typedef struct
 	op_code codigo_operacion;
 	t_buffer* buffer;
 } t_paquete;
+
+// Estructuras de datos para el PCB
+
+typedef struct nodo_parametro
+{
+	int parametro;
+    struct nodo_parametro* sig;
+} nodo_parametro;
+
+typedef struct instruccion
+{
+	char identificador[10];
+    struct nodo_parametro* parametros;
+} instruccion;
+
+typedef struct nodo_instruccion
+{
+	instruccion instruccion;
+    struct nodo_instruccion* sig;
+} nodo_instruccion;
+
+typedef struct
+{
+	int id;
+	int tamanio;
+	struct nodo_instruccion* instrucciones;
+	int program_counter;
+	int tabla_paginas;
+	int estimacion_rafaga;
+} t_pcb;
 
 //Variables globales
 
@@ -85,9 +116,26 @@ t_list* recibir_paquete(int);
 void recibir_mensaje(int);
 int recibir_operacion(int);
 
+// Definicion de funciones para armar/leer PCB
+// listas
+void mostrar_lista(nodo_instruccion* lista_instrucciones);
+nodo_instruccion* armar_lista_instrucciones(char* path_pseudocodigo);
+// instrucciones
+nodo_instruccion* agregar_primera_instruccion(char* buffer);
+void agregar_nueva_instruccion(nodo_instruccion* lista_instrucciones, char* buffer);
+// nodos instrucciones
+nodo_instruccion* nuevo_nodo_instruccion();
+void completar_nodo_instruccion(nodo_instruccion* nodo_instruccion, char* buffer);
+// nodos parametro
+nodo_parametro* nuevo_nodo_parametro();
+// parametros
+nodo_parametro* agregar_primer_parametro(char* parametro);
+void agregar_nuevo_parametro(nodo_instruccion* nodo_instruccion, char* parametro);
+
 // Definicion de otras utilidades
 void liberarStringArray(char** stringArray);
 int tamanioStringArray(char** a);
+FILE* abrir_archivo_lectura(char* path_pseudocodigo);
 
 
 #endif /* UTILS_H_ */
