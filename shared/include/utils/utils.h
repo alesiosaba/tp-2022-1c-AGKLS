@@ -77,7 +77,7 @@ typedef struct
 	struct nodo_instruccion* instrucciones;
 	struct nodo_instruccion* program_counter;
 	int tabla_paginas;
-	int estimacion_rafaga;
+	double estimacion_rafaga;
 } t_pcb;
 
 //Variables globales
