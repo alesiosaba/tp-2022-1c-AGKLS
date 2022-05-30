@@ -140,7 +140,7 @@ void liberar_conexion(int socket_cliente)
 
 // Implementacion de Comportamientos del Servidor
 
-int iniciar_servidor(void)
+int iniciar_servidor(int puerto_escucha)
 {
 
 	int socket_servidor;
@@ -152,7 +152,7 @@ int iniciar_servidor(void)
 	hints.ai_socktype = SOCK_STREAM;
 	hints.ai_flags = AI_PASSIVE;
 
-	getaddrinfo(IP, PUERTO, &hints, &servinfo);
+	getaddrinfo(IP, puerto_escucha, &hints, &servinfo);
 
 	// Creamos el socket de escucha del servidor
 	socket_servidor = socket(servinfo->ai_family,

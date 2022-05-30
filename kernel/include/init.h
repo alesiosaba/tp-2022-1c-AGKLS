@@ -1,5 +1,5 @@
-#ifndef MAIN_H_
-#define MAIN_H_
+#ifndef INIT_H_
+#define INIT_H_
 
 
 #define ARCHIVO_DE_CONFIGURACION "kernel.config"
@@ -15,7 +15,7 @@ typedef struct config_t
 	char*  ip_cpu;
 	char*  puerto_cpu_dispatch;
 	char*  puerto_cpu_interrupt;
-	char*  puerto_escucha;
+	int    puerto_escucha;
 	char*  algoritmo_planificacion;
 	double estimacion_inicial;
 	float  alfa;
@@ -24,7 +24,7 @@ typedef struct config_t
 } config_t;
 
 
-void inicializar();
+config_t inicializar();
 config_t leer_config();
 
 #endif

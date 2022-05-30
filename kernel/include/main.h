@@ -43,6 +43,9 @@ typedef struct
 } t_pcb;
 
 
+config_t config_values;
+
+
 // Definiciones de Inicio y Fin de programa
 void terminar_programa();
 

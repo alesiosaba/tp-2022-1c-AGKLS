@@ -3,11 +3,10 @@
 
 int main(void) {
 
-
-	inicializar();
+	config_t inicializar();
 
 	//Servidor
-	int server_fd = iniciar_servidor();
+	int server_fd = iniciar_servidor(config_values.puerto_escucha);
 
 	pthread_t consolas;
 	pthread_create(&consolas, NULL, (void*) manejar_consolas,(void*)server_fd);
