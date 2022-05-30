@@ -49,3 +49,22 @@
 [ERROR] 11:54:00:838 Kernel Log/(24162:24371): el cliente se desconecto. Terminando servidor
 [INFO] 17:54:07:793 Kernel Log/(9877:9877): Servidor listo para recibir al cliente
 [INFO] 17:55:10:286 Kernel Log/(10044:10044): Servidor listo para recibir al cliente
+[INFO] 18:29:39:214 Kernel Log/(28324:28324): Servidor listo para recibir al cliente
+[INFO] 18:30:06:072 Kernel Log/(28394:28394): Servidor listo para recibir al cliente
+[INFO] 18:37:32:720 Kernel Log/(28394:28400): Se conecto un cliente!
+[INFO] 18:37:32:724 Kernel Log/(28394:29521): Me llegaron los siguientes valores:
+
+[INFO] 18:37:32:725 Kernel Log/(28394:29521): 123
+[INFO] 18:37:32:726 Kernel Log/(28394:29521): NO_OP 5
+
+[INFO] 18:37:32:740 Kernel Log/(28394:29521): I/O 3000
+
+[INFO] 18:37:32:742 Kernel Log/(28394:29521): WRITE 4 42
+
+[INFO] 18:37:32:744 Kernel Log/(28394:29521): COPY 0 4
+
+[INFO] 18:37:32:745 Kernel Log/(28394:29521): READ 0
+
+[INFO] 18:37:32:747 Kernel Log/(28394:29521): EXIT
+
+[ERROR] 18:37:32:751 Kernel Log/(28394:29521): el cliente se desconecto. Terminando servidor

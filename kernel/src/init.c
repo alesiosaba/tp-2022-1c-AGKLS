@@ -5,7 +5,7 @@
 config_t inicializar(){
 //Logs y Config
 	char* log_level;
-	config_t config_values;
+
 
 	config = iniciar_config(ARCHIVO_DE_CONFIGURACION);
 	config_values = leer_config();
@@ -27,7 +27,7 @@ config_t leer_config(){
 	config_values.ip_cpu = config_get_string_value(config, "IP_CPU");
 	config_values.puerto_cpu_dispatch = config_get_string_value(config, "PUERTO_CPU_DISPATCH");
 	config_values.puerto_cpu_interrupt= config_get_string_value(config, "PUERTO_CPU_INTERRUPT");
-	config_values.puerto_escucha = config_get_int_value(config, "PUERTO_ESCUCHA");
+	config_values.puerto_escucha = config_get_string_value(config, "PUERTO_ESCUCHA");
 	config_values.algoritmo_planificacion = config_get_string_value(config, "ALGORITMO_PLANIFICACION");
 	config_values.estimacion_inicial = config_get_double_value(config, "ESTIMACION_INICIAL");
 	config_values.alfa = config_get_double_value(config, "ALFA");

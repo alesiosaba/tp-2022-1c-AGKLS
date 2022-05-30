@@ -140,7 +140,7 @@ void liberar_conexion(int socket_cliente)
 
 // Implementacion de Comportamientos del Servidor
 
-int iniciar_servidor(int puerto_escucha)
+int iniciar_servidor(char* puerto_escucha)
 {
 
 	int socket_servidor;

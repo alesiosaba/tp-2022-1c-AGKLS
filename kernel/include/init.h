@@ -15,7 +15,7 @@ typedef struct config_t
 	char*  ip_cpu;
 	char*  puerto_cpu_dispatch;
 	char*  puerto_cpu_interrupt;
-	int    puerto_escucha;
+	char*  puerto_escucha;
 	char*  algoritmo_planificacion;
 	double estimacion_inicial;
 	float  alfa;
@@ -23,6 +23,7 @@ typedef struct config_t
 	int	   t_bloqueo_max;
 } config_t;
 
+config_t config_values;
 
 config_t inicializar();
 config_t leer_config();
