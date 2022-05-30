@@ -75,7 +75,7 @@ typedef struct
 	int id;
 	int tamanio;
 	struct nodo_instruccion* instrucciones;
-	int program_counter;
+	struct nodo_instruccion* program_counter;
 	int tabla_paginas;
 	int estimacion_rafaga;
 } t_pcb;
