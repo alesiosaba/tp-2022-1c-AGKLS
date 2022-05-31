@@ -12,6 +12,12 @@
 *.map
 *.exp
 
+#Logs
+*.log
+
+#Language.settings.xml
+language.settings.xml
+
 # Precompiled Headers
 *.gch
 *.pch
