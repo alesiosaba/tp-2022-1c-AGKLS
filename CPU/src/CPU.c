@@ -1,57 +1,62 @@
-
-#include <stdio.h>
-#include <stdlib.h>
 #include "../../shared/include/utils/utils.h"
+#include "../../shared/src/utils/utils.c"
+
+typedef struct config_t
+{
+	char*  entradas_TLB;
+	char*  reemplazo_TLB;
+	char*  retardo_NOOP;
+	char*  IP_memoria;
+	char*  puerto_memoria;
+	char*  puerto_escucha_dispatch;
+	char*  puerto_escucha_interrupt;
+
+} config_t;
+
+config_t config_values;
+
+
+t_log* loggerCPU;
+t_config* configCPU;
 
 int main(void) {
-	//puts("!!!Hello World!!!"); /* prints !!!Hello World!!! */
 
-	int conexion;
-	char* ip;
-	char* puerto;
-
-	t_log* logger;
-	t_config* config;
-
-	//inicio el logger del cpu
-	logger = iniciar_logger();
-	log_info(logger, "Log de CPU iniciado");
+	// inicio el logger del cpu
+	loggerCPU = iniciar_logger("DEBUG","CPU.log","CPU LOG");
+	log_info(loggerCPU, "Log de CPU iniciado");
 
 	//leo la configuracion del cpu
-	config = iniciar_config();
-	ip = config_get_string_value(config, "IP");
-	puerto = config_get_string_value(config, "PUERTO");
-	log_info(logger, "Lei la IP %s y el puerto %s \n",ip,puerto);
+	configCPU = iniciar_config("CPU.config");
+//	config_values = leer_config();
+//	log_info(logger, "Lei la siguiente config: %s \n %s \n %s \n %s \n %s \n %s \n %s \n",config_values.entradas_TLB,config_values.reemplazo_TLB,config_values.retardo_NOOP,config_values.IP_memoria,config_values.puerto_memoria,config_values.puerto_escucha_dispatch,config_values.puerto_escucha_interrupt);
 
 
-	conexion = 0;
-
-	terminar_programa(conexion, logger, config);
+//	terminar_programa(conexion, logger, config);
+//	terminar_programa(loggerCPU, configCPU);
 
 	return EXIT_SUCCESS;
 }
 /*
-t_log* iniciar_logger(void)
-{
-	t_log* nuevo_logger;
-	nuevo_logger = log_create("CPU.log", "CPU", 1, LOG_LEVEL_INFO);
+config_t leer_config(){
 
-	return nuevo_logger;
+	config_t config_values;
+
+	config_values.entradas_TLB = config_get_string_value(configCPU, "ENTRADAS_TLB");
+	//config_values.entradas_TLB = config_get_int_value(configCPU, "ENTRADAS_TLB");
+	config_values.reemplazo_TLB = config_get_string_value(configCPU, "REEMPLAZO_TLB");
+	config_values.retardo_NOOP = config_get_string_value(configCPU, "RETARDO_NOOP");
+	//config_values.retardo_NOOP = config_get_int_value(configCPU, "RETARDO_NOOP");
+	config_values.IP_memoria = config_get_string_value(configCPU, "	IP_MEMORIA");
+	config_values.puerto_memoria = config_get_string_value(configCPU, "PUERTO_MEMORIA");
+	config_values.puerto_escucha_dispatch = config_get_string_value(configCPU, "PUERTO_ESCUCHA_DISPATCH");
+	config_values.puerto_escucha_interrupt = config_get_string_value(configCPU, "PUERTO_ESCUCHA_INTERRUPT");
+
+	return config_values;
+
 }
 
-t_config* iniciar_config(void)
-{
-	t_config* nuevo_config;
-	if (( nuevo_config = config_create("CPU.config")) == NULL) {
-		printf("No pude leer la config \n");
-		exit(2);
-	}
 
-	return nuevo_config;
-}
-*/
-
-void terminar_programa(int conexion, t_log* logger, t_config* config)
+void terminar_programa(t_log* logger, t_config* config)
 {
 	// Libero lo que utilizamos (conexion, log y config)
 
@@ -66,5 +71,6 @@ void terminar_programa(int conexion, t_log* logger, t_config* config)
 		config_destroy(config);
 		printf("config destruido \n");
 	}
-}
+
+}*/
 
