@@ -300,29 +300,19 @@ void mostrar_lista(nodo_instruccion* lista_instrucciones){
 	}
 };
 
-nodo_instruccion* armar_lista_instrucciones(char* path_pseudocodigo){
+nodo_instruccion* armar_lista_instrucciones(t_list* lista){
 
-	// creo un puntero para leer el script
-	FILE* file;
-	file = abrir_archivo_lectura(path_pseudocodigo);
-
-	// en buffer se almacena cada linea del script de codigo
-	char buffer[1024];
-
-	fgets(buffer,sizeof(buffer),file);
-	// printf("%s", buffer);
+	// agarro la primera instruccion
+	t_list* nueva_instruccion = list_remove(lista, 0);
 
 	// primer nodo de la lista de instrucciones, esto sera retornado por la funcion
 	// para agregar este nodo utilizamos una funcion distinta porque en C no hay referencia
-	nodo_instruccion* lista_instrucciones = agregar_primera_instruccion(buffer);
+	nodo_instruccion* lista_instrucciones = agregar_primera_instruccion(nueva_instruccion);
 
-	while(!feof(file)){
-		fgets(buffer,sizeof(buffer),file);
-		// printf("%s", buffer);
-		agregar_nueva_instruccion(lista_instrucciones, buffer);
+	while(!list_is_empty(lista)){
+		nueva_instruccion = list_remove(lista, 0);
+		agregar_nueva_instruccion(lista_instrucciones, nueva_instruccion);
 	}
-
-	fclose(file);
 
 	return lista_instrucciones;
 }
@@ -340,7 +330,7 @@ nodo_parametro* nuevo_nodo_parametro(){
 	return nodo;
 }
 
-nodo_instruccion* agregar_primera_instruccion(char* buffer){
+nodo_instruccion* agregar_primera_instruccion(void* buffer){
 
 	// genero el primer nodo de la lista de instrucciones y lo completo con los datos
 	nodo_instruccion* nodo_primera_instruccion = nuevo_nodo_instruccion();
@@ -350,7 +340,7 @@ nodo_instruccion* agregar_primera_instruccion(char* buffer){
 }
 
 // esta funcion recibe un puntero al primer nodo de la lista y agrega un nodo al final (recibe la instruccion como WRITE 4 42 y lo parsea)
-void agregar_nueva_instruccion(nodo_instruccion* lista_instrucciones, char* buffer){
+void agregar_nueva_instruccion(nodo_instruccion* lista_instrucciones, void* buffer){
 
 	// uso este auxiliar para recorrer la lista de instrucciones
 	nodo_instruccion* aux = lista_instrucciones;
