@@ -121,8 +121,7 @@ int recibir_operacion(int);
 void mostrar_lista(nodo_instruccion* lista_instrucciones);
 nodo_instruccion* armar_lista_instrucciones(t_list* lista);
 // instrucciones
-nodo_instruccion* agregar_primera_instruccion(void* buffer);
-void agregar_nueva_instruccion(nodo_instruccion* lista_instrucciones, void* buffer);
+nodo_instruccion* agregar_instruccion(nodo_instruccion* lista_instrucciones, void* buffer);
 // nodos instrucciones
 nodo_instruccion* nuevo_nodo_instruccion();
 void completar_nodo_instruccion(nodo_instruccion* nodo_instruccion, char* buffer);

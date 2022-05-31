@@ -307,12 +307,11 @@ nodo_instruccion* armar_lista_instrucciones(t_list* lista){
 	t_list* nueva_instruccion = list_remove(lista, 0);
 
 	// primer nodo de la lista de instrucciones, esto sera retornado por la funcion
-	// para agregar este nodo utilizamos una funcion distinta porque en C no hay referencia
-	nodo_instruccion* lista_instrucciones = agregar_primera_instruccion(nueva_instruccion);
+	nodo_instruccion* lista_instrucciones = agregar_instruccion(NULL, nueva_instruccion);
 
 	while(!list_is_empty(lista)){
 		nueva_instruccion = list_remove(lista, 0);
-		agregar_nueva_instruccion(lista_instrucciones, nueva_instruccion);
+		agregar_instruccion(lista_instrucciones, nueva_instruccion);
 	}
 
 	return lista_instrucciones;
@@ -331,33 +330,36 @@ nodo_parametro* nuevo_nodo_parametro(){
 	return nodo;
 }
 
-nodo_instruccion* agregar_primera_instruccion(void* buffer){
+nodo_instruccion* agregar_instruccion(nodo_instruccion* lista_instrucciones, void* buffer){
 
-	// genero el primer nodo de la lista de instrucciones y lo completo con los datos
-	nodo_instruccion* nodo_primera_instruccion = nuevo_nodo_instruccion();
-	completar_nodo_instruccion(nodo_primera_instruccion, buffer);
+    // Lista de instrucciones esta vacia
+    if(lista_instrucciones == NULL)
+    {
+        // genero el primer nodo de la lista de instrucciones y lo completo con los datos
+        nodo_instruccion* nodo_primera_instruccion = nuevo_nodo_instruccion();
+        completar_nodo_instruccion(nodo_primera_instruccion, buffer);
 
-	return nodo_primera_instruccion;
+        return nodo_primera_instruccion;
+    }
+    else
+    {
+        // uso este auxiliar para recorrer la lista de instrucciones
+        nodo_instruccion* aux = lista_instrucciones;
+
+        // genero un nuevo nodo de la lista de instruccion y lo completo con los datos
+        nodo_instruccion* nueva_instruccion = nuevo_nodo_instruccion();
+        completar_nodo_instruccion(nueva_instruccion, buffer);
+
+        // avanzo hasta el ultimo nodo de la lista
+        while(aux->sig != NULL){
+            aux = aux->sig;
+        }
+        aux->sig = nueva_instruccion;
+
+        return lista_instrucciones;
+    }
+
 }
-
-// esta funcion recibe un puntero al primer nodo de la lista y agrega un nodo al final (recibe la instruccion como WRITE 4 42 y lo parsea)
-void agregar_nueva_instruccion(nodo_instruccion* lista_instrucciones, void* buffer){
-
-	// uso este auxiliar para recorrer la lista de instrucciones
-	nodo_instruccion* aux = lista_instrucciones;
-
-	// genero un nuevo nodo de la lista de instruccion y lo completo con los datos
-	nodo_instruccion* nueva_instruccion = nuevo_nodo_instruccion();
-	completar_nodo_instruccion(nueva_instruccion, buffer);
-
-	// avanzo hasta el ultimo nodo de la lista
-	while(aux->sig != NULL){
-		aux = aux->sig;
-	}
-
-	aux->sig = nueva_instruccion;
-
-};
 
 void completar_nodo_instruccion(nodo_instruccion* nodo_instruccion, char* buffer){
 	// utilizamos strtok para complertar el identificador y los parametros de la instruccion
