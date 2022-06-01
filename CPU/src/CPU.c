@@ -8,7 +8,8 @@ int main(void) {
 	inicializar();
 	conexiones();
 
-	cicloDeInstruccion();
+
+//	cicloDeInstruccion();
 
 
 //	terminar_programa(conexion, logger, config);
@@ -16,7 +17,7 @@ int main(void) {
 	return EXIT_SUCCESS;
 }
 
-
+/*
 void cicloDeInstruccion (){
 
 	//representacion del pcb
@@ -32,8 +33,8 @@ void cicloDeInstruccion (){
 		PCB.program_counter = PCB.program_counter->sig;
 
 		//decode();
-			//esto compara un char[10] con "copy". funca ?
-		if (strcmp(instruccion.identificador, "COPY")== 0);
+			//esto compara un char[10] con "copy". funca ? por q es un char 10 y no un char*
+		if (strcmp(instruccion.identificador, "COPY")== 0)
 		{
 			//fetch_operands ();
 		}
@@ -43,8 +44,8 @@ void cicloDeInstruccion (){
 		​{
 			case 'N': // NO_OP
 
-				//como puede venir el no op  ?
-				//msleep(config_values.retardo_NOOP * cantidadDeNO_OP);
+
+				msleep(config_values.retardo_NOOP);
 
 
 			  break;
@@ -76,8 +77,7 @@ int checkInterrupt(){
 
 return 0;
 }
+*/
 
-int msleep(unsigned int tms) {
-  return usleep(tms * 1000);
-}
+
 

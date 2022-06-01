@@ -20,6 +20,10 @@ typedef struct config_t
 } config_t;
 config_t config_values;
 
+int serverDispatch;
+int clienteDispatch;
+int conexionAKernel;
+
 void inicializar();
 config_t leer_config();
 

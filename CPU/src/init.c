@@ -36,6 +36,12 @@ config_t leer_config(){
 	return config_values;
 
 }
+int msleep(unsigned int tms) {
+	//msleep es una funcion que duerme por la cantidad de tiempo en milisegundos ingresada.
+	//usleep funciona con microsegundos por eso esta multiplicada por 1000
+  return usleep(tms * 1000);
+}
+
 
 void conexiones (){
 
@@ -53,11 +59,15 @@ Quedará a la espera de conexión a través del puerto dispatch por parte del Ke
 le enviará un PCB para ejecutar. Habiéndose recibido, se procederá a realizar el ciclo de instrucción
 tomando como punto de partida la instrucción que indique el Program Counter del PCB recibido.
 */
-	/*
-	int serverDispatch = iniciar_servidor(config_values.puerto_escucha_dispatch);
+
+	serverDispatch = iniciar_servidor(config_values.puerto_escucha_dispatch);
 	log_info(logger, "Servidor listo para recibir la conexion dispatch del kernel");
-	int clienteDispatch = esperar_cliente(serverDispatch);
-	*/
+	clienteDispatch = esperar_cliente(serverDispatch);
+	msleep(10000);
+	conexionAKernel = crear_conexion(IP,"8000");
+	while(1){
+		manejarConexion(clienteDispatch);
+	}
 
 /*
 Quedará a la espera también de conexión a través del puerto interrupt por parte del Kernel para recibir
@@ -72,8 +82,31 @@ en simultáneo.
 }
 
 
+int manejarConexion(int socket_cliente){
 
+	t_list* lista;
+	while (1) {
+		int cod_op = recibir_operacion(socket_cliente);
+		switch (cod_op) {
+		case MENSAJE:
+			recibir_mensaje(socket_cliente);
+			enviar_mensaje("conexion establecida con cpu", conexionAKernel);
+			break;
+		case PAQUETE:
+			lista = recibir_paquete(socket_cliente);
+			log_info(logger, LECTURA_DE_VALORES);
+		//	list_iterate(lista, (void*) iterator);
+			break;
+		case -1:
+			log_error(logger, SERVIDOR_DESCONEXION);
+			return EXIT_FAILURE;
+		default:
+			log_warning(logger,OPERACION_DESCONOCIDA);
+			break;
+		}
+	}
 
+}
 
 void terminar_programa(t_log* logger, t_config* config)
 {
@@ -92,3 +125,4 @@ void terminar_programa(t_log* logger, t_config* config)
 	}
 
 }
+
