@@ -53,6 +53,10 @@ void paquete(char* path_pseudocodigo, char* tamanio_proceso)
 
 		fgets(buffer,sizeof(buffer),file);
 	}
+
+	tamanio = strlen(buffer) + 1;
+	agregar_a_paquete(paquete, buffer, tamanio);
+
 	fclose(file);
 
 	// se envia el paquete a kernel con el tamanio y las instrucciones del proceso
