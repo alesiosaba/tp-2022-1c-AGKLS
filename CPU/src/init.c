@@ -37,6 +37,44 @@ config_t leer_config(){
 
 }
 
+void conexiones (){
+
+/*
+Al iniciarse el módulo, se conectará con la Memoria y realizará un handshake inicial para recibir
+la configuración relevante de la misma que le permita traducir las direcciones lógicas a físicas.
+Esto debería incluir al menos cantidad de entradas por tabla de páginas y tamaño de página.
+*/
+
+	//conexion = crear_conexion(config_values.IP_memoria, config_values.puerto_memoria);
+
+
+/*
+Quedará a la espera de conexión a través del puerto dispatch por parte del Kernel, quien, una vez conectado,
+le enviará un PCB para ejecutar. Habiéndose recibido, se procederá a realizar el ciclo de instrucción
+tomando como punto de partida la instrucción que indique el Program Counter del PCB recibido.
+*/
+	/*
+	int serverDispatch = iniciar_servidor(config_values.puerto_escucha_dispatch);
+	log_info(logger, "Servidor listo para recibir la conexion dispatch del kernel");
+	int clienteDispatch = esperar_cliente(serverDispatch);
+	*/
+
+/*
+Quedará a la espera también de conexión a través del puerto interrupt por parte del Kernel para recibir
+mensajes de interrupción en cualquier momento, por lo que estos módulos mantendrán dos conexiones
+en simultáneo.
+/*
+	/*
+	int serverInterrupt = iniciar_servidor(config_values.puerto_escucha_interrupt);
+	log_info(logger, "Servidor listo para recibir la conexion interrupt del kernel");
+	int clienteInterrupt = esperar_cliente(serverInterrupt);
+	*/
+}
+
+
+
+
+
 void terminar_programa(t_log* logger, t_config* config)
 {
 	// Libero lo que utilizamos (conexion, log y config)

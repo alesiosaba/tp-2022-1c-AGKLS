@@ -6,7 +6,7 @@
 int main(void) {
 
 	inicializar();
-
+	conexiones();
 
 //	terminar_programa(conexion, logger, config);
 	terminar_programa(logger, config);
