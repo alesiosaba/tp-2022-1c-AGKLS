@@ -18,7 +18,6 @@ typedef struct config_t
 	char*  puerto_escucha_interrupt;
 
 } config_t;
-
 config_t config_values;
 
 void inicializar();
