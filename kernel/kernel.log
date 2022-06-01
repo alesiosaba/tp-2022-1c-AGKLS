@@ -74,3 +74,4 @@
 [ERROR] 16:22:27:808 Kernel Log/(21758:22186): el cliente se desconecto. Terminando servidor
 [INFO] 16:22:52:043 Kernel Log/(21758:21763): Se conecto un cliente!
 [ERROR] 16:22:52:045 Kernel Log/(21758:22246): el cliente se desconecto. Terminando servidor
+[INFO] 16:52:26:356 Kernel Log/(26199:26199): Servidor listo para recibir al cliente

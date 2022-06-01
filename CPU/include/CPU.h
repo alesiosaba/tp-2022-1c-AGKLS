@@ -12,8 +12,8 @@
 
 #include "../../shared/include/utils/utils.h"
 
-void enviar_info_proceso(char* path_pseudocodigo, char* tamanio_proceso);
-void paquete(char* path_pseudocodigo, char* tamanio_proceso);
+
+//void paquete(char* path_pseudocodigo, char* tamanio_proceso);
 void terminar_programa();
 
 #endif
