@@ -332,11 +332,61 @@ nodo_parametro* nuevo_nodo_parametro(){
 
 nodo_instruccion* agregar_instruccion(nodo_instruccion* lista_instrucciones, void* buffer){
 
+	// utilizamos strtok para complertar el identificador y los parametros de la instruccion
+		char str[30];
+		strcpy(str, buffer);
+		char separator[] = " ";
+		char* token;
+		char* rest = str;
+
+		// get the first token
+		token = strtok_r(str, separator, &rest);
+
+
     // Lista de instrucciones esta vacia
     if(lista_instrucciones == NULL)
     {
         // genero el primer nodo de la lista de instrucciones y lo completo con los datos
         nodo_instruccion* nodo_primera_instruccion = nuevo_nodo_instruccion();
+
+        // preguntar que instruccion es
+        if(strcmp(token,"NO_OP") == 0){
+        	// Esto genera el primer nodo para el caso de NO_OP
+			completar_nodo_instruccion(nodo_primera_instruccion, "NO_OP");
+
+			// leo el primer parametro (cantidad de NO_OP a ejecutar)
+			token = strtok_r(NULL, separator, &rest);
+
+			// Restamos 1 porque ya agregamos el primer nodo anteriormente
+			int i = atoi(token) - 1;
+
+			// Caso que el codigo de operacion == NO_OP
+			log_info(logger, "Antes del while");
+
+			// uso este auxiliar para recorrer la lista de instrucciones
+			nodo_instruccion* aux = nodo_primera_instruccion;
+
+			while(i > 0){
+				// Lo reinicio para cada nodo de NO_OP restante
+				aux = nodo_primera_instruccion;
+
+				// genero un nuevo nodo de la lista de instruccion y lo completo con los datos
+				nodo_instruccion* nueva_instruccion = nuevo_nodo_instruccion();
+				completar_nodo_instruccion(nueva_instruccion, "NO_OP");
+
+				// avanzo hasta el ultimo nodo de la lista
+				while(aux->sig != NULL){
+					aux = aux->sig;
+				}
+				aux->sig = nueva_instruccion;
+
+				i--;
+			}
+
+			return nodo_primera_instruccion;
+        }
+
+        // Caso de un nodo cualquiera
         completar_nodo_instruccion(nodo_primera_instruccion, buffer);
 
         return nodo_primera_instruccion;
@@ -346,8 +396,38 @@ nodo_instruccion* agregar_instruccion(nodo_instruccion* lista_instrucciones, voi
         // uso este auxiliar para recorrer la lista de instrucciones
         nodo_instruccion* aux = lista_instrucciones;
 
+		if(strcmp(token,"NO_OP") == 0){
+			// leo el primer parametro (cantidad de NO_OP a ejecutar)
+			token = strtok_r(NULL, separator, &rest);
+
+			// Cantidad de nuevos nodos de NO_OP
+			int i = atoi(token);
+
+			while(i > 0){
+				// Lo reinicio para cada nodo de NO_OP restante
+				aux = lista_instrucciones;
+
+				// genero un nuevo nodo de la lista de instruccion y lo completo con los datos
+				nodo_instruccion* nueva_instruccion = nuevo_nodo_instruccion();
+				completar_nodo_instruccion(nueva_instruccion, "NO_OP");
+
+				// avanzo hasta el ultimo nodo de la lista
+				while(aux->sig != NULL){
+					aux = aux->sig;
+				}
+				aux->sig = nueva_instruccion;
+
+				i--;
+			}
+
+			return lista_instrucciones;
+		}
+
+		// Caso de un nuevo nodo que no es NO_OP
+
         // genero un nuevo nodo de la lista de instruccion y lo completo con los datos
         nodo_instruccion* nueva_instruccion = nuevo_nodo_instruccion();
+		
         completar_nodo_instruccion(nueva_instruccion, buffer);
 
         // avanzo hasta el ultimo nodo de la lista
