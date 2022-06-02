@@ -51,13 +51,6 @@
 							</tool>
 						</toolChain>
 					</folderInfo>
-					<fileInfo id="cdt.managedbuild.config.gnu.exe.debug.1900587292.478862458" name="init.c" rcbsApplicability="disable" resourcePath="src/init.c" toolsToInvoke="cdt.managedbuild.tool.gnu.c.compiler.exe.debug.275058272.125815950">
-						<tool id="cdt.managedbuild.tool.gnu.c.compiler.exe.debug.275058272.125815950" name="GCC C Compiler" superClass="cdt.managedbuild.tool.gnu.c.compiler.exe.debug.275058272">
-							<option id="gnu.c.compiler.option.include.paths.1894649930" name="Include paths (-I)" superClass="gnu.c.compiler.option.include.paths" useByScannerDiscovery="false" valueType="includePath"/>
-							<option id="gnu.c.compiler.option.include.files.269895889" name="Include files (-include)" superClass="gnu.c.compiler.option.include.files" useByScannerDiscovery="false" valueType="includeFiles"/>
-							<inputType id="cdt.managedbuild.tool.gnu.c.compiler.input.336587656" superClass="cdt.managedbuild.tool.gnu.c.compiler.input"/>
-						</tool>
-					</fileInfo>
 					<sourceEntries>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
 					</sourceEntries>

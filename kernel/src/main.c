@@ -3,7 +3,7 @@
 
 int main(void) {
 
-	config_t config_values = inicializar();
+	 inicializar();
 
 	//Servidor
 	int server_fd = iniciar_servidor(config_values.puerto_escucha);
