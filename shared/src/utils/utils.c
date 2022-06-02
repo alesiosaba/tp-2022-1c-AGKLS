@@ -1,5 +1,6 @@
 #include "../include/utils/utils.h"
 
+
 // Implementacion de Comportamientos del Logger & Config
 
 t_log* iniciar_logger(char* log_level, char* logger_path, char* logger)
@@ -300,29 +301,18 @@ void mostrar_lista(nodo_instruccion* lista_instrucciones){
 	}
 };
 
-nodo_instruccion* armar_lista_instrucciones(char* path_pseudocodigo){
+nodo_instruccion* armar_lista_instrucciones(t_list* lista){
 
-	// creo un puntero para leer el script
-	FILE* file;
-	file = abrir_archivo_lectura(path_pseudocodigo);
-
-	// en buffer se almacena cada linea del script de codigo
-	char buffer[1024];
-
-	fgets(buffer,sizeof(buffer),file);
-	// printf("%s", buffer);
+	// agarro la primera instruccion
+	t_list* nueva_instruccion = list_remove(lista, 0);
 
 	// primer nodo de la lista de instrucciones, esto sera retornado por la funcion
-	// para agregar este nodo utilizamos una funcion distinta porque en C no hay referencia
-	nodo_instruccion* lista_instrucciones = agregar_primera_instruccion(buffer);
+	nodo_instruccion* lista_instrucciones = agregar_instruccion(NULL, nueva_instruccion);
 
-	while(!feof(file)){
-		fgets(buffer,sizeof(buffer),file);
-		// printf("%s", buffer);
-		agregar_nueva_instruccion(lista_instrucciones, buffer);
+	while(!list_is_empty(lista)){
+		nueva_instruccion = list_remove(lista, 0);
+		agregar_instruccion(lista_instrucciones, nueva_instruccion);
 	}
-
-	fclose(file);
 
 	return lista_instrucciones;
 }
@@ -340,33 +330,116 @@ nodo_parametro* nuevo_nodo_parametro(){
 	return nodo;
 }
 
-nodo_instruccion* agregar_primera_instruccion(char* buffer){
+nodo_instruccion* agregar_instruccion(nodo_instruccion* lista_instrucciones, void* buffer){
 
-	// genero el primer nodo de la lista de instrucciones y lo completo con los datos
-	nodo_instruccion* nodo_primera_instruccion = nuevo_nodo_instruccion();
-	completar_nodo_instruccion(nodo_primera_instruccion, buffer);
+	// utilizamos strtok para complertar el identificador y los parametros de la instruccion
+		char str[30];
+		strcpy(str, buffer);
+		char separator[] = " ";
+		char* token;
+		char* rest = str;
 
-	return nodo_primera_instruccion;
+		// get the first token
+		token = strtok_r(str, separator, &rest);
+
+
+    // Lista de instrucciones esta vacia
+    if(lista_instrucciones == NULL)
+    {
+        // genero el primer nodo de la lista de instrucciones y lo completo con los datos
+        nodo_instruccion* nodo_primera_instruccion = nuevo_nodo_instruccion();
+
+        // preguntar que instruccion es
+        if(strcmp(token,"NO_OP") == 0){
+        	// Esto genera el primer nodo para el caso de NO_OP
+			completar_nodo_instruccion(nodo_primera_instruccion, "NO_OP");
+
+			// leo el primer parametro (cantidad de NO_OP a ejecutar)
+			token = strtok_r(NULL, separator, &rest);
+
+			// Restamos 1 porque ya agregamos el primer nodo anteriormente
+			int i = atoi(token) - 1;
+
+			// Caso que el codigo de operacion == NO_OP
+			log_info(logger, "Antes del while");
+
+			// uso este auxiliar para recorrer la lista de instrucciones
+			nodo_instruccion* aux = nodo_primera_instruccion;
+
+			while(i > 0){
+				// Lo reinicio para cada nodo de NO_OP restante
+				aux = nodo_primera_instruccion;
+
+				// genero un nuevo nodo de la lista de instruccion y lo completo con los datos
+				nodo_instruccion* nueva_instruccion = nuevo_nodo_instruccion();
+				completar_nodo_instruccion(nueva_instruccion, "NO_OP");
+
+				// avanzo hasta el ultimo nodo de la lista
+				while(aux->sig != NULL){
+					aux = aux->sig;
+				}
+				aux->sig = nueva_instruccion;
+
+				i--;
+			}
+
+			return nodo_primera_instruccion;
+        }
+
+        // Caso de un nodo cualquiera
+        completar_nodo_instruccion(nodo_primera_instruccion, buffer);
+
+        return nodo_primera_instruccion;
+    }
+    else
+    {
+        // uso este auxiliar para recorrer la lista de instrucciones
+        nodo_instruccion* aux = lista_instrucciones;
+
+		if(strcmp(token,"NO_OP") == 0){
+			// leo el primer parametro (cantidad de NO_OP a ejecutar)
+			token = strtok_r(NULL, separator, &rest);
+
+			// Cantidad de nuevos nodos de NO_OP
+			int i = atoi(token);
+
+			while(i > 0){
+				// Lo reinicio para cada nodo de NO_OP restante
+				aux = lista_instrucciones;
+
+				// genero un nuevo nodo de la lista de instruccion y lo completo con los datos
+				nodo_instruccion* nueva_instruccion = nuevo_nodo_instruccion();
+				completar_nodo_instruccion(nueva_instruccion, "NO_OP");
+
+				// avanzo hasta el ultimo nodo de la lista
+				while(aux->sig != NULL){
+					aux = aux->sig;
+				}
+				aux->sig = nueva_instruccion;
+
+				i--;
+			}
+
+			return lista_instrucciones;
+		}
+
+		// Caso de un nuevo nodo que no es NO_OP
+
+        // genero un nuevo nodo de la lista de instruccion y lo completo con los datos
+        nodo_instruccion* nueva_instruccion = nuevo_nodo_instruccion();
+		
+        completar_nodo_instruccion(nueva_instruccion, buffer);
+
+        // avanzo hasta el ultimo nodo de la lista
+        while(aux->sig != NULL){
+            aux = aux->sig;
+        }
+        aux->sig = nueva_instruccion;
+
+        return lista_instrucciones;
+    }
+
 }
-
-// esta funcion recibe un puntero al primer nodo de la lista y agrega un nodo al final (recibe la instruccion como WRITE 4 42 y lo parsea)
-void agregar_nueva_instruccion(nodo_instruccion* lista_instrucciones, char* buffer){
-
-	// uso este auxiliar para recorrer la lista de instrucciones
-	nodo_instruccion* aux = lista_instrucciones;
-
-	// genero un nuevo nodo de la lista de instruccion y lo completo con los datos
-	nodo_instruccion* nueva_instruccion = nuevo_nodo_instruccion();
-	completar_nodo_instruccion(nueva_instruccion, buffer);
-
-	// avanzo hasta el ultimo nodo de la lista
-	while(aux->sig != NULL){
-		aux = aux->sig;
-	}
-
-	aux->sig = nueva_instruccion;
-
-};
 
 void completar_nodo_instruccion(nodo_instruccion* nodo_instruccion, char* buffer){
 	// utilizamos strtok para complertar el identificador y los parametros de la instruccion

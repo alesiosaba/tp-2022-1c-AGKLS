@@ -1,70 +1,83 @@
+#include "../include/CPU.h"
 
-#include <stdio.h>
-#include <stdlib.h>
-#include "../../shared/include/utils/utils.h"
+
+
 
 int main(void) {
-	//puts("!!!Hello World!!!"); /* prints !!!Hello World!!! */
 
-	int conexion;
-	char* ip;
-	char* puerto;
-
-	t_log* logger;
-	t_config* config;
-
-	//inicio el logger del cpu
-	logger = iniciar_logger();
-	log_info(logger, "Log de CPU iniciado");
-
-	//leo la configuracion del cpu
-	config = iniciar_config();
-	ip = config_get_string_value(config, "IP");
-	puerto = config_get_string_value(config, "PUERTO");
-	log_info(logger, "Lei la IP %s y el puerto %s \n",ip,puerto);
+	inicializar();
+	conexiones();
 
 
-	conexion = 0;
+//	cicloDeInstruccion();
 
-	terminar_programa(conexion, logger, config);
 
+//	terminar_programa(conexion, logger, config);
+	terminar_programa(logger, config);
 	return EXIT_SUCCESS;
 }
-/*
-t_log* iniciar_logger(void)
-{
-	t_log* nuevo_logger;
-	nuevo_logger = log_create("CPU.log", "CPU", 1, LOG_LEVEL_INFO);
 
-	return nuevo_logger;
+/*
+void cicloDeInstruccion (){
+
+	//representacion del pcb
+	t_pcb PCB;
+	instruccion instruccion;
+	int interrupcion = 0;
+	do {
+		//fetch();
+
+		//hablar con leo y ale. Cuando crean el PCB el PC no es NULL,es la primera es = a la primera instruccion
+		// tambien hablar  sobre la interpretacion literal de lo q dice el enunciado y lo realmente hace nuestro PC
+		instruccion = PCB.program_counter->instruccion;
+		PCB.program_counter = PCB.program_counter->sig;
+
+		//decode();
+			//esto compara un char[10] con "copy". funca ? por q es un char 10 y no un char*
+		if (strcmp(instruccion.identificador, "COPY")== 0)
+		{
+			//fetch_operands ();
+		}
+
+		//execute();
+		switch (instruccion.identificador[0])
+		​{
+			case 'N': // NO_OP
+
+
+				msleep(config_values.retardo_NOOP);
+
+
+			  break;
+
+			case 'I': // I/O
+
+				//hablar sobre el tema tiempo de bloqueo
+
+			  break;
+
+			case 'E': // EXIT
+
+				//devolver PCB al kernel
+
+			  break;
+
+		}
+
+		//check interrupt
+		interrupcion = checkInterrupt();
+	}while(interrupcion != 1);
+
+	//devolver PCB al kernel
+
 }
 
-t_config* iniciar_config(void)
-{
-	t_config* nuevo_config;
-	if (( nuevo_config = config_create("CPU.config")) == NULL) {
-		printf("No pude leer la config \n");
-		exit(2);
-	}
+int checkInterrupt(){
+// TO DO
 
-	return nuevo_config;
+return 0;
 }
 */
 
-void terminar_programa(int conexion, t_log* logger, t_config* config)
-{
-	// Libero lo que utilizamos (conexion, log y config)
 
-	//TO DO
-	//conexion
-
-	if(logger != NULL) {
-		log_destroy(logger);
-		printf("\nlogger destruido \n");
-	}
-	if(config != NULL) {
-		config_destroy(config);
-		printf("config destruido \n");
-	}
-}
 

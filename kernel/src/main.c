@@ -1,9 +1,12 @@
 #include "../include/main.h"
 
+int conexionACPU;
 
 int main(void) {
 
 	 inicializar();
+
+	conexionACPU = crear_conexion(IP,"8001");
 
 	//Servidor
 	int server_fd = iniciar_servidor(config_values.puerto_escucha);
@@ -14,6 +17,8 @@ int main(void) {
 
 
 	log_info(logger, SERVIDOR_LISTO);
+
+	enviar_mensaje("hola",conexionACPU);
 
 	while (1){
 		sleep(1);
@@ -32,9 +37,6 @@ int main(void) {
 	terminar_programa();
 	return EXIT_SUCCESS;
 }
-
-
-
 
 void terminar_programa()
 {
@@ -63,6 +65,24 @@ void manejar_consolas(int server_fd){
 
 }
 
+void armar_PCB(t_list* lista){
+
+	t_pcb* pcb = (struct t_pcb*)malloc(sizeof(struct t_pcb));
+	pcb->instrucciones = NULL;
+
+
+	// agarro el primer elemento (tamanio del proceso)
+	t_list* tamanio_proceso = list_remove(lista, 0);
+	pcb->tamanio = atoi(tamanio_proceso);
+
+	// armo la lista de instrucciones y la guardo en el PCB
+	pcb->instrucciones = armar_lista_instrucciones(lista);
+
+	pcb->program_counter = pcb->instrucciones;
+
+	mostrar_lista(pcb->instrucciones);
+}
+
 int manejarConexion(int socket_cliente){
 
 	t_list* lista;
@@ -80,7 +100,7 @@ int manejarConexion(int socket_cliente){
 		case PAQUETE_CONSOLA:
 			lista = recibir_paquete(socket_cliente);
 			log_info(logger, RECEPCION_PAQUETE_CONSOLA);
-			// armar_PCB(lista);
+			armar_PCB(lista);
 			log_info(logger, "Se armó un PCB correctamente.");
 			break;
 		case -1:

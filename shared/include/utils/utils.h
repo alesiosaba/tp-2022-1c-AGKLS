@@ -70,7 +70,7 @@ typedef struct nodo_instruccion
     struct nodo_instruccion* sig;
 } nodo_instruccion;
 
-typedef struct
+typedef struct t_pcb
 {
 	int id;
 	int tamanio;
@@ -119,10 +119,9 @@ int recibir_operacion(int);
 // Definicion de funciones para armar/leer PCB
 // listas
 void mostrar_lista(nodo_instruccion* lista_instrucciones);
-nodo_instruccion* armar_lista_instrucciones(char* path_pseudocodigo);
+nodo_instruccion* armar_lista_instrucciones(t_list* lista);
 // instrucciones
-nodo_instruccion* agregar_primera_instruccion(char* buffer);
-void agregar_nueva_instruccion(nodo_instruccion* lista_instrucciones, char* buffer);
+nodo_instruccion* agregar_instruccion(nodo_instruccion* lista_instrucciones, void* buffer);
 // nodos instrucciones
 nodo_instruccion* nuevo_nodo_instruccion();
 void completar_nodo_instruccion(nodo_instruccion* nodo_instruccion, char* buffer);
@@ -139,5 +138,3 @@ FILE* abrir_archivo_lectura(char* path_pseudocodigo);
 
 
 #endif /* UTILS_H_ */
-
-
