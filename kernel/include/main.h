@@ -9,6 +9,7 @@
 #include <commons/bitarray.h>
 #include <readline/readline.h>
 #include <pthread.h>
+#include <string.h>
 #include "init.h"
 #include "../../shared/include/utils/utils.h"
 

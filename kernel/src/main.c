@@ -2,23 +2,45 @@
 
 int conexionACPU;
 
+//Finalizacion por interrupción cntrl + c
+void sighandler(int s){
+	if(conexionACPU){
+		liberar_conexion(&conexionACPU);
+	}
+	terminar_programa();
+	exit(0);
+}
+
 int main(void) {
 
-	 inicializar();
+	signal(SIGINT, sighandler); //Terminar el programa al oprimir ctrl + C en terminal
 
-	conexionACPU = crear_conexion(IP,"8001");
+	char* errorMessageAux = NULL;
+
+	inicializar();
+
+	conexionACPU = crear_conexion(IP,config_values.puerto_cpu_dispatch);
+	if(!conexionACPU){
+		strcpy(errorMessageAux, SERVIDOR_AUSENTE);
+		strcat(errorMessageAux, " CPU");
+		log_error(logger, errorMessageAux);
+		terminar_programa();
+	}
+
 
 	//Servidor
-	int server_fd = iniciar_servidor(config_values.puerto_escucha);
+	int server_fd = iniciar_servidor(IP, config_values.puerto_escucha);
+
 
 	pthread_t consolas;
 	pthread_create(&consolas, NULL, (void*) manejar_consolas,(void*)server_fd);
 	pthread_detach(consolas);
 
-
 	log_info(logger, SERVIDOR_LISTO);
 
 	enviar_mensaje("hola",conexionACPU);
+
+
 
 	while (1){
 		sleep(1);
@@ -34,6 +56,7 @@ int main(void) {
 
 	}
 
+	liberar_conexion(&conexionACPU);
 	terminar_programa();
 	return EXIT_SUCCESS;
 }
@@ -42,75 +65,15 @@ void terminar_programa()
 {
 	config_destroy(config);
 	log_debug(logger,CONFIGURACION_CERRADA);
-//	close(conexion);
+	close(conexion);
 	log_debug(logger,TERMINANDO_EL_LOG);
 	log_destroy(logger);
 }
 
 
-void iterator(char* value) {
-	log_info(logger,"%s", value);
-}
-
 void manejar_consolas(int server_fd){
 
-	while(1){
-
-		int socketCliente = esperar_cliente(server_fd);
-
-		pthread_t t;
-		pthread_create(&t, NULL, (void*) manejarConexion, (void*)socketCliente);
-		pthread_detach(t);
-	}
-
-}
-
-void armar_PCB(t_list* lista){
-
-	t_pcb* pcb = (struct t_pcb*)malloc(sizeof(struct t_pcb));
-	pcb->instrucciones = NULL;
-
-
-	// agarro el primer elemento (tamanio del proceso)
-	t_list* tamanio_proceso = list_remove(lista, 0);
-	pcb->tamanio = atoi(tamanio_proceso);
-
-	// armo la lista de instrucciones y la guardo en el PCB
-	pcb->instrucciones = armar_lista_instrucciones(lista);
-
-	pcb->program_counter = pcb->instrucciones;
-
-	mostrar_lista(pcb->instrucciones);
-}
-
-int manejarConexion(int socket_cliente){
-
-	t_list* lista;
-	while (1) {
-		int cod_op = recibir_operacion(socket_cliente);
-		switch (cod_op) {
-		case MENSAJE:
-			recibir_mensaje(socket_cliente);
-			break;
-		case PAQUETE:
-			lista = recibir_paquete(socket_cliente);
-			log_info(logger, LECTURA_DE_VALORES);
-			list_iterate(lista, (void*) iterator);
-			break;
-		case PAQUETE_CONSOLA:
-			lista = recibir_paquete(socket_cliente);
-			log_info(logger, RECEPCION_PAQUETE_CONSOLA);
-			armar_PCB(lista);
-			log_info(logger, "Se armó un PCB correctamente.");
-			break;
-		case -1:
-			log_error(logger, SERVIDOR_DESCONEXION);
-			return EXIT_FAILURE;
-		default:
-			log_warning(logger,OPERACION_DESCONOCIDA);
-			break;
-		}
-	}
+	while(server_escuchar(logger, "Consola", server_fd));
 
 }
 

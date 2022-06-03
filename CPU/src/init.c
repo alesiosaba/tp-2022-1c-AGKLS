@@ -60,7 +60,7 @@ le enviará un PCB para ejecutar. Habiéndose recibido, se procederá a realizar
 tomando como punto de partida la instrucción que indique el Program Counter del PCB recibido.
 */
 
-	serverDispatch = iniciar_servidor(config_values.puerto_escucha_dispatch);
+	serverDispatch = iniciar_servidor(IP, config_values.puerto_escucha_dispatch);
 	log_info(logger, "Servidor listo para recibir la conexion dispatch del kernel");
 	clienteDispatch = esperar_cliente(serverDispatch);
 	msleep(10000);

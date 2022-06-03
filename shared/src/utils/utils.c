@@ -132,15 +132,16 @@ void eliminar_paquete(t_paquete* paquete)
 	free(paquete);
 }
 
-void liberar_conexion(int socket_cliente)
+void liberar_conexion(int *socket_cliente)
 {
-	close(socket_cliente);
+	close(*socket_cliente);
+	*socket_cliente = -1;
 }
 
 
 // Implementacion de Comportamientos del Servidor
 
-int iniciar_servidor(char* puerto_escucha)
+int iniciar_servidor(char* ip_server, char* puerto_escucha)
 {
 
 	int socket_servidor;
@@ -152,7 +153,7 @@ int iniciar_servidor(char* puerto_escucha)
 	hints.ai_socktype = SOCK_STREAM;
 	hints.ai_flags = AI_PASSIVE;
 
-	getaddrinfo(IP, puerto_escucha, &hints, &servinfo);
+	getaddrinfo(ip_server, puerto_escucha, &hints, &servinfo);
 
 	// Creamos el socket de escucha del servidor
 	socket_servidor = socket(servinfo->ai_family,
@@ -174,8 +175,6 @@ int iniciar_servidor(char* puerto_escucha)
 
 int esperar_cliente(int socket_servidor)
 {
-	// Quitar esta línea cuando hayamos terminado de implementar la funcion
-	//assert(!"no implementado!");
 
 	// Aceptamos un nuevo cliente
 	int socket_cliente;
