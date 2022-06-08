@@ -6,34 +6,21 @@ void iterator(char* value) {
 	log_info(logger,"%s", value);
 }
 
-void armar_PCB(t_list* lista){
+nodo_pcb* armar_PCB(t_list* lista){
 
-	t_pcb* pcb = (struct t_pcb*)malloc(sizeof(struct t_pcb));
-	pcb->instrucciones = NULL;
-
+	nodo_pcb* nodo_pcb = (struct nodo_pcb*)malloc(sizeof(struct nodo_pcb));
+	nodo_pcb->pcb.instrucciones= NULL;
 
 	// agarro el primer elemento (tamanio del proceso)
 	t_list* tamanio_proceso = list_remove(lista, 0);
-	pcb->tamanio = atoi(tamanio_proceso);
+	nodo_pcb->pcb.tamanio = atoi(tamanio_proceso);
 
 	// armo la lista de instrucciones y la guardo en el PCB
-	pcb->instrucciones = armar_lista_instrucciones(lista);
+	nodo_pcb->pcb.instrucciones = armar_lista_instrucciones(lista);
 
-	pcb->program_counter = pcb->instrucciones;
+	nodo_pcb->pcb.program_counter = nodo_pcb->pcb.instrucciones;
 
-//	imprimir_PCB(pcb);
-	mostrar_lista(pcb->instrucciones);
-}
-
-void imprimir_PCB(t_pcb pcb){
-
-	log_debug(logger, "PCB.PID : %d",pcb.id);
-	log_debug(logger, "PCB.PC  : %p",pcb.program_counter);
-	log_debug(logger, "PCB.SIZE: %s",pcb.tamanio);
-	log_debug(logger, "PCB.PAG : %d",pcb.tabla_paginas);
-	log_debug(logger, "PCB.EST : %d",pcb.estimacion_rafaga);
-	mostrar_lista(pcb.instrucciones);
-
+	return nodo_pcb;
 }
 
 
@@ -46,6 +33,7 @@ int manejarConexion(void* void_args){
     free(args);
 
 	t_list* lista;
+	nodo_pcb* nodo_pcb;
 	while (socket_cliente != -1) {
 		op_code cod_op;
 		cod_op = recibir_operacion(socket_cliente);
@@ -62,8 +50,17 @@ int manejarConexion(void* void_args){
 		case PAQUETE_CONSOLA:
 			lista = recibir_paquete(socket_cliente);
 			log_info(logger, RECEPCION_PAQUETE_CONSOLA);
-			armar_PCB(lista);
+			nodo_pcb = armar_PCB(lista);
+			imprimir_PCB(nodo_pcb);
 			log_info(logger, "Se armó un PCB correctamente.");
+
+			t_paquete* paquete = crear_paquete(PAQUETE_PCB);
+			agregar_a_paquete(paquete, nodo_pcb, sizeof(nodo_pcb));
+			enviar_paquete(paquete, conexionACPU);
+			eliminar_paquete(paquete);
+
+			log_info(logger, "Se enviará un PCB a CPU");
+
 			break;
 		case -1:
 			log_warning(logger, SERVIDOR_DESCONEXION);

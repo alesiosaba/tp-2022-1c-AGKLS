@@ -1,8 +1,6 @@
 #include "../include/init.h"
 #include "../../shared/include/utils/utils.h"
 
-
-
 void inicializar(){
 
 	// inicio el logger del cpu
@@ -36,10 +34,12 @@ config_t leer_config(){
 	return config_values;
 
 }
+
+// tms es la cantidad de segundos del sleep
 int msleep(unsigned int tms) {
 	//msleep es una funcion que duerme por la cantidad de tiempo en milisegundos ingresada.
 	//usleep funciona con microsegundos por eso esta multiplicada por 1000
-  return usleep(tms * 1000);
+  return usleep(tms * 1000000);
 }
 
 
@@ -63,8 +63,9 @@ tomando como punto de partida la instrucción que indique el Program Counter del
 	serverDispatch = iniciar_servidor(IP, config_values.puerto_escucha_dispatch);
 	log_info(logger, "Servidor listo para recibir la conexion dispatch del kernel");
 	clienteDispatch = esperar_cliente(serverDispatch);
-	msleep(10000);
-	conexionAKernel = crear_conexion(IP,"8000");
+	msleep(10);
+
+	// conexionAKernel = crear_conexion(IP,"8000");
 	while(1){
 		manejarConexion(clienteDispatch);
 	}
@@ -81,6 +82,9 @@ en simultáneo.
 	*/
 }
 
+void iterator(char* value) {
+	log_info(logger,"%s", value);
+}
 
 int manejarConexion(int socket_cliente){
 
@@ -90,12 +94,19 @@ int manejarConexion(int socket_cliente){
 		switch (cod_op) {
 		case MENSAJE:
 			recibir_mensaje(socket_cliente);
-			enviar_mensaje("conexion establecida con cpu", conexionAKernel);
 			break;
 		case PAQUETE:
 			lista = recibir_paquete(socket_cliente);
 			log_info(logger, LECTURA_DE_VALORES);
-		//	list_iterate(lista, (void*) iterator);
+			break;
+		case PAQUETE_PCB:
+			log_info(logger, "Recibi un pcb");
+			lista = recibir_paquete(socket_cliente);
+
+			// TO DO Debugger
+			log_info(logger, lista->head->data);
+			getchar();
+
 			break;
 		case -1:
 			log_error(logger, SERVIDOR_DESCONEXION);

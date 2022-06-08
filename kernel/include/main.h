@@ -13,8 +13,6 @@
 #include "init.h"
 #include "../../shared/include/utils/utils.h"
 
-config_t config_values;
-
 // Definiciones de Inicio y Fin de programa
 void terminar_programa();
 

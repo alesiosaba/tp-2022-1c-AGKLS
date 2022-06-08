@@ -25,6 +25,8 @@ typedef struct config_t
 
 config_t config_values;
 
+int conexionACPU;
+
 config_t inicializar();
 config_t leer_config();
 

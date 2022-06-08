@@ -1,7 +1,5 @@
 #include "../include/main.h"
 
-int conexionACPU;
-
 //Finalizacion por interrupción cntrl + c
 void sighandler(int s){
 	if(conexionACPU){
@@ -20,27 +18,22 @@ int main(void) {
 	inicializar();
 
 	conexionACPU = crear_conexion(IP,config_values.puerto_cpu_dispatch);
-	if(!conexionACPU){
+
+	if(conexionACPU == -1){
 		strcpy(errorMessageAux, SERVIDOR_AUSENTE);
 		strcat(errorMessageAux, " CPU");
 		log_error(logger, errorMessageAux);
 		terminar_programa();
 	}
 
-
 	//Servidor
 	int server_fd = iniciar_servidor(IP, config_values.puerto_escucha);
-
 
 	pthread_t consolas;
 	pthread_create(&consolas, NULL, (void*) manejar_consolas,(void*)server_fd);
 	pthread_detach(consolas);
 
 	log_info(logger, SERVIDOR_LISTO);
-
-	enviar_mensaje("hola",conexionACPU);
-
-
 
 	while (1){
 		sleep(1);

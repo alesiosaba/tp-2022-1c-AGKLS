@@ -36,7 +36,8 @@ typedef enum
 {
 	MENSAJE,
 	PAQUETE,
-	PAQUETE_CONSOLA
+	PAQUETE_CONSOLA,
+	PAQUETE_PCB
 }op_code;
 
 typedef struct
@@ -71,7 +72,7 @@ typedef struct nodo_instruccion
     struct nodo_instruccion* sig;
 } nodo_instruccion;
 
-typedef struct t_pcb
+typedef struct pcb
 {
 	int id;
 	int tamanio;
@@ -79,7 +80,14 @@ typedef struct t_pcb
 	struct nodo_instruccion* program_counter;
 	int tabla_paginas;
 	double estimacion_rafaga;
-} t_pcb;
+} pcb;
+
+typedef struct nodo_pcb
+{
+	pcb pcb;
+	struct nodo_pcb* sig;
+} nodo_pcb;
+
 
 //Variables globales
 
@@ -131,6 +139,8 @@ nodo_parametro* nuevo_nodo_parametro();
 // parametros
 nodo_parametro* agregar_primer_parametro(char* parametro);
 void agregar_nuevo_parametro(nodo_instruccion* nodo_instruccion, char* parametro);
+
+void imprimir_PCB(nodo_pcb* nodo_pcb);
 
 // Definicion de otras utilidades
 void liberarStringArray(char** stringArray);
