@@ -86,6 +86,52 @@ void iterator(char* value) {
 	log_info(logger,"%s", value);
 }
 
+struct nodo_instruccion* armar_nodo_instruccion(void* buffer){
+
+	nodo_instruccion* nuevo_nodo = nuevo_nodo_instruccion();
+
+	completar_nodo_instruccion(nuevo_nodo, buffer);
+
+	return nuevo_nodo;
+}
+
+struct pcb armar_PCB(t_list* lista){
+	struct pcb pcb_nuevo;
+
+	t_list* id = list_remove(lista, 0);
+	pcb_nuevo.id = atoi(id);
+
+	t_list* tamanio = list_remove(lista, 0);
+	pcb_nuevo.tamanio = atoi(tamanio);
+
+	/*
+	t_list* tabla_paginas= list_remove(lista, 0);
+	pcb_nuevo.tabla_paginas = atoi(tabla_paginas);
+
+	t_list* estimacion_rafaga = list_remove(lista, 0);
+	pcb_nuevo.estimacion_rafaga = atof(estimacion_rafaga);
+	*/
+
+	t_list* program_counter = list_remove(lista, 0);
+	pcb_nuevo.program_counter = armar_nodo_instruccion(program_counter);
+
+	/* Orden dentro del buffer del paquete
+
+		 id
+		 tamanio
+		 tabla_paginas
+		 estimacion_rafaga
+
+		 program_counter
+
+		 lista_instrucciones
+
+	*/
+
+	return pcb_nuevo;
+
+}
+
 int manejarConexion(int socket_cliente){
 
 	t_list* lista;
@@ -102,7 +148,7 @@ int manejarConexion(int socket_cliente){
 		case PAQUETE_PCB:
 			log_info(logger, "Recibi un pcb");
 			lista = recibir_paquete(socket_cliente);
-
+			struct pcb pcb_que_llega = armar_PCB(lista);
 			// TO DO Debugger
 			log_info(logger, lista->head->data);
 			getchar();
@@ -136,4 +182,3 @@ void terminar_programa(t_log* logger, t_config* config)
 	}
 
 }
-

@@ -15,6 +15,8 @@ nodo_pcb* armar_PCB(t_list* lista){
 	t_list* tamanio_proceso = list_remove(lista, 0);
 	nodo_pcb->pcb.tamanio = atoi(tamanio_proceso);
 
+	nodo_pcb->pcb.id = 555;
+
 	// armo la lista de instrucciones y la guardo en el PCB
 	nodo_pcb->pcb.instrucciones = armar_lista_instrucciones(lista);
 
@@ -22,6 +24,87 @@ nodo_pcb* armar_PCB(t_list* lista){
 
 	return nodo_pcb;
 }
+
+char* generar_renglon_instruccion(struct instruccion instruccion_a_enviar){
+	char* renglon_instruccion = string_new();
+
+	// Extraigo el codigo de instruccion
+	string_append(&renglon_instruccion, instruccion_a_enviar.identificador);
+
+	// Genero un puntero auxiiar para recorrer la lista de parametros
+	struct nodo_parametro* parametros_aux = instruccion_a_enviar.parametros;
+
+	// Si la instruccion no tiene parametros directamente devuelve el renglon
+	if(parametros_aux != NULL){
+		// Caso que la instruccion tenga al menos 1 parametro
+		while(parametros_aux->sig != NULL){
+			string_append(&renglon_instruccion, " ");
+			string_append(&renglon_instruccion, (char*) parametros_aux->parametro);
+			parametros_aux = parametros_aux->sig;
+		}
+	}
+
+	string_append(&renglon_instruccion,"\n");
+
+	return renglon_instruccion;
+
+}
+
+
+t_paquete* generar_paquete_pcb(struct pcb PCB_a_enviar){
+
+	t_paquete* paquete = crear_paquete(PAQUETE_PCB);
+
+	// Saco lo del PCB a enviar a variables
+	// lo que NO sean instrucciones
+	char* id =  string_new();
+	sprintf(id, "%d\n", PCB_a_enviar.id);
+	agregar_a_paquete(paquete, id, sizeof(id));
+
+	char* tamanio = string_new();
+	sprintf(tamanio, "%d\n", PCB_a_enviar.tamanio);
+	agregar_a_paquete(paquete, tamanio, sizeof(tamanio));
+
+
+	// double tabla_paginas = PCB_a_enviar.tabla_paginas;
+
+	// Este caso es distinto porque no hay conversion directa desde double a char*
+	/*char estimacion_rafaga[sizeof(PCB_a_enviar.estimacion_rafaga)];
+	memcpy(
+			estimacion_rafaga
+			, &PCB_a_enviar.estimacion_rafaga
+			, sizeof(PCB_a_enviar.estimacion_rafaga)
+	);*/
+
+	// agregar_a_paquete(paquete, (char*) tabla_paginas, sizeof(tabla_paginas));
+	// agregar_a_paquete(paquete, estimacion_rafaga, sizeof(estimacion_rafaga));
+
+
+	// buffer para concatenar instruccion y sus parametros
+	char* renglon_instruccion = string_new();
+
+	// genero el renglon para el program_counter
+	renglon_instruccion = generar_renglon_instruccion(PCB_a_enviar.program_counter->instruccion);
+
+	agregar_a_paquete(paquete, renglon_instruccion, sizeof(renglon_instruccion));
+
+	return paquete;
+
+	/* Orden dentro del buffer del paquete
+
+	 id
+	 tamanio
+	 tabla_paginas 		-- Todavia no implementado
+	 estimacion_rafaga  -- Todavia no implementado
+
+	 program_counter
+
+	 lista_instrucciones -- Todavia no implementado
+
+	 */
+}
+
+
 
 
 int manejarConexion(void* void_args){
@@ -54,8 +137,8 @@ int manejarConexion(void* void_args){
 			imprimir_PCB(nodo_pcb);
 			log_info(logger, "Se armó un PCB correctamente.");
 
-			t_paquete* paquete = crear_paquete(PAQUETE_PCB);
-			agregar_a_paquete(paquete, nodo_pcb, sizeof(nodo_pcb));
+			t_paquete* paquete = generar_paquete_pcb(nodo_pcb->pcb);
+
 			enviar_paquete(paquete, conexionACPU);
 			eliminar_paquete(paquete);
 
