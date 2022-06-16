@@ -90,7 +90,16 @@ struct nodo_instruccion* armar_nodo_instruccion(void* buffer){
 
 	nodo_instruccion* nuevo_nodo = nuevo_nodo_instruccion();
 
-	completar_nodo_instruccion(nuevo_nodo, buffer);
+	char str[30];
+	strcpy(str, buffer);
+	char separator[] = "\n";
+	char* renglon_instruccion;
+	char* rest = str;
+
+	// Obtengo el renglon de instruccion
+	renglon_instruccion = strtok_r(str, separator, &rest);
+
+	completar_nodo_instruccion(nuevo_nodo, renglon_instruccion);
 
 	return nuevo_nodo;
 }
@@ -150,7 +159,7 @@ int manejarConexion(int socket_cliente){
 			lista = recibir_paquete(socket_cliente);
 			struct pcb pcb_que_llega = armar_PCB(lista);
 			// TO DO Debugger
-			log_info(logger, lista->head->data);
+			// log_info(logger, lista->head->data);
 			getchar();
 
 			break;
