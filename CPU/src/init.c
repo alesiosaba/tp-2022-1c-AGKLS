@@ -120,9 +120,17 @@ struct pcb armar_PCB(t_list* lista){
 	t_list* estimacion_rafaga = list_remove(lista, 0);
 	pcb_nuevo.estimacion_rafaga = atof(estimacion_rafaga);
 	*/
-
+/*GUIDO: No enviar Program counter
 	t_list* program_counter = list_remove(lista, 0);
 	pcb_nuevo.program_counter = armar_nodo_instruccion(program_counter);
+*/
+	t_list* iterator = lista;
+
+	while(lista->elements_count != 0){
+		log_info(logger,"%s", list_remove(lista,0));;
+	}
+
+
 
 	/* Orden dentro del buffer del paquete
 
