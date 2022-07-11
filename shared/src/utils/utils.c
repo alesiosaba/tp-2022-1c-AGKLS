@@ -497,7 +497,7 @@ void agregar_nuevo_parametro(nodo_instruccion* nodo_instruccion, char* parametro
 
 };
 
-void imprimir_PCB(nodo_pcb* nodo_pcb){
+void imprimir_PCB(pcb* nodo_pcb){
 
 	/*
 	log_debug(logger, "PCB.PID : %d",nodo_pcb->pcb.id);
@@ -506,6 +506,6 @@ void imprimir_PCB(nodo_pcb* nodo_pcb){
 	log_debug(logger, "PCB.PAG : %d",nodo_pcb->pcb.tabla_paginas);
 	log_debug(logger, "PCB.EST : %d",nodo_pcb->pcb.estimacion_rafaga);
 	*/
-	mostrar_lista(nodo_pcb->pcb.instrucciones);
+	mostrar_lista(nodo_pcb->instrucciones);
 
 }

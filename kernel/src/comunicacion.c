@@ -12,7 +12,7 @@ int manejarConexion(void* void_args){
     free(args);
 
 	t_list* lista;
-	nodo_pcb* nodo_pcb;
+	pcb* nodo_pcb;
 	while (socket_cliente != -1) {
 		op_code cod_op;
 		cod_op = recibir_operacion(socket_cliente);
@@ -30,10 +30,11 @@ int manejarConexion(void* void_args){
 			lista = recibir_paquete(socket_cliente);
 			log_info(logger, RECEPCION_PAQUETE_CONSOLA);
 			nodo_pcb = armar_PCB(lista);
+			movePCBtoReady(*nodo_pcb);
 			imprimir_PCB(nodo_pcb);
-			log_info(logger, "Se armó un PCB correctamente.");
+			log_info(logger, "Se armó un PCB correctamente");
 
-			t_paquete* paquete = generar_paquete_pcb(nodo_pcb->pcb);
+			t_paquete* paquete = generar_paquete_pcb(*nodo_pcb);
 
 			enviar_paquete(paquete, conexionACPU);
 			eliminar_paquete(paquete);

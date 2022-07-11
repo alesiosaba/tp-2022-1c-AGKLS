@@ -9,23 +9,26 @@ void iterator(char* value) {
 	log_info(logger,"%s", value);
 }
 
-nodo_pcb* armar_PCB(t_list* lista){
+pcb* armar_PCB(t_list* lista){
 
-	nodo_pcb* nodo_pcb = (struct nodo_pcb*)malloc(sizeof(struct nodo_pcb));
-	nodo_pcb->pcb.instrucciones= NULL;
+	//nodo_pcb* nodo_pcb = (struct nodo_pcb*)malloc(sizeof(struct nodo_pcb));
+	pcb* pcb = (struct pcb*)malloc(sizeof(struct pcb));
+	pcb->instrucciones= NULL;
 
 	// agarro el primer elemento (tamanio del proceso)
 	t_list* tamanio_proceso = list_remove(lista, 0);
-	nodo_pcb->pcb.tamanio = atoi(tamanio_proceso);
+	pcb->tamanio= atoi(tamanio_proceso);
 
-	nodo_pcb->pcb.id = 555;
+	pcb->id = 555;
 
 	// armo la lista de instrucciones y la guardo en el PCB
-	nodo_pcb->pcb.instrucciones = armar_lista_instrucciones(lista);
+	pcb->instrucciones = armar_lista_instrucciones(lista);
 
-	nodo_pcb->pcb.program_counter = nodo_pcb->pcb.instrucciones;
+	pcb->program_counter = pcb->instrucciones;
 
-	return nodo_pcb;
+	pcb->state = NEW;
+
+	return pcb;
 }
 
 char* generar_renglon_instruccion(struct instruccion instruccion_a_enviar){

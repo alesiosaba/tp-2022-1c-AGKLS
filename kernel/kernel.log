@@ -317,3 +317,62 @@
 [WARNING] 20:46:29:640 Kernel Log/(24002:24005): el cliente se desconecto. Terminando servidor
 [DEBUG] 20:48:21:500 Kernel Log/(24002:24002): Archivo de configuracion cerrado
 [DEBUG] 20:48:21:501 Kernel Log/(24002:24002): Terminando el Log
+[INFO] 18:43:33:150 Kernel Log/(14565:14565): Servidor listo para recibir al cliente
+[INFO] 18:43:36:912 Kernel Log/(14565:14566): Se conecto un cliente!
+[INFO] 18:43:36:922 Kernel Log/(14565:14582): Recibi un paquete de consola
+[INFO] 18:43:36:923 Kernel Log/(14565:14582): Antes del while
+[INFO] 18:43:36:927 Kernel Log/(14565:14582): Se armó un PCB correctamente.
+[INFO] 18:43:36:927 Kernel Log/(14565:14582): Se enviará un PCB a CPU
+[WARNING] 18:43:36:927 Kernel Log/(14565:14582): el cliente se desconecto. Terminando servidor
+[DEBUG] 18:43:53:825 Kernel Log/(14565:14565): Archivo de configuracion cerrado
+[DEBUG] 18:43:53:825 Kernel Log/(14565:14565): Terminando el Log
+[INFO] 18:47:04:592 Kernel Log/(14897:14897): Servidor listo para recibir al cliente
+[DEBUG] 18:47:13:125 Kernel Log/(14897:14897): Archivo de configuracion cerrado
+[DEBUG] 18:47:13:126 Kernel Log/(14897:14897): Terminando el Log
+[INFO] 18:48:14:693 Kernel Log/(15090:15090): Servidor listo para recibir al cliente
+[DEBUG] 18:48:14:693 Kernel Log/(15090:15090): Archivo de configuracion cerrado
+[DEBUG] 18:48:14:694 Kernel Log/(15090:15090): Terminando el Log
+[INFO] 18:48:22:387 Kernel Log/(15115:15115): Servidor listo para recibir al cliente
+[DEBUG] 18:48:22:388 Kernel Log/(15115:15115): Archivo de configuracion cerrado
+[DEBUG] 18:48:22:388 Kernel Log/(15115:15115): Terminando el Log
+[INFO] 20:27:54:938 Kernel Log/(15042:15042): Servidor listo para recibir al cliente
+[INFO] 20:28:00:600 Kernel Log/(15042:15043): Se conecto un cliente!
+[INFO] 20:28:00:610 Kernel Log/(15042:15057): Recibi un paquete de consola
+[INFO] 20:28:00:610 Kernel Log/(15042:15057): Antes del while
+[INFO] 20:28:00:611 Kernel Log/(15042:15057): Se armó un PCB correctamente para el PID
+[INFO] 20:30:29:153 Kernel Log/(15358:15358): Servidor listo para recibir al cliente
+[INFO] 20:30:40:568 Kernel Log/(15358:15412): Se conecto un cliente!
+[INFO] 20:30:40:587 Kernel Log/(15358:15439): Recibi un paquete de consola
+[INFO] 20:30:40:587 Kernel Log/(15358:15439): Antes del while
+[INFO] 20:30:40:596 Kernel Log/(15358:15439): Se armó un PCB correctamente
+[INFO] 20:33:25:878 Kernel Log/(15863:15863): Servidor listo para recibir al cliente
+[INFO] 20:33:29:699 Kernel Log/(15863:15909): Se conecto un cliente!
+[INFO] 20:33:29:715 Kernel Log/(15863:15912): Recibi un paquete de consola
+[INFO] 20:34:04:599 Kernel Log/(15863:15909): Se conecto un cliente!
+[INFO] 20:34:05:960 Kernel Log/(15863:15986): Recibi un paquete de consola
+[INFO] 20:34:08:753 Kernel Log/(15863:15912): Antes del while
+[INFO] 20:34:08:753 Kernel Log/(15863:15912): Se armó un PCB correctamente
+[INFO] 20:34:19:283 Kernel Log/(15863:15986): Antes del while
+[INFO] 20:34:19:283 Kernel Log/(15863:15986): Se armó un PCB correctamente
+[INFO] 20:38:01:273 Kernel Log/(16412:16412): Servidor listo para recibir al cliente
+[INFO] 20:38:05:990 Kernel Log/(16412:16507): Se conecto un cliente!
+[INFO] 20:38:05:997 Kernel Log/(16412:16516): Recibi un paquete de consola
+[INFO] 20:39:44:790 Kernel Log/(16412:16516): Antes del while
+[INFO] 20:40:34:061 Kernel Log/(16412:16516): Se armó un PCB correctamente
+[INFO] 20:46:08:161 Kernel Log/(17349:17349): Servidor listo para recibir al cliente
+[INFO] 20:46:13:773 Kernel Log/(17349:17401): Se conecto un cliente!
+[INFO] 20:46:13:788 Kernel Log/(17349:17410): Recibi un paquete de consola
+[INFO] 20:46:20:318 Kernel Log/(17349:17410): Antes del while
+[INFO] 20:47:02:344 Kernel Log/(17349:17410): Se armó un PCB correctamente
+[INFO] 20:49:07:598 Kernel Log/(17774:17774): Servidor listo para recibir al cliente
+[DEBUG] 20:49:11:307 Kernel Log/(17774:17774): Archivo de configuracion cerrado
+[DEBUG] 20:49:11:308 Kernel Log/(17774:17774): Terminando el Log
+[INFO] 20:51:50:161 Kernel Log/(18166:18166): Servidor listo para recibir al cliente
+[INFO] 20:51:57:936 Kernel Log/(18166:18167): Se conecto un cliente!
+[INFO] 20:51:57:939 Kernel Log/(18166:18186): Recibi un paquete de consola
+[INFO] 20:51:57:939 Kernel Log/(18166:18186): Antes del while
+[INFO] 20:51:57:941 Kernel Log/(18166:18186): Se armó un PCB correctamente
+[INFO] 20:51:57:942 Kernel Log/(18166:18186): Se enviará un PCB a CPU
+[WARNING] 20:51:57:942 Kernel Log/(18166:18186): el cliente se desconecto. Terminando servidor
+[DEBUG] 20:52:04:920 Kernel Log/(18166:18166): Archivo de configuracion cerrado
+[DEBUG] 20:52:04:920 Kernel Log/(18166:18166): Terminando el Log

@@ -32,7 +32,7 @@
 
 // Nuevos tipos y estructuras de datos
 
-typedef enum
+typedef enum op_code
 {
 	MENSAJE,
 	PAQUETE,
@@ -40,7 +40,7 @@ typedef enum
 	PAQUETE_PCB
 }op_code;
 
-typedef struct
+typedef struct t_buffer
 {
 	int size;
 	void* stream;
@@ -72,6 +72,18 @@ typedef struct nodo_instruccion
     struct nodo_instruccion* sig;
 } nodo_instruccion;
 
+typedef enum State
+{
+	NEW,
+	READY,
+	EXEC,
+	BLOCKED,
+	SUSPENDED_READY,
+	SUSPENDED_BLOCKED,
+	EXIT
+
+} State;
+
 typedef struct pcb
 {
 	int id;
@@ -80,6 +92,7 @@ typedef struct pcb
 	struct nodo_instruccion* program_counter;
 	int tabla_paginas;
 	double estimacion_rafaga;
+	State state;
 } pcb;
 
 typedef struct nodo_pcb
@@ -140,7 +153,7 @@ nodo_parametro* nuevo_nodo_parametro();
 nodo_parametro* agregar_primer_parametro(char* parametro);
 void agregar_nuevo_parametro(nodo_instruccion* nodo_instruccion, char* parametro);
 
-void imprimir_PCB(nodo_pcb* nodo_pcb);
+void imprimir_PCB(pcb* nodo_pcb);
 
 // Definicion de otras utilidades
 void liberarStringArray(char** stringArray);

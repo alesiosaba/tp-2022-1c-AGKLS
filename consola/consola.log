@@ -525,3 +525,67 @@
 [INFO] 20:46:29:635 Consola Log/(24004:24004): Finalizo correctamente el programa
 [DEBUG] 20:46:29:635 Consola Log/(24004:24004): Archivo de configuracion cerrado
 [DEBUG] 20:46:29:636 Consola Log/(24004:24004): Terminando el Log
+[INFO] 18:43:36:911 Consola Log/(14581:14581): Se generó correctamente el logger
+[INFO] 18:43:36:912 Consola Log/(14581:14581): Se generó correctamente la configuracion
+[INFO] 18:43:36:912 Consola Log/(14581:14581): Se generó correctamente la conexion
+[INFO] 18:43:36:912 Consola Log/(14581:14581): 127.0.0.1
+[INFO] 18:43:36:913 Consola Log/(14581:14581): 8000
+[INFO] 18:43:36:922 Consola Log/(14581:14581): Finalizo correctamente el programa
+[DEBUG] 18:43:36:922 Consola Log/(14581:14581): Archivo de configuracion cerrado
+[DEBUG] 18:43:36:922 Consola Log/(14581:14581): Terminando el Log
+[INFO] 20:28:00:599 Consola Log/(15056:15056): Se generó correctamente el logger
+[INFO] 20:28:00:600 Consola Log/(15056:15056): Se generó correctamente la configuracion
+[INFO] 20:28:00:600 Consola Log/(15056:15056): Se generó correctamente la conexion
+[INFO] 20:28:00:600 Consola Log/(15056:15056): 127.0.0.1
+[INFO] 20:28:00:601 Consola Log/(15056:15056): 8000
+[INFO] 20:28:00:609 Consola Log/(15056:15056): Finalizo correctamente el programa
+[DEBUG] 20:28:00:611 Consola Log/(15056:15056): Archivo de configuracion cerrado
+[DEBUG] 20:28:00:611 Consola Log/(15056:15056): Terminando el Log
+[INFO] 20:30:40:567 Consola Log/(15438:15438): Se generó correctamente el logger
+[INFO] 20:30:40:568 Consola Log/(15438:15438): Se generó correctamente la configuracion
+[INFO] 20:30:40:568 Consola Log/(15438:15438): Se generó correctamente la conexion
+[INFO] 20:30:40:570 Consola Log/(15438:15438): 127.0.0.1
+[INFO] 20:30:40:570 Consola Log/(15438:15438): 8000
+[INFO] 20:30:40:587 Consola Log/(15438:15438): Finalizo correctamente el programa
+[DEBUG] 20:30:40:588 Consola Log/(15438:15438): Archivo de configuracion cerrado
+[DEBUG] 20:30:40:595 Consola Log/(15438:15438): Terminando el Log
+[INFO] 20:33:29:698 Consola Log/(15911:15911): Se generó correctamente el logger
+[INFO] 20:33:29:699 Consola Log/(15911:15911): Se generó correctamente la configuracion
+[INFO] 20:33:29:699 Consola Log/(15911:15911): Se generó correctamente la conexion
+[INFO] 20:33:29:700 Consola Log/(15911:15911): 127.0.0.1
+[INFO] 20:33:29:710 Consola Log/(15911:15911): 8000
+[INFO] 20:33:29:714 Consola Log/(15911:15911): Finalizo correctamente el programa
+[DEBUG] 20:33:29:715 Consola Log/(15911:15911): Archivo de configuracion cerrado
+[DEBUG] 20:33:29:715 Consola Log/(15911:15911): Terminando el Log
+[INFO] 20:33:44:062 Consola Log/(15960:15960): Se generó correctamente el logger
+[INFO] 20:33:44:062 Consola Log/(15960:15960): Se generó correctamente la configuracion
+[INFO] 20:33:44:063 Consola Log/(15960:15960): Se generó correctamente la conexion
+[INFO] 20:33:44:063 Consola Log/(15960:15960): 127.0.0.1
+[INFO] 20:33:44:063 Consola Log/(15960:15960): 8000
+[INFO] 20:33:44:066 Consola Log/(15960:15960): Finalizo correctamente el programa
+[DEBUG] 20:33:44:066 Consola Log/(15960:15960): Archivo de configuracion cerrado
+[DEBUG] 20:33:44:067 Consola Log/(15960:15960): Terminando el Log
+[INFO] 20:38:05:989 Consola Log/(16515:16515): Se generó correctamente el logger
+[INFO] 20:38:05:990 Consola Log/(16515:16515): Se generó correctamente la configuracion
+[INFO] 20:38:05:990 Consola Log/(16515:16515): Se generó correctamente la conexion
+[INFO] 20:38:05:991 Consola Log/(16515:16515): 127.0.0.1
+[INFO] 20:38:05:994 Consola Log/(16515:16515): 8000
+[INFO] 20:38:05:997 Consola Log/(16515:16515): Finalizo correctamente el programa
+[DEBUG] 20:38:05:997 Consola Log/(16515:16515): Archivo de configuracion cerrado
+[DEBUG] 20:38:05:997 Consola Log/(16515:16515): Terminando el Log
+[INFO] 20:46:13:772 Consola Log/(17409:17409): Se generó correctamente el logger
+[INFO] 20:46:13:772 Consola Log/(17409:17409): Se generó correctamente la configuracion
+[INFO] 20:46:13:773 Consola Log/(17409:17409): Se generó correctamente la conexion
+[INFO] 20:46:13:773 Consola Log/(17409:17409): 127.0.0.1
+[INFO] 20:46:13:778 Consola Log/(17409:17409): 8000
+[INFO] 20:46:13:788 Consola Log/(17409:17409): Finalizo correctamente el programa
+[DEBUG] 20:46:13:795 Consola Log/(17409:17409): Archivo de configuracion cerrado
+[DEBUG] 20:46:13:797 Consola Log/(17409:17409): Terminando el Log
+[INFO] 20:51:57:935 Consola Log/(18185:18185): Se generó correctamente el logger
+[INFO] 20:51:57:935 Consola Log/(18185:18185): Se generó correctamente la configuracion
+[INFO] 20:51:57:936 Consola Log/(18185:18185): Se generó correctamente la conexion
+[INFO] 20:51:57:936 Consola Log/(18185:18185): 127.0.0.1
+[INFO] 20:51:57:936 Consola Log/(18185:18185): 8000
+[INFO] 20:51:57:939 Consola Log/(18185:18185): Finalizo correctamente el programa
+[DEBUG] 20:51:57:939 Consola Log/(18185:18185): Archivo de configuracion cerrado
+[DEBUG] 20:51:57:939 Consola Log/(18185:18185): Terminando el Log
