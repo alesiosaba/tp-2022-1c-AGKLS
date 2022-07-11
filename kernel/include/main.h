@@ -12,6 +12,9 @@
 #include <string.h>
 #include "init.h"
 #include "../../shared/include/utils/utils.h"
+#include "../include/shortTerm.h"
+
+
 
 // Definiciones de Inicio y Fin de programa
 void terminar_programa();

@@ -46,7 +46,7 @@ char* generar_renglon_instruccion(struct instruccion instruccion_a_enviar){
 		// Caso que la instruccion tenga al menos 1 parametro
 		do{
 			string_append(&renglon_instruccion, " ");
-			sprintf(parametroStr, "%d\n", parametros_aux->parametro);
+			sprintf(parametroStr, "%d", parametros_aux->parametro);
 			string_append(&renglon_instruccion, parametroStr);
 			parametros_aux = parametros_aux->sig;
 		}while(parametros_aux);
@@ -102,8 +102,8 @@ t_paquete* generar_paquete_pcb(struct pcb PCB_a_enviar){
 
 	while(nodo_instruccion->sig){
 		renglon_instruccion = generar_renglon_instruccion(nodo_instruccion->instruccion);
-		int size = strlen(renglon_instruccion);
-		agregar_a_paquete(paquete, renglon_instruccion, sizeof(strlen(renglon_instruccion)*sizeof(char)));
+		int size = strlen(renglon_instruccion)*sizeof(char);
+		agregar_a_paquete(paquete, renglon_instruccion, size);
 		nodo_instruccion = nodo_instruccion->sig;
 	}
 

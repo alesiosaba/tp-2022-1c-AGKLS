@@ -1,7 +1,7 @@
 #include "../include/init.h"
 #include "../include/comunicacion.h"
 #include "../../shared/include/utils/utils.h"
-
+#include "../include/shortTerm.h"
 
 int manejarConexion(void* void_args){
 
@@ -30,8 +30,8 @@ int manejarConexion(void* void_args){
 			lista = recibir_paquete(socket_cliente);
 			log_info(logger, RECEPCION_PAQUETE_CONSOLA);
 			nodo_pcb = armar_PCB(lista);
-			movePCBtoReady(*nodo_pcb);
-			imprimir_PCB(nodo_pcb);
+			movePCBtoReady(nodo_pcb);
+//			imprimir_PCB(readyQueue->pcb);
 			log_info(logger, "Se armó un PCB correctamente");
 
 			t_paquete* paquete = generar_paquete_pcb(*nodo_pcb);

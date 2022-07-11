@@ -34,7 +34,6 @@
 									<listOptionValue builtIn="false" value="commons"/>
 									<listOptionValue builtIn="false" value="readline"/>
 									<listOptionValue builtIn="false" value="pthread"/>
-									<listOptionValue builtIn="false" value="libshared"/>
 									<listOptionValue builtIn="false" value="shared"/>
 									<listOptionValue builtIn="false" value="cunit"/>
 								</option>

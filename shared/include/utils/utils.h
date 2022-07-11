@@ -72,17 +72,17 @@ typedef struct nodo_instruccion
     struct nodo_instruccion* sig;
 } nodo_instruccion;
 
-typedef enum State
+typedef enum state
 {
 	NEW,
 	READY,
-	EXEC,
+	EXECUTION,
 	BLOCKED,
-	SUSPENDED_READY,
+	SUSPENSED_READY,
 	SUSPENDED_BLOCKED,
 	EXIT
+}state;
 
-} State;
 
 typedef struct pcb
 {
@@ -92,7 +92,7 @@ typedef struct pcb
 	struct nodo_instruccion* program_counter;
 	int tabla_paginas;
 	double estimacion_rafaga;
-	State state;
+	state state;
 } pcb;
 
 typedef struct nodo_pcb

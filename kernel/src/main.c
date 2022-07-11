@@ -1,5 +1,10 @@
 #include "../include/main.h"
 
+
+nodo_readyQueue* readyQueue = NULL;
+
+
+
 //Finalizacion por interrupción cntrl + c
 void sighandler(int s){
 	if(conexionACPU){
