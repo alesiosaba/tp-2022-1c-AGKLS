@@ -10,14 +10,15 @@ nodo_readyQueue* nuevo_nodo_readyQueue(){
 	return nodo;
 }
 
-nodo_readyQueue* agregarPrimerPCB(pcb* PCB){
+void agregarPrimerPCB(pcb* PCB){
 
 	// genero el primer nodo de la lista de la cola de listo
 	nodo_readyQueue* nodo_pcb = nuevo_nodo_readyQueue();
 
 	nodo_pcb->pcb = PCB;
 
-	return nodo_pcb;
+	readyQueue = nodo_pcb;
+
 };
 
 void agregarPCB(pcb* PCB){

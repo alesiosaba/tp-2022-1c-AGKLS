@@ -11,7 +11,7 @@ extern nodo_readyQueue* readyQueue;
 
 
 nodo_readyQueue* nuevo_nodo_readyQueue();
-nodo_readyQueue* agregarPrimerPCB(pcb* PCB);
+void agregarPrimerPCB(pcb* PCB);
 void agregarPCB(pcb* pcb);
 
 void movePCBtoReady(pcb* PCB);

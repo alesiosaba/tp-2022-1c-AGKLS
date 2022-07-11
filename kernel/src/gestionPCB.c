@@ -108,12 +108,6 @@ t_paquete* generar_paquete_pcb(struct pcb PCB_a_enviar){
 	}
 
 
-	//
-
-
-
-
-
 	return paquete;
 
 	/* Orden dentro del buffer del paquete

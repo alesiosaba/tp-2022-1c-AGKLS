@@ -31,7 +31,7 @@ int manejarConexion(void* void_args){
 			log_info(logger, RECEPCION_PAQUETE_CONSOLA);
 			nodo_pcb = armar_PCB(lista);
 			movePCBtoReady(nodo_pcb);
-//			imprimir_PCB(readyQueue->pcb);
+			imprimir_PCB(readyQueue->pcb);
 			log_info(logger, "Se armó un PCB correctamente");
 
 			t_paquete* paquete = generar_paquete_pcb(*nodo_pcb);
