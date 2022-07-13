@@ -29,11 +29,17 @@ int manejarConexion(void* void_args){
 		case PAQUETE_CONSOLA:
 			lista = recibir_paquete(socket_cliente);
 			log_info(logger, RECEPCION_PAQUETE_CONSOLA);
-			nodo_pcb = armar_PCB(lista);
-			movePCBtoReady(nodo_pcb);
-			imprimir_PCB(readyQueue->pcb);
+
+			nodo_pcb = armar_PCB_nuevo(lista);
 			log_info(logger, "Se armó un PCB correctamente");
 
+			movePCBtoReady(nodo_pcb);
+			log_info(logger, "Se movio un PCB a la cola READY correctamente");
+
+			log_info(logger, "Imprimiendo PCB recibido por Consola ...");
+			imprimir_PCB(nodo_pcb);
+
+			log_info(logger, "Generando paquete PCB ...");
 			t_paquete* paquete = generar_paquete_pcb(*nodo_pcb);
 
 			enviar_paquete(paquete, conexionACPU);

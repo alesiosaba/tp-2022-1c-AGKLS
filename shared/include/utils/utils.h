@@ -146,14 +146,12 @@ nodo_instruccion* armar_lista_instrucciones(t_list* lista);
 nodo_instruccion* agregar_instruccion(nodo_instruccion* lista_instrucciones, void* buffer);
 // nodos instrucciones
 nodo_instruccion* nuevo_nodo_instruccion();
-void completar_nodo_instruccion(nodo_instruccion* nodo_instruccion, char* buffer);
+void completar_nodo_instruccion(nodo_instruccion* nodo_instruccion, char* buffer_original);
 // nodos parametro
 nodo_parametro* nuevo_nodo_parametro();
 // parametros
 nodo_parametro* agregar_primer_parametro(char* parametro);
 void agregar_nuevo_parametro(nodo_instruccion* nodo_instruccion, char* parametro);
-
-void imprimir_PCB(pcb* nodo_pcb);
 
 // Definicion de otras utilidades
 void liberarStringArray(char** stringArray);

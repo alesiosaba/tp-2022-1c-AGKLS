@@ -1,5 +1,4 @@
 #include "../include/init.h"
-#include "../../shared/include/utils/utils.h"
 
 void inicializar(){
 
@@ -82,10 +81,6 @@ en simultáneo.
 	*/
 }
 
-void iterator(char* value) {
-	log_info(logger,"%s", value);
-}
-
 struct nodo_instruccion* armar_nodo_instruccion(void* buffer){
 
 	nodo_instruccion* nuevo_nodo = nuevo_nodo_instruccion();
@@ -165,10 +160,10 @@ int manejarConexion(int socket_cliente){
 		case PAQUETE_PCB:
 			log_info(logger, "Recibi un pcb");
 			lista = recibir_paquete(socket_cliente);
-			struct pcb pcb_que_llega = armar_PCB(lista);
-			// TO DO Debugger
-			// log_info(logger, lista->head->data);
-			getchar();
+
+			struct pcb *pcb = deserializar_PCB(lista);
+
+			imprimir_PCB(pcb);
 
 			break;
 		case -1:
