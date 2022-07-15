@@ -6,7 +6,7 @@
 
 
 # Libraries
-LIBS= commons shared
+LIBS= commons shared readline
 
 # Custom libraries' paths
 SHARED_LIBPATHS= ../shared

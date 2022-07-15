@@ -62,7 +62,7 @@ tomando como punto de partida la instrucción que indique el Program Counter del
 	serverDispatch = iniciar_servidor(IP, config_values.puerto_escucha_dispatch);
 	log_info(logger, "Servidor listo para recibir la conexion dispatch del kernel");
 	clienteDispatch = esperar_cliente(serverDispatch);
-	msleep(10);
+
 
 	// conexionAKernel = crear_conexion(IP,"8000");
 	while(1){
@@ -164,6 +164,8 @@ int manejarConexion(int socket_cliente){
 			struct pcb *pcb = deserializar_PCB(lista);
 
 			imprimir_PCB(pcb);
+
+			enviar_mensaje("TEST", clienteDispatch);
 
 			break;
 		case -1:

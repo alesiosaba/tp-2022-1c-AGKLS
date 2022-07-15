@@ -1,7 +1,9 @@
 #ifndef PCB_H_
 #define PCB_H_
 
-#include "../utils/utils.h"
+
+#include "../include/utils/utils.h"
+
 
 pcb* armar_PCB_nuevo(t_list* lista);
 pcb* deserializar_PCB(t_list* lista);

@@ -1,11 +1,27 @@
 #include "../include/CPU.h"
 
+//Finalizacion por interrupción cntrl + c
+void sighandler(int s){
+	/*
+	if(conexionACPU){
+		liberar_conexion(&conexionACPU);
+	}
+	*/
+	terminar_programa();
+	exit(0);
+}
+
 
 
 
 int main(void) {
 
+	signal(SIGINT, sighandler); //Terminar el programa al oprimir ctrl + C en terminal
+
+	char* errorMessageAux = NULL;
+
 	inicializar();
+
 	conexiones();
 
 

@@ -14,6 +14,8 @@
 #include <commons/config.h>
 #include <commons/collections/list.h>
 
+
+
 // Definiciones Utiles
 
 #define IP "127.0.0.1"
@@ -40,6 +42,8 @@ typedef enum op_code
 	PAQUETE_PCB
 }op_code;
 
+
+
 typedef struct t_buffer
 {
 	int size;
@@ -51,6 +55,8 @@ typedef struct
 	op_code codigo_operacion;
 	t_buffer* buffer;
 } t_paquete;
+
+
 
 // Estructuras de datos para el PCB
 
@@ -83,7 +89,6 @@ typedef enum state
 	EXIT
 }state;
 
-
 typedef struct pcb
 {
 	int id;
@@ -100,6 +105,7 @@ typedef struct nodo_pcb
 	pcb pcb;
 	struct nodo_pcb* sig;
 } nodo_pcb;
+
 
 
 //Variables globales

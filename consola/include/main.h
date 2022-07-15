@@ -3,10 +3,14 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 #include <commons/log.h>
 #include <commons/string.h>
 #include <commons/config.h>
+#include <commons/bitarray.h>
+#include <readline/readline.h>
+#include <pthread.h>
+#include <string.h>
+
 
 #include "init.h"
 

@@ -495,3 +495,89 @@
 [INFO] 20:54:29:719 Kernel Log/(29152:29259): Se armó un PCB correctamente
 [INFO] 20:54:43:821 Kernel Log/(29152:29259): Se enviará un PCB a CPU
 [WARNING] 20:54:43:822 Kernel Log/(29152:29259): el cliente se desconecto. Terminando servidor
+[INFO] 18:23:41:899 Kernel Log/(15647:15647): Servidor listo para recibir al cliente
+[INFO] 18:23:44:930 Kernel Log/(15647:15648): Se conecto un cliente!
+[INFO] 18:23:44:939 Kernel Log/(15647:15656): Recibi un paquete de consola
+[INFO] 18:23:44:939 Kernel Log/(15647:15656): Antes del while
+[INFO] 18:23:44:941 Kernel Log/(15647:15656): Se armó un PCB correctamente
+[INFO] 18:23:44:942 Kernel Log/(15647:15656): Se enviará un PCB a CPU
+[WARNING] 18:23:44:942 Kernel Log/(15647:15656): el cliente se desconecto. Terminando servidor
+[DEBUG] 18:24:09:881 Kernel Log/(15647:15647): Archivo de configuracion cerrado
+[DEBUG] 18:24:09:881 Kernel Log/(15647:15647): Terminando el Log
+[INFO] 18:41:07:038 Kernel Log/(17855:17855): Servidor listo para recibir al cliente
+[INFO] 18:41:12:011 Kernel Log/(17855:17896): Se conecto un cliente!
+[INFO] 18:41:22:062 Kernel Log/(17855:17905): Recibi un paquete de consola
+[INFO] 18:41:24:326 Kernel Log/(17855:17905): Se armó un PCB correctamente
+[INFO] 18:41:24:327 Kernel Log/(17855:17905): Se movio un PCB a la cola READY correctamente
+[INFO] 18:41:24:328 Kernel Log/(17855:17905): Imprimiendo PCB recibido por Consola ...
+[INFO] 18:41:24:330 Kernel Log/(17855:17905): Generando paquete PCB ...
+[INFO] 18:41:24:331 Kernel Log/(17855:17905): Se enviará un PCB a CPU
+[WARNING] 18:42:53:805 Kernel Log/(17855:17905): el cliente se desconecto. Terminando servidor
+[INFO] 18:58:21:568 Kernel Log/(19999:19999): Servidor listo para recibir al cliente
+[INFO] 19:00:13:009 Kernel Log/(19999:20058): Se conecto un cliente!
+[INFO] 19:01:23:212 Kernel Log/(19999:20058): Se conecto un cliente!
+[INFO] 19:01:23:219 Kernel Log/(19999:20058): Se conecto un cliente!
+[INFO] 19:01:28:227 Kernel Log/(19999:20253): Recibi un paquete de consola
+[INFO] 19:01:28:228 Kernel Log/(19999:20253): Se armó un PCB correctamente
+[INFO] 19:01:28:228 Kernel Log/(19999:20253): Se movio un PCB a la cola READY correctamente
+[INFO] 19:01:34:066 Kernel Log/(19999:20253): Imprimiendo PCB recibido por Consola ...
+[INFO] 19:01:34:067 Kernel Log/(19999:20253): Generando paquete PCB ...
+[INFO] 19:01:34:068 Kernel Log/(19999:20253): Se enviará un PCB a CPU
+[INFO] 19:01:37:729 Kernel Log/(19999:20313): Recibi un paquete de consola
+[INFO] 19:01:37:730 Kernel Log/(19999:20313): Se armó un PCB correctamente
+[INFO] 19:01:37:730 Kernel Log/(19999:20313): Se movio un PCB a la cola READY correctamente
+[WARNING] 19:01:37:730 Kernel Log/(19999:20253): el cliente se desconecto. Terminando servidor
+[INFO] 19:01:37:730 Kernel Log/(19999:20313): Imprimiendo PCB recibido por Consola ...
+[INFO] 19:01:37:731 Kernel Log/(19999:20313): Generando paquete PCB ...
+[INFO] 19:01:37:732 Kernel Log/(19999:20317): Recibi un paquete de consola
+[INFO] 19:01:37:732 Kernel Log/(19999:20317): Se armó un PCB correctamente
+[INFO] 19:03:48:028 Kernel Log/(20656:20656): Servidor listo para recibir al cliente
+[INFO] 19:03:51:169 Kernel Log/(20656:20657): Se conecto un cliente!
+[INFO] 19:03:51:177 Kernel Log/(20656:20661): Recibi un paquete de consola
+[INFO] 19:03:51:178 Kernel Log/(20656:20661): Se armó un PCB correctamente
+[INFO] 19:03:51:178 Kernel Log/(20656:20661): Se movio un PCB a la cola READY correctamente
+[INFO] 19:03:51:179 Kernel Log/(20656:20661): Imprimiendo PCB recibido por Consola ...
+[INFO] 19:03:51:181 Kernel Log/(20656:20661): Generando paquete PCB ...
+[INFO] 19:03:51:181 Kernel Log/(20656:20661): Se enviará un PCB a CPU
+[WARNING] 19:03:51:182 Kernel Log/(20656:20661): el cliente se desconecto. Terminando servidor
+[INFO] 19:03:54:103 Kernel Log/(20656:20657): Se conecto un cliente!
+[INFO] 19:03:54:110 Kernel Log/(20656:20666): Recibi un paquete de consola
+[INFO] 19:03:54:110 Kernel Log/(20656:20666): Se armó un PCB correctamente
+[INFO] 19:21:11:401 Kernel Log/(22573:22573): Servidor listo para recibir al cliente
+[INFO] 19:21:14:908 Kernel Log/(22573:22574): Se conecto un cliente!
+[INFO] 19:21:14:912 Kernel Log/(22573:22579): Recibi un paquete de consola
+[INFO] 19:21:14:912 Kernel Log/(22573:22579): Se armó un PCB correctamente
+[INFO] 19:21:14:913 Kernel Log/(22573:22579): Se movio un PCB a la cola READY correctamente
+[INFO] 19:21:14:913 Kernel Log/(22573:22579): Imprimiendo PCB recibido por Consola ...
+[INFO] 19:21:14:914 Kernel Log/(22573:22579): Generando paquete PCB ...
+[INFO] 19:21:14:914 Kernel Log/(22573:22579): Se enviará un PCB a CPU
+[WARNING] 19:23:20:884 Kernel Log/(22573:22579): el cliente se desconecto. Terminando servidor
+[INFO] 19:23:27:786 Kernel Log/(22573:22574): Se conecto un cliente!
+[INFO] 19:23:27:790 Kernel Log/(22573:22774): Recibi un paquete de consola
+[INFO] 19:23:27:790 Kernel Log/(22573:22774): Se armó un PCB correctamente
+[INFO] 20:38:56:457 Kernel Log/(31220:31220): Servidor listo para recibir al cliente
+[INFO] 20:39:15:508 Kernel Log/(31220:31222): Se conecto un cliente!
+[INFO] 20:39:15:512 Kernel Log/(31220:31268): Recibi un paquete de consola
+[INFO] 20:39:15:513 Kernel Log/(31220:31268): Se armó un PCB correctamente
+[INFO] 20:39:15:513 Kernel Log/(31220:31268): Se movio un PCB a la cola READY correctamente
+[INFO] 20:39:15:513 Kernel Log/(31220:31268): Imprimiendo PCB recibido por Consola ...
+[INFO] 20:39:15:515 Kernel Log/(31220:31268): Generando paquete PCB ...
+[INFO] 20:39:15:515 Kernel Log/(31220:31268): Se enviará un PCB a CPU
+[WARNING] 20:40:04:576 Kernel Log/(31220:31268): el cliente se desconecto. Terminando servidor
+[DEBUG] 20:40:14:502 Kernel Log/(31220:31220): Archivo de configuracion cerrado
+[DEBUG] 20:40:14:503 Kernel Log/(31220:31220): Terminando el Log
+[INFO] 20:41:37:002 Kernel Log/(31534:31534): Servidor listo para recibir al cliente
+[DEBUG] 20:41:37:002 Kernel Log/(31534:31535): SE CREO UN THREAD DE CPU
+[INFO] 20:41:42:897 Kernel Log/(31534:31536): Se conecto un cliente!
+[INFO] 20:41:42:902 Kernel Log/(31534:31544): Recibi un paquete de consola
+[INFO] 20:41:42:903 Kernel Log/(31534:31544): Se armó un PCB correctamente
+[INFO] 20:41:42:903 Kernel Log/(31534:31544): Se movio un PCB a la cola READY correctamente
+[INFO] 20:41:42:904 Kernel Log/(31534:31544): Imprimiendo PCB recibido por Consola ...
+[INFO] 20:41:42:907 Kernel Log/(31534:31544): Generando paquete PCB ...
+[INFO] 20:41:42:907 Kernel Log/(31534:31544): Se enviará un PCB a CPU
+[DEBUG] 20:41:47:004 Kernel Log/(31534:31535): SE CREO UN THREAD DE CPU
+[DEBUG] 20:41:57:004 Kernel Log/(31534:31535): SE CREO UN THREAD DE CPU
+[DEBUG] 20:42:07:006 Kernel Log/(31534:31535): SE CREO UN THREAD DE CPU
+[WARNING] 20:42:08:281 Kernel Log/(31534:31544): el cliente se desconecto. Terminando servidor
+[DEBUG] 20:42:14:029 Kernel Log/(31534:31534): Archivo de configuracion cerrado
+[DEBUG] 20:42:14:029 Kernel Log/(31534:31534): Terminando el Log

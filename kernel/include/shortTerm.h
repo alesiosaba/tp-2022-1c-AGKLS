@@ -1,6 +1,8 @@
 #ifndef STS_H_
 #define STS_H_
 
+#include "../../shared/include/utils/utils.h"
+
 typedef struct nodo_readyQueue
 {
 	pcb* pcb;

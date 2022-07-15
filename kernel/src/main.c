@@ -31,6 +31,10 @@ int main(void) {
 		terminar_programa();
 	}
 
+	pthread_t thr_cpu;
+	pthread_create(&thr_cpu, NULL, (void*) manejar_cpu,(void*)conexionACPU);
+	pthread_detach(thr_cpu);
+
 	//Servidor
 	int server_fd = iniciar_servidor(IP, config_values.puerto_escucha);
 
@@ -41,9 +45,10 @@ int main(void) {
 	log_info(logger, SERVIDOR_LISTO);
 
 
+
 	while (1){
 		sleep(1);
-
+		/*
 		char* leido = readline(">");
 		char** split = string_split(leido, " ");
 		if (string_equals_ignore_case(split[0], "exit"))
@@ -52,6 +57,10 @@ int main(void) {
 			liberarStringArray(split);
 			break;
 		}
+		*/
+
+
+
 
 	}
 
@@ -74,5 +83,21 @@ void manejar_consolas(int server_fd){
 
 	while(server_escuchar(logger, "Consola", server_fd));
 
+}
+
+int msleep(unsigned int tms) {
+    //msleep es una funcion que duerme por la cantidad de tiempo en milisegundos ingresada.
+    //usleep funciona con microsegundos por eso esta multiplicada por 1000
+  return usleep(tms * 1000000);
+}
+
+
+void manejar_cpu(int socket_fd){
+    t_procesar_conexion_args* args = malloc(sizeof(t_procesar_conexion_args));
+    args->log = logger;
+    args->fd = socket_fd;
+    log_debug(logger,"SE CREO UN THREAD DE CPU");
+
+    // ACA VA LA ESCUCHA DEL KERNEL AL CPU
 }
 

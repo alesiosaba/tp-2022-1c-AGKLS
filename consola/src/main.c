@@ -17,6 +17,22 @@ int main(int argc, char** argv) {
 
 	enviar_info_proceso(path_pseudocodigo, tamanio_proceso);
 
+
+	while (1){
+		sleep(1);
+
+		char* leido = readline(">");
+		char** split = string_split(leido, " ");
+		if (string_equals_ignore_case(split[0], "exit"))
+		{
+			free(leido);
+			liberarStringArray(split);
+			break;
+		}
+
+	}
+
+
 	log_info(logger, "Finalizo correctamente el programa");
 	terminar_programa();
 	return EXIT_SUCCESS;

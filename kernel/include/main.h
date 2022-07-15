@@ -12,6 +12,7 @@
 #include <string.h>
 #include "init.h"
 #include "../../shared/include/utils/utils.h"
+#include "../include/comunicacion.h"
 #include "../include/shortTerm.h"
 
 
@@ -21,7 +22,8 @@ void terminar_programa();
 
 // Definiciones Utiles
 void iterator(char* value);
-int manejarConexion(int socket_cliente);
+//int manejarConexion(int socket_cliente);
 void manejar_consolas(int server_fd);
+void manejar_cpu(int socket_fd);
 
 #endif
