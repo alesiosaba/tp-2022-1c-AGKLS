@@ -35,9 +35,9 @@ int manejarConexion(void* void_args){
 			log_info(logger, "Se armó un PCB correctamente");
 
 			movePCBtoReady(nodo_pcb);
-			log_info(logger, "Se movio un PCB a la cola READY correctamente");
+	//		log_debug(logger, "Se movio un PCB a la cola READY correctamente");
 
-			log_info(logger, "Imprimiendo PCB recibido por Consola ...");
+//			log_info(logger, "Imprimiendo PCB recibido por Consola ...");
 			imprimir_PCB(nodo_pcb);
 
 			log_info(logger, "Generando paquete PCB ...");

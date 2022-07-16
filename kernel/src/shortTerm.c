@@ -4,7 +4,7 @@
 
 
 nodo_readyQueue* nuevo_nodo_readyQueue(){
-	nodo_readyQueue* nodo = (struct nodo_radyQueue*)malloc(sizeof(struct nodo_readyQueue));
+	nodo_readyQueue* nodo = (struct nodo_readyQueue*)malloc(sizeof(struct nodo_readyQueue));
 	nodo->sig = NULL;
 	nodo->pcb = NULL;
 	return nodo;
@@ -32,6 +32,7 @@ void agregarPCB(pcb* PCB){
 
 	aux->sig = nuevo_nodo_readyQueue();
 	aux->sig->pcb = *PCB;
+	aux->sig->sig = NULL;
 
 };
 
