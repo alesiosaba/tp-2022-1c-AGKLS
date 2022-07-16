@@ -5,7 +5,6 @@
 #include <stdlib.h>
 #include <signal.h>
 #include <unistd.h>
-#include <sys/socket.h>
 #include <netdb.h>
 #include <string.h>
 #include <assert.h>
@@ -14,24 +13,16 @@
 #include <commons/config.h>
 #include <commons/collections/list.h>
 
-
-
 // Definiciones Utiles
-
-#define IP "127.0.0.1"
 
 // Mensajes y Returns
 
 #define ERROR_AL_ABRIR_ARCHIVO "Error al abrir el Archivo"
 #define TERMINANDO_EL_LOG "Terminando el Log"
 #define CONFIGURACION_CERRADA "Archivo de configuracion cerrado"
-#define SERVIDOR_LISTO "Servidor listo para recibir al cliente"
-#define SERVIDOR_AUSENTE "El Servidor no se encuentra inicializado. Error al conectar con"
-#define SERVIDOR_DESCONEXION "el cliente se desconecto. Terminando servidor"
 #define OPERACION_DESCONOCIDA "Operacion desconocida. No quieras meter la pata"
 #define LECTURA_DE_VALORES "Me llegaron los siguientes valores:\n"
-#define RECEPCION_PAQUETE_CONSOLA "Recibi un paquete de consola"
-#define RECEPCION_PAQUETE_PCB "Recibi un paquete con un PCB"
+
 
 // Nuevos tipos y estructuras de datos
 
@@ -42,7 +33,6 @@ typedef enum op_code
 	PAQUETE_CONSOLA,
 	PAQUETE_PCB
 }op_code;
-
 
 
 typedef struct t_buffer
@@ -123,27 +113,6 @@ int conexion;
 t_log* iniciar_logger(char* log_level, char* logger_path, char* logger);
 t_config* iniciar_config(char* config_path);
 
-
-// Definicion de Comportamientos de Cliente
-
-int crear_conexion(char* ip, char* puerto);
-void enviar_mensaje(char* mensaje, int socket_cliente);
-t_paquete* crear_paquete(op_code codigo_operacion);
-t_paquete* crear_super_paquete(void);
-void agregar_a_paquete(t_paquete* paquete, void* valor, int tamanio);
-void enviar_paquete(t_paquete* paquete, int socket_cliente);
-void liberar_conexion(int *socket_cliente);
-void eliminar_paquete(t_paquete* paquete);
-
-// Definicion de Comportamientos de Servidor
-
-void* recibir_buffer(int*, int);
-
-int iniciar_servidor(char*, char*);
-int esperar_cliente(int);
-t_list* recibir_paquete(int);
-void recibir_mensaje(int);
-int recibir_operacion(int);
 
 // Definicion de funciones para armar/leer PCB
 // listas

@@ -1,6 +1,7 @@
 #include "../include/init.h"
 #include "../include/comunicacion.h"
 #include "../../shared/include/utils/utils.h"
+#include "../../shared/include/utils/sockets.h"
 #include "../include/shortTerm.h"
 
 int manejarConexion(void* void_args){

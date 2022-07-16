@@ -13,6 +13,7 @@
 #include "comunicacion.h"
 #include "init.h"
 #include "../../shared/include/utils/utils.h"
+#include "../../shared/include/utils/sockets.h"
 #include "shortTerm.h"
 
 
