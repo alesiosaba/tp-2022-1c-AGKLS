@@ -1,3 +1,4 @@
+clear
 echo Compilando modulos...
 
 echo

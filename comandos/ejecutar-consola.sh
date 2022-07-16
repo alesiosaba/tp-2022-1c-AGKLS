@@ -1,0 +1,1 @@
+./bin/consola.out "/home/utnso/shared_folder/tp-2022-1c-AGKLS/consola/test/script.txt" 123

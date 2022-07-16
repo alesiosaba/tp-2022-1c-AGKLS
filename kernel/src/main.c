@@ -2,8 +2,6 @@
 
 nodo_readyQueue* readyQueue = NULL;
 
-
-
 //Finalizacion por interrupción cntrl + c
 void sighandler(int s){
 	if(conexionACPU){
@@ -95,9 +93,8 @@ void manejar_cpu(int socket_fd){
     t_procesar_conexion_args* args = malloc(sizeof(t_procesar_conexion_args));
     args->log = logger;
     args->fd = socket_fd;
+    // ACA VA LA ESCUCHA DEL KERNEL AL CPU
     manejarConexion(args);
     log_debug(logger,"SE CREO UN THREAD DE CPU");
-
-    // ACA VA LA ESCUCHA DEL KERNEL AL CPU
 }
 

@@ -1,4 +1,4 @@
-#include "../include/CPU.h"
+#include "../include/main.h"
 
 //Finalizacion por interrupción cntrl + c
 void sighandler(int s){
@@ -10,9 +10,6 @@ void sighandler(int s){
 	terminar_programa();
 	exit(0);
 }
-
-
-
 
 int main(void) {
 
