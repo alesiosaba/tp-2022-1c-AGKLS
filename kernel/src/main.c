@@ -1,6 +1,5 @@
 #include "../include/main.h"
 
-
 nodo_readyQueue* readyQueue = NULL;
 
 
@@ -96,6 +95,7 @@ void manejar_cpu(int socket_fd){
     t_procesar_conexion_args* args = malloc(sizeof(t_procesar_conexion_args));
     args->log = logger;
     args->fd = socket_fd;
+    manejarConexion(args);
     log_debug(logger,"SE CREO UN THREAD DE CPU");
 
     // ACA VA LA ESCUCHA DEL KERNEL AL CPU

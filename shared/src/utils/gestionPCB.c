@@ -420,8 +420,21 @@ void agregar_nuevo_parametro(nodo_instruccion* nodo_instruccion, char* parametro
 // esta funcion sirve para recorrer cualquier PCB ya sea en kernel, cpu, etc.
 void imprimir_PCB(pcb* nodo_pcb){
 
+	printf("STATUS %d", nodo_pcb->state);
+
 	mostrar_lista_instrucciones(nodo_pcb->instrucciones);
 
 }
 
+//FOR TESTING
+pcb* generar_pcb_dummy(){
+	int id;
+	int tamanio;
+	struct nodo_instruccion* instrucciones;
+	struct nodo_instruccion* program_counter;
+	int tabla_paginas;
+	double estimacion_rafaga;
+	state state;
+
+}
 

@@ -31,6 +31,7 @@
 #define OPERACION_DESCONOCIDA "Operacion desconocida. No quieras meter la pata"
 #define LECTURA_DE_VALORES "Me llegaron los siguientes valores:\n"
 #define RECEPCION_PAQUETE_CONSOLA "Recibi un paquete de consola"
+#define RECEPCION_PAQUETE_PCB "Recibi un paquete con un PCB"
 
 // Nuevos tipos y estructuras de datos
 

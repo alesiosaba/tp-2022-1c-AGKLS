@@ -19,6 +19,7 @@ int manejarConexion(void* void_args){
 
 		switch (cod_op) {
 		case MENSAJE:
+			log_info(logger, "Se enviará un PCB a CPU");
 			recibir_mensaje(socket_cliente);
 			break;
 		case PAQUETE:
@@ -45,7 +46,15 @@ int manejarConexion(void* void_args){
 			enviar_paquete(paquete, conexionACPU);
 			eliminar_paquete(paquete);
 
-			log_info(logger, "Se enviará un PCB a CPU");
+			break;
+		case PAQUETE_PCB:
+			log_debug(logger, RECEPCION_PAQUETE_PCB);
+
+			lista = recibir_paquete(socket_cliente);
+
+			struct pcb *pcb = deserializar_PCB(lista);
+
+			imprimir_PCB(pcb);
 
 			break;
 		case -1:

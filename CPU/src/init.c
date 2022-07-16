@@ -69,6 +69,7 @@ tomando como punto de partida la instrucción que indique el Program Counter del
 		manejarConexion(clienteDispatch);
 	}
 
+
 /*
 Quedará a la espera también de conexión a través del puerto interrupt por parte del Kernel para recibir
 mensajes de interrupción en cualquier momento, por lo que estos módulos mantendrán dos conexiones
@@ -165,7 +166,12 @@ int manejarConexion(int socket_cliente){
 
 			imprimir_PCB(pcb);
 
-			enviar_mensaje("TEST", clienteDispatch);
+			pcb->state = EXIT;
+
+			t_paquete* paquete = generar_paquete_pcb(*pcb);
+
+			enviar_paquete(paquete, clienteDispatch);
+
 
 			break;
 		case -1:

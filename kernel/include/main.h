@@ -10,10 +10,10 @@
 #include <readline/readline.h>
 #include <pthread.h>
 #include <string.h>
+#include "comunicacion.h"
 #include "init.h"
 #include "../../shared/include/utils/utils.h"
-#include "../include/comunicacion.h"
-#include "../include/shortTerm.h"
+#include "shortTerm.h"
 
 
 
