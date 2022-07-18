@@ -1,10 +1,3 @@
-/*
- * init.h
- *
- *  Created on: 6 jun. 2022
- *      Author: utnso
- */
-
 #ifndef INIT_H_
 #define INIT_H_
 
@@ -12,6 +5,7 @@
 #define ARCHIVO_DE_LOG "memoria.log"
 #define LOGGER "Memoria Log"
 
+#include "../../shared/include/utils/utils.h"
 
 typedef struct config_t
 {
@@ -33,4 +27,4 @@ config_t leer_config();
 
 
 
-#endif /* INIT_H_ */
+#endif
