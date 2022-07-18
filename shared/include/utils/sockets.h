@@ -15,7 +15,7 @@ t_paquete* crear_super_paquete(void);
 void agregar_a_paquete(t_paquete* paquete, void* valor, int tamanio);
 void enviar_paquete(t_paquete* paquete, int socket_cliente);
 void liberar_conexion(int *socket_cliente);
-void eliminar_paquete(t_paquete* paquete);
+bool eliminar_paquete(t_paquete* paquete);
 
 // Definicion de Comportamientos de Servidor
 
