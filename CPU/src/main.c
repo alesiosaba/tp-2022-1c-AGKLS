@@ -1,23 +1,8 @@
 #include "../include/main.h"
 
-//Finalizacion por interrupción cntrl + c
-void sighandler(int s){
-	/*
-	if(conexionACPU){
-		liberar_conexion(&conexionACPU);
-	}
-	*/
-	terminar_programa();
-	exit(0);
-}
-
 int main(void) {
 
 	signal(SIGINT, sighandler); //Terminar el programa al oprimir ctrl + C en terminal
-
-	char* errorMessageAux = NULL;
-
-	system("clear");
 
 	inicializar();
 
@@ -30,6 +15,27 @@ int main(void) {
 //	terminar_programa(conexion, logger, config);
 	terminar_programa(logger, config);
 	return EXIT_SUCCESS;
+}
+
+//Finalizacion por interrupción ctrl + c
+void sighandler(int s){
+
+	if(conexionAMemoria){
+		liberar_conexion(&conexionAMemoria);
+	}
+
+	terminar_programa();
+	exit(0);
+}
+
+void terminar_programa(){
+
+	config_destroy(config);
+	log_debug(logger,CONFIGURACION_CERRADA);
+	liberar_conexion(&conexionAMemoria);
+	log_debug(logger,TERMINANDO_EL_LOG);
+	log_destroy(logger);
+
 }
 
 /*

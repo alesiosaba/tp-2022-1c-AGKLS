@@ -24,7 +24,7 @@ config_t config_values;
 
 int serverDispatch;
 int clienteDispatch;
-int conexionAKernel;
+int conexionAMemoria;
 
 void inicializar();
 config_t leer_config();

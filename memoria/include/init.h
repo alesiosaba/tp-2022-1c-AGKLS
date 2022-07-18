@@ -21,7 +21,6 @@ typedef struct config_t
 } config_t;
 
 config_t config_values;
-
 void inicializar();
 config_t leer_config();
 

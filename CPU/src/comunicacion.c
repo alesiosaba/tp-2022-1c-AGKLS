@@ -11,9 +11,9 @@ la configuración relevante de la misma que le permita traducir las direcciones 
 Esto debería incluir al menos cantidad de entradas por tabla de páginas y tamaño de página.
 */
 
-	//conexion = crear_conexion(config_values.IP_memoria, config_values.puerto_memoria);
+	conexionAMemoria = crear_conexion(config_values.IP_memoria, config_values.puerto_memoria);
 
-
+	enviar_mensaje("Soy un mensaje enviado desde CPU", conexionAMemoria);
 /*
 Quedará a la espera de conexión a través del puerto dispatch por parte del Kernel, quien, una vez conectado,
 le enviará un PCB para ejecutar. Habiéndose recibido, se procederá a realizar el ciclo de instrucción
@@ -25,7 +25,6 @@ tomando como punto de partida la instrucción que indique el Program Counter del
 	clienteDispatch = esperar_cliente(serverDispatch);
 
 
-	// conexionAKernel = crear_conexion(IP,"8000");
 	while(1){
 		manejarConexion(clienteDispatch);
 	}

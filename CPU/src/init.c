@@ -20,42 +20,13 @@ config_t leer_config(){
 	config_t config_values;
 
 	config_values.entradas_TLB = config_get_string_value(config, "ENTRADAS_TLB");
-	//config_values.entradas_TLB = config_get_int_value(config, "ENTRADAS_TLB");
 	config_values.reemplazo_TLB = config_get_string_value(config, "REEMPLAZO_TLB");
 	config_values.retardo_NOOP = config_get_string_value(config, "RETARDO_NOOP");
-	//config_values.retardo_NOOP = config_get_int_value(config, "RETARDO_NOOP");
 	config_values.IP_memoria = config_get_string_value(config, "IP_MEMORIA");
 	config_values.puerto_memoria = config_get_string_value(config, "PUERTO_MEMORIA");
 	config_values.puerto_escucha_dispatch = config_get_string_value(config, "PUERTO_ESCUCHA_DISPATCH");
 	config_values.puerto_escucha_interrupt = config_get_string_value(config, "PUERTO_ESCUCHA_INTERRUPT");
 
-
 	return config_values;
-
-}
-
-// tms es la cantidad de segundos del sleep
-int msleep(unsigned int tms) {
-	//msleep es una funcion que duerme por la cantidad de tiempo en milisegundos ingresada.
-	//usleep funciona con microsegundos por eso esta multiplicada por 1000
-  return usleep(tms * 1000000);
-}
-
-
-void terminar_programa(t_log* logger, t_config* config)
-{
-	// Libero lo que utilizamos (conexion, log y config)
-
-	//TO DO
-	//conexion
-
-	if(logger != NULL) {
-		log_destroy(logger);
-		printf("\nlogger destruido \n");
-	}
-	if(config != NULL) {
-		config_destroy(config);
-		printf("config destruida \n");
-	}
 
 }

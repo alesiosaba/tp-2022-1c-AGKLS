@@ -105,24 +105,8 @@ t_config* config;
 t_log* iniciar_logger(char* log_level, char* logger_path, char* logger);
 t_config* iniciar_config(char* config_path);
 
-
-// Definicion de funciones para armar/leer PCB
-// listas
-void mostrar_lista(nodo_instruccion* lista_instrucciones);
-nodo_instruccion* armar_lista_instrucciones(t_list* lista);
-// instrucciones
-nodo_instruccion* agregar_instruccion(nodo_instruccion* lista_instrucciones, void* buffer);
-// nodos instrucciones
-nodo_instruccion* nuevo_nodo_instruccion();
-void completar_nodo_instruccion(nodo_instruccion* nodo_instruccion, char* buffer_original);
-// nodos parametro
-nodo_parametro* nuevo_nodo_parametro();
-// parametros
-nodo_parametro* agregar_primer_parametro(char* parametro);
-void agregar_nuevo_parametro(nodo_instruccion* nodo_instruccion, char* parametro);
-
-
-// Definicion de otras utilidades
+// Definicion de Otras Utilidades
+int msleep(unsigned int tms);
 void liberarStringArray(char** stringArray);
 int tamanioStringArray(char** a);
 FILE* abrir_archivo_lectura(char* path_pseudocodigo);

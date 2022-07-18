@@ -68,12 +68,3 @@ void terminar_programa()
 	log_debug(logger,TERMINANDO_EL_LOG);
 	log_destroy(logger);
 }
-
-
-int msleep(unsigned int tms) {
-    //msleep es una funcion que duerme por la cantidad de tiempo en milisegundos ingresada.
-    //usleep funciona con microsegundos por eso esta multiplicada por 1000
-  return usleep(tms * 1000000);
-}
-
-

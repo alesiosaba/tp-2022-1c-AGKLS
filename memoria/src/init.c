@@ -14,8 +14,6 @@ void inicializar(){
 	config_values = leer_config();
 	log_info(logger, "Lei la siguiente config: \n %s \n %s \n %s \n %s \n %s \n %s \n %s \n",config_values.puerto_escucha,config_values.tam_memoria,config_values.tam_pagina,config_values.entradas_por_tabla,config_values.retardo_memoria,config_values.algoritmo_reemplazo,config_values.marcos_por_proceso,config_values.retardo_swap,config_values.path_swap);
 
-
-
 }
 
 
