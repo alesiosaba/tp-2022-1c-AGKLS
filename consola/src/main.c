@@ -11,9 +11,12 @@ int main(int argc, char** argv) {
 		return EXIT_FAILURE;
 	}
 
+
 	// Asigno parametros enviados por consola
 	char* path_pseudocodigo = argv[1];
 	char* tamanio_proceso = argv[2];
+
+	system("clear");
 
 	enviar_info_proceso(path_pseudocodigo, tamanio_proceso);
 

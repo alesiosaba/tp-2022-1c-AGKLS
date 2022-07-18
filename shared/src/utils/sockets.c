@@ -27,14 +27,20 @@ int crear_conexion(char *ip, char* puerto)
 	hints.ai_socktype = SOCK_STREAM;
 	hints.ai_flags = AI_PASSIVE;
 
-	getaddrinfo(ip, puerto, &hints, &server_info);
+	if(getaddrinfo(ip, puerto, &hints, &server_info)){
+		 log_error(logger, "ERROR EN GETADDRINFO");
+		 exit(-1);
+	}
 
 	// Ahora vamos a crear el socket.
 	int socket_cliente = 0;
 	socket_cliente = socket(server_info->ai_family, server_info->ai_socktype, server_info->ai_protocol);
 
 	// Ahora que tenemos el socket, vamos a conectarlo
-	connect(socket_cliente, server_info->ai_addr, server_info->ai_addrlen);
+	if(connect(socket_cliente, server_info->ai_addr, server_info->ai_addrlen) == -1){
+		freeaddrinfo(server_info);
+		return(-1);
+	}
 
 	freeaddrinfo(server_info);
 
@@ -110,14 +116,19 @@ void enviar_paquete(t_paquete* paquete, int socket_cliente)
 
 void eliminar_paquete(t_paquete* paquete)
 {
-	free(paquete->buffer->stream);
-	free(paquete->buffer);
-	free(paquete);
+	if(paquete){
+		free(paquete->buffer->stream);
+		free(paquete->buffer);
+		free(paquete);
+		return true;
+	}
+	else return false;
+
 }
 
 void liberar_conexion(int *socket_cliente)
 {
-	close(*socket_cliente);
+	close(socket_cliente);
 	*socket_cliente = -1;
 }
 

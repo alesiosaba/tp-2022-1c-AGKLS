@@ -1,13 +1,7 @@
 #ifndef COMU_H_
 #define COMU_H_
 
-#include <stdint.h>
-#include <string.h>
-#include <pthread.h>
-#include <inttypes.h>
-#include <commons/log.h>
-
-#include "../../shared/include/utils/utils.h"
+#include "planificacion.h"
 
 
 typedef struct {
@@ -17,8 +11,9 @@ typedef struct {
 } t_procesar_conexion_args;
 
 void iterator(char* value);
+void manejar_consolas(int server_fd);
 int manejarConexion(void* void_args);
 int server_escuchar(t_log* logger, char* server_name, int server_socket);
-
+void manejar_cpu(int socket_fd);
 
 #endif

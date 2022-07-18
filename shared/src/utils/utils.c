@@ -57,3 +57,16 @@ FILE* abrir_archivo_lectura(char* path_pseudocodigo){
 
 	return file;
 };
+
+void error_handler(t_log* logger, char* message_handler, char *message, char *var1, char *var2){
+	message_handler = string_new();
+
+	string_append(&message_handler, message);
+	if(var1)
+		string_append(&message_handler, var1);
+	if(var2)
+		string_append(&message_handler, var2);
+
+	log_error(logger, message_handler);
+
+}

@@ -1,3 +1,5 @@
+#include "stdio.h"
+#include "stdlib.h"
 #include "../include/init.h"
 #include "../include/comunicacion.h"
 
@@ -44,6 +46,8 @@ en simultáneo.
 int manejarConexion(int socket_cliente){
 
 	t_list* lista;
+	struct pcb *pcb;
+
 	while (1) {
 		int cod_op = recibir_operacion(socket_cliente);
 		switch (cod_op) {
@@ -55,18 +59,11 @@ int manejarConexion(int socket_cliente){
 			log_info(logger, LECTURA_DE_VALORES);
 			break;
 		case PAQUETE_PCB:
-			log_info(logger, "Recibi un pcb");
-			lista = recibir_paquete(socket_cliente);
-
-			struct pcb *pcb = deserializar_PCB(lista);
-
+			log_debug(logger, RECEPCION_PAQUETE_PCB);
+			recv_paquete_pcb(socket_cliente, &pcb);
 			imprimir_PCB(pcb);
-
 			pcb->state = EXIT;
-
-			t_paquete* paquete = generar_paquete_pcb(*pcb);
-
-			enviar_paquete(paquete, clienteDispatch);
+			send_paquete_pcb(socket_cliente, pcb);
 
 			break;
 		case -1:

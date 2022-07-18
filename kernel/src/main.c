@@ -14,38 +14,32 @@ void sighandler(int s){
 int main(void) {
 
 	signal(SIGINT, sighandler); //Terminar el programa al oprimir ctrl + C en terminal
-
-	char* errorMessageAux = NULL;
-
 	inicializar();
+	pthread_create(&thr_comandos, NULL, (void*) &recibirComandos, NULL);
+	pthread_detach(&thr_comandos);
+	servidor_procesos();
+	conectar_cpu();
 
-	conexionACPU = crear_conexion(IP,config_values.puerto_cpu_dispatch);
-
-	if(conexionACPU == -1){
-		strcpy(errorMessageAux, SERVIDOR_AUSENTE);
-		strcat(errorMessageAux, " CPU");
-		log_error(logger, errorMessageAux);
-		terminar_programa();
-	}
-
-	pthread_t thr_cpu;
-	pthread_create(&thr_cpu, NULL, (void*) manejar_cpu,(void*)conexionACPU);
-	pthread_detach(thr_cpu);
-
-	//Servidor
-	int server_fd = iniciar_servidor(IP, config_values.puerto_escucha);
-
-	pthread_t consolas;
-	pthread_create(&consolas, NULL, (void*) manejar_consolas,(void*)server_fd);
-	pthread_detach(consolas);
 
 	log_info(logger, SERVIDOR_LISTO);
 
+	esperar_hilos();
+
+	terminar_programa();
+	return EXIT_SUCCESS;
+}
 
 
+void matar_hilos(){
+	pthread_cancel(thr_consolas);
+    pthread_cancel(thr_cpu);
+
+
+}
+
+void recibirComandos(){
 	while (1){
 		sleep(1);
-		/*
 		char* leido = readline(">");
 		char** split = string_split(leido, " ");
 		if (string_equals_ignore_case(split[0], "exit"))
@@ -54,33 +48,27 @@ int main(void) {
 			liberarStringArray(split);
 			break;
 		}
-		*/
-
-
-
-
 	}
-
-	liberar_conexion(&conexionACPU);
-	terminar_programa();
-	return EXIT_SUCCESS;
+	matar_hilos();
 }
+
+
+void esperar_hilos() {
+        pthread_join(thr_cpu,NULL);
+        pthread_join(thr_consolas, NULL);
+
+}
+
 
 void terminar_programa()
 {
 	config_destroy(config);
 	log_debug(logger,CONFIGURACION_CERRADA);
-	close(conexion);
+	liberar_conexion(&server_fd);
 	log_debug(logger,TERMINANDO_EL_LOG);
 	log_destroy(logger);
 }
 
-
-void manejar_consolas(int server_fd){
-
-	while(server_escuchar(logger, "Consola", server_fd));
-
-}
 
 int msleep(unsigned int tms) {
     //msleep es una funcion que duerme por la cantidad de tiempo en milisegundos ingresada.
@@ -88,13 +76,4 @@ int msleep(unsigned int tms) {
   return usleep(tms * 1000000);
 }
 
-
-void manejar_cpu(int socket_fd){
-    t_procesar_conexion_args* args = malloc(sizeof(t_procesar_conexion_args));
-    args->log = logger;
-    args->fd = socket_fd;
-    // ACA VA LA ESCUCHA DEL KERNEL AL CPU
-    manejarConexion(args);
-    log_debug(logger,"SE CREO UN THREAD DE CPU");
-}
 

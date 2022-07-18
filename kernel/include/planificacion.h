@@ -1,7 +1,7 @@
 #ifndef STS_H_
 #define STS_H_
 
-#include "../../shared/include/utils/utils.h"
+#include "../include/init.h"
 
 typedef struct nodo_readyQueue
 {
@@ -16,6 +16,10 @@ nodo_readyQueue* nuevo_nodo_readyQueue();
 void agregarPrimerPCB(pcb* PCB);
 void agregarPCB(pcb* pcb);
 
-void movePCBtoReady(pcb* PCB);
+void movePCBtoReady(pcb** PCB);
+
+bool planificar(int algoritmo, pcb *nodo_pcb);
+void ejecutarFIFO();
+
 
 #endif

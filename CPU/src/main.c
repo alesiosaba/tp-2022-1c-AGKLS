@@ -17,6 +17,8 @@ int main(void) {
 
 	char* errorMessageAux = NULL;
 
+	system("clear");
+
 	inicializar();
 
 	conexiones();

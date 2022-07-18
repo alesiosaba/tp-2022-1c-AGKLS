@@ -4,14 +4,6 @@
 #include <sys/socket.h>
 #include "utils.h"
 
-// Mensajes y Returns
-
-#define SERVIDOR_LISTO "Servidor listo para recibir al cliente"
-#define SERVIDOR_AUSENTE "El Servidor no se encuentra inicializado. Error al conectar con"
-#define SERVIDOR_DESCONEXION "el cliente se desconecto. Terminando servidor"
-#define RECEPCION_PAQUETE_CONSOLA "Recibi un paquete de consola"
-#define RECEPCION_PAQUETE_PCB "Recibi un paquete con un PCB"
-
 #define IP "127.0.0.1"
 
 // Definicion de Comportamientos de Cliente

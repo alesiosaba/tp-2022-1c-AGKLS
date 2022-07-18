@@ -1,8 +1,18 @@
-#include "../include/init.h"
 #include "../include/comunicacion.h"
-#include "../../shared/include/utils/utils.h"
-#include "../../shared/include/utils/sockets.h"
-#include "../include/shortTerm.h"
+
+void manejar_consolas(int server_fd){
+	while(server_escuchar(logger, "Consola", server_fd));
+}
+
+
+void manejar_cpu(int socket_fd){
+    t_procesar_conexion_args* args = malloc(sizeof(t_procesar_conexion_args));
+    args->log = logger;
+    args->fd = socket_fd;
+    // ACA VA LA ESCUCHA DEL KERNEL AL CPU
+    manejarConexion(args);
+ }
+
 
 int manejarConexion(void* void_args){
 
@@ -29,33 +39,17 @@ int manejarConexion(void* void_args){
 			list_iterate(lista, (void*) iterator);
 			break;
 		case PAQUETE_CONSOLA:
-			lista = recibir_paquete(socket_cliente);
-			log_info(logger, RECEPCION_PAQUETE_CONSOLA);
+			recv_paquete_consola(socket_cliente, &nodo_pcb);
 
-			nodo_pcb = armar_PCB_nuevo(lista);
-			log_info(logger, "Se armó un PCB correctamente");
+			planificar(config_values.algoritmo_planificacion, nodo_pcb);
 
-			movePCBtoReady(nodo_pcb);
-	//		log_debug(logger, "Se movio un PCB a la cola READY correctamente");
-
-//			log_info(logger, "Imprimiendo PCB recibido por Consola ...");
 			imprimir_PCB(nodo_pcb);
-
-			log_info(logger, "Generando paquete PCB ...");
-			t_paquete* paquete = generar_paquete_pcb(*nodo_pcb);
-
-			enviar_paquete(paquete, conexionACPU);
-			eliminar_paquete(paquete);
 
 			break;
 		case PAQUETE_PCB:
 			log_debug(logger, RECEPCION_PAQUETE_PCB);
-
-			lista = recibir_paquete(socket_cliente);
-
-			struct pcb *pcb = deserializar_PCB(lista);
-
-			imprimir_PCB(pcb);
+			recv_paquete_pcb(socket_cliente, &nodo_pcb);
+			imprimir_PCB(nodo_pcb);
 
 			break;
 		case -1:
@@ -87,6 +81,5 @@ int server_escuchar(t_log* logger, char* server_name, int server_socket) {
     }
     return 0;
 }
-
 
 

@@ -1,21 +1,29 @@
 #include "../include/init.h"
-#include "../../shared/include/utils/utils.h"
+//#include "../../shared/include/utils/utils.h"
 
 
 config_t inicializar(){
+	system("clear");
+	errorMessageAux = string_new();
 //Logs y Config
 	char* log_level;
-
-
 	config = iniciar_config(ARCHIVO_DE_CONFIGURACION);
 	config_values = leer_config();
 	log_level = config_values.log_level;
 	logger = iniciar_logger(log_level, ARCHIVO_DE_LOG, LOGGER);
 
 	return config_values;
-
 }
 
+
+ALGORITMOS str2enum (char *str)
+{
+     int j;
+     for (j = 0;  j < sizeof (conversion) / sizeof (conversion[0]);  ++j)
+         if (!strcmp (str, conversion[j].str))
+             return conversion[j].val;
+     //error_message ("no such string");
+}
 
 config_t leer_config(){
 
@@ -28,7 +36,7 @@ config_t leer_config(){
 	config_values.puerto_cpu_dispatch = config_get_string_value(config, "PUERTO_CPU_DISPATCH");
 	config_values.puerto_cpu_interrupt= config_get_string_value(config, "PUERTO_CPU_INTERRUPT");
 	config_values.puerto_escucha = config_get_string_value(config, "PUERTO_ESCUCHA");
-	config_values.algoritmo_planificacion = config_get_string_value(config, "ALGORITMO_PLANIFICACION");
+	config_values.algoritmo_planificacion = str2enum(config_get_string_value(config, "ALGORITMO_PLANIFICACION"));
 	config_values.estimacion_inicial = config_get_double_value(config, "ESTIMACION_INICIAL");
 	config_values.alfa = config_get_double_value(config, "ALFA");
 	config_values.grado_multiprog = config_get_int_value(config, "GRADO_MULTIPROGRAMACION");
@@ -37,3 +45,6 @@ config_t leer_config(){
 	return config_values;
 
 }
+
+
+

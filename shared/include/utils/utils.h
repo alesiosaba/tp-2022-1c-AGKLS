@@ -8,20 +8,11 @@
 #include <netdb.h>
 #include <string.h>
 #include <assert.h>
+#include "messages.h"
 #include <commons/log.h>
 #include <commons/string.h>
 #include <commons/config.h>
 #include <commons/collections/list.h>
-
-// Definiciones Utiles
-
-// Mensajes y Returns
-
-#define ERROR_AL_ABRIR_ARCHIVO "Error al abrir el Archivo"
-#define TERMINANDO_EL_LOG "Terminando el Log"
-#define CONFIGURACION_CERRADA "Archivo de configuracion cerrado"
-#define OPERACION_DESCONOCIDA "Operacion desconocida. No quieras meter la pata"
-#define LECTURA_DE_VALORES "Me llegaron los siguientes valores:\n"
 
 
 // Nuevos tipos y estructuras de datos
@@ -100,10 +91,11 @@ typedef struct nodo_pcb
 
 
 //Variables globales
+int conexion;
 
 t_log* logger;
 t_config* config;
-int conexion;
+
 
 // Definicion de Implementacion obligatoria (Inicialización & Terminacion)
 
@@ -129,10 +121,12 @@ nodo_parametro* nuevo_nodo_parametro();
 nodo_parametro* agregar_primer_parametro(char* parametro);
 void agregar_nuevo_parametro(nodo_instruccion* nodo_instruccion, char* parametro);
 
+
 // Definicion de otras utilidades
 void liberarStringArray(char** stringArray);
 int tamanioStringArray(char** a);
 FILE* abrir_archivo_lectura(char* path_pseudocodigo);
+void error_handler(t_log* logger, char* message_handler,char *message, char *var1, char *var2);
 
 
 #endif /* UTILS_H_ */

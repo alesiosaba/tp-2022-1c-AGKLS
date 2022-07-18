@@ -45,6 +45,10 @@ pcb* deserializar_PCB(t_list* lista){
 	t_list* tamanio = list_remove(lista, 0);
 	pcb->tamanio = atoi(tamanio);
 
+	// agarro el tercer elemento (state)
+	t_list* state = list_remove(lista, 0);
+	pcb->state = atoi(state);
+
 	// armo la lista de instrucciones y la guardo en el PCB
 	pcb->instrucciones = deserializar_lista_instrucciones(lista);
 
@@ -85,8 +89,6 @@ t_paquete* generar_paquete_pcb(struct pcb PCB_a_enviar){
 	t_paquete* paquete = crear_paquete(PAQUETE_PCB);
 	nodo_instruccion* nodo_instruccion = PCB_a_enviar.instrucciones;
 
-	// Saco lo del PCB a enviar a variables
-	// lo que NO sean instrucciones
 	char* id =  string_new();
 	sprintf(id, "%d\0", PCB_a_enviar.id);
 	agregar_a_paquete(paquete, id, strlen(id) + 1);
@@ -94,6 +96,10 @@ t_paquete* generar_paquete_pcb(struct pcb PCB_a_enviar){
 	char* tamanio = string_new();
 	sprintf(tamanio, "%d\0", PCB_a_enviar.tamanio);
 	agregar_a_paquete(paquete, tamanio, strlen(tamanio));
+
+	char* state = string_new();
+	sprintf(state, "%d\0", PCB_a_enviar.state);
+	agregar_a_paquete(paquete, state, strlen(state));
 
 
 	// double tabla_paginas = PCB_a_enviar.tabla_paginas;
@@ -112,13 +118,6 @@ t_paquete* generar_paquete_pcb(struct pcb PCB_a_enviar){
 	// buffer para concatenar instruccion y sus parametros
 	char* renglon_instruccion = string_new();
 
-/* GUIDO: No enviar el program counter, porque la CPU lo puede tomar como la primer direccion de la lista de instrucciones.
-
-	// genero el renglon para el program_counter
-	renglon_instruccion = generar_renglon_instruccion(PCB_a_enviar.program_counter->instruccion);
-
-	agregar_a_paquete(paquete, renglon_instruccion, sizeof(renglon_instruccion));
-*/
 	//GENERAR LISTA DE INSTRUCCIONES COMO RENGLONES
 
 	while(nodo_instruccion != NULL){
@@ -135,6 +134,7 @@ t_paquete* generar_paquete_pcb(struct pcb PCB_a_enviar){
 
 	 id
 	 tamanio
+	 state
 	 tabla_paginas 		-- Todavia no implementado
 	 estimacion_rafaga  -- Todavia no implementado
 

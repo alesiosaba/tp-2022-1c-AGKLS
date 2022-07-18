@@ -1,6 +1,5 @@
-#include "../../shared/include/utils/utils.h"
-#include "../include/init.h"
-#include "../include/shortTerm.h"
+#include "../include/planificacion.h"
+
 
 
 nodo_readyQueue* nuevo_nodo_readyQueue(){
@@ -38,13 +37,43 @@ void agregarPCB(pcb* PCB){
 
 
 
-void movePCBtoReady(pcb* new_pcb){
-	(*new_pcb).state = READY ;
+void movePCBtoReady(pcb** new_pcb){
+	(*new_pcb)->state = READY ;
 
 	if(readyQueue == NULL){
-		agregarPrimerPCB(new_pcb);
+		agregarPrimerPCB(*new_pcb);
 	}else{
-		agregarPCB(new_pcb);
+		agregarPCB(*new_pcb);
 	}
 
 }
+
+
+bool planificar(int algoritmo, pcb *nodo_pcb){
+
+	switch (algoritmo){
+		case FIFO:
+			if(!readyQueue){
+				movePCBtoReady(&nodo_pcb);
+				ejecutarFIFO();
+			}
+			else{
+				movePCBtoReady(&nodo_pcb);
+			}
+			break;
+		default:
+			break;
+	}
+}
+
+void ejecutarFIFO(){
+	nodo_readyQueue *temp = readyQueue;
+
+	if(readyQueue->pcb){
+		send_paquete_pcb(conexionACPU,readyQueue->pcb);
+		readyQueue = readyQueue->sig;
+		free(temp);
+	}
+}
+
+

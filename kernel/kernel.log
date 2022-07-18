@@ -29,3 +29,502 @@
 [INFO] 11:31:01:039 Kernel Log/(27024:27026): Se conecto un cliente!
 [INFO] 11:31:01:043 Kernel Log/(27024:27042): Recibi un paquete de consola
 [INFO] 11:31:01:044 Kernel Log/(27024:27042): Se armó un PCB correctamente
+[INFO] 16:12:03:622 Kernel Log/(15929:15929): Servidor listo para recibir al cliente
+[INFO] 16:12:08:361 Kernel Log/(15929:15931): Se conecto un cliente!
+[INFO] 16:12:08:365 Kernel Log/(15929:15938): Recibi un paquete de consola
+[INFO] 16:12:08:365 Kernel Log/(15929:15938): Se armó un PCB correctamente
+[DEBUG] 16:12:08:366 Kernel Log/(15929:15938): Generando paquete PCB ...
+[DEBUG] 16:12:08:367 Kernel Log/(15929:15930): Recibi un paquete con un PCB
+[WARNING] 16:12:22:120 Kernel Log/(15929:15938): el cliente se desconecto. Terminando servidor
+[WARNING] 16:12:24:187 Kernel Log/(15929:15930): el cliente se desconecto. Terminando servidor
+[DEBUG] 16:12:24:239 Kernel Log/(15929:15930): SE CREO UN THREAD DE CPU
+[DEBUG] 16:12:24:753 Kernel Log/(15929:15929): Archivo de configuracion cerrado
+[DEBUG] 16:12:24:753 Kernel Log/(15929:15929): Terminando el Log
+[INFO] 11:53:24:399 Kernel Log/(15195:15195): Servidor listo para recibir al cliente
+[INFO] 11:53:27:173 Kernel Log/(15195:15197): Se conecto un cliente!
+[DEBUG] 11:53:27:185 Kernel Log/(15195:15210): Se recibio un paquete de PCB
+[INFO] 11:56:30:020 Kernel Log/(15534:15534): Servidor listo para recibir al cliente
+[INFO] 11:56:37:090 Kernel Log/(15534:15574): Se conecto un cliente!
+[DEBUG] 11:57:28:498 Kernel Log/(15534:15589): Se recibio un paquete de PCB
+[INFO] 12:03:21:196 Kernel Log/(16858:16858): Servidor listo para recibir al cliente
+[INFO] 12:03:24:398 Kernel Log/(16858:16860): Se conecto un cliente!
+[DEBUG] 12:03:24:401 Kernel Log/(16858:16864): Se recibio un paquete de PCB
+[INFO] 12:05:27:910 Kernel Log/(17186:17186): Servidor listo para recibir al cliente
+[INFO] 12:05:32:360 Kernel Log/(17186:17226): Se conecto un cliente!
+[DEBUG] 12:06:03:150 Kernel Log/(17186:17240): Se recibio un paquete de PCB
+[DEBUG] 12:06:33:916 Kernel Log/(17186:17240): Generando paquete PCB ...
+[DEBUG] 12:06:33:918 Kernel Log/(17186:17225): Recibi un paquete con un PCB
+[INFO] 12:07:56:629 Kernel Log/(17482:17482): Servidor listo para recibir al cliente
+[WARNING] 12:08:26:068 Kernel Log/(17482:17483): el cliente se desconecto. Terminando servidor
+[DEBUG] 12:08:26:126 Kernel Log/(17482:17483): SE CREO UN THREAD DE CPU
+[DEBUG] 12:08:27:121 Kernel Log/(17482:17482): Archivo de configuracion cerrado
+[DEBUG] 12:08:27:121 Kernel Log/(17482:17482): Terminando el Log
+[INFO] 12:09:39:929 Kernel Log/(18062:18062): Servidor listo para recibir al cliente
+[INFO] 12:09:42:482 Kernel Log/(18062:18064): Se conecto un cliente!
+[DEBUG] 12:09:42:485 Kernel Log/(18062:18082): Se recibio un paquete de PCB
+[DEBUG] 12:09:42:486 Kernel Log/(18062:18082): Generando paquete PCB ...
+[DEBUG] 12:09:42:487 Kernel Log/(18062:18063): Recibi un paquete con un PCB
+[WARNING] 12:09:57:311 Kernel Log/(18062:18063): el cliente se desconecto. Terminando servidor
+[DEBUG] 12:09:57:371 Kernel Log/(18062:18063): SE CREO UN THREAD DE CPU
+[DEBUG] 12:09:58:316 Kernel Log/(18062:18062): Archivo de configuracion cerrado
+[DEBUG] 12:09:58:317 Kernel Log/(18062:18062): Terminando el Log
+[INFO] 12:11:22:783 Kernel Log/(18310:18310): Servidor listo para recibir al cliente
+[INFO] 12:11:33:768 Kernel Log/(18310:18312): Se conecto un cliente!
+[DEBUG] 12:11:33:773 Kernel Log/(18310:18338): Se recibio un paquete de PCB
+[DEBUG] 12:11:33:774 Kernel Log/(18310:18338): Generando paquete PCB ...
+[DEBUG] 12:12:13:452 Kernel Log/(18310:18311): Recibi un paquete con un PCB
+[WARNING] 12:12:54:278 Kernel Log/(18310:18311): el cliente se desconecto. Terminando servidor
+[DEBUG] 12:12:54:346 Kernel Log/(18310:18311): SE CREO UN THREAD DE CPU
+[DEBUG] 12:13:05:001 Kernel Log/(18310:18310): Archivo de configuracion cerrado
+[DEBUG] 12:13:05:001 Kernel Log/(18310:18310): Terminando el Log
+[INFO] 12:16:35:780 Kernel Log/(19331:19331): Servidor listo para recibir al cliente
+[INFO] 12:16:39:167 Kernel Log/(19331:19333): Se conecto un cliente!
+[DEBUG] 12:16:39:170 Kernel Log/(19331:19341): Se recibio un paquete de PCB
+[DEBUG] 12:16:39:171 Kernel Log/(19331:19341): Generando paquete PCB ...
+[DEBUG] 12:16:39:172 Kernel Log/(19331:19332): Recibi un paquete con un PCB
+[WARNING] 12:16:47:629 Kernel Log/(19331:19341): el cliente se desconecto. Terminando servidor
+[INFO] 12:16:49:661 Kernel Log/(19331:19333): Se conecto un cliente!
+[DEBUG] 12:16:49:664 Kernel Log/(19331:19355): Se recibio un paquete de PCB
+[INFO] 12:19:19:488 Kernel Log/(19650:19650): Servidor listo para recibir al cliente
+[INFO] 12:19:22:206 Kernel Log/(19650:19652): Se conecto un cliente!
+[DEBUG] 12:19:22:209 Kernel Log/(19650:19660): Se recibio un paquete de PCB
+[DEBUG] 12:19:22:210 Kernel Log/(19650:19660): Generando paquete PCB ...
+[DEBUG] 12:20:54:875 Kernel Log/(19650:19651): Recibi un paquete con un PCB
+[WARNING] 12:21:24:937 Kernel Log/(19650:19651): el cliente se desconecto. Terminando servidor
+[DEBUG] 12:21:25:001 Kernel Log/(19650:19651): SE CREO UN THREAD DE CPU
+[DEBUG] 12:21:29:273 Kernel Log/(19650:19650): Archivo de configuracion cerrado
+[DEBUG] 12:21:29:274 Kernel Log/(19650:19650): Terminando el Log
+[INFO] 12:24:45:433 Kernel Log/(20639:20639): Servidor listo para recibir al cliente
+[INFO] 12:24:48:098 Kernel Log/(20639:20641): Se conecto un cliente!
+[DEBUG] 12:24:48:102 Kernel Log/(20639:20654): Se recibio un paquete de PCB
+[DEBUG] 12:24:48:104 Kernel Log/(20639:20654): Generando paquete PCB ...
+[DEBUG] 12:24:48:105 Kernel Log/(20639:20640): Recibi un paquete con un PCB
+[WARNING] 12:25:40:694 Kernel Log/(20639:20640): el cliente se desconecto. Terminando servidor
+[DEBUG] 12:25:40:753 Kernel Log/(20639:20640): SE CREO UN THREAD DE CPU
+[DEBUG] 12:25:41:948 Kernel Log/(20639:20639): Archivo de configuracion cerrado
+[DEBUG] 12:25:41:948 Kernel Log/(20639:20639): Terminando el Log
+[INFO] 12:30:35:184 Kernel Log/(21579:21579): Servidor listo para recibir al cliente
+[INFO] 12:30:37:860 Kernel Log/(21579:21581): Se conecto un cliente!
+[DEBUG] 12:30:37:863 Kernel Log/(21579:21589): Se recibio un paquete de PCB
+[DEBUG] 12:30:37:865 Kernel Log/(21579:21589): Generando paquete PCB ...
+[DEBUG] 12:30:37:865 Kernel Log/(21579:21580): Recibi un paquete con un PCB
+[WARNING] 12:31:01:875 Kernel Log/(21579:21580): el cliente se desconecto. Terminando servidor
+[DEBUG] 12:31:01:936 Kernel Log/(21579:21580): SE CREO UN THREAD DE CPU
+[DEBUG] 12:31:05:380 Kernel Log/(21579:21579): Archivo de configuracion cerrado
+[DEBUG] 12:31:05:380 Kernel Log/(21579:21579): Terminando el Log
+[INFO] 12:38:08:530 Kernel Log/(23259:23259): Servidor listo para recibir al cliente
+[INFO] 12:38:15:072 Kernel Log/(23259:23301): Se conecto un cliente!
+[DEBUG] 12:38:24:150 Kernel Log/(23259:23310): Se recibio un paquete de PCB
+[DEBUG] 12:38:24:151 Kernel Log/(23259:23310): Generando paquete PCB ...
+[DEBUG] 12:38:58:909 Kernel Log/(23259:23300): Recibi un paquete con un PCB
+[DEBUG] 12:39:41:798 Kernel Log/(23259:23300): Se recibio un paquete de PCB
+[INFO] 12:55:15:478 Kernel Log/(25390:25390): Servidor listo para recibir al cliente
+[INFO] 12:55:18:075 Kernel Log/(25390:25392): Se conecto un cliente!
+[DEBUG] 12:55:18:078 Kernel Log/(25390:25394): Se recibio un paquete de PCB
+[DEBUG] 12:55:18:080 Kernel Log/(25390:25394): Generando paquete PCB ...
+[DEBUG] 12:55:18:081 Kernel Log/(25390:25391): Recibi un paquete con un PCB
+[WARNING] 12:55:38:827 Kernel Log/(25390:25394): el cliente se desconecto. Terminando servidor
+[DEBUG] 12:55:40:605 Kernel Log/(25390:25390): Archivo de configuracion cerrado
+[DEBUG] 12:55:40:605 Kernel Log/(25390:25390): Terminando el Log
+[INFO] 13:13:20:048 Kernel Log/(26892:26892): Servidor listo para recibir al cliente
+[INFO] 13:13:23:441 Kernel Log/(26892:26894): Se conecto un cliente!
+[DEBUG] 13:13:23:444 Kernel Log/(26892:26899): Se recibio un paquete de PCB
+[DEBUG] 13:13:23:446 Kernel Log/(26892:26899): Generando paquete PCB ...
+[DEBUG] 13:13:23:447 Kernel Log/(26892:26893): Recibi un paquete con un PCB
+[WARNING] 13:13:37:795 Kernel Log/(26892:26893): el cliente se desconecto. Terminando servidor
+[DEBUG] 13:13:37:856 Kernel Log/(26892:26893): SE CREO UN THREAD DE CPU
+[DEBUG] 13:13:38:410 Kernel Log/(26892:26892): Archivo de configuracion cerrado
+[DEBUG] 13:13:38:411 Kernel Log/(26892:26892): Terminando el Log
+[INFO] 13:14:25:729 Kernel Log/(27305:27305): Servidor listo para recibir al cliente
+[WARNING] 13:14:25:729 Kernel Log/(27305:27306): el cliente se desconecto. Terminando servidor
+[DEBUG] 13:14:25:729 Kernel Log/(27305:27306): SE CREO UN THREAD DE CPU
+[DEBUG] 13:14:38:984 Kernel Log/(27305:27305): Archivo de configuracion cerrado
+[DEBUG] 13:14:38:985 Kernel Log/(27305:27305): Terminando el Log
+[INFO] 13:14:48:965 Kernel Log/(27336:27336): Servidor listo para recibir al cliente
+[INFO] 13:14:51:963 Kernel Log/(27336:27338): Se conecto un cliente!
+[DEBUG] 13:14:51:967 Kernel Log/(27336:27346): Se recibio un paquete de PCB
+[DEBUG] 13:14:51:969 Kernel Log/(27336:27346): Generando paquete PCB ...
+[DEBUG] 13:14:51:970 Kernel Log/(27336:27337): Recibi un paquete con un PCB
+[WARNING] 13:16:24:537 Kernel Log/(27336:27337): el cliente se desconecto. Terminando servidor
+[DEBUG] 13:16:24:600 Kernel Log/(27336:27337): SE CREO UN THREAD DE CPU
+[DEBUG] 13:16:24:797 Kernel Log/(27336:27336): Archivo de configuracion cerrado
+[DEBUG] 13:16:24:798 Kernel Log/(27336:27336): Terminando el Log
+[WARNING] 13:16:42:079 Kernel Log/(27579:27632): el cliente se desconecto. Terminando servidor
+[INFO] 13:16:42:081 Kernel Log/(27579:27579): Servidor listo para recibir al cliente
+[DEBUG] 13:16:42:082 Kernel Log/(27579:27632): SE CREO UN THREAD DE CPU
+[INFO] 13:17:41:966 Kernel Log/(27753:27753): Servidor listo para recibir al cliente
+[INFO] 13:17:48:197 Kernel Log/(27753:27787): Se conecto un cliente!
+[DEBUG] 13:17:57:209 Kernel Log/(27753:27796): Se recibio un paquete de PCB
+[DEBUG] 13:17:57:210 Kernel Log/(27753:27796): Generando paquete PCB ...
+[DEBUG] 13:18:00:933 Kernel Log/(27753:27786): Recibi un paquete con un PCB
+[WARNING] 13:19:51:158 Kernel Log/(27753:27786): el cliente se desconecto. Terminando servidor
+[DEBUG] 13:19:51:222 Kernel Log/(27753:27786): SE CREO UN THREAD DE CPU
+[INFO] 13:23:12:269 Kernel Log/(29142:29142): Servidor listo para recibir al cliente
+[WARNING] 13:23:16:926 Kernel Log/(27753:27796): el cliente se desconecto. Terminando servidor
+[INFO] 13:23:18:416 Kernel Log/(27753:27787): Se conecto un cliente!
+[WARNING] 13:23:33:197 Kernel Log/(29142:29143): el cliente se desconecto. Terminando servidor
+[DEBUG] 13:23:33:257 Kernel Log/(29142:29143): SE CREO UN THREAD DE CPU
+[DEBUG] 13:23:34:263 Kernel Log/(29142:29142): Archivo de configuracion cerrado
+[DEBUG] 13:23:34:264 Kernel Log/(29142:29142): Terminando el Log
+[INFO] 13:23:44:439 Kernel Log/(29192:29192): Servidor listo para recibir al cliente
+[WARNING] 13:23:44:439 Kernel Log/(29192:29193): el cliente se desconecto. Terminando servidor
+[DEBUG] 13:23:44:440 Kernel Log/(29192:29193): SE CREO UN THREAD DE CPU
+[DEBUG] 13:23:59:961 Kernel Log/(29192:29192): Archivo de configuracion cerrado
+[DEBUG] 13:23:59:961 Kernel Log/(29192:29192): Terminando el Log
+[INFO] 13:24:07:920 Kernel Log/(29237:29237): Servidor listo para recibir al cliente
+[WARNING] 13:24:07:920 Kernel Log/(29237:29238): el cliente se desconecto. Terminando servidor
+[DEBUG] 13:24:07:921 Kernel Log/(29237:29238): SE CREO UN THREAD DE CPU
+[DEBUG] 13:24:09:585 Kernel Log/(29237:29237): Archivo de configuracion cerrado
+[DEBUG] 13:24:09:586 Kernel Log/(29237:29237): Terminando el Log
+[INFO] 13:24:12:443 Kernel Log/(29251:29251): Servidor listo para recibir al cliente
+[WARNING] 13:24:12:443 Kernel Log/(29251:29252): el cliente se desconecto. Terminando servidor
+[DEBUG] 13:24:12:444 Kernel Log/(29251:29252): SE CREO UN THREAD DE CPU
+[DEBUG] 13:24:13:553 Kernel Log/(29251:29251): Archivo de configuracion cerrado
+[DEBUG] 13:24:13:554 Kernel Log/(29251:29251): Terminando el Log
+[INFO] 13:24:29:596 Kernel Log/(29582:29582): Servidor listo para recibir al cliente
+[WARNING] 13:24:29:596 Kernel Log/(29582:29583): el cliente se desconecto. Terminando servidor
+[DEBUG] 13:24:29:597 Kernel Log/(29582:29583): SE CREO UN THREAD DE CPU
+[DEBUG] 13:24:34:603 Kernel Log/(29582:29582): Archivo de configuracion cerrado
+[DEBUG] 13:24:34:604 Kernel Log/(29582:29582): Terminando el Log
+[INFO] 13:27:11:157 Kernel Log/(30552:30552): Servidor listo para recibir al cliente
+[DEBUG] 13:27:34:821 Kernel Log/(30552:30552): Archivo de configuracion cerrado
+[DEBUG] 13:27:34:821 Kernel Log/(30552:30552): Terminando el Log
+[INFO] 13:28:39:675 Kernel Log/(31078:31078): Servidor listo para recibir al cliente
+[INFO] 13:28:42:627 Kernel Log/(31078:31082): Se conecto un cliente!
+[DEBUG] 13:28:42:635 Kernel Log/(31078:31090): Se recibio un paquete de PCB
+[DEBUG] 13:28:42:636 Kernel Log/(31078:31090): Generando paquete PCB ...
+[DEBUG] 13:28:42:637 Kernel Log/(31078:31081): Recibi un paquete con un PCB
+[WARNING] 13:29:19:663 Kernel Log/(31078:31081): el cliente se desconecto. Terminando servidor
+[DEBUG] 13:29:19:723 Kernel Log/(31078:31081): SE CREO UN THREAD DE CPU
+[DEBUG] 13:29:20:161 Kernel Log/(31078:31078): Archivo de configuracion cerrado
+[DEBUG] 13:29:20:161 Kernel Log/(31078:31078): Terminando el Log
+[INFO] 13:30:45:957 Kernel Log/(31648:31648): Servidor listo para recibir al cliente
+[INFO] 13:30:51:942 Kernel Log/(31648:31652): Se conecto un cliente!
+[DEBUG] 13:30:51:951 Kernel Log/(31648:31671): Se recibio un paquete de PCB
+[DEBUG] 13:30:51:952 Kernel Log/(31648:31671): Generando paquete PCB ...
+[DEBUG] 13:30:51:953 Kernel Log/(31648:31651): Recibi un paquete con un PCB
+[WARNING] 13:31:01:750 Kernel Log/(31648:31671): el cliente se desconecto. Terminando servidor
+[DEBUG] 13:31:04:024 Kernel Log/(31648:31648): Archivo de configuracion cerrado
+[DEBUG] 13:31:04:024 Kernel Log/(31648:31648): Terminando el Log
+[INFO] 14:12:16:016 Kernel Log/(15413:15413): Servidor listo para recibir al cliente
+[WARNING] 14:12:16:016 Kernel Log/(15413:15416): el cliente se desconecto. Terminando servidor
+[DEBUG] 14:12:16:016 Kernel Log/(15413:15416): SE CREO UN THREAD DE CPU
+[INFO] 15:26:12:112 Kernel Log/(15568:15568): Servidor listo para recibir al cliente
+[INFO] 15:26:17:447 Kernel Log/(15568:15572): Se conecto un cliente!
+[DEBUG] 15:26:17:464 Kernel Log/(15568:15580): Se recibio un paquete de CPU
+[DEBUG] 15:26:17:465 Kernel Log/(15568:15580): Generando paquete PCB ...
+[DEBUG] 15:26:17:466 Kernel Log/(15568:15571): Recibi un paquete con un PCB
+[WARNING] 15:26:48:548 Kernel Log/(15568:15571): el cliente se desconecto. Terminando servidor
+[DEBUG] 15:26:48:608 Kernel Log/(15568:15571): SE CREO UN THREAD DE CPU
+[DEBUG] 15:26:49:448 Kernel Log/(15568:15568): Archivo de configuracion cerrado
+[DEBUG] 15:26:49:449 Kernel Log/(15568:15568): Terminando el Log
+[INFO] 15:33:16:312 Kernel Log/(16930:16930): Servidor listo para recibir al cliente
+[INFO] 15:33:26:554 Kernel Log/(16930:16934): Se conecto un cliente!
+[DEBUG] 15:33:26:561 Kernel Log/(16930:16942): Se recibio un paquete de CPU
+[DEBUG] 15:33:26:562 Kernel Log/(16930:16942): Generando paquete PCB ...
+[DEBUG] 15:36:01:064 Kernel Log/(16930:16933): Recibi un paquete con un PCB
+[WARNING] 15:36:17:539 Kernel Log/(16930:16933): el cliente se desconecto. Terminando servidor
+[DEBUG] 15:36:17:607 Kernel Log/(16930:16933): SE CREO UN THREAD DE CPU
+[DEBUG] 15:36:27:499 Kernel Log/(16930:16930): Archivo de configuracion cerrado
+[DEBUG] 15:36:27:499 Kernel Log/(16930:16930): Terminando el Log
+[WARNING] 15:38:46:363 Kernel Log/(17299:17317): el cliente se desconecto. Terminando servidor
+[DEBUG] 15:38:46:368 Kernel Log/(17299:17317): SE CREO UN THREAD DE CPU
+[INFO] 15:38:46:370 Kernel Log/(17299:17299): Servidor listo para recibir al cliente
+[INFO] 15:39:52:648 Kernel Log/(17735:17735): Servidor listo para recibir al cliente
+[INFO] 15:39:59:724 Kernel Log/(17735:17771): Se conecto un cliente!
+[DEBUG] 15:39:59:742 Kernel Log/(17735:17785): Se recibio un paquete de CPU
+[DEBUG] 15:39:59:742 Kernel Log/(17735:17785): Generando paquete PCB ...
+[DEBUG] 15:40:06:180 Kernel Log/(17735:17770): Recibi un paquete con un PCB
+[INFO] 15:44:21:124 Kernel Log/(18384:18384): Servidor listo para recibir al cliente
+[WARNING] 15:45:02:664 Kernel Log/(18384:18387): el cliente se desconecto. Terminando servidor
+[DEBUG] 15:45:02:732 Kernel Log/(18384:18387): SE CREO UN THREAD DE CPU
+[DEBUG] 15:45:03:349 Kernel Log/(18384:18384): Archivo de configuracion cerrado
+[DEBUG] 15:45:03:350 Kernel Log/(18384:18384): Terminando el Log
+[INFO] 15:45:28:468 Kernel Log/(18779:18779): Servidor listo para recibir al cliente
+[WARNING] 15:45:28:468 Kernel Log/(18779:18782): el cliente se desconecto. Terminando servidor
+[DEBUG] 15:45:28:469 Kernel Log/(18779:18782): SE CREO UN THREAD DE CPU
+[INFO] 15:45:32:821 Kernel Log/(18779:18783): Se conecto un cliente!
+[DEBUG] 15:45:32:828 Kernel Log/(18779:18798): Se recibio un paquete de CPU
+[DEBUG] 15:45:32:829 Kernel Log/(18779:18798): Generando paquete PCB ...
+[WARNING] 15:45:40:419 Kernel Log/(18779:18798): el cliente se desconecto. Terminando servidor
+[DEBUG] 15:45:48:277 Kernel Log/(18779:18779): Archivo de configuracion cerrado
+[DEBUG] 15:45:48:277 Kernel Log/(18779:18779): Terminando el Log
+[INFO] 15:45:57:149 Kernel Log/(18829:18829): Servidor listo para recibir al cliente
+[WARNING] 15:45:57:149 Kernel Log/(18829:18832): el cliente se desconecto. Terminando servidor
+[DEBUG] 15:45:57:150 Kernel Log/(18829:18832): SE CREO UN THREAD DE CPU
+[DEBUG] 15:45:58:980 Kernel Log/(18829:18829): Archivo de configuracion cerrado
+[DEBUG] 15:45:58:981 Kernel Log/(18829:18829): Terminando el Log
+[INFO] 15:46:14:497 Kernel Log/(19162:19162): Servidor listo para recibir al cliente
+[INFO] 15:46:18:107 Kernel Log/(19162:19166): Se conecto un cliente!
+[DEBUG] 15:46:18:114 Kernel Log/(19162:19175): Se recibio un paquete de CPU
+[DEBUG] 15:46:18:114 Kernel Log/(19162:19175): Generando paquete PCB ...
+[DEBUG] 15:46:18:115 Kernel Log/(19162:19165): Recibi un paquete con un PCB
+[WARNING] 15:46:34:359 Kernel Log/(19162:19165): el cliente se desconecto. Terminando servidor
+[DEBUG] 15:46:34:419 Kernel Log/(19162:19165): SE CREO UN THREAD DE CPU
+[DEBUG] 15:46:34:781 Kernel Log/(19162:19162): Archivo de configuracion cerrado
+[DEBUG] 15:46:34:781 Kernel Log/(19162:19162): Terminando el Log
+[INFO] 15:53:29:246 Kernel Log/(19932:19932): Servidor listo para recibir al cliente
+[INFO] 15:53:34:853 Kernel Log/(19932:19992): Se conecto un cliente!
+[DEBUG] 15:53:34:873 Kernel Log/(19932:20000): Se recibio un paquete de CPU
+[DEBUG] 15:53:34:874 Kernel Log/(19932:20000): Generando paquete PCB ...
+[DEBUG] 15:53:34:877 Kernel Log/(19932:19990): Recibi un paquete con un PCB
+[WARNING] 15:54:52:471 Kernel Log/(19932:19990): el cliente se desconecto. Terminando servidor
+[DEBUG] 15:54:52:537 Kernel Log/(19932:19990): SE CREO UN THREAD DE CPU
+[WARNING] 15:54:56:867 Kernel Log/(19932:20000): el cliente se desconecto. Terminando servidor
+[INFO] 15:55:04:223 Kernel Log/(20098:20098): Servidor listo para recibir al cliente
+[WARNING] 15:55:04:223 Kernel Log/(20098:20101): el cliente se desconecto. Terminando servidor
+[DEBUG] 15:55:04:224 Kernel Log/(20098:20101): SE CREO UN THREAD DE CPU
+[INFO] 15:55:06:402 Kernel Log/(19932:19992): Se conecto un cliente!
+[DEBUG] 15:55:06:421 Kernel Log/(19932:20107): Se recibio un paquete de CPU
+[DEBUG] 15:55:22:268 Kernel Log/(20098:20098): Archivo de configuracion cerrado
+[DEBUG] 15:55:22:268 Kernel Log/(20098:20098): Terminando el Log
+[INFO] 17:34:13:827 Kernel Log/(17309:17309): Servidor listo para recibir al cliente
+[INFO] 17:34:20:132 Kernel Log/(17309:17334): Se conecto un cliente!
+[DEBUG] 17:34:20:143 Kernel Log/(17309:17340): Se recibio un paquete de CPU
+[INFO] 17:37:16:707 Kernel Log/(17761:17761): Servidor listo para recibir al cliente
+[INFO] 17:37:20:706 Kernel Log/(17761:17787): Se conecto un cliente!
+[DEBUG] 17:37:20:727 Kernel Log/(17761:17793): Se recibio un paquete de CPU
+[INFO] 17:38:27:306 Kernel Log/(17943:17943): Servidor listo para recibir al cliente
+[INFO] 17:38:40:574 Kernel Log/(17943:17966): Se conecto un cliente!
+[DEBUG] 17:38:40:583 Kernel Log/(17943:17978): Se recibio un paquete de CPU
+[DEBUG] 17:39:34:874 Kernel Log/(17943:17978): Generando paquete PCB ...
+[DEBUG] 17:39:34:876 Kernel Log/(17943:17965): Recibi un paquete con un PCB
+[WARNING] 17:40:28:352 Kernel Log/(17943:17978): el cliente se desconecto. Terminando servidor
+[INFO] 17:40:30:352 Kernel Log/(17943:17966): Se conecto un cliente!
+[DEBUG] 17:40:30:368 Kernel Log/(17943:18100): Se recibio un paquete de CPU
+[DEBUG] 17:40:49:946 Kernel Log/(17943:18100): Generando paquete PCB ...
+[DEBUG] 17:41:22:092 Kernel Log/(17943:17965): Recibi un paquete con un PCB
+[WARNING] 17:41:45:918 Kernel Log/(17943:17965): el cliente se desconecto. Terminando servidor
+[DEBUG] 17:41:45:993 Kernel Log/(17943:17965): SE CREO UN THREAD DE CPU
+[INFO] 17:41:58:794 Kernel Log/(18209:18209): Servidor listo para recibir al cliente
+[WARNING] 17:41:58:794 Kernel Log/(18209:18212): el cliente se desconecto. Terminando servidor
+[DEBUG] 17:41:58:794 Kernel Log/(18209:18212): SE CREO UN THREAD DE CPU
+[DEBUG] 17:42:00:278 Kernel Log/(18209:18209): Archivo de configuracion cerrado
+[DEBUG] 17:42:00:278 Kernel Log/(18209:18209): Terminando el Log
+[INFO] 17:42:15:709 Kernel Log/(18244:18244): Servidor listo para recibir al cliente
+[WARNING] 17:42:15:709 Kernel Log/(18244:18247): el cliente se desconecto. Terminando servidor
+[DEBUG] 17:42:15:710 Kernel Log/(18244:18247): SE CREO UN THREAD DE CPU
+[DEBUG] 17:42:17:866 Kernel Log/(18244:18244): Archivo de configuracion cerrado
+[DEBUG] 17:42:17:867 Kernel Log/(18244:18244): Terminando el Log
+[INFO] 17:43:33:303 Kernel Log/(18724:18724): Servidor listo para recibir al cliente
+[INFO] 17:43:39:132 Kernel Log/(18724:18728): Se conecto un cliente!
+[DEBUG] 17:43:39:145 Kernel Log/(18724:18734): Se recibio un paquete de CPU
+[DEBUG] 17:43:39:145 Kernel Log/(18724:18734): Generando paquete PCB ...
+[DEBUG] 17:43:39:146 Kernel Log/(18724:18727): Recibi un paquete con un PCB
+[WARNING] 17:43:43:740 Kernel Log/(18724:18734): el cliente se desconecto. Terminando servidor
+[INFO] 17:43:45:095 Kernel Log/(18724:18728): Se conecto un cliente!
+[DEBUG] 17:43:45:108 Kernel Log/(18724:18741): Se recibio un paquete de CPU
+[DEBUG] 17:43:45:108 Kernel Log/(18724:18741): Generando paquete PCB ...
+[DEBUG] 17:43:45:109 Kernel Log/(18724:18727): Recibi un paquete con un PCB
+[WARNING] 17:43:50:199 Kernel Log/(18724:18741): el cliente se desconecto. Terminando servidor
+[INFO] 17:43:52:584 Kernel Log/(18724:18728): Se conecto un cliente!
+[DEBUG] 17:43:52:598 Kernel Log/(18724:18753): Se recibio un paquete de CPU
+[DEBUG] 17:43:52:598 Kernel Log/(18724:18753): Generando paquete PCB ...
+[DEBUG] 17:43:52:603 Kernel Log/(18724:18727): Recibi un paquete con un PCB
+[WARNING] 17:43:58:505 Kernel Log/(18724:18753): el cliente se desconecto. Terminando servidor
+[INFO] 23:08:43:972 Kernel Log/(19095:19095): Servidor listo para recibir al cliente
+[WARNING] 23:08:43:972 Kernel Log/(19095:19098): el cliente se desconecto. Terminando servidor
+[DEBUG] 23:08:43:974 Kernel Log/(19095:19098): SE CREO UN THREAD DE CPU
+[DEBUG] 23:08:45:967 Kernel Log/(19095:19095): Archivo de configuracion cerrado
+[DEBUG] 23:08:45:968 Kernel Log/(19095:19095): Terminando el Log
+[INFO] 23:08:58:229 Kernel Log/(19287:19287): Servidor listo para recibir al cliente
+[INFO] 23:09:02:948 Kernel Log/(19287:19291): Se conecto un cliente!
+[DEBUG] 23:09:02:975 Kernel Log/(19287:19296): Se recibio un paquete de CPU
+[DEBUG] 23:09:02:977 Kernel Log/(19287:19296): Generando paquete PCB ...
+[DEBUG] 23:09:02:979 Kernel Log/(19287:19290): Recibi un paquete con un PCB
+[WARNING] 23:09:18:971 Kernel Log/(19287:19290): el cliente se desconecto. Terminando servidor
+[DEBUG] 23:09:19:187 Kernel Log/(19287:19290): SE CREO UN THREAD DE CPU
+[DEBUG] 23:09:20:048 Kernel Log/(19287:19287): Archivo de configuracion cerrado
+[DEBUG] 23:09:20:049 Kernel Log/(19287:19287): Terminando el Log
+[INFO] 23:20:58:371 Kernel Log/(20011:20011): Servidor listo para recibir al cliente
+[INFO] 23:21:06:436 Kernel Log/(20011:20015): Se conecto un cliente!
+[DEBUG] 23:21:06:445 Kernel Log/(20011:20025): Se recibio un paquete de CPU
+[DEBUG] 23:21:06:446 Kernel Log/(20011:20025): Generando paquete PCB ...
+[DEBUG] 23:21:06:448 Kernel Log/(20011:20014): Recibi un paquete con un PCB
+[WARNING] 23:21:13:828 Kernel Log/(20011:20014): el cliente se desconecto. Terminando servidor
+[DEBUG] 23:21:14:032 Kernel Log/(20011:20014): SE CREO UN THREAD DE CPU
+[INFO] 23:33:33:470 Kernel Log/(21792:21792): Conexión exitosa con el CPU-Dispatch
+[INFO] 23:33:33:472 Kernel Log/(21792:21792): Conexion exitosa con CPU-INTERRUPT
+[INFO] 23:33:33:473 Kernel Log/(21792:21792): Servidor listo para recibir al cliente
+[WARNING] 23:33:33:470 Kernel Log/(21792:21795): el cliente se desconecto. Terminando servidor
+[DEBUG] 23:33:33:474 Kernel Log/(21792:21795): SE CREO UN THREAD DE CPU
+[WARNING] 23:33:33:473 Kernel Log/(21792:21796): el cliente se desconecto. Terminando servidor
+[DEBUG] 23:33:33:475 Kernel Log/(21792:21796): SE CREO UN THREAD DE CPU
+[DEBUG] 23:33:47:223 Kernel Log/(21792:21792): Archivo de configuracion cerrado
+[DEBUG] 23:33:47:224 Kernel Log/(21792:21792): Terminando el Log
+[INFO] 23:33:52:401 Kernel Log/(21813:21813): Conexión exitosa con el CPU-Dispatch
+[WARNING] 23:33:52:401 Kernel Log/(21813:21816): el cliente se desconecto. Terminando servidor
+[DEBUG] 23:33:52:408 Kernel Log/(21813:21816): SE CREO UN THREAD DE CPU
+[INFO] 23:33:52:409 Kernel Log/(21813:21813): Conexion exitosa con CPU-INTERRUPT
+[INFO] 23:33:52:410 Kernel Log/(21813:21813): Servidor listo para recibir al cliente
+[WARNING] 23:33:52:410 Kernel Log/(21813:21817): el cliente se desconecto. Terminando servidor
+[DEBUG] 23:33:52:411 Kernel Log/(21813:21817): SE CREO UN THREAD DE CPU
+[DEBUG] 23:34:02:398 Kernel Log/(21813:21813): Archivo de configuracion cerrado
+[DEBUG] 23:34:02:398 Kernel Log/(21813:21813): Terminando el Log
+[INFO] 23:38:29:782 Kernel Log/(22107:22107): Conexión exitosa con el CPU-Dispatch
+[INFO] 23:38:29:785 Kernel Log/(22107:22107): Conexion exitosa con CPU-INTERRUPT
+[WARNING] 23:38:29:784 Kernel Log/(22107:22290): el cliente se desconecto. Terminando servidor
+[DEBUG] 23:38:29:785 Kernel Log/(22107:22290): SE CREO UN THREAD DE CPU
+[WARNING] 23:38:29:791 Kernel Log/(22107:22291): el cliente se desconecto. Terminando servidor
+[DEBUG] 23:38:29:793 Kernel Log/(22107:22291): SE CREO UN THREAD DE CPU
+[INFO] 23:38:29:794 Kernel Log/(22107:22107): Servidor listo para recibir al cliente
+[ERROR] 23:52:38:055 Kernel Log/(24095:24095): El Servidor no se encuentra inicializado. Error al conectar con CPU
+[DEBUG] 23:52:38:057 Kernel Log/(24095:24095): Archivo de configuracion cerrado
+[DEBUG] 23:52:38:057 Kernel Log/(24095:24095): Terminando el Log
+[ERROR] 00:03:43:140 Kernel Log/(25113:25113): El Servidor no se encuentra inicializado. Error al conectar con CPU
+[DEBUG] 00:03:43:141 Kernel Log/(25113:25113): Archivo de configuracion cerrado
+[DEBUG] 00:03:43:142 Kernel Log/(25113:25113): Terminando el Log
+[ERROR] 00:04:40:888 Kernel Log/(25338:25338): El Servidor no se encuentra inicializado. Error al conectar con CPU
+[DEBUG] 00:04:40:889 Kernel Log/(25338:25338): Archivo de configuracion cerrado
+[DEBUG] 00:04:40:890 Kernel Log/(25338:25338): Terminando el Log
+[ERROR] 00:05:14:177 Kernel Log/(25416:25416): El Servidor no se encuentra inicializado. Error al conectar con CPU
+[DEBUG] 00:05:22:052 Kernel Log/(25416:25416): Archivo de configuracion cerrado
+[ERROR] 00:08:16:489 Kernel Log/(25828:25828): El Servidor no se encuentra inicializado. Error al conectar con CPU
+[DEBUG] 00:08:16:491 Kernel Log/(25828:25828): Archivo de configuracion cerrado
+[DEBUG] 00:08:16:492 Kernel Log/(25828:25828): Terminando el Log
+[ERROR] 00:08:39:755 Kernel Log/(25895:25895): El Servidor no se encuentra inicializado. Error al conectar con CPU
+[DEBUG] 00:08:41:732 Kernel Log/(25895:25895): Archivo de configuracion cerrado
+[DEBUG] 00:08:50:540 Kernel Log/(25895:25895): Terminando el Log
+[ERROR] 00:13:02:795 Kernel Log/(26282:26282): El Servidor no se encuentra inicializado. Error al conectar con CPU
+[DEBUG] 00:13:02:796 Kernel Log/(26282:26282): Archivo de configuracion cerrado
+[DEBUG] 00:13:02:797 Kernel Log/(26282:26282): Terminando el Log
+[ERROR] 00:13:09:852 Kernel Log/(26289:26289): El Servidor no se encuentra inicializado. Error al conectar con CPU
+[DEBUG] 00:13:09:853 Kernel Log/(26289:26289): Archivo de configuracion cerrado
+[DEBUG] 00:13:09:854 Kernel Log/(26289:26289): Terminando el Log
+[INFO] 00:13:30:614 Kernel Log/(26313:26313): Conexión exitosa con el CPU-Dispatch
+[INFO] 00:13:30:617 Kernel Log/(26313:26313): Conexion exitosa con CPU-INTERRUPT
+[INFO] 00:13:30:618 Kernel Log/(26313:26313): Servidor listo para recibir al cliente
+[INFO] 00:13:45:568 Kernel Log/(26313:26318): Se conecto un cliente!
+[DEBUG] 00:13:45:577 Kernel Log/(26313:26339): Se recibio un paquete de CPU
+[DEBUG] 00:13:45:578 Kernel Log/(26313:26339): Generando paquete PCB ...
+[DEBUG] 00:13:45:580 Kernel Log/(26313:26316): Recibi un paquete con un PCB
+[WARNING] 00:13:45:580 Kernel Log/(26313:26317): Operacion desconocida. No quieras meter la pata
+[WARNING] 00:13:45:581 Kernel Log/(26313:26317): Operacion desconocida. No quieras meter la pata
+[WARNING] 00:13:50:985 Kernel Log/(26313:26317): el cliente se desconecto. Terminando servidor
+[DEBUG] 00:13:51:112 Kernel Log/(26313:26317): SE CREO UN THREAD DE CPU
+[DEBUG] 00:13:55:842 Kernel Log/(26313:26313): Archivo de configuracion cerrado
+[DEBUG] 00:13:55:843 Kernel Log/(26313:26313): Terminando el Log
+[ERROR] 00:17:21:426 Kernel Log/(26713:26713): El Servidor no se encuentra inicializado. Error al conectar con CPU
+[DEBUG] 00:17:21:428 Kernel Log/(26713:26713): Archivo de configuracion cerrado
+[DEBUG] 00:17:21:429 Kernel Log/(26713:26713): Terminando el Log
+[INFO] 00:17:26:893 Kernel Log/(26722:26722): Conexión exitosa con el CPU-Dispatch
+[INFO] 00:17:26:895 Kernel Log/(26722:26722): Conexion exitosa con CPU-Interrupt
+[INFO] 00:17:26:896 Kernel Log/(26722:26722): Servidor listo para recibir al cliente
+[WARNING] 00:17:38:867 Kernel Log/(26722:26725): el cliente se desconecto. Terminando servidor
+[DEBUG] 00:17:38:972 Kernel Log/(26722:26725): SE CREO UN THREAD DE CPU
+[DEBUG] 00:17:53:492 Kernel Log/(26722:26722): Archivo de configuracion cerrado
+[DEBUG] 00:17:53:493 Kernel Log/(26722:26722): Terminando el Log
+[ERROR] 00:40:13:106 Kernel Log/(28692:28692): El Servidor no se encuentra inicializado. Error al conectar con CPU
+[DEBUG] 00:40:13:107 Kernel Log/(28692:28692): Archivo de configuracion cerrado
+[DEBUG] 00:40:13:107 Kernel Log/(28692:28692): Terminando el Log
+[INFO] 00:40:19:452 Kernel Log/(28702:28702): Conexión exitosa con el CPU-Dispatch
+[INFO] 00:40:19:453 Kernel Log/(28702:28702): Conexion exitosa con CPU-Interrupt
+[INFO] 00:40:19:454 Kernel Log/(28702:28702): Servidor listo para recibir al cliente
+[DEBUG] 00:40:19:454 Kernel Log/(28702:28702): Archivo de configuracion cerrado
+[INFO] 00:41:02:890 Kernel Log/(28841:28841): Conexión exitosa con el CPU-Dispatch
+[INFO] 00:41:02:892 Kernel Log/(28841:28841): Conexion exitosa con CPU-Interrupt
+[INFO] 00:41:02:896 Kernel Log/(28841:28841): Servidor listo para recibir al cliente
+[DEBUG] 00:41:02:896 Kernel Log/(28841:28841): Archivo de configuracion cerrado
+[INFO] 00:43:37:613 Kernel Log/(29053:29053): Conexión exitosa con el CPU-Dispatch
+[INFO] 00:43:37:614 Kernel Log/(29053:29053): Conexion exitosa con CPU-Interrupt
+[INFO] 00:43:37:618 Kernel Log/(29053:29053): Servidor listo para recibir al cliente
+[DEBUG] 00:43:37:625 Kernel Log/(29053:29053): Archivo de configuracion cerrado
+[INFO] 00:45:40:294 Kernel Log/(29243:29243): Conexión exitosa con el CPU-Dispatch
+[INFO] 00:45:40:294 Kernel Log/(29243:29243): Conexion exitosa con CPU-Interrupt
+[INFO] 00:45:45:213 Kernel Log/(29243:29243): Servidor listo para recibir al cliente
+[DEBUG] 00:45:45:214 Kernel Log/(29243:29243): Archivo de configuracion cerrado
+[INFO] 00:46:21:194 Kernel Log/(29443:29443): Conexión exitosa con el CPU-Dispatch
+[INFO] 00:46:21:195 Kernel Log/(29443:29443): Conexion exitosa con CPU-Interrupt
+[INFO] 00:46:21:195 Kernel Log/(29443:29443): Servidor listo para recibir al cliente
+[DEBUG] 00:46:21:196 Kernel Log/(29443:29443): Archivo de configuracion cerrado
+[INFO] 00:47:22:082 Kernel Log/(29528:29528): Conexión exitosa con el CPU-Dispatch
+[INFO] 00:47:22:083 Kernel Log/(29528:29528): Conexion exitosa con CPU-Interrupt
+[INFO] 00:47:22:088 Kernel Log/(29528:29528): Servidor listo para recibir al cliente
+[DEBUG] 00:47:52:385 Kernel Log/(29528:29528): Archivo de configuracion cerrado
+[ERROR] 00:49:34:698 Kernel Log/(29719:29719): El Servidor no se encuentra inicializado. Error al conectar con CPU
+[DEBUG] 00:49:34:699 Kernel Log/(29719:29719): Archivo de configuracion cerrado
+[DEBUG] 00:49:34:699 Kernel Log/(29719:29719): Terminando el Log
+[INFO] 00:50:00:914 Kernel Log/(29799:29799): Conexión exitosa con el CPU-Dispatch
+[INFO] 00:50:00:915 Kernel Log/(29799:29799): Conexion exitosa con CPU-Interrupt
+[INFO] 00:50:06:556 Kernel Log/(29799:29799): Servidor listo para recibir al cliente
+[ERROR] 00:52:06:910 Kernel Log/(30059:30059): El Servidor no se encuentra inicializado. Error al conectar con CPU
+[DEBUG] 00:52:06:911 Kernel Log/(30059:30059): Archivo de configuracion cerrado
+[DEBUG] 00:52:06:911 Kernel Log/(30059:30059): Terminando el Log
+[INFO] 00:52:14:429 Kernel Log/(30069:30069): Conexión exitosa con el CPU-Dispatch
+[INFO] 00:52:14:429 Kernel Log/(30069:30069): Conexion exitosa con CPU-Interrupt
+[INFO] 00:52:14:430 Kernel Log/(30069:30069): Servidor listo para recibir al cliente
+[WARNING] 00:52:31:606 Kernel Log/(30069:30073): el cliente se desconecto. Terminando servidor
+[DEBUG] 00:52:31:709 Kernel Log/(30069:30069): Archivo de configuracion cerrado
+[ERROR] 00:52:46:375 Kernel Log/(30095:30095): El Servidor no se encuentra inicializado. Error al conectar con CPU
+[DEBUG] 00:52:46:376 Kernel Log/(30095:30095): Archivo de configuracion cerrado
+[DEBUG] 00:52:46:376 Kernel Log/(30095:30095): Terminando el Log
+[ERROR] 00:52:56:771 Kernel Log/(30108:30108): El Servidor no se encuentra inicializado. Error al conectar con CPU
+[DEBUG] 00:52:56:772 Kernel Log/(30108:30108): Archivo de configuracion cerrado
+[DEBUG] 00:52:56:772 Kernel Log/(30108:30108): Terminando el Log
+[ERROR] 00:53:19:632 Kernel Log/(30435:30435): El Servidor no se encuentra inicializado. Error al conectar con CPU
+[DEBUG] 00:53:19:633 Kernel Log/(30435:30435): Archivo de configuracion cerrado
+[DEBUG] 00:53:19:633 Kernel Log/(30435:30435): Terminando el Log
+[INFO] 00:53:36:931 Kernel Log/(30451:30451): Conexión exitosa con el CPU-Dispatch
+[INFO] 00:53:36:932 Kernel Log/(30451:30451): Conexion exitosa con CPU-Interrupt
+[INFO] 00:53:36:932 Kernel Log/(30451:30451): Servidor listo para recibir al cliente
+[DEBUG] 00:53:41:797 Kernel Log/(30451:30451): Archivo de configuracion cerrado
+[INFO] 01:00:16:207 Kernel Log/(31076:31076): Conexión exitosa con el CPU-Dispatch
+[INFO] 01:00:16:208 Kernel Log/(31076:31076): Conexion exitosa con CPU-Interrupt
+[INFO] 01:00:16:208 Kernel Log/(31076:31076): Servidor listo para recibir al cliente
+[WARNING] 01:00:18:754 Kernel Log/(31076:31080): el cliente se desconecto. Terminando servidor
+[DEBUG] 01:00:18:871 Kernel Log/(31076:31076): Archivo de configuracion cerrado
+[ERROR] 01:01:06:985 Kernel Log/(31155:31155): El Servidor no se encuentra inicializado. Error al conectar con CPU
+[DEBUG] 01:01:07:791 Kernel Log/(31155:31155): Archivo de configuracion cerrado
+[ERROR] 01:01:49:415 Kernel Log/(31252:31252): El Servidor no se encuentra inicializado. Error al conectar con CPU
+[DEBUG] 01:01:56:365 Kernel Log/(31252:31252): Archivo de configuracion cerrado
+[INFO] 01:08:00:362 Kernel Log/(31875:31875): Servidor iniciado y esperando que lleguen procesos
+[INFO] 01:08:00:366 Kernel Log/(31875:31875): Conexión exitosa con el CPU-Dispatch
+[INFO] 01:08:00:366 Kernel Log/(31875:31875): Conexion exitosa con CPU-Interrupt
+[INFO] 01:08:00:366 Kernel Log/(31875:31875): Servidor listo para recibir al cliente
+[WARNING] 01:08:17:021 Kernel Log/(31875:31880): el cliente se desconecto. Terminando servidor
+[DEBUG] 01:08:17:131 Kernel Log/(31875:31875): Archivo de configuracion cerrado
+[INFO] 01:15:14:527 Kernel Log/(32242:32242): Servidor iniciado y esperando que lleguen procesos
+[INFO] 01:15:14:540 Kernel Log/(32242:32242): Conexión exitosa con el CPU-Dispatch
+[INFO] 01:15:14:540 Kernel Log/(32242:32242): Conexion exitosa con CPU-Interrupt
+[INFO] 01:15:14:541 Kernel Log/(32242:32242): Servidor listo para recibir al cliente
+[WARNING] 01:15:24:404 Kernel Log/(32242:32269): el cliente se desconecto. Terminando servidor
+[DEBUG] 01:15:32:447 Kernel Log/(32242:32242): Archivo de configuracion cerrado
+[INFO] 01:16:04:960 Kernel Log/(32465:32465): Servidor iniciado y esperando que lleguen procesos
+[ERROR] 01:16:04:961 Kernel Log/(32465:32465): El Servidor no se encuentra inicializado. Error al conectar con CPU
+[DEBUG] 01:16:04:961 Kernel Log/(32465:32465): Archivo de configuracion cerrado
+[INFO] 01:16:16:479 Kernel Log/(32489:32489): Servidor iniciado y esperando que lleguen procesos
+[ERROR] 01:16:16:480 Kernel Log/(32489:32489): El Servidor no se encuentra inicializado. Error al conectar con CPU
+[DEBUG] 01:16:16:481 Kernel Log/(32489:32489): Archivo de configuracion cerrado
+[INFO] 01:16:36:009 Kernel Log/(347:347): Servidor iniciado y esperando que lleguen procesos
+[INFO] 01:16:36:009 Kernel Log/(347:347): Conexión exitosa con el CPU-Dispatch
+[INFO] 01:16:36:010 Kernel Log/(347:347): Conexion exitosa con CPU-Interrupt
+[INFO] 01:16:36:010 Kernel Log/(347:347): Servidor listo para recibir al cliente
+[WARNING] 01:16:37:902 Kernel Log/(347:352): el cliente se desconecto. Terminando servidor
+[DEBUG] 01:16:38:006 Kernel Log/(347:347): Archivo de configuracion cerrado
+[INFO] 01:17:30:852 Kernel Log/(557:557): Servidor iniciado y esperando que lleguen procesos
+[ERROR] 01:17:30:853 Kernel Log/(557:557): El Servidor no se encuentra inicializado. Error al conectar con CPU
+[DEBUG] 01:17:30:853 Kernel Log/(557:557): Archivo de configuracion cerrado
+[DEBUG] 01:17:30:853 Kernel Log/(557:557): Terminando el Log
+[INFO] 01:17:37:459 Kernel Log/(568:568): Servidor iniciado y esperando que lleguen procesos
+[ERROR] 01:17:37:460 Kernel Log/(568:568): El Servidor no se encuentra inicializado. Error al conectar con CPU
+[DEBUG] 01:17:37:460 Kernel Log/(568:568): Archivo de configuracion cerrado
+[DEBUG] 01:17:37:461 Kernel Log/(568:568): Terminando el Log
+[INFO] 01:17:47:950 Kernel Log/(582:582): Servidor iniciado y esperando que lleguen procesos
+[INFO] 01:17:47:951 Kernel Log/(582:582): Conexión exitosa con el CPU-Dispatch
+[INFO] 01:17:47:951 Kernel Log/(582:582): Conexion exitosa con CPU-Interrupt
+[INFO] 01:17:47:951 Kernel Log/(582:582): Servidor listo para recibir al cliente
+[WARNING] 01:17:49:794 Kernel Log/(582:587): el cliente se desconecto. Terminando servidor
+[DEBUG] 01:17:49:904 Kernel Log/(582:582): Archivo de configuracion cerrado
+[DEBUG] 01:17:49:904 Kernel Log/(582:582): Terminando el Log
+[INFO] 01:20:48:801 Kernel Log/(1017:1017): Servidor iniciado y esperando que lleguen procesos
+[INFO] 01:20:48:801 Kernel Log/(1017:1017): Conexión exitosa con el CPU-Dispatch
+[INFO] 01:20:48:802 Kernel Log/(1017:1017): Conexion exitosa con CPU-Interrupt
+[INFO] 01:20:48:802 Kernel Log/(1017:1017): Servidor listo para recibir al cliente
+[INFO] 01:22:05:769 Kernel Log/(1017:1021): Se conecto un cliente!
+[DEBUG] 01:22:05:777 Kernel Log/(1017:1316): Se recibio un paquete de CPU
+[DEBUG] 01:22:05:777 Kernel Log/(1017:1316): Generando paquete PCB ...
+[DEBUG] 01:22:05:778 Kernel Log/(1017:1022): Recibi un paquete con un PCB
+[WARNING] 01:22:13:743 Kernel Log/(1017:1022): el cliente se desconecto. Terminando servidor
+[WARNING] 01:22:22:014 Kernel Log/(1017:1316): el cliente se desconecto. Terminando servidor
+[DEBUG] 01:22:40:395 Kernel Log/(1017:1017): Archivo de configuracion cerrado
+[DEBUG] 01:22:40:395 Kernel Log/(1017:1017): Terminando el Log
