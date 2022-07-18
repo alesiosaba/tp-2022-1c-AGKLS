@@ -57,3 +57,9 @@ Module.symvers
 Mkfile.old
 dkms.conf
 /.metadata/
+
+shared/.settings/language.settings.xml
+consola/.settings/language.settings.xml
+CPU/.settings/language.settings.xml
+kernel/.settings/language.settings.xml
+memoria/.settings/language.settings.xml
