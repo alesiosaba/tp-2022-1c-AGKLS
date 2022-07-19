@@ -34,6 +34,23 @@ void servidorInterrupt(){
 	close(serverInterrupt);
 }
 
+void conectar_memoria(){
+	conexionAMemoria = crear_conexion(config_values.IP_memoria,config_values.puerto_memoria);
+
+	if(conexionAMemoria == -1){
+		log_error(logger, "El servidor de memoria no esta disponible");
+		terminar_programa();
+		exit(-1);
+	}
+
+	pthread_t thr_memoria_individual;
+
+	if(pthread_create(&thr_memoria_individual, NULL, (void*) manejarConexion,(void*)conexionAMemoria) != 0){
+		log_error(logger, "Error al crear el hilo la Memoria");
+	}
+	log_info(logger, "Conexión exitosa con la Memoria");
+}
+
 void conexiones (){
 
 	// abro un hilo para escuchar por el puerto dispatch
@@ -41,6 +58,10 @@ void conexiones (){
 
 	// abro un hilo para escuchar por el puerto interrupt
 	pthread_create(&thr_interrupt, NULL, (void*) &servidorInterrupt, NULL);
+
+	// abro un hilo para escuchar por el puerto dedicado a la memoria
+	pthread_create(&thr_memoria, NULL, (void*) &conectar_memoria, NULL);
+
 }
 
 int manejarConexion(int socket_cliente){

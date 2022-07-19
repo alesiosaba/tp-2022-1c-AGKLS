@@ -3,10 +3,10 @@
 
 #include "../../shared/include/utils/utils.h"
 #include "../../shared/include/utils/sockets.h"
+#include <pthread.h>
 
-int conexionACPU;
-int socket_escucha;
-int socket_cliente;
+int serverMemoria;
+int clienteMemoria;
 
 void iniciar_servidor_memoria();
 int manejarConexion(int socket_cliente);

@@ -2,11 +2,19 @@
 #include "../include/init.h"
 
 void iniciar_servidor_memoria(){
-	socket_escucha = iniciar_servidor(IP, config_values.puerto_escucha);
 
-	log_info(logger, SERVIDOR_LISTO);
+	serverMemoria = iniciar_servidor(IP, config_values.puerto_escucha);
+	log_info(logger, "Servidor listo para recibir la conexion de CPU");
 
-	socket_cliente = esperar_cliente(socket_escucha);
+	pthread_t thr_memoria_individual;
+
+	while(1){
+		clienteMemoria = esperar_cliente(serverMemoria);
+        pthread_create(&thr_memoria_individual, NULL, (void*) manejarConexion, (void*) clienteMemoria);
+        pthread_detach(thr_memoria_individual);
+	}
+
+	close(serverMemoria);
 }
 
 int manejarConexion(int socket_cliente){
@@ -19,7 +27,7 @@ int manejarConexion(int socket_cliente){
 		switch (cod_op) {
 		case MENSAJE:
 			recibir_mensaje(socket_cliente);
-			log_info(logger, "Enviando respuesta a CPU...");
+			log_info(logger, "Llego un mensaje a memoria");
 			enviar_mensaje("Soy un mensaje enviado desde Memoria", socket_cliente);
 			break;
 		case PAQUETE:

@@ -9,6 +9,8 @@ int main(void) {
 	inicializar();
 
 	conexiones();
+	log_info(logger, "sali de conexiones()");
+	enviar_mensaje("Soy un mensaje de CPU a Memoria", conexionAMemoria);
 
 //	cicloDeInstruccion();
 
@@ -31,6 +33,7 @@ void sighandler(int s){
 void terminar_programa(){
 	pthread_join(thr_dispatch, NULL);
 	pthread_join(thr_interrupt, NULL);
+	pthread_join(thr_memoria, NULL);
 	config_destroy(config);
 	log_debug(logger,CONFIGURACION_CERRADA);
 	liberar_conexion(&conexionAMemoria);
