@@ -1,4 +1,15 @@
 clear
+echo Eliminando logs...
+cd ../consola
+rm consola.log
+cd ../CPU
+rm CPU.log
+cd ../kernel
+rm kernel.log
+cd ../memoria
+rm memoria.log
+
+echo
 echo Compilando modulos...
 
 echo

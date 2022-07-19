@@ -7,6 +7,11 @@ void sighandler(int s){
 	if(conexionACPU){
 		liberar_conexion(&conexionACPU);
 	}
+
+	if(conexionACPU_interrupt){
+		liberar_conexion(&conexionACPU_interrupt);
+	}
+
 	terminar_programa();
 	exit(0);
 }
@@ -58,7 +63,8 @@ void terminar_programa()
 {
 	config_destroy(config);
 	log_debug(logger,CONFIGURACION_CERRADA);
-	liberar_conexion(&server_fd);
+	liberar_conexion(&conexionACPU);
+	liberar_conexion(&conexionACPU_interrupt);
 	log_debug(logger,TERMINANDO_EL_LOG);
 	log_destroy(logger);
 }

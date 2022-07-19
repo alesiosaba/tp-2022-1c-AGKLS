@@ -9,10 +9,6 @@ int main(void) {
 	inicializar();
 
 	conexiones();
-	log_info(logger, "sali de conexiones()");
-	enviar_mensaje("Soy un mensaje de CPU a Memoria", conexionAMemoria);
-
-//	cicloDeInstruccion();
 
 	terminar_programa(logger, config);
 	return EXIT_SUCCESS;
