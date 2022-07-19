@@ -169,7 +169,6 @@ int iniciar_servidor(char* ip_server, char* puerto_escucha)
 
 int esperar_cliente(int socket_servidor)
 {
-
 	// Aceptamos un nuevo cliente
 	int socket_cliente;
 

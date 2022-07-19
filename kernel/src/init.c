@@ -11,7 +11,8 @@ config_t inicializar(){
 	config_values = leer_config();
 	log_level = config_values.log_level;
 	logger = iniciar_logger(log_level, ARCHIVO_DE_LOG, LOGGER);
-
+//globales
+	idProceso = 0;
 	return config_values;
 }
 

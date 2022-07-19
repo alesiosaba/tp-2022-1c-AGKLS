@@ -55,6 +55,9 @@ int server_fd, socketMemoria, conexionACPU, conexionACPU_interrupt;
 
 char* errorMessageAux;
 
+//PROCESOS
+int arr_procesos[1024];
+int idProceso;
 
 /*
 pthread_t hiloServer;

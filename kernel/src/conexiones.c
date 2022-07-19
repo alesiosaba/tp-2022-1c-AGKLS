@@ -1,5 +1,8 @@
 #include "../include/conexiones.h"
 
+void conectar_memoria() {
+    log_info(logger,"Conexion exitosa con Memoria");
+}
 
 
 void conectar_cpu(){
@@ -38,3 +41,5 @@ void servidor_procesos() {
 	}
 	else log_info(logger,"Servidor iniciado y esperando que lleguen procesos");
 }
+
+

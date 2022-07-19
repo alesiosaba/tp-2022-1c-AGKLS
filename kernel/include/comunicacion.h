@@ -15,5 +15,6 @@ void manejar_consolas(int server_fd);
 int manejarConexion(void* void_args);
 int server_escuchar(t_log* logger, char* server_name, int server_socket);
 void manejar_cpu(int socket_fd);
+void conectar_memoria();
 
 #endif

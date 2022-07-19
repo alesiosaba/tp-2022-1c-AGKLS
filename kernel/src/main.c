@@ -22,6 +22,7 @@ int main(void) {
 	pthread_create(&thr_comandos, NULL, (void*) &recibirComandos, NULL);
 	pthread_detach(&thr_comandos);
 	servidor_procesos();
+	conectar_memoria(); //todo
 	conectar_cpu();
 	esperar_hilos();
 	terminar_programa();
