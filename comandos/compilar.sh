@@ -1,5 +1,6 @@
 clear
 echo Eliminando logs...
+echo
 cd ../consola
 rm consola.log
 cd ../CPU
