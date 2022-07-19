@@ -48,6 +48,8 @@ void conectar_memoria(){
 	if(pthread_create(&thr_memoria_individual, NULL, (void*) manejarConexion,(void*)conexionAMemoria) != 0){
 		log_error(logger, "Error al crear el hilo la Memoria");
 	}
+
+	enviar_mensaje("Soy un mensaje de CPU hacia Memoria", conexionAMemoria);
 	log_info(logger, "Conexión exitosa con la Memoria");
 }
 
@@ -74,7 +76,6 @@ int manejarConexion(int socket_cliente){
 		switch (cod_op) {
 		case MENSAJE:
 			recibir_mensaje(socket_cliente);
-			enviar_mensaje("HOLA", socket_cliente);
 			break;
 		case PAQUETE:
 			lista = recibir_paquete(socket_cliente);

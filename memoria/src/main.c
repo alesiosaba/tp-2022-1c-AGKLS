@@ -24,7 +24,7 @@ int main(void) {
 	// abro un hilo para escuchar por el puerto dedicado a la memoria
 	pthread_create(&thr_memoria, NULL, (void*) &iniciar_servidor_memoria, NULL);
 
-	terminar_programa(logger, config);
+	terminar_programa();
 	return EXIT_SUCCESS;
 }
 
