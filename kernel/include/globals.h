@@ -8,7 +8,7 @@
 #include <commons/config.h>
 #include <commons/bitarray.h>
 #include <readline/readline.h>
-#include <pthread.h>
+// 
 #include <string.h>
 #include "../../shared/include/utils/utils.h"
 #include "../../shared/include/utils/sockets.h"

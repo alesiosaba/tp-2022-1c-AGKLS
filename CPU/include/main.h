@@ -8,7 +8,7 @@
 #include <commons/string.h>
 #include <commons/config.h>
 #include <unistd.h>
-#include <pthread.h>
+
 
 #include "init.h"
 #include "../../shared/include/utils/utils.h"

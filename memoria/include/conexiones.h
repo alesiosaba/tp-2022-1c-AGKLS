@@ -3,7 +3,7 @@
 
 #include "../../shared/include/utils/utils.h"
 #include "../../shared/include/utils/sockets.h"
-#include <pthread.h>
+
 
 int serverMemoria;
 int clienteMemoria;
