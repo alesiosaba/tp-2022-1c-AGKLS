@@ -30,7 +30,6 @@ int manejarConexion(void* void_args){
 
 		switch (cod_op) {
 		case MENSAJE:
-			log_info(logger, "Se enviará un PCB a CPU");
 			recibir_mensaje(socket_cliente);
 			break;
 		case PAQUETE:

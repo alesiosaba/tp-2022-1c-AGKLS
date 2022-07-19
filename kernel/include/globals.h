@@ -45,6 +45,7 @@ typedef struct config_t
 config_t config_values;
 
 pthread_t thr_cpu;
+pthread_t thr_cpu_interrupt;
 pthread_t thr_comandos;
 pthread_t thr_consolas;
 

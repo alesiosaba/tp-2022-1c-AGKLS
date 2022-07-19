@@ -6,5 +6,7 @@
 
 void conexiones ();
 int manejarConexion(int socket_cliente);
+void servidorDispatch();
+void servidorInterrupt();
 
 #endif

@@ -22,8 +22,13 @@ typedef struct config_t
 } config_t;
 config_t config_values;
 
+// se utilizan para abrir un hilo para escuchar por el puerto dispatch
 int serverDispatch;
 int clienteDispatch;
+// se utilizan para abrir un hilo para escuchar por el puerto interrupt
+int serverInterrupt;
+int clienteInterrupt;
+
 int conexionAMemoria;
 
 void inicializar();

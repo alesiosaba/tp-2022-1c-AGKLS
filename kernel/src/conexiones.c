@@ -15,12 +15,15 @@ void conectar_cpu(){
 		log_error(logger, "Error al crear el hilo con el CPU - Dispatch");
 	}
 	log_info(logger, "Conexión exitosa con el CPU-Dispatch");
-	//pthread_detach(thr_cpu);
 
 	conexionACPU_interrupt = crear_conexion(config_values.ip_cpu,config_values.puerto_cpu_interrupt);
-	if(conexionACPU == -1){
+	if(conexionACPU_interrupt == -1){
 		error_handler(logger, errorMessageAux, SERVIDOR_AUSENTE, " CPU-Interrupt", NULL);
 		terminar_programa();
+	}
+
+	if(pthread_create(&thr_cpu_interrupt, NULL, (void*) manejar_cpu,(void*)conexionACPU_interrupt) != 0){
+		log_error(logger, "Error al crear el hilo con el CPU - Interrupt");
 	}
 
 	log_info(logger,"Conexion exitosa con CPU-Interrupt");

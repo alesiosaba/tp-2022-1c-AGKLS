@@ -2,44 +2,45 @@
 #include "stdlib.h"
 #include "../include/init.h"
 #include "../include/comunicacion.h"
+#include "../include/globals.h"
+
+void servidorDispatch(){
+	serverDispatch = iniciar_servidor(IP, config_values.puerto_escucha_dispatch);
+	log_info(logger, "Servidor listo para recibir la conexion dispatch del kernel");
+
+	pthread_t thr_dispatch_individual;
+
+	while(1){
+		clienteDispatch = esperar_cliente(serverDispatch);
+        pthread_create(&thr_dispatch_individual, NULL, (void*) manejarConexion, (void*) clienteDispatch);
+        pthread_detach(thr_dispatch_individual);
+	}
+
+	close(serverDispatch);
+}
+
+void servidorInterrupt(){
+	serverInterrupt = iniciar_servidor(IP, config_values.puerto_escucha_interrupt);
+	log_info(logger, "Servidor listo para recibir la conexion interrupt del kernel");
+
+	pthread_t thr_interrupt_individual;
+
+	while(1){
+		clienteInterrupt = esperar_cliente(serverInterrupt);
+        pthread_create(&thr_interrupt_individual, NULL, (void*) manejarConexion, (void*) clienteInterrupt);
+        pthread_detach(thr_interrupt_individual);
+	}
+
+	close(serverInterrupt);
+}
 
 void conexiones (){
 
-/*
-Al iniciarse el módulo, se conectará con la Memoria y realizará un handshake inicial para recibir
-la configuración relevante de la misma que le permita traducir las direcciones lógicas a físicas.
-Esto debería incluir al menos cantidad de entradas por tabla de páginas y tamaño de página.
-*/
+	// abro un hilo para escuchar por el puerto dispatch
+	pthread_create(&thr_dispatch, NULL, (void*) &servidorDispatch, NULL);
 
-	conexionAMemoria = crear_conexion(config_values.IP_memoria, config_values.puerto_memoria);
-
-	enviar_mensaje("Soy un mensaje enviado desde CPU", conexionAMemoria);
-/*
-Quedará a la espera de conexión a través del puerto dispatch por parte del Kernel, quien, una vez conectado,
-le enviará un PCB para ejecutar. Habiéndose recibido, se procederá a realizar el ciclo de instrucción
-tomando como punto de partida la instrucción que indique el Program Counter del PCB recibido.
-*/
-
-	serverDispatch = iniciar_servidor(IP, config_values.puerto_escucha_dispatch);
-	log_info(logger, "Servidor listo para recibir la conexion dispatch del kernel");
-	clienteDispatch = esperar_cliente(serverDispatch);
-
-
-	while(1){
-		manejarConexion(clienteDispatch);
-	}
-
-
-/*
-Quedará a la espera también de conexión a través del puerto interrupt por parte del Kernel para recibir
-mensajes de interrupción en cualquier momento, por lo que estos módulos mantendrán dos conexiones
-en simultáneo.
-/*
-	/*
-	int serverInterrupt = iniciar_servidor(config_values.puerto_escucha_interrupt);
-	log_info(logger, "Servidor listo para recibir la conexion interrupt del kernel");
-	int clienteInterrupt = esperar_cliente(serverInterrupt);
-	*/
+	// abro un hilo para escuchar por el puerto interrupt
+	pthread_create(&thr_interrupt, NULL, (void*) &servidorInterrupt, NULL);
 }
 
 int manejarConexion(int socket_cliente){
@@ -52,6 +53,7 @@ int manejarConexion(int socket_cliente){
 		switch (cod_op) {
 		case MENSAJE:
 			recibir_mensaje(socket_cliente);
+			enviar_mensaje("HOLA", socket_cliente);
 			break;
 		case PAQUETE:
 			lista = recibir_paquete(socket_cliente);

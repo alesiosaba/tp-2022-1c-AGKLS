@@ -20,8 +20,10 @@ int main(void) {
 	servidor_procesos();
 	conectar_cpu();
 
-
 	log_info(logger, SERVIDOR_LISTO);
+
+	enviar_mensaje("Soy un mensaje de kernel a CPU por Dispatch.", conexionACPU);
+	enviar_mensaje("Soy un mensaje de kernel a CPU por Interrupt.", conexionACPU_interrupt);
 
 	esperar_hilos();
 
