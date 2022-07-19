@@ -27,7 +27,6 @@ int manejarConexion(int socket_cliente){
 		switch (cod_op) {
 		case MENSAJE:
 			recibir_mensaje(socket_cliente);
-			enviar_mensaje("Soy la devolucion desde memoria hacia CPU", socket_cliente);
 			break;
 		case PAQUETE:
 			lista = recibir_paquete(socket_cliente);

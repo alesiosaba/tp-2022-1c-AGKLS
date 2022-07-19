@@ -49,7 +49,6 @@ void conectar_memoria(){
 		log_error(logger, "Error al crear el hilo la Memoria");
 	}
 
-	enviar_mensaje("Soy un mensaje de CPU hacia Memoria", conexionAMemoria);
 	log_info(logger, "Conexión exitosa con la Memoria");
 }
 
