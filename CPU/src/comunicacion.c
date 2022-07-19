@@ -50,7 +50,6 @@ void conectar_memoria(){
 	}
 
 	log_info(logger, "Conexión exitosa con la Memoria");
-	enviar_mensaje("Soy un mensaje de CPU a Memoria",conexionAMemoria);
 }
 
 void conexiones (){
