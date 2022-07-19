@@ -13,6 +13,14 @@ void manejar_cpu(int socket_fd){
     manejarConexion(args);
  }
 
+void manejar_memoria(int socket_fd){
+    t_procesar_conexion_args* args = malloc(sizeof(t_procesar_conexion_args));
+    args->log = logger;
+    args->fd = socket_fd;
+    // ACA VA LA ESCUCHA DEL KERNEL A LA MEMORIA
+    manejarConexion(args);
+ }
+
 
 int manejarConexion(void* void_args){
 

@@ -4,7 +4,7 @@
 void iniciar_servidor_memoria(){
 
 	serverMemoria = iniciar_servidor(IP, config_values.puerto_escucha);
-	log_info(logger, "Servidor listo para recibir la conexion de CPU");
+	log_info(logger, "Servidor de memoria listo para recibir conexiones.");
 
 	pthread_t thr_memoria_individual;
 
@@ -27,6 +27,7 @@ int manejarConexion(int socket_cliente){
 		switch (cod_op) {
 		case MENSAJE:
 			recibir_mensaje(socket_cliente);
+			enviar_mensaje("Soy un mensaje de memoria",socket_cliente);
 			break;
 		case PAQUETE:
 			lista = recibir_paquete(socket_cliente);
