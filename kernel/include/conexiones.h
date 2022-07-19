@@ -5,6 +5,7 @@
 
 
 void conectar_cpu();
+void conectar_memoria();
 void servidor_procesos();
 
 

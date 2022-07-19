@@ -46,11 +46,16 @@ config_t config_values;
 
 pthread_t thr_cpu;
 pthread_t thr_cpu_interrupt;
+pthread_t thr_memoria;
 pthread_t thr_comandos;
 pthread_t thr_consolas;
 
 //SOCKETS
-int server_fd, socketMemoria, conexionACPU, conexionACPU_interrupt;
+int server_fd;
+int socketMemoria;
+int conexionACPU;
+int conexionACPU_interrupt;
+int conexionAMemoria;
 
 
 char* errorMessageAux;

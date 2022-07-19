@@ -16,7 +16,12 @@
 *.log
 
 #Language.settings.xml
-/consola/.settings/language.settings.xml
+shared/.settings/language.settings.xml
+consola/.settings/language.settings.xml
+CPU/.settings/language.settings.xml
+kernel/.settings/language.settings.xml
+memoria/.settings/language.settings.xml
+
 
 # Precompiled Headers
 *.gch
@@ -57,9 +62,3 @@ Module.symvers
 Mkfile.old
 dkms.conf
 /.metadata/
-
-shared/.settings/language.settings.xml
-consola/.settings/language.settings.xml
-CPU/.settings/language.settings.xml
-kernel/.settings/language.settings.xml
-memoria/.settings/language.settings.xml

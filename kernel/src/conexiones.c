@@ -1,12 +1,29 @@
 #include "../include/conexiones.h"
 
+<<<<<<< HEAD
 void conectar_memoria() {
     log_info(logger,"Conexion exitosa con Memoria");
 }
+=======
+void conectar_memoria(){
+	conexionAMemoria = crear_conexion(config_values.ip_memoria,config_values.puerto_memoria);
+	if(conexionAMemoria == -1){
+		error_handler(logger, errorMessageAux, SERVIDOR_AUSENTE, " Memoria", NULL);
+		terminar_programa();
+		exit(-1);
+	}
+>>>>>>> 9dbf26a45ea18a152f5fe8dfa74492056f165985
 
+	if(pthread_create(&thr_memoria, NULL, (void*) manejar_memoria,(void*)conexionAMemoria) != 0){
+		log_error(logger, "Error al crear el hilo con la memoria");
+	}
+
+	log_info(logger, "Conexión exitosa con la Memoria");
+}
 
 void conectar_cpu(){
 
+	// Conexion de Kernel con CPU por puerto Dispatch
 	conexionACPU = crear_conexion(config_values.ip_cpu,config_values.puerto_cpu_dispatch);
 	if(conexionACPU == -1){
 		error_handler(logger, errorMessageAux, SERVIDOR_AUSENTE, " CPU", NULL);
@@ -19,6 +36,7 @@ void conectar_cpu(){
 	}
 	log_info(logger, "Conexión exitosa con el CPU-Dispatch");
 
+	// Conexion de Kernel con CPU por puerto Interrupt
 	conexionACPU_interrupt = crear_conexion(config_values.ip_cpu,config_values.puerto_cpu_interrupt);
 	if(conexionACPU_interrupt == -1){
 		error_handler(logger, errorMessageAux, SERVIDOR_AUSENTE, " CPU-Interrupt", NULL);

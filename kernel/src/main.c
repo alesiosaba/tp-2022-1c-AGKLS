@@ -24,6 +24,13 @@ int main(void) {
 	servidor_procesos();
 	conectar_memoria(); //todo
 	conectar_cpu();
+<<<<<<< HEAD
+=======
+	conectar_memoria();
+
+	log_info(logger, SERVIDOR_LISTO);
+	
+>>>>>>> 9dbf26a45ea18a152f5fe8dfa74492056f165985
 	esperar_hilos();
 	terminar_programa();
 	return EXIT_SUCCESS;
@@ -33,8 +40,8 @@ int main(void) {
 void matar_hilos(){
 	pthread_cancel(thr_consolas);
     pthread_cancel(thr_cpu);
-
-
+    pthread_cancel(thr_cpu_interrupt);
+    pthread_cancel(thr_memoria);
 }
 
 void recibirComandos(){
@@ -55,8 +62,9 @@ void recibirComandos(){
 
 void esperar_hilos() {
         pthread_join(thr_cpu,NULL);
+        pthread_join(thr_cpu_interrupt,NULL);
         pthread_join(thr_consolas, NULL);
-
+        pthread_join(thr_memoria, NULL);
 }
 
 
