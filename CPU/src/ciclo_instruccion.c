@@ -3,10 +3,6 @@
 void ejecutar_ciclo_instruccion(pcb** pcb){
 	log_debug(logger, COMIENZO_CICLO_INSTRUCCION, (*pcb)->id);
 
-	log_debug(logger, "Tiempo de bloqueo: %d", (*pcb)->tiempo_a_bloquearse);
-	(*pcb)->tiempo_a_bloquearse = 99;
-	log_debug(logger, "Tiempo de bloqueo: %d", (*pcb)->tiempo_a_bloquearse);
-
 	// buscar la próxima instrucción a ejecutar
 	fetch();
 	// interpretar qué instrucción es la que se va a ejecutar (solo COPY ejecuta fetch_operands)
