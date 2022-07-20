@@ -6,22 +6,12 @@ void iterator(char* value) {
 
 // esta funcion se usa para deserializar un PCB "nuevo" enviado desde consola a kernel
 pcb* armar_PCB_nuevo(t_list* lista){
-
-	//nodo_pcb* nodo_pcb = (struct nodo_pcb*)malloc(sizeof(struct nodo_pcb));
 	pcb* pcb = (struct pcb*)malloc(sizeof(struct pcb));
 	pcb->instrucciones = NULL;
-
-	// agarro el primer elemento (tamanio del proceso)
 	t_list* tamanio_proceso = list_remove(lista, 0);
 	pcb->tamanio= atoi(tamanio_proceso);
-
-	pcb->id = 555;
-
-	// armo la lista de instrucciones y la guardo en el PCB
 	pcb->instrucciones = armar_lista_instrucciones(lista);
-
 	pcb->program_counter = pcb->instrucciones;
-
 	pcb->state = NEW;
 
 	return pcb;
@@ -48,6 +38,10 @@ pcb* deserializar_PCB(t_list* lista){
 	// agarro el tercer elemento (state)
 	t_list* state = list_remove(lista, 0);
 	pcb->state = atoi(state);
+
+	// agarro el tercer elemento (state)
+	t_list* estimacion = list_remove(lista, 0);
+	pcb->estimacion_rafaga = atof(estimacion);
 
 	// armo la lista de instrucciones y la guardo en el PCB
 	pcb->instrucciones = deserializar_lista_instrucciones(lista);
@@ -101,6 +95,9 @@ t_paquete* generar_paquete_pcb(struct pcb PCB_a_enviar){
 	sprintf(state, "%d\0", PCB_a_enviar.state);
 	agregar_a_paquete(paquete, state, strlen(state));
 
+	char estimacion[100];
+	sprintf(estimacion, "%f\0", PCB_a_enviar.estimacion_rafaga);
+	agregar_a_paquete(paquete, estimacion, strlen(estimacion));
 
 	// double tabla_paginas = PCB_a_enviar.tabla_paginas;
 
@@ -130,19 +127,6 @@ t_paquete* generar_paquete_pcb(struct pcb PCB_a_enviar){
 
 	return paquete;
 
-	/* Orden dentro del buffer del paquete
-
-	 id
-	 tamanio
-	 state
-	 tabla_paginas 		-- Todavia no implementado
-	 estimacion_rafaga  -- Todavia no implementado
-
-	 program_counter    -- GR: NO SE DEBERÍA ENVIAR, GUARDA DIRECTO EN CPU LA DIRECCION DE LA PRIMERA INSTR.
-
-	 lista_instrucciones -- Todavia no implementado
-
-	 */
 }
 
 // Definicion de funciones para armar/leer PCB
@@ -419,8 +403,9 @@ void agregar_nuevo_parametro(nodo_instruccion* nodo_instruccion, char* parametro
 
 // esta funcion sirve para recorrer cualquier PCB ya sea en kernel, cpu, etc.
 void imprimir_PCB(pcb* nodo_pcb){
-
-	printf("STATUS %d", nodo_pcb->state);
+	printf("ID %d", nodo_pcb->id);
+	printf("\nSTATUS %d", nodo_pcb->state);
+	printf("\nEST %f", nodo_pcb->estimacion_rafaga);
 
 	mostrar_lista_instrucciones(nodo_pcb->instrucciones);
 

@@ -22,9 +22,15 @@ int main(void) {
 	pthread_create(&thr_comandos, NULL, (void*) &recibirComandos, NULL);
 	pthread_detach(&thr_comandos);
 	servidor_procesos();
-	iniciarPlanificacion();
+	conectar_memoria(); //todo
 	conectar_cpu();
+<<<<<<< HEAD
+=======
 	conectar_memoria();
+
+	log_info(logger, SERVIDOR_LISTO);
+	
+>>>>>>> 9dbf26a45ea18a152f5fe8dfa74492056f165985
 	esperar_hilos();
 	terminar_programa();
 	return EXIT_SUCCESS;
@@ -36,8 +42,6 @@ void matar_hilos(){
     pthread_cancel(thr_cpu);
     pthread_cancel(thr_cpu_interrupt);
     pthread_cancel(thr_memoria);
-    pthread_cancel(thr_planifLT);
-    pthread_cancel(thr_planifST);
 }
 
 void recibirComandos(){
@@ -61,26 +65,15 @@ void esperar_hilos() {
         pthread_join(thr_cpu_interrupt,NULL);
         pthread_join(thr_consolas, NULL);
         pthread_join(thr_memoria, NULL);
-        pthread_join(thr_planifST, NULL);
-        pthread_join(thr_planifLT, NULL);
 }
 
 
 void terminar_programa()
 {
-	//conexiones
-	liberar_conexion(&conexionACPU);
-	liberar_conexion(&conexionACPU_interrupt);
-	liberar_conexion(&conexionAMemoria);
-	log_debug(logger,CONEXION_CERRADA);
-	//Semaforos
-	sem_destroy(&sem_ProcesosNew);
-	log_debug(logger,SEMAFOROS_DESTRUIDOS);
-	//config
 	config_destroy(config);
 	log_debug(logger,CONFIGURACION_CERRADA);
-	//log
-	log_destroy(logger);
+	liberar_conexion(&conexionACPU);
+	liberar_conexion(&conexionACPU_interrupt);
 	log_debug(logger,TERMINANDO_EL_LOG);
-
+	log_destroy(logger);
 }

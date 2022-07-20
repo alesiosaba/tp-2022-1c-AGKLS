@@ -1,12 +1,10 @@
 #include "../include/comunicacion.h"
 
 void manejar_consolas(int server_fd){
-	//while(server_escuchar(logger, "Consola", server_fd));
-
 	while(1) {
         arr_procesos[idProceso] = esperar_cliente(server_fd);
         log_info(logger,"Nuevo proceso recibido");
-        nuevoProceso();
+        server_escuchar(logger, "Consola", arr_procesos[idProceso]);
     }
 }
 
@@ -52,18 +50,18 @@ int manejarConexion(void* void_args){
 			list_iterate(lista, (void*) iterator);
 			break;
 		case PAQUETE_CONSOLA:
-			recv_paquete_consola(socket_cliente, &nodo_pcb);
-
-			planificar(config_values.algoritmo_planificacion, nodo_pcb);
-
-			imprimir_PCB(nodo_pcb);
-
+			recibir_pcb(socket_cliente, &nodo_pcb);
+	        list_add(listaNew,nodo_pcb);
+	        list_add(listaProcesos,nodo_pcb);
+	        log_info(logger,"Se recibió un nuevo proceso - PID:%d",idProceso-1);
+	        sem_post(&sem_ProcesosNew);
+	        //planificar(config_values.algoritmo_planificacion, nodo_pcb);
+			//imprimir_PCB(nodo_pcb);
 			break;
 		case PAQUETE_PCB:
 			log_debug(logger, RECEPCION_PAQUETE_PCB);
 			recv_paquete_pcb(socket_cliente, &nodo_pcb);
 			imprimir_PCB(nodo_pcb);
-
 			break;
 		case -1:
 			log_warning(logger, SERVIDOR_DESCONEXION);
@@ -75,25 +73,24 @@ int manejarConexion(void* void_args){
 	}
 	log_warning(logger, "El cliente se desconecto de %s server", server_name);
 
-	return 0;
+	return EXIT_SUCCESS;
 
 }
 
-int server_escuchar(t_log* logger, char* server_name, int server_socket) {
-//    int cliente_socket = esperar_cliente(server_socket);
-
-    if (cliente_socket != -1) {
-//        pthread_t hilo;
-//        t_procesar_conexion_args* args = malloc(sizeof(t_procesar_conexion_args));
-        args->log = logger;
-        args->fd = cliente_socket;
-        args->server_name = server_name;
-        manejarConexion(args);
-//        pthread_create(&hilo, NULL, (void*) manejarConexion, (void*) args);
-//        pthread_detach(hilo);
-        return 1;
-    }
-    return 0;
+int server_escuchar(t_log* logger, char* server_name, int client_socket) {
+	t_procesar_conexion_args* args = malloc(sizeof(t_procesar_conexion_args));
+	args->log = logger;
+	args->fd = client_socket;
+	args->server_name = server_name;
+	manejarConexion(args);
+	free(args);
+	return EXIT_SUCCESS;
 }
 
+void recibir_pcb(int fd, pcb** nodo_pcb){
+	recv_paquete_consola(fd, nodo_pcb);
+	(*nodo_pcb)->id = idProceso;
+	idProceso ++;
+	(*nodo_pcb)->estimacion_rafaga = config_values.estimacion_inicial;
+}
 

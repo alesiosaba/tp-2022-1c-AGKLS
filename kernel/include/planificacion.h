@@ -18,8 +18,8 @@ void agregarPCB(pcb* pcb);
 
 void movePCBtoReady(pcb** PCB);
 
-bool planificar(int algoritmo, pcb *nodo_pcb);
+void planificadorCortoPlazo();
 void ejecutarFIFO();
-
+void planificadorLargoPlazo();
 
 #endif

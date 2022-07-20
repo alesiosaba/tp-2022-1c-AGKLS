@@ -13,6 +13,17 @@ config_t inicializar(){
 	logger = iniciar_logger(log_level, ARCHIVO_DE_LOG, LOGGER);
 //globales
 	idProceso = 0;
+    listaNew = list_create();
+    listaReady = list_create();
+    listaExec = list_create();
+    listaExit = list_create();
+    listaBlocked = list_create();
+    listaSuspendedReady = list_create();
+    listaSuspendedBlocked = list_create();
+    listaProcesos = list_create();
+    listaDesbloqueoPendiente = list_create();
+//semaforos
+    sem_init(&sem_ProcesosNew,1,0);
 	return config_values;
 }
 
@@ -23,7 +34,6 @@ ALGORITMOS str2enum (char *str)
      for (j = 0;  j < sizeof (conversion) / sizeof (conversion[0]);  ++j)
          if (!strcmp (str, conversion[j].str))
              return conversion[j].val;
-     //error_message ("no such string");
 }
 
 config_t leer_config(){

@@ -8,7 +8,8 @@
 #include <commons/config.h>
 #include <commons/bitarray.h>
 #include <readline/readline.h>
-// 
+#include <signal.h>
+#include <semaphore.h>
 #include <string.h>
 #include "../../shared/include/utils/utils.h"
 #include "../../shared/include/utils/sockets.h"
@@ -49,6 +50,8 @@ pthread_t thr_cpu_interrupt;
 pthread_t thr_memoria;
 pthread_t thr_comandos;
 pthread_t thr_consolas;
+pthread_t thr_planifLT;
+pthread_t thr_planifST;
 
 //SOCKETS
 int server_fd;
@@ -64,6 +67,20 @@ char* errorMessageAux;
 int arr_procesos[1024];
 int idProceso;
 
+//LISTAS
+t_list* listaNew;
+t_list* listaReady;
+t_list* listaExec;
+t_list* listaExit;
+t_list* listaBlocked;
+t_list* listaSuspendedReady;
+t_list* listaSuspendedBlocked;
+t_list* listaProcesos;
+t_list* listaDesbloqueoPendiente;
+
+//SEMAFOROS
+sem_t sem_ProcesosNew;
+sem_t sem_ProcesosReady;
 /*
 pthread_t hiloServer;
 pthread_t hiloDispatch;

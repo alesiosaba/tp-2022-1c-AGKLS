@@ -1,6 +1,28 @@
 #include "../include/planificacion.h"
 
 
+void iniciarPlanificacion() {
+    bool error=true;
+    if (pthread_create(&thr_planifST, NULL, (void*) &planificadorCortoPlazo, NULL) != 0) {
+		log_error(logger, "Error al crear el hilo del planificador de corto plazo");
+        error = false;
+	}
+    if (pthread_create(&thr_planifLT, NULL, (void*) &planificadorLargoPlazo, NULL) != 0) {
+		log_error(logger, "Error al crear el hilo del planificador");
+        error = false;
+	}
+    /*
+    if (pthread_create(&hiloBloqueos, NULL, (void*) &resolverBloqueos, NULL) != 0) {
+		log_error(logger, "Error al crear el hilo de bloqueos");
+        error++;
+	}
+    if (pthread_create(&hiloSuspended, NULL, (void*) &resolverSuspended, NULL) != 0) {
+		log_error(logger, "Error al crear el hilo de suspended");
+        error++;
+	}*/
+	if(error) log_info(logger,"Planificadores Inicializados");
+}
+
 
 nodo_readyQueue* nuevo_nodo_readyQueue(){
 	nodo_readyQueue* nodo = (struct nodo_readyQueue*)malloc(sizeof(struct nodo_readyQueue));
@@ -49,31 +71,46 @@ void movePCBtoReady(pcb** new_pcb){
 }
 
 
-bool planificar(int algoritmo, pcb *nodo_pcb){
-
-	switch (algoritmo){
+void planificadorCortoPlazo(pcb *nodo_pcb){
+	pcb* pcb;
+	switch (config_values.algoritmo_planificacion){
 		case FIFO:
-			if(!readyQueue){
-				movePCBtoReady(&nodo_pcb);
-				ejecutarFIFO();
-			}
-			else{
-				movePCBtoReady(&nodo_pcb);
+			while(1){
+				    sem_wait(&sem_ProcesosReady);
+			        pcb = list_remove(listaReady,0);
+			        list_add(listaExec,pcb);
+			        log_info(logger,"Pongo a ejecutar al proceso %d",pcb->id);
 			}
 			break;
 		default:
+			while(1){
+
+			}
 			break;
 	}
 }
 
-void ejecutarFIFO(){
-	nodo_readyQueue *temp = readyQueue;
 
-	if(readyQueue->pcb){
-		send_paquete_pcb(conexionACPU,readyQueue->pcb);
-		readyQueue = readyQueue->sig;
-		free(temp);
+void planificadorLargoPlazo(pcb *nodo_pcb){
+	pcb* pcb;
+	int respuestaMemoriaDummy = 10;
+	int numeroTabla;
+	while(1){
+		sem_wait(&sem_ProcesosNew);
+		pcb = list_get(listaNew,0);
+		numeroTabla = respuestaMemoriaDummy; //todo Acá pido el numero de tabla para la memoria
+		if(numeroTabla < 9999){
+			log_info(logger,INICIALIZACION_PROCESOS,pcb->id);
+			list_add(listaReady,pcb);
+			sem_post(&sem_ProcesosReady);
+		}
 	}
+}
+
+
+
+void ejecutarFIFO(){
+
 }
 
 

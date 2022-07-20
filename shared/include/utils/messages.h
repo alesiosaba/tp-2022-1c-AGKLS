@@ -6,11 +6,14 @@
 #define ERROR_AL_ABRIR_ARCHIVO "Error al abrir el Archivo"
 #define TERMINANDO_EL_LOG "Terminando el Log"
 #define CONFIGURACION_CERRADA "Archivo de configuracion cerrado"
+#define SEMAFOROS_DESTRUIDOS "Los semaforos fueron destruidos"
+#define CONEXION_CERRADA "Las conexiones fueron cerradas"
 #define OPERACION_DESCONOCIDA "Operacion desconocida. No quieras meter la pata"
 #define LECTURA_DE_VALORES "Me llegaron los siguientes valores:\n"
 #define RECEPCION_PAQUETE_PCB "Se recibio un paquete de PCB"
 #define RECEPCION_PAQUETE_CPU "Se recibio un paquete de CPU"
 #define GENERANDO_PCB "Generando paquete PCB ..."
+#define INICIALIZACION_PROCESOS "Se inicializa el proceso %d"
 
 // SOCKETS:
 
