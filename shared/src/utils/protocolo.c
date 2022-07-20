@@ -4,10 +4,9 @@
 
 bool send_paquete_pcb(int fd, pcb* nodo_pcb){
 
-	log_debug(logger, GENERANDO_PCB);
 	t_paquete* paquete = generar_paquete_pcb(*nodo_pcb);
 	enviar_paquete(paquete, fd);
-
+	log_debug(logger, PCB_ENVIADO, nodo_pcb->id);
 	return eliminar_paquete(paquete);
 
 }

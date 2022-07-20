@@ -21,6 +21,10 @@ nodo_parametro* agregar_primer_parametro(char* parametro);
 void agregar_nuevo_parametro(nodo_instruccion* nodo_instruccion, char* parametro);
 void imprimir_PCB(pcb* nodo_pcb);
 
+void destruir_parametros(nodo_parametro* parametro);
+void destruir_instrucciones(nodo_instruccion* ins);
+void destruir_PCB(pcb* pcb);
+
 //FOR TESTING
 pcb* generar_pcb_dummy();
 

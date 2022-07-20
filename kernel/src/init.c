@@ -25,6 +25,7 @@ config_t inicializar(){
 //semaforos
     sem_init(&sem_ProcesosNew,1,0);
     sem_init(&sem_enviarPCB,1,0);
+    sem_init(&sem_respuestaPCB,1,0);
     sem_init(&sem_comenzarProcesos,1,1);
 	return config_values;
 }

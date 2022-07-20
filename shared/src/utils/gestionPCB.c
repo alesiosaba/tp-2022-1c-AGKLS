@@ -411,9 +411,17 @@ void imprimir_PCB(pcb* nodo_pcb){
 
 }
 
-//FOR TESTING
-pcb* generar_pcb_dummy(){
+void destruir_PCB(pcb* pcb){
+	list_destroy_and_destroy_elements(pcb->instrucciones, (void*)destruir_instrucciones);
+	free(pcb);
+}
 
+void destruir_instrucciones(nodo_instruccion* ins){
+	list_destroy_and_destroy_elements(ins->instruccion.parametros, (void *)destruir_parametros);
+	free(ins);
+}
 
+void destruir_parametros(nodo_parametro* parametro){
+	free(parametro);
 }
 

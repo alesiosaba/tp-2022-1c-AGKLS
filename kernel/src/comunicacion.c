@@ -10,11 +10,16 @@ void manejar_consolas(int server_fd){
 
 
 void manejar_cpu(int socket_fd){
+	t_procesar_conexion_args* args = malloc(sizeof(t_procesar_conexion_args));
+	    args->log = logger;
+	    args->fd = socket_fd;
 
 	while(1){
 		sem_wait(&sem_enviarPCB);
 		pcb* pcb = list_remove(listaExec, 0);
 		send_paquete_pcb(conexionACPU, pcb);
+		//destruir_PCB(pcb);
+		manejarConexion(args);
 		sem_post(&sem_comenzarProcesos);
 	}
 
@@ -71,6 +76,7 @@ int manejarConexion(void* void_args){
 
 			break;
 		case PAQUETE_PCB:
+			sem_post(&sem_respuestaPCB);
 			log_debug(logger, RECEPCION_PAQUETE_PCB);
 			recv_paquete_pcb(socket_cliente, &nodo_pcb);
 			imprimir_PCB(nodo_pcb);

@@ -76,12 +76,13 @@ void terminar_programa()
 	sem_destroy(&sem_enviarPCB);
 	sem_destroy(&sem_comenzarProcesos);
 	sem_destroy(&sem_ProcesosReady);
+	sem_destroy(&sem_respuestaPCB);
 	log_debug(logger,SEMAFOROS_DESTRUIDOS);
 	//config
 	config_destroy(config);
 	log_debug(logger,CONFIGURACION_CERRADA);
 	//log
-	log_destroy(logger);
 	log_debug(logger,TERMINANDO_EL_LOG);
+	log_destroy(logger);
 
 }

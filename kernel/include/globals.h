@@ -83,6 +83,7 @@ sem_t sem_ProcesosNew;
 sem_t sem_ProcesosReady;
 sem_t sem_comenzarProcesos;
 sem_t sem_enviarPCB;
+sem_t sem_respuestaPCB;
 /*
 pthread_t hiloServer;
 pthread_t hiloDispatch;
