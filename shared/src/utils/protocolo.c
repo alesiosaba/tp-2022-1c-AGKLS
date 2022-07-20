@@ -24,7 +24,7 @@ bool recv_paquete_pcb(int fd, pcb** nodo_pcb){
 bool recv_paquete_consola(int fd, pcb** nodo_pcb){
 	t_list* lista;
 	lista = recibir_paquete(fd);
-	log_debug(logger, RECEPCION_PAQUETE_CPU);
+	log_debug(logger, RECEPCION_PROCESO);
 	*nodo_pcb = armar_PCB_nuevo(lista);
 	return true;
 }

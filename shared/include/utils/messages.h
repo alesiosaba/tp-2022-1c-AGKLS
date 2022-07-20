@@ -12,6 +12,7 @@
 #define LECTURA_DE_VALORES "Me llegaron los siguientes valores:\n"
 #define RECEPCION_PAQUETE_PCB "Se recibio un paquete de PCB"
 #define RECEPCION_PAQUETE_CPU "Se recibio un paquete de CPU"
+#define RECEPCION_PROCESO "Se recibio un nuevo proceso"
 #define GENERANDO_PCB "Generando paquete PCB ..."
 #define INICIALIZACION_PROCESOS "Se inicializa el proceso %d"
 

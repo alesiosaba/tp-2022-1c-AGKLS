@@ -24,6 +24,8 @@ config_t inicializar(){
     listaDesbloqueoPendiente = list_create();
 //semaforos
     sem_init(&sem_ProcesosNew,1,0);
+    sem_init(&sem_enviarPCB,1,0);
+    sem_init(&sem_comenzarProcesos,1,1);
 	return config_values;
 }
 

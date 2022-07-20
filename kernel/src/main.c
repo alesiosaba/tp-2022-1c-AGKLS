@@ -1,7 +1,5 @@
 #include "../include/main.h"
 
-nodo_readyQueue* readyQueue = NULL;
-
 //Finalizacion por interrupción cntrl + c
 void sighandler(int s){
 	if(conexionACPU){
@@ -75,6 +73,9 @@ void terminar_programa()
 	log_debug(logger,CONEXION_CERRADA);
 	//Semaforos
 	sem_destroy(&sem_ProcesosNew);
+	sem_destroy(&sem_enviarPCB);
+	sem_destroy(&sem_comenzarProcesos);
+	sem_destroy(&sem_ProcesosReady);
 	log_debug(logger,SEMAFOROS_DESTRUIDOS);
 	//config
 	config_destroy(config);

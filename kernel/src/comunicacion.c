@@ -10,11 +10,24 @@ void manejar_consolas(int server_fd){
 
 
 void manejar_cpu(int socket_fd){
+
+	while(1){
+		sem_wait(&sem_enviarPCB);
+		pcb* pcb = list_remove(listaExec, 0);
+		send_paquete_pcb(conexionACPU, pcb);
+		sem_post(&sem_comenzarProcesos);
+	}
+
+
+
+
+	/*
     t_procesar_conexion_args* args = malloc(sizeof(t_procesar_conexion_args));
     args->log = logger;
     args->fd = socket_fd;
+
     // ACA VA LA ESCUCHA DEL KERNEL AL CPU
-    manejarConexion(args);
+    manejarConexion(args);*/
  }
 
 void manejar_memoria(int socket_fd){

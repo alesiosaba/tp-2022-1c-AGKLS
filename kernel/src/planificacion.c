@@ -24,48 +24,18 @@ void iniciarPlanificacion() {
 }
 
 
-nodo_readyQueue* nuevo_nodo_readyQueue(){
-	nodo_readyQueue* nodo = (struct nodo_readyQueue*)malloc(sizeof(struct nodo_readyQueue));
-	nodo->sig = NULL;
-	nodo->pcb = NULL;
-	return nodo;
-}
-
-void agregarPrimerPCB(pcb* PCB){
-
-	// genero el primer nodo de la lista de la cola de listo
-	nodo_readyQueue* nodo_pcb = nuevo_nodo_readyQueue();
-
-	nodo_pcb->pcb = PCB;
-
-	readyQueue = nodo_pcb;
-
-};
-
-void agregarPCB(pcb* PCB){
-
-	nodo_readyQueue* aux = readyQueue;
-
-	// genero el primer nodo de la lista de la cola de listo
-	while(aux->sig != NULL){
-		aux = aux->sig;
-	}
-
-	aux->sig = nuevo_nodo_readyQueue();
-	aux->sig->pcb = *PCB;
-	aux->sig->sig = NULL;
-
-};
-
-
-
-void movePCBtoReady(pcb** new_pcb){
-	(*new_pcb)->state = READY ;
-
-	if(readyQueue == NULL){
-		agregarPrimerPCB(*new_pcb);
-	}else{
-		agregarPCB(*new_pcb);
+void movePCBto(pcb** new_pcb, status new_status){
+	(*new_pcb)->status = new_status ;
+	switch(new_status){
+	case READY:
+		list_add(listaReady, *new_pcb);
+		break;
+	case NEW:
+		list_add(listaNew, *new_pcb);
+		break;
+	case EXECUTION:
+		list_add(listaExec, *new_pcb);
+		break;
 	}
 
 }
@@ -76,17 +46,22 @@ void planificadorCortoPlazo(pcb *nodo_pcb){
 	switch (config_values.algoritmo_planificacion){
 		case FIFO:
 			while(1){
+					sem_wait(&sem_comenzarProcesos);
 				    sem_wait(&sem_ProcesosReady);
 			        pcb = list_remove(listaReady,0);
-			        list_add(listaExec,pcb);
+			        movePCBto(&pcb, EXECUTION);
+			        //list_add(listaExec,pcb);
+			        sem_post(&sem_enviarPCB);
 			        log_info(logger,"Pongo a ejecutar al proceso %d",pcb->id);
 			}
 			break;
 		default:
 			while(1){
+				sem_wait(&sem_comenzarProcesos);
 
 			}
 			break;
+
 	}
 }
 
@@ -101,16 +76,12 @@ void planificadorLargoPlazo(pcb *nodo_pcb){
 		numeroTabla = respuestaMemoriaDummy; //todo Acá pido el numero de tabla para la memoria
 		if(numeroTabla < 9999){
 			log_info(logger,INICIALIZACION_PROCESOS,pcb->id);
-			list_add(listaReady,pcb);
+			pcb = list_remove(listaNew,0);
+			movePCBto(&pcb, READY);
+			//list_add(listaReady,pcb);
 			sem_post(&sem_ProcesosReady);
 		}
 	}
-}
-
-
-
-void ejecutarFIFO(){
-
 }
 
 

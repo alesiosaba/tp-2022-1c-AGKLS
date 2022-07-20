@@ -12,7 +12,7 @@ pcb* armar_PCB_nuevo(t_list* lista){
 	pcb->tamanio= atoi(tamanio_proceso);
 	pcb->instrucciones = armar_lista_instrucciones(lista);
 	pcb->program_counter = pcb->instrucciones;
-	pcb->state = NEW;
+	pcb->status = NEW;
 
 	return pcb;
 }
@@ -36,8 +36,8 @@ pcb* deserializar_PCB(t_list* lista){
 	pcb->tamanio = atoi(tamanio);
 
 	// agarro el tercer elemento (state)
-	t_list* state = list_remove(lista, 0);
-	pcb->state = atoi(state);
+	t_list* status = list_remove(lista, 0);
+	pcb->status = atoi(status);
 
 	// agarro el tercer elemento (state)
 	t_list* estimacion = list_remove(lista, 0);
@@ -92,7 +92,7 @@ t_paquete* generar_paquete_pcb(struct pcb PCB_a_enviar){
 	agregar_a_paquete(paquete, tamanio, strlen(tamanio));
 
 	char* state = string_new();
-	sprintf(state, "%d\0", PCB_a_enviar.state);
+	sprintf(state, "%d\0", PCB_a_enviar.status);
 	agregar_a_paquete(paquete, state, strlen(state));
 
 	char estimacion[100];
@@ -404,7 +404,7 @@ void agregar_nuevo_parametro(nodo_instruccion* nodo_instruccion, char* parametro
 // esta funcion sirve para recorrer cualquier PCB ya sea en kernel, cpu, etc.
 void imprimir_PCB(pcb* nodo_pcb){
 	printf("ID %d", nodo_pcb->id);
-	printf("\nSTATUS %d", nodo_pcb->state);
+	printf("\nSTATUS %d", nodo_pcb->status);
 	printf("\nEST %f", nodo_pcb->estimacion_rafaga);
 
 	mostrar_lista_instrucciones(nodo_pcb->instrucciones);
@@ -413,13 +413,7 @@ void imprimir_PCB(pcb* nodo_pcb){
 
 //FOR TESTING
 pcb* generar_pcb_dummy(){
-	int id;
-	int tamanio;
-	struct nodo_instruccion* instrucciones;
-	struct nodo_instruccion* program_counter;
-	int tabla_paginas;
-	double estimacion_rafaga;
-	state state;
+
 
 }
 

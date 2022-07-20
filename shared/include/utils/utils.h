@@ -61,7 +61,7 @@ typedef struct nodo_instruccion
     struct nodo_instruccion* sig;
 } nodo_instruccion;
 
-typedef enum state
+typedef enum status
 {
 	NEW,
 	READY,
@@ -70,7 +70,7 @@ typedef enum state
 	SUSPENSED_READY,
 	SUSPENDED_BLOCKED,
 	EXIT
-}state;
+}status;
 
 typedef struct pcb
 {
@@ -80,7 +80,7 @@ typedef struct pcb
 	struct nodo_instruccion* program_counter;
 	int tabla_paginas;
 	double estimacion_rafaga;
-	state state;
+	status status;
 } pcb;
 
 typedef struct nodo_pcb
