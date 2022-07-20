@@ -1,7 +1,13 @@
 #include "../include/comunicacion.h"
 
 void manejar_consolas(int server_fd){
-	while(server_escuchar(logger, "Consola", server_fd));
+	//while(server_escuchar(logger, "Consola", server_fd));
+
+	while(1) {
+        arr_procesos[idProceso] = esperar_cliente(server_fd);
+        log_info(logger,"Nuevo proceso recibido");
+        nuevoProceso();
+    }
 }
 
 
@@ -77,16 +83,17 @@ int manejarConexion(void* void_args){
 }
 
 int server_escuchar(t_log* logger, char* server_name, int server_socket) {
-    int cliente_socket = esperar_cliente(server_socket);
+//    int cliente_socket = esperar_cliente(server_socket);
 
     if (cliente_socket != -1) {
-        pthread_t hilo;
-        t_procesar_conexion_args* args = malloc(sizeof(t_procesar_conexion_args));
+//        pthread_t hilo;
+//        t_procesar_conexion_args* args = malloc(sizeof(t_procesar_conexion_args));
         args->log = logger;
         args->fd = cliente_socket;
         args->server_name = server_name;
-        pthread_create(&hilo, NULL, (void*) manejarConexion, (void*) args);
-        pthread_detach(hilo);
+        manejarConexion(args);
+//        pthread_create(&hilo, NULL, (void*) manejarConexion, (void*) args);
+//        pthread_detach(hilo);
         return 1;
     }
     return 0;

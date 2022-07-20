@@ -17,19 +17,21 @@ void sighandler(int s){
 }
 
 int main(void) {
-
 	signal(SIGINT, sighandler); //Terminar el programa al oprimir ctrl + C en terminal
 	inicializar();
 	pthread_create(&thr_comandos, NULL, (void*) &recibirComandos, NULL);
 	pthread_detach(&thr_comandos);
 	servidor_procesos();
+	conectar_memoria(); //todo
 	conectar_cpu();
+<<<<<<< HEAD
+=======
 	conectar_memoria();
 
 	log_info(logger, SERVIDOR_LISTO);
 	
+>>>>>>> 9dbf26a45ea18a152f5fe8dfa74492056f165985
 	esperar_hilos();
-
 	terminar_programa();
 	return EXIT_SUCCESS;
 }

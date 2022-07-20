@@ -1,5 +1,10 @@
 #include "../include/conexiones.h"
 
+<<<<<<< HEAD
+void conectar_memoria() {
+    log_info(logger,"Conexion exitosa con Memoria");
+}
+=======
 void conectar_memoria(){
 	conexionAMemoria = crear_conexion(config_values.ip_memoria,config_values.puerto_memoria);
 	if(conexionAMemoria == -1){
@@ -7,6 +12,7 @@ void conectar_memoria(){
 		terminar_programa();
 		exit(-1);
 	}
+>>>>>>> 9dbf26a45ea18a152f5fe8dfa74492056f165985
 
 	if(pthread_create(&thr_memoria, NULL, (void*) manejar_memoria,(void*)conexionAMemoria) != 0){
 		log_error(logger, "Error al crear el hilo con la memoria");
@@ -53,3 +59,5 @@ void servidor_procesos() {
 	}
 	else log_info(logger,"Servidor iniciado y esperando que lleguen procesos");
 }
+
+

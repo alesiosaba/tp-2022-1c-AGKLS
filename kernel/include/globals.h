@@ -60,6 +60,9 @@ int conexionAMemoria;
 
 char* errorMessageAux;
 
+//PROCESOS
+int arr_procesos[1024];
+int idProceso;
 
 /*
 pthread_t hiloServer;
