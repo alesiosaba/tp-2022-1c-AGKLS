@@ -25,10 +25,7 @@ void inicializar(){
 	// se crea la conexion con el modulo kernel
 	conexion = crear_conexion(ip, puerto);
 
-	log_info(logger, "Se generó correctamente la conexion");
-
-	log_info(logger, ip);
-	log_info(logger, puerto);
+	log_info(logger, "Se generó correctamente la conexion con el Kernel");
 }
 
 

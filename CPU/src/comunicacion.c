@@ -83,8 +83,10 @@ int manejarConexion(int socket_cliente){
 		case PAQUETE_PCB:
 			log_debug(logger, RECEPCION_PAQUETE_PCB);
 			recv_paquete_pcb(socket_cliente, &pcb);
-			imprimir_PCB(pcb);
+
+			//imprimir_PCB(pcb);
 			pcb->state = EXIT;
+
 			send_paquete_pcb(socket_cliente, pcb);
 
 			break;

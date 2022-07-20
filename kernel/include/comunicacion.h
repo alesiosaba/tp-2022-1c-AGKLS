@@ -16,5 +16,6 @@ int manejarConexion(void* void_args);
 int server_escuchar(t_log* logger, char* server_name, int server_socket);
 void manejar_cpu(int socket_fd);
 void manejar_memoria(int socket_fd);
+void inicializar_estructuras_en_memoria(pcb* nodo_pcb);
 
 #endif

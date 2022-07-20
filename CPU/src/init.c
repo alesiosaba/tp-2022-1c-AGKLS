@@ -6,7 +6,7 @@ void inicializar(){
 	logger = iniciar_logger("DEBUG",ARCHIVO_DE_LOG,LOGGER);
 	log_info(logger, "Log de CPU iniciado");
 
-	//leo la configuracion del cpu
+	// leo la configuracion del cpu
 	config = iniciar_config(ARCHIVO_DE_CONFIGURACION);
 	log_info(logger, "Leyendo config...\n");
 	config_values = leer_config();

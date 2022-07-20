@@ -50,13 +50,16 @@ int manejarConexion(void* void_args){
 
 			planificar(config_values.algoritmo_planificacion, nodo_pcb);
 
-			imprimir_PCB(nodo_pcb);
+			// serializar tabla de paginas del PCB a iniciar en memoria
+			// inicializar_estructuras_en_memoria(nodo_pcb);
+
+			// imprimir_PCB(nodo_pcb);
 
 			break;
 		case PAQUETE_PCB:
 			log_debug(logger, RECEPCION_PAQUETE_PCB);
 			recv_paquete_pcb(socket_cliente, &nodo_pcb);
-			imprimir_PCB(nodo_pcb);
+			// imprimir_PCB(nodo_pcb);
 
 			break;
 		case -1:
@@ -89,4 +92,8 @@ int server_escuchar(t_log* logger, char* server_name, int server_socket) {
     return 0;
 }
 
+// Esta funcion notifica a la memoria de un proceso nuevo y envia un pcb para asignar su tabla de paginas
+void inicializar_estructuras_en_memoria(pcb* nodo_pcb){
+	send_paquete_pcb(conexionAMemoria, nodo_pcb);
+}
 
