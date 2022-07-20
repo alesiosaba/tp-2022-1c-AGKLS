@@ -81,6 +81,7 @@ typedef struct pcb
 	int tabla_paginas;
 	double estimacion_rafaga;
 	status status;
+	int tiempo_a_bloquearse;
 } pcb;
 
 typedef struct nodo_pcb

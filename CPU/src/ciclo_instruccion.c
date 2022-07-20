@@ -3,6 +3,10 @@
 void ejecutar_ciclo_instruccion(pcb** pcb){
 	log_debug(logger, COMIENZO_CICLO_INSTRUCCION, (*pcb)->id);
 
+	log_debug(logger, "Tiempo de bloqueo: %d", (*pcb)->tiempo_a_bloquearse);
+	(*pcb)->tiempo_a_bloquearse = 99;
+	log_debug(logger, "Tiempo de bloqueo: %d", (*pcb)->tiempo_a_bloquearse);
+
 	// buscar la próxima instrucción a ejecutar
 	fetch();
 	// interpretar qué instrucción es la que se va a ejecutar (solo COPY ejecuta fetch_operands)
@@ -17,15 +21,25 @@ void ejecutar_ciclo_instruccion(pcb** pcb){
 }
 
 // buscar la próxima instrucción a ejecutar
-void fetch();
+void fetch(){
+
+}
 // interpretar qué instrucción es la que se va a ejecutar (evalua si ejecuta fetch_operands y como)
-void decode();
+void decode(){
+
+}
 // buscar valor en memoria del parametro de COPY
-void fetch_operands();
+void fetch_operands(){
+
+}
 // ejecucion de instruccion
-void execute();
+void execute(){
+
+}
 // chequear si el Kernel nos envió una interrupcion
-void check_interrupt();
+void check_interrupt(){
+
+}
 
 /*void cicloDeInstruccion (){
 
