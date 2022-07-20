@@ -8,7 +8,7 @@
 pcb* armar_PCB_nuevo(t_list* lista);
 pcb* deserializar_PCB(t_list* lista);
 char* generar_renglon_instruccion(struct instruccion instruccion_a_enviar);
-t_paquete* generar_paquete_pcb(struct pcb PCB_a_enviar);
+t_paquete* generar_paquete_pcb(struct pcb PCB_a_enviar, op_code codigo_paquete);
 void mostrar_lista_instrucciones(nodo_instruccion* lista_instrucciones);
 nodo_instruccion* armar_lista_instrucciones(t_list* lista);
 nodo_instruccion* deserializar_lista_instrucciones(t_list* lista);

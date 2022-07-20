@@ -2,9 +2,9 @@
 
 
 
-bool send_paquete_pcb(int fd, pcb* nodo_pcb){
+bool send_paquete_pcb(int fd, pcb* nodo_pcb, op_code codigo_paquete){
 
-	t_paquete* paquete = generar_paquete_pcb(*nodo_pcb);
+	t_paquete* paquete = generar_paquete_pcb(*nodo_pcb, codigo_paquete);
 	enviar_paquete(paquete, fd);
 	log_debug(logger, PCB_ENVIADO, nodo_pcb->id);
 	return eliminar_paquete(paquete);

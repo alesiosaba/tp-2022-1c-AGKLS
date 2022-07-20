@@ -85,9 +85,9 @@ char* generar_renglon_instruccion(struct instruccion instruccion_a_enviar){
 }
 
 // esta funcion se utiliza para generar el paquete de PCB para serializarlo desde kernel, cpu, memoria, etc.
-t_paquete* generar_paquete_pcb(struct pcb PCB_a_enviar){
+t_paquete* generar_paquete_pcb(struct pcb PCB_a_enviar, op_code codigo_paquete){
 
-	t_paquete* paquete = crear_paquete(PAQUETE_PCB);
+	t_paquete* paquete = crear_paquete(codigo_paquete);
 	nodo_instruccion* nodo_instruccion = PCB_a_enviar.instrucciones;
 
 	// pcb -> id
@@ -142,11 +142,11 @@ void mostrar_lista_instrucciones(nodo_instruccion* lista_instrucciones){
 
 	while(aux_ins != NULL){
 
-		printf("instruccion: %s\n",aux_ins->instruccion.identificador);
+		printf("\tinstruccion: %s\n",aux_ins->instruccion.identificador);
 
 		aux_param = aux_ins->instruccion.parametros;
 		while(aux_param != NULL){
-			printf("\tparametro: %d\n", aux_param->parametro);
+			printf("\t\tparametro: %d\n", aux_param->parametro);
 			aux_param = aux_param->sig;
 		}
 
@@ -409,12 +409,12 @@ void agregar_nuevo_parametro(nodo_instruccion* nodo_instruccion, char* parametro
 // esta funcion sirve para recorrer cualquier PCB ya sea en kernel, cpu, etc.
 void imprimir_PCB(pcb* nodo_pcb){
 	printf("\nInformacion del PCB:");
-	printf("\nID: %d", nodo_pcb->id);
-	printf("\nTAMANIO: %d", nodo_pcb->tamanio);
-	printf("\nPC: %d", nodo_pcb->program_counter);
-	printf("\nTabla paginas: %d", nodo_pcb->tabla_paginas);
-	printf("\nEST %f", nodo_pcb->estimacion_rafaga);
-	printf("\nSTATUS %d", nodo_pcb->status);
+	printf("\n\tID: %d", nodo_pcb->id);
+	printf("\n\tTAMANIO: %d", nodo_pcb->tamanio);
+	printf("\n\tPC: %d", nodo_pcb->program_counter);
+	printf("\n\tTabla paginas: %d", nodo_pcb->tabla_paginas);
+	printf("\n\tEST %f", nodo_pcb->estimacion_rafaga);
+	printf("\n\tSTATUS %d", nodo_pcb->status);
 	printf("\n\nLista de instrucciones:\n");
 	mostrar_lista_instrucciones(nodo_pcb->instrucciones);
 

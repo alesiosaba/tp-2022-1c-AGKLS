@@ -1,11 +1,10 @@
 #ifndef PROTOCOLO_H_
 #define PROTOCOLO_H_
 
-#include "../include/utils/gestionPCB.h"
-#include "../include/utils/utils.h"
+#include "utils.h"
 
 
-bool send_paquete_pcb(int fd, pcb* nodo_pcb);
+bool send_paquete_pcb(int fd, pcb* nodo_pcb, op_code codigo_paquete);
 bool recv_paquete_pcb(int fd, pcb** nodo_pcb);
 
 bool recv_paquete_consola(int fd, pcb** nodo_pcb);

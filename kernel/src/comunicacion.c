@@ -17,7 +17,8 @@ void manejar_cpu(int socket_fd){
 	while(1){
 		sem_wait(&sem_enviarPCB);
 		pcb* pcb = list_remove(listaExec, 0);
-		send_paquete_pcb(conexionACPU, pcb);
+		op_code codigo_paquete = PAQUETE_PCB;
+		send_paquete_pcb(conexionACPU, pcb, codigo_paquete);
 		//destruir_PCB(pcb);
 		manejarConexion(args);
 		sem_post(&sem_comenzarProcesos);
@@ -114,6 +115,7 @@ void recibir_pcb(int fd, pcb** nodo_pcb){
 
 // Esta funcion notifica a la memoria de un proceso nuevo y envia un pcb para asignar su tabla de paginas
 void inicializar_estructuras_en_memoria(pcb* nodo_pcb){
-	send_paquete_pcb(conexionAMemoria, nodo_pcb);
+	op_code codigo_paquete = PAQUETE_PCB;
+	send_paquete_pcb(conexionAMemoria, nodo_pcb, codigo_paquete);
 }
 
