@@ -16,7 +16,7 @@ int main(int argc, char** argv) {
 	char* path_pseudocodigo = argv[1];
 	char* tamanio_proceso = argv[2];
 
-	system("clear");
+	// system("clear");
 
 	enviar_info_proceso(path_pseudocodigo, tamanio_proceso);
 

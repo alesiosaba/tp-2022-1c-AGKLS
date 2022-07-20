@@ -50,17 +50,45 @@ int manejarConexion(void* void_args){
 			list_iterate(lista, (void*) iterator);
 			break;
 		case PAQUETE_CONSOLA:
+<<<<<<< HEAD
 			recibir_pcb(socket_cliente, &nodo_pcb);
 	        list_add(listaNew,nodo_pcb);
 	        list_add(listaProcesos,nodo_pcb);
 	        log_info(logger,"Se recibió un nuevo proceso - PID:%d",idProceso-1);
 	        sem_post(&sem_ProcesosNew);
+	        //planificar(config_values.algoritmo_planificacion, nodo_pcb);
+			//imprimir_PCB(nodo_pcb);
+||||||| merged common ancestors
+			recv_paquete_consola(socket_cliente, &nodo_pcb);
 
+			planificar(config_values.algoritmo_planificacion, nodo_pcb);
+
+			imprimir_PCB(nodo_pcb);
+
+=======
+			recv_paquete_consola(socket_cliente, &nodo_pcb);
+
+			planificar(config_values.algoritmo_planificacion, nodo_pcb);
+
+			// serializar tabla de paginas del PCB a iniciar en memoria
+			// inicializar_estructuras_en_memoria(nodo_pcb);
+
+			// imprimir_PCB(nodo_pcb);
+
+>>>>>>> edc41440aab254ce847c3a620d3cac8dd0333e40
 			break;
 		case PAQUETE_PCB:
 			log_debug(logger, RECEPCION_PAQUETE_PCB);
 			recv_paquete_pcb(socket_cliente, &nodo_pcb);
+<<<<<<< HEAD
 			imprimir_PCB(nodo_pcb);
+||||||| merged common ancestors
+			imprimir_PCB(nodo_pcb);
+
+=======
+			// imprimir_PCB(nodo_pcb);
+
+>>>>>>> edc41440aab254ce847c3a620d3cac8dd0333e40
 			break;
 		case -1:
 			log_warning(logger, SERVIDOR_DESCONEXION);
@@ -86,15 +114,18 @@ int server_escuchar(t_log* logger, char* server_name, int client_socket) {
 	return EXIT_SUCCESS;
 }
 
+<<<<<<< HEAD
 void recibir_pcb(int fd, pcb** nodo_pcb){
 	recv_paquete_consola(fd, nodo_pcb);
 	(*nodo_pcb)->id = idProceso;
 	idProceso ++;
 	(*nodo_pcb)->estimacion_rafaga = config_values.estimacion_inicial;
 }
-
+||||||| merged common ancestors
+=======
 // Esta funcion notifica a la memoria de un proceso nuevo y envia un pcb para asignar su tabla de paginas
 void inicializar_estructuras_en_memoria(pcb* nodo_pcb){
 	send_paquete_pcb(conexionAMemoria, nodo_pcb);
 }
+>>>>>>> edc41440aab254ce847c3a620d3cac8dd0333e40
 

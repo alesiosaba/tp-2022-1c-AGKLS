@@ -18,5 +18,6 @@ void manejar_cpu(int socket_fd);
 void conectar_memoria();
 void manejar_memoria(int socket_fd);
 void recibir_pcb(int fd, pcb** nodo_pcb);
+void inicializar_estructuras_en_memoria(pcb* nodo_pcb);
 
 #endif
