@@ -11,21 +11,20 @@ pcb* armar_PCB_nuevo(t_list* lista){
 	t_list* tamanio_proceso = list_remove(lista, 0);
 	pcb->tamanio= atoi(tamanio_proceso);
 	pcb->instrucciones = armar_lista_instrucciones(lista);
-	pcb->program_counter = pcb->instrucciones;
+	pcb->program_counter = 0;
+	// la tabla de paginas se asigna cuando el proceso pasa a READY (solicita a memoria la tabla de pag)
+	pcb->tabla_paginas = NULL;
 	pcb->status = NEW;
 
 	return pcb;
 }
 
 // esta funcion se usa para deserializar un PCB enviado entre kernel, cpu, memoria, etc.
+	// esta funcion se corresponde con generar_paquete_pcb()
 pcb* deserializar_PCB(t_list* lista){
 
 	pcb* pcb = (struct pcb*)malloc(sizeof(struct pcb));
 	pcb->instrucciones = NULL;
-
-
-	// TODO:
-	// ESTA FUNCION SE CORRESPONDE CON generar_paquete_pcb()
 
 	// agarro el primer elemento (id)
 	t_list* id = list_remove(lista, 0);
@@ -35,13 +34,21 @@ pcb* deserializar_PCB(t_list* lista){
 	t_list* tamanio = list_remove(lista, 0);
 	pcb->tamanio = atoi(tamanio);
 
-	// agarro el tercer elemento (state)
-	t_list* status = list_remove(lista, 0);
-	pcb->status = atoi(status);
+	// agarro el tercer elemento (program_counter)
+	t_list* program_counter = list_remove(lista, 0);
+	pcb->program_counter = atoi(program_counter);
 
-	// agarro el tercer elemento (state)
+	// agarro el cuarto elemento (tabla_paginas)
+	t_list* tabla_paginas = list_remove(lista, 0);
+	pcb->tabla_paginas = atoi(tabla_paginas);
+
+	// agarro el quinto elemento (estimacion)
 	t_list* estimacion = list_remove(lista, 0);
 	pcb->estimacion_rafaga = atof(estimacion);
+
+	// agarro el sexto elemento (status)
+	t_list* status = list_remove(lista, 0);
+	pcb->status = atoi(status);
 
 	// armo la lista de instrucciones y la guardo en el PCB
 	pcb->instrucciones = deserializar_lista_instrucciones(lista);
@@ -83,40 +90,40 @@ t_paquete* generar_paquete_pcb(struct pcb PCB_a_enviar){
 	t_paquete* paquete = crear_paquete(PAQUETE_PCB);
 	nodo_instruccion* nodo_instruccion = PCB_a_enviar.instrucciones;
 
+	// pcb -> id
 	char* id =  string_new();
 	sprintf(id, "%d\0", PCB_a_enviar.id);
 	agregar_a_paquete(paquete, id, strlen(id) + 1);
 
+	// pcb -> tamanio
 	char* tamanio = string_new();
 	sprintf(tamanio, "%d\0", PCB_a_enviar.tamanio);
 	agregar_a_paquete(paquete, tamanio, strlen(tamanio));
 
-	char* state = string_new();
-	sprintf(state, "%d\0", PCB_a_enviar.status);
-	agregar_a_paquete(paquete, state, strlen(state));
+	// pcb -> program_counter
+	char* program_counter = string_new();
+	sprintf(program_counter, "%d\0", PCB_a_enviar.program_counter);
+	agregar_a_paquete(paquete, program_counter, strlen(program_counter));
 
+	// pcb -> tabla_paginas
+	char* tabla_paginas = string_new();
+	sprintf(tabla_paginas, "%d\0", PCB_a_enviar.tabla_paginas);
+	agregar_a_paquete(paquete, tabla_paginas, strlen(tabla_paginas));
+
+	// pcb -> estimacion
 	char estimacion[100];
 	sprintf(estimacion, "%f\0", PCB_a_enviar.estimacion_rafaga);
 	agregar_a_paquete(paquete, estimacion, strlen(estimacion));
 
-	// double tabla_paginas = PCB_a_enviar.tabla_paginas;
+	// pcb -> status
+	char* state = string_new();
+	sprintf(state, "%d\0", PCB_a_enviar.status);
+	agregar_a_paquete(paquete, state, strlen(state));
 
-	// Este caso es distinto porque no hay conversion directa desde double a char*
-	/*char estimacion_rafaga[sizeof(PCB_a_enviar.estimacion_rafaga)];
-	memcpy(
-			estimacion_rafaga
-			, &PCB_a_enviar.estimacion_rafaga
-			, sizeof(PCB_a_enviar.estimacion_rafaga)
-	);*/
-
-	// agregar_a_paquete(paquete, (char*) tabla_paginas, sizeof(tabla_paginas));
-	// agregar_a_paquete(paquete, estimacion_rafaga, sizeof(estimacion_rafaga));
-
+	// pcb -> instrucciones
 	// buffer para concatenar instruccion y sus parametros
 	char* renglon_instruccion = string_new();
-
 	//GENERAR LISTA DE INSTRUCCIONES COMO RENGLONES
-
 	while(nodo_instruccion != NULL){
 		renglon_instruccion = generar_renglon_instruccion(nodo_instruccion->instruccion);
 		int size = strlen(renglon_instruccion) + 1;
@@ -124,9 +131,7 @@ t_paquete* generar_paquete_pcb(struct pcb PCB_a_enviar){
 		nodo_instruccion = nodo_instruccion->sig;
 	}
 
-
 	return paquete;
-
 }
 
 // Definicion de funciones para armar/leer PCB
@@ -137,7 +142,7 @@ void mostrar_lista_instrucciones(nodo_instruccion* lista_instrucciones){
 
 	while(aux_ins != NULL){
 
-		printf("\ninstruccion: %s\n",aux_ins->instruccion.identificador);
+		printf("instruccion: %s\n",aux_ins->instruccion.identificador);
 
 		aux_param = aux_ins->instruccion.parametros;
 		while(aux_param != NULL){
@@ -403,10 +408,14 @@ void agregar_nuevo_parametro(nodo_instruccion* nodo_instruccion, char* parametro
 
 // esta funcion sirve para recorrer cualquier PCB ya sea en kernel, cpu, etc.
 void imprimir_PCB(pcb* nodo_pcb){
-	printf("ID %d", nodo_pcb->id);
-	printf("\nSTATUS %d", nodo_pcb->status);
+	printf("\nInformacion del PCB:");
+	printf("\nID: %d", nodo_pcb->id);
+	printf("\nTAMANIO: %d", nodo_pcb->tamanio);
+	printf("\nPC: %d", nodo_pcb->program_counter);
+	printf("\nTabla paginas: %d", nodo_pcb->tabla_paginas);
 	printf("\nEST %f", nodo_pcb->estimacion_rafaga);
-
+	printf("\nSTATUS %d", nodo_pcb->status);
+	printf("\n\nLista de instrucciones:\n");
 	mostrar_lista_instrucciones(nodo_pcb->instrucciones);
 
 }

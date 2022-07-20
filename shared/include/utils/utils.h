@@ -77,7 +77,7 @@ typedef struct pcb
 	int id;
 	int tamanio;
 	struct nodo_instruccion* instrucciones;
-	struct nodo_instruccion* program_counter;
+	int program_counter;
 	int tabla_paginas;
 	double estimacion_rafaga;
 	status status;
@@ -89,17 +89,10 @@ typedef struct nodo_pcb
 	struct nodo_pcb* sig;
 } nodo_pcb;
 
-
-
 //Variables globales
 int conexion;
-
 t_log* logger;
 t_config* config;
-
-
-// Definicion de Implementacion obligatoria (Inicialización & Terminacion)
-
 
 // Definicion de Comportamientos Logger & Config
 
