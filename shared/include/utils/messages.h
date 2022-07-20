@@ -17,6 +17,9 @@
 #define INICIALIZACION_PROCESOS "Se inicializa el proceso %d"
 #define PCB_ENVIADO "Se envio un PCB - PID: %d"
 
+// MENSAJES UTILIZADOS EN  CPU
+#define COMIENZO_CICLO_INSTRUCCION "Comienza ciclo de instruccion - PID: %d"
+
 // SOCKETS:
 
 #define SERVIDOR_LISTO "Servidor listo para recibir al cliente"

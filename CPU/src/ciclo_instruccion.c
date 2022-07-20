@@ -1,5 +1,32 @@
 #include "../include/ciclo_instruccion.h"
 
+void ejecutar_ciclo_instruccion(pcb** pcb){
+	log_debug(logger, COMIENZO_CICLO_INSTRUCCION, (*pcb)->id);
+
+	// buscar la próxima instrucción a ejecutar
+	fetch();
+	// interpretar qué instrucción es la que se va a ejecutar (solo COPY ejecuta fetch_operands)
+	decode();
+	// buscar valor en memoria del parametro de COPY
+	fetch_operands();
+	// ejecucion de instruccion
+	execute();
+	// chequear si el Kernel nos envió una interrupcion
+	check_interrupt();
+
+}
+
+// buscar la próxima instrucción a ejecutar
+void fetch();
+// interpretar qué instrucción es la que se va a ejecutar (evalua si ejecuta fetch_operands y como)
+void decode();
+// buscar valor en memoria del parametro de COPY
+void fetch_operands();
+// ejecucion de instruccion
+void execute();
+// chequear si el Kernel nos envió una interrupcion
+void check_interrupt();
+
 /*void cicloDeInstruccion (){
 
 	//representacion del pcb
