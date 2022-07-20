@@ -1,5 +1,3 @@
-#include "stdio.h"
-#include "stdlib.h"
 #include "../include/init.h"
 #include "../include/comunicacion.h"
 #include "../include/globals.h"
@@ -87,7 +85,7 @@ int manejarConexion(int socket_cliente){
 			imprimir_PCB(pcb);
 			pcb->status = EXIT;
 
-			send_paquete_pcb(socket_cliente, pcb);
+			// send_paquete_pcb(socket_cliente, pcb);
 
 			break;
 		case -1:

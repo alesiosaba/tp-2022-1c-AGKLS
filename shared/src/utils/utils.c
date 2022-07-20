@@ -19,9 +19,9 @@ t_config* iniciar_config(char* config_path)
 
 // Implementacion de Otras Utilidades
 
+//msleep es una funcion que duerme por la cantidad de tiempo en milisegundos ingresada.
 // tms es la cantidad de segundos del sleep
 int msleep(unsigned int tms) {
-	//msleep es una funcion que duerme por la cantidad de tiempo en milisegundos ingresada.
 	//usleep funciona con microsegundos por eso esta multiplicada por 1000
   return usleep(tms * 1000000);
 }
