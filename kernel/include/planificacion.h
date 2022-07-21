@@ -4,7 +4,7 @@
 #include "../include/init.h"
 
 
-void movePCBtoReady(pcb** PCB);
+void movePCBto(pcb** new_pcb, status new_status);
 
 void planificadorCortoPlazo();
 void planificadorLargoPlazo();
