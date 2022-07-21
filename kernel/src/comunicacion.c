@@ -23,17 +23,6 @@ void manejar_cpu(int socket_fd){
 		manejarConexion(args);
 		sem_post(&sem_comenzarProcesos);
 	}
-
-
-
-
-	/*
-    t_procesar_conexion_args* args = malloc(sizeof(t_procesar_conexion_args));
-    args->log = logger;
-    args->fd = socket_fd;
-
-    // ACA VA LA ESCUCHA DEL KERNEL AL CPU
-    manejarConexion(args);*/
  }
 
 void manejar_memoria(int socket_fd){
@@ -82,6 +71,10 @@ int manejarConexion(void* void_args){
 			log_debug(logger, RECEPCION_PAQUETE_PCB);
 			recv_paquete_pcb(socket_cliente, &nodo_pcb);
 			// imprimir_PCB(nodo_pcb);
+			break;
+		case PAQUETE_PCB_IO:
+			break;
+		case PAQUETE_PCB_EXIT:
 			break;
 		case -1:
 			log_warning(logger, SERVIDOR_DESCONEXION);

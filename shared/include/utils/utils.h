@@ -23,7 +23,9 @@ typedef enum op_code
 	MENSAJE,
 	PAQUETE,
 	PAQUETE_CONSOLA,
-	PAQUETE_PCB
+	PAQUETE_PCB,
+	PAQUETE_PCB_IO,
+	PAQUETE_PCB_EXIT
 }op_code;
 
 
