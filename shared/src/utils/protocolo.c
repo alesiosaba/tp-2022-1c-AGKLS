@@ -15,6 +15,7 @@ bool recv_paquete_pcb(int fd, pcb** nodo_pcb){
 	t_list* lista;
 	lista = recibir_paquete(fd);
 	*nodo_pcb = deserializar_PCB(lista);
+	log_debug(logger, PCB_DESERIALIZADO, (*nodo_pcb)->id);
 	free(lista);
 
 	return true;

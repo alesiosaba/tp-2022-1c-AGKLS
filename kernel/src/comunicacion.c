@@ -70,6 +70,7 @@ int manejarConexion(void* void_args){
 			break;
 		case PAQUETE_CONSOLA:
 			recibir_pcb(socket_cliente, &nodo_pcb);
+			imprimir_PCB(nodo_pcb);
 	        list_add(listaNew,nodo_pcb);
 	        list_add(listaProcesos,nodo_pcb);
 	        log_info(logger,"Se recibió un nuevo proceso - PID:%d",idProceso-1);
@@ -80,7 +81,7 @@ int manejarConexion(void* void_args){
 			sem_post(&sem_respuestaPCB);
 			log_debug(logger, RECEPCION_PAQUETE_PCB);
 			recv_paquete_pcb(socket_cliente, &nodo_pcb);
-			imprimir_PCB(nodo_pcb);
+			// imprimir_PCB(nodo_pcb);
 			break;
 		case -1:
 			log_warning(logger, SERVIDOR_DESCONEXION);

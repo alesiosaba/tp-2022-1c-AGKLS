@@ -46,19 +46,17 @@ typedef struct
 typedef struct nodo_parametro
 {
 	int parametro;
-    struct nodo_parametro* sig;
 } nodo_parametro;
 
 typedef struct instruccion
 {
 	char identificador[10];
-    struct nodo_parametro* parametros;
+    t_list* parametros;
 } instruccion;
 
 typedef struct nodo_instruccion
 {
 	instruccion instruccion;
-    struct nodo_instruccion* sig;
 } nodo_instruccion;
 
 typedef enum status
@@ -76,7 +74,7 @@ typedef struct pcb
 {
 	int id;
 	int tamanio;
-	struct nodo_instruccion* instrucciones;
+	t_list* instrucciones;
 	int program_counter;
 	int tabla_paginas;
 	double estimacion_rafaga;

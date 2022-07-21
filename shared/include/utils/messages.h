@@ -16,6 +16,7 @@
 #define GENERANDO_PCB "Generando paquete PCB ..."
 #define INICIALIZACION_PROCESOS "Se inicializa el proceso %d"
 #define PCB_ENVIADO "Se envio un PCB - PID: %d"
+#define PCB_DESERIALIZADO "Se deserializo el PCB- PID: %d"
 
 // MENSAJES UTILIZADOS EN  CPU
 #define COMIENZO_CICLO_INSTRUCCION "Comienza ciclo de instruccion - PID: %d"

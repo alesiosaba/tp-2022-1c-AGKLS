@@ -7,17 +7,16 @@
 
 pcb* armar_PCB_nuevo(t_list* lista);
 pcb* deserializar_PCB(t_list* lista);
-char* generar_renglon_instruccion(struct instruccion instruccion_a_enviar);
+char* generar_renglon_instruccion(struct instruccion* instruccion_a_enviar);
 t_paquete* generar_paquete_pcb(struct pcb PCB_a_enviar, op_code codigo_paquete);
-void mostrar_lista_instrucciones(nodo_instruccion* lista_instrucciones);
-nodo_instruccion* armar_lista_instrucciones(t_list* lista);
-nodo_instruccion* deserializar_lista_instrucciones(t_list* lista);
+void mostrar_lista_instrucciones(t_list* lista_instrucciones);
+void armar_lista_instrucciones(t_list* instrucciones_paquete, t_list* lista_instrucciones);
+void deserializar_lista_instrucciones(t_list* instrucciones_paquete, t_list* lista_instrucciones);
+void deserializar_instruccion(t_list* lista_instrucciones, void* buffer);
 nodo_instruccion* nuevo_nodo_instruccion();
 nodo_parametro* nuevo_nodo_parametro();
-nodo_instruccion* agregar_instruccion(nodo_instruccion* lista_instrucciones, void* buffer);
-nodo_instruccion* deserializar_instruccion(nodo_instruccion* lista_instrucciones, void* buffer);
+void agregar_instruccion(t_list* lista_instrucciones, void* buffer);
 void completar_nodo_instruccion(nodo_instruccion* nodo_instruccion, char* buffer_original);
-nodo_parametro* agregar_primer_parametro(char* parametro);
 void agregar_nuevo_parametro(nodo_instruccion* nodo_instruccion, char* parametro);
 void imprimir_PCB(pcb* nodo_pcb);
 
