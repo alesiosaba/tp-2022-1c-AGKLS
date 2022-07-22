@@ -111,10 +111,10 @@ void planificacion_cpu(int socket_fd){
 		switch(*tipo_instruccion){
 		case 0: //UPDATE
 			log_debug(logger, "Replanificacion: UPDATE");
-			//pcb->estimacion_rafaga = pcb->estimacion_rafaga - tiempo_rafaga ;
-			//movePCBto(&pcb, READY);
-			//list_add(listaReady,pcb);
-			sem_wait(&sem_ProcesosReady);
+			pcb->estimacion_rafaga = pcb->estimacion_rafaga - tiempo_rafaga ;
+			movePCBto(&pcb, READY);
+			list_add(listaReady,pcb);
+			sem_post(&sem_ProcesosReady);
 			break;
 		case 1: //IO
 			log_debug(logger, "Replanificacion: IO");
