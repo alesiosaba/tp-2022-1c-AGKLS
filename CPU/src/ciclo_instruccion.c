@@ -3,8 +3,20 @@
 void ejecutar_ciclo_instruccion(pcb** pcb){
 	log_debug(logger, COMIENZO_CICLO_INSTRUCCION, (*pcb)->id);
 
+
+
 	// buscar la próxima instrucción a ejecutar
-	fetch();
+
+	nodo_instruccion* instruccion = fetch(pcb);
+	printf("%s",instruccion->instruccion.identificador);
+	int x = 0;
+	        while(x < list_size(instruccion->instruccion.parametros)){
+	            nodo_parametro* nodo_parametro = list_get(instruccion->instruccion.parametros, x);
+	            printf("\t\tparametro: %d\n", nodo_parametro->parametro);
+
+	            x++;
+	        }
+
 	// interpretar qué instrucción es la que se va a ejecutar (solo COPY ejecuta fetch_operands)
 	decode();
 	// buscar valor en memoria del parametro de COPY
@@ -15,10 +27,14 @@ void ejecutar_ciclo_instruccion(pcb** pcb){
 	check_interrupt();
 
 }
-
+		
 // buscar la próxima instrucción a ejecutar
-void fetch(){
+nodo_instruccion* fetch(pcb** pcb){
 
+	nodo_instruccion* instruccion;
+	instruccion = list_get((*pcb)->instrucciones,(*pcb)->program_counter);
+	(*pcb)->program_counter++;
+return instruccion;
 }
 // interpretar qué instrucción es la que se va a ejecutar (evalua si ejecuta fetch_operands y como)
 void decode(){
