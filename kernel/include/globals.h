@@ -38,7 +38,7 @@ typedef struct config_t
 	char*  puerto_escucha;
 	ALGORITMOS  algoritmo_planificacion;
 	double estimacion_inicial;
-	float  alfa;
+	double  alfa;
 	int	   grado_multiprog;
 	int	   t_bloqueo_max;
 } config_t;

@@ -8,7 +8,7 @@ void manejar_consolas(int server_fd){
     }
 }
 
-
+/*
 void manejar_cpu(int socket_fd){
 	time_t start_time, end_time;
 	double tiempo_rafaga;
@@ -29,6 +29,7 @@ void manejar_cpu(int socket_fd){
 		switch(*tipo_instruccion){
 		case 0: //UPDATE
 			log_debug(logger, "Petición recibida: UPDATE");
+			pcb->estimacion_rafaga
 			break;
 		case 1: //IO
 			log_debug(logger, "Petición recibida: IO");
@@ -44,7 +45,7 @@ void manejar_cpu(int socket_fd){
 		sem_post(&sem_comenzarProcesos);
 	}
  }
-
+*/
 void manejar_memoria(int socket_fd){
     t_procesar_conexion_args* args = malloc(sizeof(t_procesar_conexion_args));
     args->log = logger;
@@ -91,7 +92,7 @@ pcb* recv_mensajes_cpu(int socket_cpu, int ** tipo_instruccion){
 	}
 
 	log_warning(logger, "Se recibio un nuevo PCB para el Proceso %d", nodo_pcb->id);
-	//}
+
 	return nodo_pcb;
 
 }
