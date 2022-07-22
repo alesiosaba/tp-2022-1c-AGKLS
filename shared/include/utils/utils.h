@@ -25,7 +25,10 @@ typedef enum op_code
 	PAQUETE_CONSOLA,
 	PAQUETE_PCB,
 	PAQUETE_PCB_IO,
-	PAQUETE_PCB_EXIT
+	PAQUETE_PCB_EXIT,
+
+	// Operaciones en Memoria
+	NUEVO_PROCESO
 }op_code;
 
 

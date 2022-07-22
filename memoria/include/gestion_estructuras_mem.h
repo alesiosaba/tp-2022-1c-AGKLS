@@ -13,6 +13,9 @@ void inicializar_tablas_de_entradas();
 
 // ------------------
 
+
+t_list* reservar_paginas(int idProceso, int tamanioProceso);
+
 // Liberar espacio de estructuras utilizadas por el modulo
 void liberar_estructuras();
 void limpiar_bitmap();

@@ -17,7 +17,15 @@ void iniciar_servidor_memoria(){
 	close(serverMemoria);
 }
 
+void retardo_memoria() {
+	// retard_memoria viene en milisegundos
+	sleep(config_values.retardo_memoria / 1000);
+}
+
 int manejarConexion(int socket_cliente){
+
+	//TIEMPO RETARDO MEMORIA
+	retardo_memoria();
 
 	t_list* lista;
 	struct pcb *pcb;
@@ -31,6 +39,14 @@ int manejarConexion(int socket_cliente){
 		case PAQUETE:
 			lista = recibir_paquete(socket_cliente);
 			log_info(logger, LECTURA_DE_VALORES);
+			break;
+		case NUEVO_PROCESO:
+			// El proceso tiene que ser almacenado en memoria
+			recv_paquete_pcb(socket_cliente, &pcb);
+			imprimir_PCB(pcb);
+
+			// TODO: incompleto
+			asignar_nuevas_paginas(pcb);
 			break;
 		case -1:
 			log_error(logger, SERVIDOR_DESCONEXION);

@@ -1,7 +1,4 @@
-#include "../include/init.h"
 #include "../include/main.h"
-#include "../include/conexiones.h"
-#include "../include/globals.h"
 
 //Finalizacion por interrupción ctrl + c
 void sighandler(int s){

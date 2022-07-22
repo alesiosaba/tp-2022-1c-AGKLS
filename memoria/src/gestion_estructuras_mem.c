@@ -1,6 +1,7 @@
 #include "../include/gestion_estructuras_mem.h"
 #include <math.h>
 
+
 void inicializar_estructuras(){
 	/*
 		Esta funcion genera:
@@ -15,6 +16,9 @@ void inicializar_estructuras(){
 
 	armar_bitmap_marcos();
 
+	inicializar_tablas_de_entradas();
+
+	inicializar_lista_procesos_en_memoria();
 
 	log_info(logger, "-------------- Finalizacion de Inicializacion de estructuras --------------");
 }
@@ -81,6 +85,18 @@ void inicializar_tablas_de_entradas(){
 	log_info(logger, "------- Finalizacion de inicializacion de listas de entradas a ambas tablas de niveles");
 }
 
+void inicializar_lista_procesos_en_memoria() {
+
+	log_debug(logger, "inicializar_lista_procesos_en_memoria()");
+
+	log_info(logger, "------- Inicializar lista de procesos en memoria");
+
+	procesos_en_memoria = list_create();
+
+	log_info(logger, "------- Finalizacion de inicializacion de lista de procesos en memoria");
+}
+
+
 
 void limpiar_bitmap(int cantidadMarcos){
 
@@ -112,6 +128,70 @@ void liberar_estructuras(){
 	list_destroy(entradas_tabla_primer_nivel);
 	list_destroy(entradas_tabla_segundo_nivel);
 
+	// Liberar memoria ocupada por la lista de procesos en memoria
+	list_destroy(procesos_en_memoria);
+
 	log_info(logger, "------- Finalizacion de eliminacion de estructuras de memoria");
 
 }
+
+void asignar_nuevas_paginas(pcb* pcb){
+
+	// Generamos el elemento del proceso en la lista de procesos en memoria
+	proceso_en_memoria* proceso_nuevo = malloc(sizeof(proceso_en_memoria));
+
+	proceso_nuevo->id_proceso = pcb->id;
+
+	// Apunta a las entradas de primer nivel en las que se encuentran los marcos asignados al proceso
+	proceso_nuevo->entradas_N1 = list_create();
+
+	proceso_nuevo->entradas_N1 = reservar_paginas(pcb->id, pcb->tamanio);
+
+
+}
+
+t_list* reservar_paginas(int idProceso, int tamanioProceso){
+
+	// Total de marcos que ocupara el proceso en memoria
+	int paginasNecesarias = cantidad_paginas_necesarias(tamanioProceso);
+
+	int entradasNecesariasN1 = ceil(paginasNecesarias / config_values.entradas_por_tabla);
+
+	log_info(logger, "Reservando paginas para nuevo proceso ID: %d",idProceso);
+
+	log_info(logger, "Tamaño proceso: %d", tamanioProceso);
+	log_info(logger, "Tamaño pagina: %d", config_values.tam_pagina);
+	log_info(logger, "Cantidad necesaria de marcos (tamaño proceso / tamaño pagina) : %d", paginasNecesarias);
+	log_info(logger, "Cantidad necesaria de entradas de N1 (cant necesaria entradas N1 / cantidad entradas por configuracion) : %d", entradasNecesariasN1);
+
+	// Lista para ir guardando las entradas de primer nivel que vayamos generando
+	t_list* entradas_N1_aux = list_create();
+
+	// cantidad de paginas en N2 reservadas
+	int paginasReservadas;
+
+	for(paginasReservadas = 0 ; paginasReservadas < paginasNecesarias ; paginasReservadas++ ){
+
+
+		if(se_necesita_generar_otra_entrada_N1()){
+			log_debug(logger, "entre al IF");
+		}
+
+	}
+
+
+	return entradas_N1_aux;
+
+}
+
+int se_necesita_generar_otra_entrada_N1(int paginasReservadas){
+	// TODO: revisar esto
+	// Si la cantidad de paginas reservadas ocupó "toda" una entrada?
+	return (paginasReservadas % config_values.entradas_por_tabla) == 0;
+}
+
+int cantidad_paginas_necesarias(int tamanioProceso){
+    float cantidad = tamanioProceso / config_values.tam_pagina;
+    return ceil(cantidad);
+}
+
