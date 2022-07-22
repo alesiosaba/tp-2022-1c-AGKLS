@@ -35,6 +35,9 @@ void terminar_programa()
 	pthread_join(thr_memoria, NULL);
 	config_destroy(config);
 	log_debug(logger,CONFIGURACION_CERRADA);
+	if(clienteMemoria){
+		liberar_conexion(&clienteMemoria);
+	}
 	close(serverMemoria);
 	log_debug(logger,TERMINANDO_EL_LOG);
 	log_destroy(logger);

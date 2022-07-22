@@ -78,7 +78,6 @@ void planificadorLargoPlazo(pcb *nodo_pcb){
 			log_info(logger,INICIALIZACION_PROCESOS,pcb->id);
 			pcb = list_remove(listaNew,0);
 			movePCBto(&pcb, READY);
-			//list_add(listaReady,pcb);
 			sem_post(&sem_ProcesosReady);
 		}
 	}
