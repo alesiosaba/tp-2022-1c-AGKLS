@@ -12,7 +12,7 @@ void conectar_memoria(){
 	if(pthread_create(&thr_memoria, NULL, (void*) manejar_memoria,(void*)conexionAMemoria) != 0){
 		log_error(logger, "Error al crear el hilo con la memoria");
 	}
-
+	log_debug(logger, "se creo un thread para %s", "Memoria");
 	log_info(logger, "Conexión exitosa con la Memoria");
 }
 
@@ -26,9 +26,10 @@ void conectar_cpu(){
 		exit(-1);
 	}
 
-	if(pthread_create(&thr_cpu, NULL, (void*) manejar_cpu,(void*)conexionACPU) != 0){
+	if(pthread_create(&thr_cpu, NULL, (void*) planificacion_cpu,(void*)conexionACPU) != 0){
 		log_error(logger, "Error al crear el hilo con el CPU - Dispatch");
 	}
+	log_debug(logger, "se creo un thread para %s", "CPU-D");
 	log_info(logger, "Conexión exitosa con el CPU-Dispatch");
 
 	// Conexion de Kernel con CPU por puerto Interrupt
@@ -38,10 +39,10 @@ void conectar_cpu(){
 		terminar_programa();
 	}
 
-	if(pthread_create(&thr_cpu_interrupt, NULL, (void*) manejar_cpu,(void*)conexionACPU_interrupt) != 0){
+	if(pthread_create(&thr_cpu_interrupt, NULL, (void*) manejar_cpu_interrupcion,(void*)conexionACPU_interrupt) != 0){
 		log_error(logger, "Error al crear el hilo con el CPU - Interrupt");
 	}
-
+	log_debug(logger, "se creo un thread para %s", "CPU-I");
 	log_info(logger,"Conexion exitosa con CPU-Interrupt");
 
 }
@@ -52,7 +53,10 @@ void servidor_procesos() {
 	if (pthread_create(&thr_consolas, NULL, (void*) manejar_consolas,(void*)server_fd) != 0) {
 		log_error(logger, "Error al crear el hilo del servidor");
 	}
-	else log_info(logger,"Servidor iniciado y esperando que lleguen procesos");
+	else{
+		log_debug(logger, "se creo un thread para %s", "comandos");
+		log_info(logger,"Servidor iniciado y esperando que lleguen procesos");
+	}
 }
 
 

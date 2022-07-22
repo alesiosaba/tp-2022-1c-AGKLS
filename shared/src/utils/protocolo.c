@@ -17,14 +17,12 @@ bool recv_paquete_pcb(int fd, pcb** nodo_pcb){
 	*nodo_pcb = deserializar_PCB(lista);
 	log_debug(logger, PCB_DESERIALIZADO, (*nodo_pcb)->id);
 	free(lista);
-
 	return true;
 }
 
 bool recv_paquete_consola(int fd, pcb** nodo_pcb){
 	t_list* lista;
 	lista = recibir_paquete(fd);
-	log_debug(logger, RECEPCION_PROCESO);
 	*nodo_pcb = armar_PCB_nuevo(lista);
 	return true;
 }

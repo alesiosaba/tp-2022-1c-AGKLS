@@ -18,6 +18,11 @@
 #define PCB_ENVIADO "Se envio un PCB - PID: %d"
 #define PCB_DESERIALIZADO "Se deserializo el PCB- PID: %d"
 
+#define PROCESS_MOVE_EXEC "El PID: %d se pasó a EXECUTION"
+#define PROCESS_MOVE_READY "El PID: %d se pasó a READY"
+#define PROCESS_MOVE_EXIT "El PID: %d se pasó a EXIT"
+#define PROCESS_MOVE_NEW "El PID: %d se pasó a NEW"
+
 // MENSAJES UTILIZADOS EN  CPU
 #define COMIENZO_CICLO_INSTRUCCION "Comienza ciclo de instruccion - PID: %d"
 

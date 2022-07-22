@@ -18,7 +18,7 @@ int main(void) {
 	signal(SIGINT, sighandler); //Terminar el programa al oprimir ctrl + C en terminal
 	inicializar();
 	pthread_create(&thr_comandos, NULL, (void*) &recibirComandos, NULL);
-	pthread_detach(&thr_comandos);
+	log_debug(logger, "se creo un thread para %s", "comandos");
 	servidor_procesos();
 	iniciarPlanificacion();
 	conectar_cpu();
@@ -36,21 +36,22 @@ void matar_hilos(){
     pthread_cancel(thr_memoria);
     pthread_cancel(thr_planifLT);
     pthread_cancel(thr_planifST);
+    pthread_cancel(thr_comandos);
 }
 
 void recibirComandos(){
 	while (1){
-		sleep(1);
 		char* leido = readline(">");
 		char** split = string_split(leido, " ");
 		if (string_equals_ignore_case(split[0], "exit"))
 		{
 			free(leido);
 			liberarStringArray(split);
+			matar_hilos();
 			break;
 		}
 	}
-	matar_hilos();
+
 }
 
 
