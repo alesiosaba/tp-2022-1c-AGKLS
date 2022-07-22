@@ -2,7 +2,7 @@
 #define MESSAGES_H_
 
 //MENSAJES UTILES UTILIZADOS PARA LOGS y PRINTS
-
+#define ERROR_RECEPCION_PCB "Error al recibir el PCB desde el CPU"
 #define ERROR_AL_ABRIR_ARCHIVO "Error al abrir el Archivo"
 #define TERMINANDO_EL_LOG "Terminando el Log"
 #define CONFIGURACION_CERRADA "Archivo de configuracion cerrado"

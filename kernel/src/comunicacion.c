@@ -2,7 +2,7 @@
 
 void manejar_consolas(int server_fd){
 	while(1) {
-        arr_procesos[idProceso] = esperar_cliente(server_fd);
+        arr_procesos[idProceso] = esperar_cliente(server_fd); // @suppress("Symbol is not resolved")
         log_info(logger,"Nuevo proceso recibido");
         server_escuchar(logger, "Consola", arr_procesos[idProceso]);
     }
@@ -10,19 +10,40 @@ void manejar_consolas(int server_fd){
 
 
 void manejar_cpu(int socket_fd){
-	t_procesar_conexion_args* args = malloc(sizeof(t_procesar_conexion_args));
-	    args->log = logger;
-	    args->fd = socket_fd;
-
+	time_t start_time, end_time;
+	double tiempo_rafaga;
+	int* tipo_instruccion = malloc(sizeof(int));
 	while(1){
 		sem_wait(&sem_enviarPCB);
 		pcb* pcb = list_remove(listaExec, 0);
 		op_code codigo_paquete = PAQUETE_PCB;
 		send_paquete_pcb(conexionACPU, pcb, codigo_paquete);
-		//destruir_PCB(pcb);
-		manejarConexion(args);
+		start_time = time(NULL);
+		destruir_PCB(pcb);
+		pcb = recv_mensajes_cpu(socket_fd, &tipo_instruccion);
+		if(pcb = NULL){
+			log_error(logger, ERROR_RECEPCION_PCB);
+		}
+
+		switch(*tipo_instruccion){
+		case 0: //UPDATE
+			log_debug(logger, "Petición recibida: UPDATE");
+			break;
+		case 1: //IO
+			log_debug(logger, "Petición recibida: IO");
+			break;
+		case 2: //EXIT
+			log_debug(logger, "Petición recibida: EXIT");
+			break;
+		default:
+			break;
+		}
+		end_time = time(NULL);
+		tiempo_rafaga=difftime(end_time,start_time)*1000;
+		log_debug(logger,"Duracion de la rafaga de CPU: %f milisegundos",tiempo_rafaga);
 		sem_post(&sem_comenzarProcesos);
 	}
+	free(tipo_instruccion);
  }
 
 void manejar_memoria(int socket_fd){
@@ -32,6 +53,47 @@ void manejar_memoria(int socket_fd){
     // ACA VA LA ESCUCHA DEL KERNEL A LA MEMORIA
     manejarConexion(args);
  }
+
+
+
+
+
+pcb* recv_mensajes_cpu(int socket_cpu, int ** tipo_instruccion){
+
+	t_list* lista;
+	pcb* nodo_pcb;
+
+	op_code cod_op;
+	cod_op = recibir_operacion(socket_cpu);
+
+	switch (cod_op) {
+
+	case PAQUETE_PCB:
+		log_debug(logger, RECEPCION_PAQUETE_PCB);
+		recv_paquete_pcb(socket_cpu, &nodo_pcb);
+		imprimir_PCB(nodo_pcb);
+		*tipo_instruccion = 0;
+		break;
+	case PAQUETE_PCB_IO:
+		*tipo_instruccion = 1;
+		break;
+	case PAQUETE_PCB_EXIT:
+		*tipo_instruccion = 2;
+		break;
+	case -1:
+		log_warning(logger, SERVIDOR_DESCONEXION);
+		return NULL;
+	default:
+		log_warning(logger,OPERACION_DESCONOCIDA);
+		break;
+	}
+
+	log_warning(logger, "El cliente se desconecto de %s server", "CPU - Dispatch");
+
+	return nodo_pcb;
+
+}
+
 
 
 int manejarConexion(void* void_args){
@@ -49,32 +111,13 @@ int manejarConexion(void* void_args){
 		cod_op = recibir_operacion(socket_cliente);
 
 		switch (cod_op) {
-		case MENSAJE:
-			recibir_mensaje(socket_cliente);
-			break;
-		case PAQUETE:
-			lista = recibir_paquete(socket_cliente);
-			log_info(logger, LECTURA_DE_VALORES);
-			list_iterate(lista, (void*) iterator);
-			break;
 		case PAQUETE_CONSOLA:
 			recibir_pcb(socket_cliente, &nodo_pcb);
-			imprimir_PCB(nodo_pcb);
+//			imprimir_PCB(nodo_pcb);
 	        list_add(listaNew,nodo_pcb);
 	        list_add(listaProcesos,nodo_pcb);
 	        log_info(logger,"Se recibió un nuevo proceso - PID:%d",idProceso-1);
 	        sem_post(&sem_ProcesosNew);
-
-			break;
-		case PAQUETE_PCB:
-			sem_post(&sem_respuestaPCB);
-			log_debug(logger, RECEPCION_PAQUETE_PCB);
-			recv_paquete_pcb(socket_cliente, &nodo_pcb);
-			// imprimir_PCB(nodo_pcb);
-			break;
-		case PAQUETE_PCB_IO:
-			break;
-		case PAQUETE_PCB_EXIT:
 			break;
 		case -1:
 			log_warning(logger, SERVIDOR_DESCONEXION);

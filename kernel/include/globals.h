@@ -11,6 +11,7 @@
 #include <signal.h>
 #include <semaphore.h>
 #include <string.h>
+#include <time.h>
 #include "../../shared/include/utils/utils.h"
 #include "../../shared/include/utils/sockets.h"
 
