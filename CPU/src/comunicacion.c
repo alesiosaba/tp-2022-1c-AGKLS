@@ -83,6 +83,7 @@ int manejarConexion(int socket_cliente){
 			recv_paquete_pcb(socket_cliente, &pcb);
 			log_debug(logger, "Me llego el pcb PID: %d", pcb->id);
 			imprimir_PCB(pcb);
+			ejecutar_ciclo_instruccion(&pcb);
 			sleep(2);
 			// ejecutar_ciclo_instruccion(&pcb);
 			send_paquete_pcb(socket_cliente, pcb, PAQUETE_PCB); //SOLO PARA PRUEBAS

@@ -7,7 +7,7 @@
 
 void ejecutar_ciclo_instruccion(pcb** pcb);
 // buscar la próxima instrucción a ejecutar
-void fetch();
+nodo_instruccion* fetch();
 // interpretar qué instrucción es la que se va a ejecutar (evalua si ejecuta fetch_operands y como)
 void decode();
 // buscar valor en memoria del parametro de COPY
