@@ -14,13 +14,13 @@ void inicializar(){
 	config_values = leer_config();
 	log_info(logger, "Archivo de configuracion:");
 	log_info(logger, "puerto_escucha: %s", config_values.puerto_escucha);
-	log_info(logger, "tam_memoria: %s", config_values.tam_memoria);
-	log_info(logger, "tam_pagina: %s", config_values.tam_pagina);
-	log_info(logger, "entradas_por_tabla: %s", config_values.entradas_por_tabla);
-	log_info(logger, "retardo_memoria: %s", config_values.retardo_memoria);
+	log_info(logger, "tam_memoria: %d", config_values.tam_memoria);
+	log_info(logger, "tam_pagina: %d", config_values.tam_pagina);
+	log_info(logger, "entradas_por_tabla: %d", config_values.entradas_por_tabla);
+	log_info(logger, "retardo_memoria: %d", config_values.retardo_memoria);
 	log_info(logger, "algoritmo_reemplazo: %s", config_values.algoritmo_reemplazo);
-	log_info(logger, "marcos_por_proceso: %s", config_values.marcos_por_proceso);
-	log_info(logger, "retardo_swap: %s", config_values.retardo_swap);
+	log_info(logger, "marcos_por_proceso: %d", config_values.marcos_por_proceso);
+	log_info(logger, "retardo_swap: %d", config_values.retardo_swap);
 	log_info(logger, "path_swap: %s\n", config_values.path_swap);
 }
 
@@ -30,13 +30,13 @@ config_t leer_config(){
 	config_t config_values;
 
 	config_values.puerto_escucha = config_get_string_value(config, "PUERTO_ESCUCHA");
-	config_values.tam_memoria = config_get_string_value(config, "TAM_MEMORIA");
-	config_values.tam_pagina = config_get_string_value(config, "TAM_PAGINA");
-	config_values.entradas_por_tabla = config_get_string_value(config, "ENTRADAS_POR_TABLA");
-	config_values.retardo_memoria = config_get_string_value(config, "RETARDO_MEMORIA");
+	config_values.tam_memoria = config_get_int_value(config, "TAM_MEMORIA");
+	config_values.tam_pagina = config_get_int_value(config, "TAM_PAGINA");
+	config_values.entradas_por_tabla = config_get_int_value(config, "ENTRADAS_POR_TABLA");
+	config_values.retardo_memoria = config_get_int_value(config, "RETARDO_MEMORIA");
 	config_values.algoritmo_reemplazo = config_get_string_value(config, "ALGORITMO_REEMPLAZO");
-	config_values.marcos_por_proceso = config_get_string_value(config, "MARCOS_POR_PROCESO");
-	config_values.retardo_swap = config_get_string_value(config, "RETARDO_SWAP");
+	config_values.marcos_por_proceso = config_get_int_value(config, "MARCOS_POR_PROCESO");
+	config_values.retardo_swap = config_get_int_value(config, "RETARDO_SWAP");
 	config_values.path_swap = config_get_string_value(config, "PATH_SWAP");
 
 

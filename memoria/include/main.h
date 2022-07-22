@@ -8,10 +8,9 @@
 #include <commons/string.h>
 #include <commons/config.h>
 
+#include "globals.h"
 #include "../../shared/include/utils/utils.h"
 
-
-config_t config_values;
 void terminar_programa();
 
 

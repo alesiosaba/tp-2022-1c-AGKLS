@@ -21,6 +21,8 @@ int main(void) {
 	// Leer config y arrancar logger
 	inicializar();
 
+	inicializar_estructuras();
+
 	// abro un hilo para atender por el puerto de escucha (Kernel y CPU)
 	pthread_create(&thr_memoria, NULL, (void*) &iniciar_servidor_memoria, NULL);
 
@@ -36,4 +38,5 @@ void terminar_programa()
 	close(serverMemoria);
 	log_debug(logger,TERMINANDO_EL_LOG);
 	log_destroy(logger);
+	liberar_estructuras();
 }
