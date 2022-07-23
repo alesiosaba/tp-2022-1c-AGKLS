@@ -56,7 +56,6 @@ void planificadorCortoPlazo(pcb *nodo_pcb){
 				    sem_wait(&sem_ProcesosReady);
 			        pcb = list_remove(listaReady,0);
 			        movePCBto(&pcb, EXECUTION);
-			        //list_add(listaExec,pcb);
 			        sem_post(&sem_enviarPCB);
 			        log_info(logger,"Pongo a ejecutar al proceso %d",pcb->id);
 			}
@@ -99,7 +98,7 @@ void planificacion_cpu(int socket_fd){
 		op_code codigo_paquete = PAQUETE_PCB;
 		start_time = time(NULL);
 		send_paquete_pcb(conexionACPU, pcb, codigo_paquete);
-		destruir_PCB(pcb);
+		//destruir_PCB(pcb);
 		pcb = recv_mensajes_cpu(socket_fd, &tipo_instruccion);
 		end_time = time(NULL);
 		tiempo_rafaga=difftime(end_time,start_time)*1000;
@@ -113,7 +112,6 @@ void planificacion_cpu(int socket_fd){
 			log_debug(logger, "Replanificacion: UPDATE");
 			pcb->estimacion_rafaga = pcb->estimacion_rafaga - tiempo_rafaga ;
 			movePCBto(&pcb, READY);
-			list_add(listaReady,pcb);
 			sem_post(&sem_ProcesosReady);
 			break;
 		case 1: //IO
