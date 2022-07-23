@@ -132,7 +132,7 @@ void liberar_estructuras(){
 	list_destroy(procesos_en_memoria);
 
 	log_info(logger, "------- Finalizacion de eliminacion de estructuras de memoria");
-
+	log_destroy(logger);
 }
 
 void asignar_nuevas_paginas(pcb* pcb){

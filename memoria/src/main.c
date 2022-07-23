@@ -2,11 +2,9 @@
 
 //Finalizacion por interrupción ctrl + c
 void sighandler(int s){
-
 	if(clienteMemoria){
 		liberar_conexion(&clienteMemoria);
 	}
-
 	terminar_programa();
 	exit(0);
 }
@@ -29,6 +27,7 @@ int main(void) {
 
 void terminar_programa()
 {
+
 	pthread_join(thr_memoria, NULL);
 	config_destroy(config);
 	log_debug(logger,CONFIGURACION_CERRADA);
@@ -37,6 +36,5 @@ void terminar_programa()
 	}
 	close(serverMemoria);
 	log_debug(logger,TERMINANDO_EL_LOG);
-	log_destroy(logger);
 	liberar_estructuras();
 }
