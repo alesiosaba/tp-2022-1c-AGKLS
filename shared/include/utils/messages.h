@@ -25,6 +25,9 @@
 
 #define TERMINO_EL_PROCESO "El Proceso Termino Exitosamente"
 
+
+#define INTERRUPCION_ENVIADA "Se envio una interrupcion a CPU"
+#define INTERRUPCION_RECIBIDA "Se recibio una interrupcion de Kernel"
 // MENSAJES UTILIZADOS EN  CPU
 #define COMIENZO_CICLO_INSTRUCCION "Comienza ciclo de instruccion - PID: %d"
 

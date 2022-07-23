@@ -109,27 +109,27 @@ int manejarConexion(void* void_args){
 
 	t_list* lista;
 	pcb* nodo_pcb;
-	while (socket_cliente != -1) {
-		op_code cod_op;
-		cod_op = recibir_operacion(socket_cliente);
+//	while (socket_cliente != -1) {
+	op_code cod_op;
+	cod_op = recibir_operacion(socket_cliente);
 
-		switch (cod_op) {
-		case PAQUETE_CONSOLA:
-			recibir_pcb(socket_cliente, &nodo_pcb);
+	switch (cod_op) {
+	case PAQUETE_CONSOLA:
+		recibir_pcb(socket_cliente, &nodo_pcb);
 //			imprimir_PCB(nodo_pcb);
-	        list_add(listaNew,nodo_pcb);
-	        list_add(listaProcesos,nodo_pcb);
-	        log_info(logger,"Se recibió un nuevo proceso - PID:%d",idProceso-1);
-	        sem_post(&sem_ProcesosNew);
-			break;
-		case -1:
-			log_warning(logger, SERVIDOR_DESCONEXION);
-			return EXIT_FAILURE;
-		default:
-			log_warning(logger,OPERACION_DESCONOCIDA);
-			break;
-		}
+		list_add(listaNew,nodo_pcb);
+		list_add(listaProcesos,nodo_pcb);
+		log_info(logger,"Se recibió un nuevo proceso - PID:%d",idProceso-1);
+		sem_post(&sem_ProcesosNew);
+		break;
+	case -1:
+		log_warning(logger, SERVIDOR_DESCONEXION);
+		return EXIT_FAILURE;
+	default:
+		log_warning(logger,OPERACION_DESCONOCIDA);
+		break;
 	}
+//	}
 	log_warning(logger, "El cliente se desconecto de %s server", server_name);
 
 	return EXIT_SUCCESS;

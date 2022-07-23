@@ -34,3 +34,9 @@ bool send_paquete_kernel(int fd, op_code codigo_paquete){
 	return eliminar_paquete(paquete);
 }
 
+bool send_interrupcion(int fd){
+	t_paquete* paquete = crear_paquete(INTERRUPCION);
+	enviar_paquete(paquete, fd);
+	log_debug(logger, "Enviando interrupcion a CPU");
+	return eliminar_paquete(paquete);
+}

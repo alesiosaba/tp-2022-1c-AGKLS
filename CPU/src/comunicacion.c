@@ -26,7 +26,7 @@ void servidorInterrupt(){
 
 	while(1){
 		clienteInterrupt = esperar_cliente(serverInterrupt);
-        pthread_create(&thr_interrupt_individual, NULL, (void*) manejarConexion, (void*) clienteInterrupt);
+        pthread_create(&thr_interrupt_individual, NULL, (void*) manejarInterrupt, (void*) clienteInterrupt);
         pthread_detach(thr_interrupt_individual);
 	}
 
@@ -64,10 +64,34 @@ void conexiones (){
 
 }
 
+
+
+void manejarInterrupt(int socket_cliente){
+	while (1) {
+		int cod_op = recibir_operacion(socket_cliente);
+		switch (cod_op) {
+		case INTERRUPCION:
+			gv_flag_interrupcion = true;
+			log_info(logger, INTERRUPCION_RECIBIDA);
+			break;
+
+		case -1:
+			log_error(logger, SERVIDOR_DESCONEXION);
+			return EXIT_FAILURE;
+		default:
+			log_warning(logger,OPERACION_DESCONOCIDA);
+			break;
+		}
+	}
+}
+
+
 int manejarConexion(int socket_cliente){
 
 	t_list* lista;
 	struct pcb *pcb;
+
+	int i = 0;
 
 	while (1) {
 		int cod_op = recibir_operacion(socket_cliente);
@@ -84,11 +108,20 @@ int manejarConexion(int socket_cliente){
 			recv_paquete_pcb(socket_cliente, &pcb);
 			log_debug(logger, "Me llego el pcb PID: %d", pcb->id);
 			imprimir_PCB(pcb);
-			ejecutar_ciclo_instruccion(&pcb);
-			sleep(1);
+			while(gv_flag_interrupcion!=true);
+
+			//ejecutar_ciclo_instruccion(&pcb);
+			//sleep(1);
 			//char* leido = readline(">");
 			// ejecutar_ciclo_instruccion(&pcb);
-			//send_paquete_pcb(socket_cliente, pcb, PAQUETE_PCB); //SOLO PARA PRUEBAS
+			if(i==3){
+				send_paquete_pcb(clienteDispatch,pcb,PAQUETE_PCB_EXIT);
+				i=0;
+			}else{
+				send_paquete_pcb(socket_cliente, pcb, PAQUETE_PCB); //SOLO PARA PRUEBAS
+			}
+			gv_flag_interrupcion=false;
+			i++;
 			break;
 		case -1:
 			log_error(logger, SERVIDOR_DESCONEXION);

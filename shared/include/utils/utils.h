@@ -27,7 +27,7 @@ typedef enum op_code
 	PAQUETE_PCB_IO,
 	PAQUETE_PCB_EXIT,
 	PAQUETE_KERNEL_EXIT,
-
+	INTERRUPCION,
 	// Operaciones en Memoria
 	NUEVO_PROCESO
 }op_code;
@@ -71,7 +71,7 @@ typedef enum status
 	READY,
 	EXECUTION,
 	BLOCKED,
-	SUSPENSED_READY,
+	SUSPENDED_READY,
 	SUSPENDED_BLOCKED,
 	EXIT
 }status;

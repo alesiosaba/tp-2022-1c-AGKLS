@@ -11,6 +11,10 @@ bool recv_paquete_consola(int fd, pcb** nodo_pcb);
 
 bool send_paquete_kernel(int fd, op_code codigo_paquete);
 
+bool send_interrupcion(int fd);
+
+
+
 /*
 bool send_debug(int fd);
 */
