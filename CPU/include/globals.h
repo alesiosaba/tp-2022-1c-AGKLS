@@ -1,9 +1,7 @@
 #ifndef GLOBALS_H_
 #define GLOBALS_H_
 
-<<<<<<< HEAD
 #include "../../shared/include/utils/protocolo.h"
-=======
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -14,7 +12,6 @@
 #include <unistd.h>
 
 
->>>>>>> a8a90ecc9151d2b57828d496c9edc847f7e68b02
 #include "../../shared/include/utils/utils.h"
 #include "../../shared/include/utils/utils.h"
 #include "../../shared/include/utils/sockets.h"

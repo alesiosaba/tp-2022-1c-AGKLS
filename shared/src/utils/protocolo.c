@@ -32,7 +32,6 @@ bool send_paquete_kernel(int fd, op_code codigo_paquete){
 	return eliminar_paquete(paquete);
 }
 
-<<<<<<< HEAD
 // En CPU
 bool send_handshake_inicial(int fd){
 	t_paquete* paquete = crear_paquete(HANDSHAKE_INICIAL);
@@ -88,11 +87,9 @@ bool send_respuesta_handshake_inicial(int fd, int tamanio_pagina, int cant_entra
 
 
 
-=======
 bool send_interrupcion(int fd){
 	t_paquete* paquete = crear_paquete(INTERRUPCION);
 	enviar_paquete(paquete, fd);
 	log_debug(logger, "Enviando interrupcion a CPU");
 	return eliminar_paquete(paquete);
 }
->>>>>>> a8a90ecc9151d2b57828d496c9edc847f7e68b02
