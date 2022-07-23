@@ -65,7 +65,6 @@ void planificadorCortoPlazo(pcb *nodo_pcb){
 	while(1){
 		sem_wait(&sem_comenzarProcesos);
 		sem_wait(&sem_ProcesosReady);
-		//pcb = list_remove(listaReady,0);
 
 		pcb = dequeu_ready();
 
@@ -120,8 +119,8 @@ void planificacion_cpu(int socket_fd){
 		send_paquete_pcb(conexionACPU, pcb, codigo_paquete);
 		destruir_PCB(pcb);
 		pcb = recv_mensajes_cpu(socket_fd, &tipo_instruccion);
-		list_remove(listaExec, 0);
 		end_time = time(NULL);
+		list_remove(listaExec, 0);
 		tiempo_rafaga=difftime(end_time,start_time)*1000;
 		log_debug(logger,"Duracion de la rafaga de CPU: %f milisegundos",tiempo_rafaga);
 		if(pcb == NULL){
