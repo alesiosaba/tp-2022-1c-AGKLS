@@ -80,6 +80,7 @@ void terminar_programa()
 	sem_destroy(&sem_comenzarProcesos);
 	sem_destroy(&sem_ProcesosReady);
 	sem_destroy(&sem_respuestaPCB);
+	sem_destroy(&sem_multiprogramacion);
 	log_debug(logger,SEMAFOROS_DESTRUIDOS);
 	//config
 	config_destroy(config);

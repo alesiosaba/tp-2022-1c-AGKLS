@@ -53,6 +53,8 @@ pthread_t thr_comandos;
 pthread_t thr_consolas;
 pthread_t thr_planifLT;
 pthread_t thr_planifST;
+pthread_t thr_planifMT[1024];
+pthread_t thr_bloqueos;
 
 //SOCKETS
 int server_fd;
@@ -85,6 +87,15 @@ sem_t sem_ProcesosReady;
 sem_t sem_comenzarProcesos;
 sem_t sem_enviarPCB;
 sem_t sem_respuestaPCB;
+sem_t sem_multiprogramacion;
+sem_t sem_ProcesosBloqueo;
+
+//MUTEX
+pthread_mutex_t mtx_blocked;
+pthread_mutex_t mtx_susblk;
+pthread_mutex_t	mtx_planificador;
+
+
 /*
 pthread_t hiloServer;
 pthread_t hiloDispatch;

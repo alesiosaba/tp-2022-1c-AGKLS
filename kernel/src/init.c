@@ -27,7 +27,15 @@ config_t inicializar(){
     sem_init(&sem_enviarPCB,1,0);
     sem_init(&sem_respuestaPCB,1,0);
     sem_init(&sem_comenzarProcesos,1,1);
-	return config_values;
+    sem_init(&sem_multiprogramacion,1,config_values.grado_multiprog);
+//MUTEX
+    pthread_mutex_init(&mtx_planificador,NULL);
+    pthread_mutex_init(&mtx_susblk, NULL);
+    pthread_mutex_init(&mtx_blocked, NULL);
+
+
+
+    return config_values;
 }
 
 

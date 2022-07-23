@@ -112,19 +112,20 @@ int manejarConexion(int socket_cliente){
 			log_debug(logger, RECEPCION_PAQUETE_PCB);
 			recv_paquete_pcb(socket_cliente, &pcb);
 			log_debug(logger, "Me llego el pcb PID: %d", pcb->id);
+			pcb->tiempo_a_bloquearse = 1000;
 			imprimir_PCB(pcb);
-			while(gv_flag_interrupcion!=true);
+//			while(gv_flag_interrupcion!=true);
 
 			//ejecutar_ciclo_instruccion(&pcb);
 			//sleep(1);
 			//char* leido = readline(">");
-			// ejecutar_ciclo_instruccion(&pcb);
-			if(i==3){
+			/* ejecutar_ciclo_instruccion(&pcb);
+			if(i==2){
 				send_paquete_pcb(socket_cliente,pcb,PAQUETE_PCB_EXIT);
 				i=0;
-			}else{
-				send_paquete_pcb(socket_cliente, pcb, PAQUETE_PCB); //SOLO PARA PRUEBAS
-			}
+			}else{*/
+				send_paquete_pcb(socket_cliente,pcb,PAQUETE_PCB_IO); //SOLO PARA PRUEBAS
+			//}
 			gv_flag_interrupcion=false;
 			i++;
 			break;
