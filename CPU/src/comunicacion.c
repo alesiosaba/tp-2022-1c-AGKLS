@@ -1,3 +1,4 @@
+#include <readline/readline.h>
 #include "../include/init.h"
 #include "../include/comunicacion.h"
 #include "../include/globals.h"
@@ -84,7 +85,8 @@ int manejarConexion(int socket_cliente){
 			log_debug(logger, "Me llego el pcb PID: %d", pcb->id);
 			imprimir_PCB(pcb);
 			ejecutar_ciclo_instruccion(&pcb);
-			sleep(2);
+			sleep(1);
+			//char* leido = readline(">");
 			// ejecutar_ciclo_instruccion(&pcb);
 			send_paquete_pcb(socket_cliente, pcb, PAQUETE_PCB); //SOLO PARA PRUEBAS
 			break;
