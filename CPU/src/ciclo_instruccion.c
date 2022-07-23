@@ -21,10 +21,16 @@ void ejecutar_ciclo_instruccion(pcb** pcb){
 	int esCopy = decode(instruccion);
 	// buscar valor en memoria del parametro de COPY
 	log_info(logger, "%d",esCopy);
+	int valorMemoria = 0;
 	if (esCopy)
-		fetch_operands();
+		valorMemoria = fetch_operands(instruccion);
+	if (esCopy)
+		log_info(logger, "%d",valorMemoria);
+
 	// ejecucion de instruccion
-	execute();
+	execute(instruccion);
+
+
 	// chequear si el Kernel nos envió una interrupcion
 	check_interrupt();
 
@@ -44,18 +50,27 @@ return instruccion;
 int decode(nodo_instruccion* instruccion){
 	return (strcmp(instruccion->instruccion.identificador, "COPY")== 0);
 }
+
 // buscar valor en memoria del parametro de COPY
-void fetch_operands(){
+int fetch_operands(nodo_instruccion* instruccion){
 log_info(logger, "entro al fetch operands");
+
+return buscarValorEnMemoria(list_get(instruccion->instruccion.parametros,1));
 }
+
 // ejecucion de instruccion
-void execute(){
+void execute(nodo_instruccion* instruccion){
 
 }
 // chequear si el Kernel nos envió una interrupcion
 void check_interrupt(){
 
 }
+
+int buscarValorEnMemoria(int* direccionLogica){
+	return 14;
+}
+
 
 /*void cicloDeInstruccion (){
 

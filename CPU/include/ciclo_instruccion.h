@@ -11,10 +11,12 @@ nodo_instruccion* fetch(pcb** pcb);
 // interpretar qué instrucción es la que se va a ejecutar (evalua si ejecuta fetch_operands y como)
 int decode(nodo_instruccion*);
 // buscar valor en memoria del parametro de COPY
-void fetch_operands();
+int fetch_operands(nodo_instruccion*);
 // ejecucion de instruccion
-void execute();
+void execute(nodo_instruccion*);
 // chequear si el Kernel nos envió una interrupcion
 void check_interrupt();
+// busca valor en direccion logica de memoria
+int buscarValorEnMemoria(int*);
 
 #endif
