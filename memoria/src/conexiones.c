@@ -52,6 +52,10 @@ int manejarConexion(int socket_cliente){
 			// TODO: incompleto
 			asignar_nuevas_paginas(pcb);
 			break;
+		case SOLICITUD_TABLA_PAGINAS:
+			log_info(logger, "Memoria recibio SOLICITUD_TABLA_PAGINAS");
+            solicitud_tabla_paginas(socket_cliente, logger);
+			break;
 		case -1:
 			log_error(logger, SERVIDOR_DESCONEXION);
 			return EXIT_FAILURE;

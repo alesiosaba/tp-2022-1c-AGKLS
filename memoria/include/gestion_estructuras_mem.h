@@ -3,6 +3,9 @@
 
 #include "main.h"
 
+t_list *tablasN1, *tablasN2;
+
+
 // Crear espacio de estructuras utilizadas por el modulo
 void inicializar_estructuras();
 

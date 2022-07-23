@@ -231,3 +231,40 @@ t_list* recibir_paquete(int socket_cliente)
 	free(buffer);
 	return valores;
 }
+
+// Mensajes Memoria
+// Serializacion
+void* serializar_tabla_N2(op_code op, t_tablaN2 *t, size_t *size)
+{
+	//TAMANIO = OP_CODE + DATO_TAMANIO + (LARGO LISTA * TAMANIO ENTRADA)
+	int tamanio_lista = list_size(t) * sizeof(entrada_tabla_N2);
+	*size = sizeof(op_code) + sizeof(int) + tamanio_lista;
+	void *buffer = malloc(*size);
+
+	int desplazamiento = 0;
+	memcpy(buffer + desplazamiento, &op, sizeof(op_code));
+	desplazamiento += sizeof(op_code);
+	memcpy(buffer + desplazamiento, size, sizeof(size_t));
+	desplazamiento += sizeof(size_t);
+	for(int i = 0; i < list_size(t); i++)
+	{
+		entrada_tabla_N2 *e = list_get(t, i);
+		memcpy(buffer + desplazamiento, e, sizeof(entrada_tabla_N2));
+		desplazamiento += sizeof(entrada_tabla_N2);
+	}
+	return buffer;
+}
+
+
+// Envio
+void enviar_tabla_N2(int socket_cliente, t_tablaN2 *t, t_log *logger)
+{
+	size_t size;
+	log_info(logger, "Respondiendo solicitud de tabla nivel 2");
+	void *buffer = serializar_tabla_N2(SOLICITUD_TABLA_PAGINAS, t, &size);
+
+	if(send(socket_cliente, buffer, size, 0) != size)
+		log_error(logger, "Los datos no se enviaron correctamente");
+
+	free(buffer);
+}
