@@ -18,11 +18,19 @@ void ejecutar_ciclo_instruccion(pcb** pcb){
 	        }
 
 	// interpretar qué instrucción es la que se va a ejecutar (solo COPY ejecuta fetch_operands)
-	decode();
+	int esCopy = decode(instruccion);
 	// buscar valor en memoria del parametro de COPY
-	fetch_operands();
+	log_info(logger, "%d",esCopy);
+	int valorMemoria = 0;
+	if (esCopy)
+		valorMemoria = fetch_operands(instruccion);
+	if (esCopy)
+		log_info(logger, "%d",valorMemoria);
+
 	// ejecucion de instruccion
-	execute();
+	execute(instruccion);
+
+
 	// chequear si el Kernel nos envió una interrupcion
 	check_interrupt();
 
@@ -32,26 +40,37 @@ void ejecutar_ciclo_instruccion(pcb** pcb){
 nodo_instruccion* fetch(pcb** pcb){
 
 	nodo_instruccion* instruccion;
-	instruccion = list_get((*pcb)->instrucciones,(*pcb)->program_counter);
+	//instruccion = list_get((*pcb)->instrucciones,(*pcb)->program_counter);
+	instruccion = list_get((*pcb)->instrucciones,7);
 	(*pcb)->program_counter++;
 return instruccion;
 }
+
 // interpretar qué instrucción es la que se va a ejecutar (evalua si ejecuta fetch_operands y como)
-void decode(){
-
+int decode(nodo_instruccion* instruccion){
+	return (strcmp(instruccion->instruccion.identificador, "COPY")== 0);
 }
+
 // buscar valor en memoria del parametro de COPY
-void fetch_operands(){
+int fetch_operands(nodo_instruccion* instruccion){
+log_info(logger, "entro al fetch operands");
 
+return buscarValorEnMemoria(list_get(instruccion->instruccion.parametros,1));
 }
+
 // ejecucion de instruccion
-void execute(){
+void execute(nodo_instruccion* instruccion){
 
 }
 // chequear si el Kernel nos envió una interrupcion
 void check_interrupt(){
 
 }
+
+int buscarValorEnMemoria(int* direccionLogica){
+	return 14;
+}
+
 
 /*void cicloDeInstruccion (){
 
