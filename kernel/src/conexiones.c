@@ -54,7 +54,7 @@ void servidor_procesos() {
 		log_error(logger, "Error al crear el hilo del servidor");
 	}
 	else{
-		log_debug(logger, "se creo un thread para %s", "comandos");
+		log_debug(logger, "se creo un thread para %s", "Procesos");
 		log_info(logger,"Servidor iniciado y esperando que lleguen procesos");
 	}
 }

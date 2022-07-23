@@ -8,6 +8,7 @@ void inicializar(){
 	config_t config_values;
 	char* ip;
 	char* puerto;
+	char* errorMessageAux[1024];
 
 	config = iniciar_config(ARCHIVO_DE_CONFIGURACION);
 	config_values = leer_config();
@@ -24,6 +25,11 @@ void inicializar(){
 
 	// se crea la conexion con el modulo kernel
 	conexion = crear_conexion(ip, puerto);
+	if(conexion == -1){
+			error_handler(logger, errorMessageAux, SERVIDOR_AUSENTE, " Kernel", NULL);
+			terminar_programa();
+			exit(-1);
+	}
 
 	log_info(logger, "Se generó correctamente la conexion con el Kernel");
 }

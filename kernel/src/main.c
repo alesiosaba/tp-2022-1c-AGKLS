@@ -18,6 +18,7 @@ int main(void) {
 	signal(SIGINT, sighandler); //Terminar el programa al oprimir ctrl + C en terminal
 	inicializar();
 	pthread_create(&thr_comandos, NULL, (void*) &recibirComandos, NULL);
+	pthread_detach(&thr_comandos);
 	log_debug(logger, "se creo un thread para %s", "comandos");
 	servidor_procesos();
 	iniciarPlanificacion();
@@ -36,7 +37,6 @@ void matar_hilos(){
     pthread_cancel(thr_memoria);
     pthread_cancel(thr_planifLT);
     pthread_cancel(thr_planifST);
-    pthread_cancel(thr_comandos);
 }
 
 void recibirComandos(){
@@ -56,9 +56,9 @@ void recibirComandos(){
 
 
 void esperar_hilos() {
+		pthread_join(thr_consolas, NULL);
         pthread_join(thr_cpu,NULL);
         pthread_join(thr_cpu_interrupt,NULL);
-        pthread_join(thr_consolas, NULL);
         pthread_join(thr_memoria, NULL);
         pthread_join(thr_planifST, NULL);
         pthread_join(thr_planifLT, NULL);
@@ -67,6 +67,8 @@ void esperar_hilos() {
 
 void terminar_programa()
 {
+	send_paquete_kernel(arr_procesos[0], TERMINO_EL_PROCESO);
+
 	//conexiones
 	liberar_conexion(&conexionACPU);
 	liberar_conexion(&conexionACPU_interrupt);

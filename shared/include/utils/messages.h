@@ -23,6 +23,8 @@
 #define PROCESS_MOVE_EXIT "El PID: %d se pasó a EXIT"
 #define PROCESS_MOVE_NEW "El PID: %d se pasó a NEW"
 
+#define TERMINO_EL_PROCESO "El Proceso Termino Exitosamente"
+
 // MENSAJES UTILIZADOS EN  CPU
 #define COMIENZO_CICLO_INSTRUCCION "Comienza ciclo de instruccion - PID: %d"
 

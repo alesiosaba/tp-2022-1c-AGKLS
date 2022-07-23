@@ -26,6 +26,7 @@ typedef enum op_code
 	PAQUETE_PCB,
 	PAQUETE_PCB_IO,
 	PAQUETE_PCB_EXIT,
+	PAQUETE_KERNEL_EXIT,
 
 	// Operaciones en Memoria
 	NUEVO_PROCESO

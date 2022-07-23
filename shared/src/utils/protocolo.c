@@ -26,3 +26,11 @@ bool recv_paquete_consola(int fd, pcb** nodo_pcb){
 	*nodo_pcb = armar_PCB_nuevo(lista);
 	return true;
 }
+
+bool send_paquete_kernel(int fd, op_code codigo_paquete){
+	t_paquete* paquete = crear_paquete(codigo_paquete);
+	enviar_paquete(paquete, fd);
+	log_debug(logger, "Enviando respuesta a la consola");
+	return eliminar_paquete(paquete);
+}
+

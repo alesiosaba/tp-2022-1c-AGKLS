@@ -41,6 +41,10 @@ void movePCBto(pcb** new_pcb, status new_status){
 		list_add(listaExec, *new_pcb);
 		log_debug(logger, PROCESS_MOVE_EXEC, (*new_pcb)->id);
 		break;
+	case EXIT:
+			list_add(listaExit, *new_pcb);
+			log_debug(logger, PROCESS_MOVE_EXIT, (*new_pcb)->id);
+			break;
 	}
 
 
@@ -98,7 +102,7 @@ void planificacion_cpu(int socket_fd){
 		op_code codigo_paquete = PAQUETE_PCB;
 		start_time = time(NULL);
 		send_paquete_pcb(conexionACPU, pcb, codigo_paquete);
-		//destruir_PCB(pcb);
+		destruir_PCB(pcb);
 		pcb = recv_mensajes_cpu(socket_fd, &tipo_instruccion);
 		end_time = time(NULL);
 		tiempo_rafaga=difftime(end_time,start_time)*1000;
@@ -118,7 +122,10 @@ void planificacion_cpu(int socket_fd){
 			log_debug(logger, "Replanificacion: IO");
 			break;
 		case 2: //EXIT
+			//TODO avisar memoria
 			log_debug(logger, "Replanificacion: EXIT");
+			movePCBto(&pcb, EXIT);
+			send_paquete_kernel(arr_procesos[pcb->id],TERMINO_EL_PROCESO);
 			break;
 		default:
 			break;

@@ -1,6 +1,9 @@
 #include "../include/main.h"
 
 int main(int argc, char** argv) {
+	system("clear");
+
+	int respuesta_kernel = 0;
 
 	inicializar();
 
@@ -16,11 +19,18 @@ int main(int argc, char** argv) {
 	char* path_pseudocodigo = argv[1];
 	char* tamanio_proceso = argv[2];
 
-	// system("clear");
-
 	enviar_info_proceso(path_pseudocodigo, tamanio_proceso);
 
+	log_info(logger, "Aguardando Respuesta de Kernel...");
 
+	respuesta_kernel = recv_mensajes_kernel(conexion);
+
+	if(respuesta_kernel == TERMINO_EL_PROCESO){
+		log_info(logger, "Terminando la consola...");
+		terminar_programa();
+	}
+
+/*
 	while (1){
 		sleep(1);
 
@@ -34,7 +44,7 @@ int main(int argc, char** argv) {
 		}
 
 	}
-
+*/
 
 	log_info(logger, "Finalizo correctamente el programa");
 	terminar_programa();
@@ -84,6 +94,33 @@ void paquete(char* path_pseudocodigo, char* tamanio_proceso)
 	// libera la memoria ocupada por el proceso
 	eliminar_paquete(paquete);
 }
+
+
+
+int recv_mensajes_kernel(int socket_kernel){
+
+	t_list* lista;
+
+	op_code cod_op;
+	cod_op = recibir_operacion(socket_kernel);
+
+	switch (cod_op) {
+
+	case PAQUETE_KERNEL_EXIT:
+		log_info(logger, TERMINO_EL_PROCESO);
+		break;
+	case -1:
+		log_warning(logger, SERVIDOR_DESCONEXION);
+		return NULL;
+	default:
+		log_warning(logger,OPERACION_DESCONOCIDA);
+		break;
+	}
+
+	return cod_op;
+
+}
+
 
 void terminar_programa()
 {
