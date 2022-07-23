@@ -88,7 +88,7 @@ int manejarConexion(int socket_cliente){
 			sleep(1);
 			//char* leido = readline(">");
 			// ejecutar_ciclo_instruccion(&pcb);
-			send_paquete_pcb(socket_cliente, pcb, PAQUETE_PCB); //SOLO PARA PRUEBAS
+			//send_paquete_pcb(socket_cliente, pcb, PAQUETE_PCB); //SOLO PARA PRUEBAS
 			break;
 		case -1:
 			log_error(logger, SERVIDOR_DESCONEXION);
