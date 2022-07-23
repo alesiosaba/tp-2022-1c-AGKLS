@@ -115,7 +115,7 @@ int manejarConexion(int socket_cliente){
 			//char* leido = readline(">");
 			// ejecutar_ciclo_instruccion(&pcb);
 			if(i==3){
-				send_paquete_pcb(clienteDispatch,pcb,PAQUETE_PCB_EXIT);
+				send_paquete_pcb(socket_cliente,pcb,PAQUETE_PCB_EXIT);
 				i=0;
 			}else{
 				send_paquete_pcb(socket_cliente, pcb, PAQUETE_PCB); //SOLO PARA PRUEBAS

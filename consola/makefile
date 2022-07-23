@@ -2,7 +2,7 @@ include settings.mk
 
 ################################################################################
 
-filename = $(1).out
+filename = $(1)2.out
 
 define compile_bin
 	gcc -w $(CFLAGS) -o "$@" $^ $(IDIRS:%=-I%) $(LIBDIRS:%=-L%) $(LIBS:%=-l%)
