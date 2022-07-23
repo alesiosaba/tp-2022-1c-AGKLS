@@ -9,5 +9,6 @@ void conexiones ();
 int manejarConexion(int socket_cliente);
 void servidorDispatch();
 void servidorInterrupt();
+void realizar_handshake_inicial();
 
 #endif

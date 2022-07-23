@@ -40,6 +40,10 @@ int manejarConexion(int socket_cliente){
 			lista = recibir_paquete(socket_cliente);
 			log_info(logger, LECTURA_DE_VALORES);
 			break;
+		case HANDSHAKE_INICIAL:
+			log_info(logger, "HANDSHAKE INICIAL con modulo CPU");
+			send_respuesta_handshake_inicial(socket_cliente, config_values.tam_pagina, config_values.entradas_por_tabla);
+			break;
 		case NUEVO_PROCESO:
 			// El proceso tiene que ser almacenado en memoria
 			recv_paquete_pcb(socket_cliente, &pcb);

@@ -1,7 +1,9 @@
 #include <readline/readline.h>
+
+#include "../include/globals.h"
 #include "../include/init.h"
 #include "../include/comunicacion.h"
-#include "../include/globals.h"
+
 
 void servidorDispatch(){
 	serverDispatch = iniciar_servidor(IP, config_values.puerto_escucha_dispatch);
@@ -41,6 +43,9 @@ void conectar_memoria(){
 		terminar_programa();
 		exit(-1);
 	}
+
+	// TODO: Mejor lugar para este pedido?
+	realizar_handshake_inicial();
 
 	pthread_t thr_memoria_individual;
 
@@ -90,6 +95,14 @@ int manejarConexion(int socket_cliente){
 			// ejecutar_ciclo_instruccion(&pcb);
 			//send_paquete_pcb(socket_cliente, pcb, PAQUETE_PCB); //SOLO PARA PRUEBAS
 			break;
+		case RESPUESTA_HANDSHAKE_INICIAL:
+			log_debug(logger, "Respuesta de Handshake inicial");
+			struct handshake_inicial_s hd_inicial = recv_respuesta_handshake_inicial(socket_cliente);
+			tamanio_pagina = hd_inicial.tamanio_pagina;
+			cant_entradas_por_tabla = hd_inicial.cant_entradas_por_tabla;
+			log_debug(logger,"tm : %d",tamanio_pagina);
+			log_debug(logger,"ce : %d",cant_entradas_por_tabla);
+			break;
 		case -1:
 			log_error(logger, SERVIDOR_DESCONEXION);
 			return EXIT_FAILURE;
@@ -98,5 +111,8 @@ int manejarConexion(int socket_cliente){
 			break;
 		}
 	}
+}
 
+void realizar_handshake_inicial(){
+	send_handshake_inicial(conexionAMemoria);
 }

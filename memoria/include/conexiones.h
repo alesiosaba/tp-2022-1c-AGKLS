@@ -4,6 +4,7 @@
 #include "../../shared/include/utils/utils.h"
 #include "../../shared/include/utils/sockets.h"
 #include "../../shared/include/utils/gestionPCB.h"
+#include "../../shared/include/utils/protocolo.h"
 
 
 int serverMemoria;

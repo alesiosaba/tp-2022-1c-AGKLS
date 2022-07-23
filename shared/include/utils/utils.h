@@ -29,7 +29,10 @@ typedef enum op_code
 	PAQUETE_KERNEL_EXIT,
 
 	// Operaciones en Memoria
-	NUEVO_PROCESO
+	NUEVO_PROCESO,
+	HANDSHAKE_INICIAL,
+	// En CPU
+	RESPUESTA_HANDSHAKE_INICIAL
 }op_code;
 
 
