@@ -31,6 +31,12 @@ void movePCBto(pcb** new_pcb, status new_status){
 	switch(new_status){
 	case READY:
 		list_add(listaReady, *new_pcb);
+
+		if(!planificador_es_fifo() && !list_is_empty(listaExec)){
+			send_interrupcion(conexionACPU_interrupt);
+			log_debug(logger, INTERRUPCION_ENVIADA);
+		}
+
 		log_debug(logger, PROCESS_MOVE_READY, (*new_pcb)->id);
 		break;
 	case NEW:
@@ -47,33 +53,42 @@ void movePCBto(pcb** new_pcb, status new_status){
 			break;
 	}
 
-
 }
 
+bool planificador_es_fifo(){
+	return config_values.algoritmo_planificacion == FIFO;
+}
 
 void planificadorCortoPlazo(pcb *nodo_pcb){
 	pcb* pcb;
-	switch (config_values.algoritmo_planificacion){
-		case FIFO:
-			while(1){
-					sem_wait(&sem_comenzarProcesos);
-				    sem_wait(&sem_ProcesosReady);
-			        pcb = list_remove(listaReady,0);
-			        movePCBto(&pcb, EXECUTION);
-			        sem_post(&sem_enviarPCB);
-			        log_info(logger,"Pongo a ejecutar al proceso %d",pcb->id);
-			}
-			break;
-		default:
-			while(1){
-				sem_wait(&sem_comenzarProcesos);
 
-			}
-			break;
+	while(1){
+		sem_wait(&sem_comenzarProcesos);
+		sem_wait(&sem_ProcesosReady);
 
+		pcb = dequeu_ready();
+
+		movePCBto(&pcb, EXECUTION);
+		sem_post(&sem_enviarPCB);
+		log_info(logger,"Pongo a ejecutar al proceso %d",pcb->id);
 	}
+
 }
 
+pcb* dequeu_ready(){
+
+	if(planificador_es_fifo()){
+		return list_remove(listaReady,0);
+	}else{
+		list_sort(listaReady, (void*)menor_rafaga);
+		return list_remove(listaReady,0);
+	}
+
+}
+
+bool menor_rafaga(pcb *pcb1, pcb *pcb2) {
+    return pcb1->estimacion_rafaga <= pcb2->estimacion_rafaga;
+}
 
 void planificadorLargoPlazo(pcb *nodo_pcb){
 	pcb* pcb;
@@ -98,13 +113,14 @@ void planificacion_cpu(int socket_fd){
 	int* tipo_instruccion = malloc(sizeof(int));
 	while(1){
 		sem_wait(&sem_enviarPCB);
-		pcb* pcb = list_remove(listaExec, 0);
+		pcb* pcb = list_get(listaExec, 0);
 		op_code codigo_paquete = PAQUETE_PCB;
 		start_time = time(NULL);
 		send_paquete_pcb(conexionACPU, pcb, codigo_paquete);
 		destruir_PCB(pcb);
 		pcb = recv_mensajes_cpu(socket_fd, &tipo_instruccion);
 		end_time = time(NULL);
+		list_remove(listaExec, 0);
 		tiempo_rafaga=difftime(end_time,start_time)*1000;
 		log_debug(logger,"Duracion de la rafaga de CPU: %f milisegundos",tiempo_rafaga);
 		if(pcb == NULL){

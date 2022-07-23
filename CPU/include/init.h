@@ -1,7 +1,8 @@
 #ifndef INIT_H_
 #define INIT_H_
 
-#include "../../shared/include/utils/utils.h"
+//#include "../../shared/include/utils/utils.h"
+#include "globals.h"
 
 #define ARCHIVO_DE_CONFIGURACION "CPU.config"
 #define ARCHIVO_DE_LOG "CPU.log"
