@@ -1,5 +1,50 @@
 #include "../include/gestion_paginacion_mem.h"
 
+int criterio_clock(entrada_tabla_N2 *e)
+{
+    if(e == NULL)
+        return 0;
+    if(e->bit_uso == 1)
+    {
+        e->bit_uso = 0;
+        return 0;
+    }
+    else
+        return 1;
+}
+
+int criterio_clock_mejorado(entrada_tabla_N2 *e, int vuelta)
+{
+    switch(vuelta)
+    {
+        case 0:
+        return (e->bit_uso == 0 && e->bit_modificacion == 0);
+        break;
+
+        case 1:
+        if(e->bit_uso == 0 && e->bit_modificacion == 1)
+            return 1;
+        else
+        {
+            e->bit_uso = 0;
+            return 0;
+        }
+        break;
+
+        case 2:
+        return (e->bit_uso == 0 && e->bit_modificacion == 0);
+        break;
+
+        case 3:
+        return (e->bit_uso == 0 && e->bit_modificacion == 1);
+        break;
+
+        default:
+        return 0;
+        break;
+    }
+}
+
 int dir_marco_vacio_proceso(int id)
 {
 

@@ -15,6 +15,9 @@
 
 int dir_marco_vacio_proceso(int id);
 void traer_pagina_a_memoria(int id, int dir_tablaN1 ,entrada_tabla_N2 *e);
+// Planificacion
+int criterio_clock(entrada_tabla_N2 *e);
+int criterio_clock_mejorado(entrada_tabla_N2 *e, int vuelta);
 
 
 
