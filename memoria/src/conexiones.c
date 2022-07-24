@@ -4,7 +4,7 @@
 void iniciar_servidor_memoria(){
 
 	serverMemoria = iniciar_servidor(IP, config_values.puerto_escucha);
-	log_info(logger, "Servidor de memoria listo para recibir conexiones.");
+	log_debug(logger, "Servidor de memoria listo para recibir conexiones.");
 
 	pthread_t thr_memoria_individual;
 
@@ -38,10 +38,10 @@ int manejarConexion(int socket_cliente){
 			break;
 		case PAQUETE:
 			lista = recibir_paquete(socket_cliente);
-			log_info(logger, LECTURA_DE_VALORES);
+			log_debug(logger, LECTURA_DE_VALORES);
 			break;
 		case HANDSHAKE_INICIAL:
-			log_info(logger, "HANDSHAKE INICIAL con modulo CPU");
+			log_debug(logger, "HANDSHAKE INICIAL con modulo CPU");
 			send_respuesta_handshake_inicial(socket_cliente, config_values.tam_pagina, config_values.entradas_por_tabla);
 			break;
 		case NUEVO_PROCESO:
