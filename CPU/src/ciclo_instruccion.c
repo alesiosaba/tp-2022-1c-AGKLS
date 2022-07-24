@@ -21,11 +21,11 @@ void ejecutar_ciclo_instruccion(pcb** pcb){
 		int esCopy = decode(instruccion);
 
 		// buscar valor en memoria del parametro de COPY
-		int valorLeidoDeMemoria = 0;
+		uint32_t valorLeidoDeMemoria = 0;
 		if(esCopy){
 			log_debug(logger, COMIENZO_ETAPA_FETCH_OPERANDS, (*pcb)->id);
-			valorLeidoDeMemoria = fetch_operands(instruccion);
-			log_debug(logger, "%d",valorLeidoDeMemoria);
+			valorLeidoDeMemoria = fetch_operands(pcb, instruccion);
+			log_debug(logger, "FETCH OPERANDS retorna: %u",valorLeidoDeMemoria);
 		}
 
 		// ejecucion de instruccion
@@ -63,8 +63,6 @@ nodo_instruccion* fetch(pcb** pcb){
 
 	nodo_instruccion* instruccion;
 	instruccion = list_get((*pcb)->instrucciones,(*pcb)->program_counter);
-	//para pruebas
-	//instruccion = list_get((*pcb)->instrucciones,7);
 	(*pcb)->program_counter++;
 	return instruccion;
 }
@@ -76,8 +74,10 @@ int decode(nodo_instruccion* instruccion){
 }
 
 // buscar valor en memoria del parametro de COPY
-int fetch_operands(nodo_instruccion* instruccion){
-	return buscarValorEnMemoria(list_get(instruccion->instruccion.parametros,1));
+uint32_t fetch_operands(pcb** pcb, nodo_instruccion* instruccion){
+	int* direccionLogica = list_get(instruccion->instruccion.parametros,1);
+
+	return buscarValorEnMemoria(pcb, *direccionLogica);
 }
 
 void exec_no_op(){
@@ -90,37 +90,31 @@ void exec_no_op(){
 	log_debug(logger, "Finalizacion instruccion NO_OP");
 }
 
-void exec_read(nodo_instruccion* instruccion){
+void exec_read(nodo_instruccion* instruccion, pcb** pcb){
 	log_debug(logger, "CASE de EXECUTE: entro en READ");
 
-	int direccionLogica = list_get(instruccion->instruccion.parametros,0);
+	int* direccionLogica = list_get(instruccion->instruccion.parametros,0);
 
-	int valor = buscarValorEnMemoria(direccionLogica);
+	int valor = buscarValorEnMemoria(pcb, *direccionLogica);
 
 	log_info(logger, "VALOR RETORNADO POR READ: %d",valor);
 }
 
-void exec_write(nodo_instruccion* instruccion){
+void exec_write(nodo_instruccion* instruccion, pcb** pcb){
 	log_debug(logger, "CASE de EXECUTE: entro en WRITE");
 
 	nodo_parametro* nodo_parametro = list_get(instruccion->instruccion.parametros,1);
-	int valorAescribir = nodo_parametro->parametro;
+	uint32_t valorAescribir = nodo_parametro->parametro;
 	int* direccionLogica = list_get(instruccion->instruccion.parametros,0);
 
-	escribirValorEnMemoria(direccionLogica, valorAescribir);
-
-	log_debug(logger, "Direccion logica donde escribimos: %d", *direccionLogica);
-	log_debug(logger, "Valor escrito en memoria %d", valorAescribir);
+	escribirValorEnMemoria(pcb, *direccionLogica, valorAescribir);
 }
 
-void exec_copy(nodo_instruccion* instruccion, int valorMemoria){
+void exec_copy(nodo_instruccion* instruccion, uint32_t valorMemoria, pcb** pcb){
 	log_debug(logger, "CASE de EXECUTE: entro en COPY");
 
 	int* direccionLogica = list_get(instruccion->instruccion.parametros,0);
-	escribirValorEnMemoria(direccionLogica, valorMemoria);
-
-	log_debug(logger, "Direccion logica donde escribimos: %d", *direccionLogica);
-	log_debug(logger, "Valor escrito en memoria %d",valorMemoria);
+	escribirValorEnMemoria(pcb, *direccionLogica, valorMemoria);
 }
 
 void exec_i_o(nodo_instruccion* instruccion, pcb** pcb){
@@ -144,10 +138,10 @@ void exec_exit(pcb** pcb){
 }
 
 // ejecucion de instruccion
-void execute(nodo_instruccion* instruccion, pcb** pcb, int valorMemoria){
+void execute(nodo_instruccion* instruccion, pcb** pcb, uint32_t valorMemoria){
 	log_debug(logger, COMIENZO_ETAPA_EXECUTE, (*pcb)->id);
 
-	IDENTIFICADOR_INSTRUCCION identificador_instruccion = str2enum(instruccion->instruccion.identificador);
+	IDENTIFICADOR_INSTRUCCION identificador_instruccion = str_to_identificador_enum(instruccion->instruccion.identificador);
 
 	switch (identificador_instruccion){
 		case NO_OP:
@@ -155,15 +149,15 @@ void execute(nodo_instruccion* instruccion, pcb** pcb, int valorMemoria){
 			break;
 
 		case READ:
-			exec_read(instruccion);
+			exec_read(instruccion, pcb);
 			break;
 
 		case WRITE:
-			exec_write(instruccion);
+			exec_write(instruccion, pcb);
 			break;
 
 		case COPY:
-			exec_copy(instruccion, valorMemoria);
+			exec_copy(instruccion, valorMemoria, pcb);
 			break;
 
 		case IO:
@@ -236,17 +230,33 @@ void desactivar_flag_desalojo() {
 	pthread_mutex_unlock(&mtx_gv_flag_desalojar_proceso);
 }
 
-int buscarValorEnMemoria(int* direccionLogica){
-	//TODO:
-	return 14;
+uint32_t buscarValorEnMemoria(pcb** pcb, int direccionLogica){
+
+	log_debug(logger,"Entro en buscarValorEnMemoria()");
+
+	int id_tablaN1 = (*pcb)->tabla_paginas;
+
+	log_debug(logger,"\nbuscar:\n\tPID: %d\n\tid_tablaN1: %d\n\tdir. logica:%d", (*pcb)->id, id_tablaN1, direccionLogica);
+
+	uint32_t resultado = 14;
+
+	//TODO: implementar correcto comportamiento
+	return resultado;
 }
 
-int escribirValorEnMemoria(int* direccionLogica, int valor){
-	//TODO:
-	return 322;
+bool escribirValorEnMemoria(pcb** pcb, int direccionLogica, uint32_t valor){
+
+	log_debug(logger,"Entro en escribirValorEnMemoria()");
+
+	int id_tablaN1 = (*pcb)->tabla_paginas;
+
+	log_debug(logger,"\nescribir:\n\tPID: %d\n\tid_tablaN1: %d\n\tdir. logica:%d\n\tValor en uint32_t: %u", (*pcb)->id, id_tablaN1, direccionLogica, valor);
+
+	//TODO: devolver bool que confirme lectura correcta
+	return true;
 }
 
-IDENTIFICADOR_INSTRUCCION str2enum (char *str)
+IDENTIFICADOR_INSTRUCCION str_to_identificador_enum (char *str)
 {
      int j;
      for (j = 0;  j < sizeof (conversion) / sizeof (conversion[0]);  ++j)

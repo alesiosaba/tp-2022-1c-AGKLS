@@ -126,11 +126,11 @@ int manejarDispatch(int socket_cliente){
 
 		case RESPUESTA_HANDSHAKE_INICIAL:
 			log_debug(logger, "Respuesta de Handshake inicial");
-			struct handshake_inicial_s hd_inicial = recv_respuesta_handshake_inicial(socket_cliente);
-			tamanio_pagina = hd_inicial.tamanio_pagina;
-			cant_entradas_por_tabla = hd_inicial.cant_entradas_por_tabla;
-			log_debug(logger,"tm : %d",tamanio_pagina);
-			log_debug(logger,"ce : %d",cant_entradas_por_tabla);
+			struct handshake_inicial_s handshake_inicial = recv_respuesta_handshake_inicial(socket_cliente);
+			tamanio_pagina = handshake_inicial.tamanio_pagina;
+			cant_entradas_por_tabla = handshake_inicial.cant_entradas_por_tabla;
+			log_debug(logger,"tam pag: %d",tamanio_pagina);
+			log_debug(logger,"cant entradas : %d",cant_entradas_por_tabla);
 			break;
 
 		case -1:

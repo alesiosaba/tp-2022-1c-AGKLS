@@ -31,7 +31,7 @@ const static struct {
     {EXIT_, "EXIT"},
 };
 
-IDENTIFICADOR_INSTRUCCION str2enum (charstr);
+IDENTIFICADOR_INSTRUCCION str_to_identificador_enum (charstr);
 
 // VARIABLES GLOBALES
 bool gv_flag_interrupcion;

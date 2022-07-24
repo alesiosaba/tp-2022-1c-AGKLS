@@ -11,21 +11,24 @@ void ejecutar_ciclo_instruccion(pcb** pcb);
 // pasos de ciclo de instruccion
 nodo_instruccion* fetch(pcb** pcb);
 int decode(nodo_instruccion*);
-int fetch_operands(nodo_instruccion*);
-void execute(nodo_instruccion*, pcb** pcb, int valorMemoria);
+uint32_t fetch_operands(pcb** pcb, nodo_instruccion*);
+void execute(nodo_instruccion*, pcb** pcb, uint32_t valorMemoria);
 void check_interrupt(pcb** pcb);
 
 
 // ejecucion de instrucciones
 void exec_no_op();
-void exec_read(nodo_instruccion* instruccion);
-void exec_write(nodo_instruccion* instruccion);
-void exec_copy(nodo_instruccion* instruccion, int valorMemoria);
+void exec_read(nodo_instruccion* instruccion, pcb** pcb);
+void exec_write(nodo_instruccion* instruccion, pcb** pcb);
+void exec_copy(nodo_instruccion* instruccion, uint32_t valorMemoria, pcb** pcb);
 void exec_i_o(nodo_instruccion* instruccion, pcb** pcb);
 void exec_exit(pcb** pcb);
 
 // busca valor en direccion logica de memoria
-int buscarValorEnMemoria(int*);
+uint32_t buscarValorEnMemoria(pcb** pcb, int direccionLogica);
+
+// realizar escritura en una direccion logica de memoria
+bool escribirValorEnMemoria(pcb** pcb, int direccionLogica, uint32_t valor);
 
 // imprimir instruccion a ejecutar por el ciclo de instruccion
 void imprimir_instruccion(nodo_instruccion* instruccion);
