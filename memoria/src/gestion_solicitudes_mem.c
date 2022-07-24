@@ -36,6 +36,11 @@ void solicitud_marco(int socket_cliente, t_log *logger){
 
     entrada_tabla_N2 *e2 = conseguir_entrada_pagina(*dir_tablaN1, *num_pag);
 
+    if(e2->bit_presencia == 0)
+    {
+        traer_pagina_a_memoria(*id, *dir_tablaN1, e2);
+    }
 
+    // TODO: Enviar numero de direccion y liberar memoria
 
 }

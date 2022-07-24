@@ -125,19 +125,29 @@ void traer_pagina_a_memoria(int id, int dir_tablaN1 , entrada_tabla_N2 *e){
 	        if(strcmp(config_values.algoritmo_reemplazo, "CLOCK") == 0)
 	          {
 	             log_info(logger, "Buscando por criterio CLOCK");
-//	             TODO: Aplicar asignacion por clock
-//	             aux = aplicar_busqueda_clock(id, dir_tablaN1);
+	             aux = aplicar_busqueda_clock(id, dir_tablaN1);
 	          }
-	            else if(strcmp(config_values.algoritmo_reemplazo, "CLOCK-M") == 0)
-	               {
-	                   log_info(logger, "Buscando por criterio CLOCK-M");
-	                   //	TODO: Aplicar asignacion por clock mejorado
-//	                   aux = aplicar_busqueda_clock_mejorado(id, dir_tablaN1);
-	                }
+	        else if(strcmp(config_values.algoritmo_reemplazo, "CLOCK-M") == 0)
+	          {
+	             log_info(logger, "Buscando por criterio CLOCK-M");
+	             aux = aplicar_busqueda_clock_mejorado(id, dir_tablaN1);
+	          }
 
-
+	        //GUARDAR DIR MARCO ELEGIDO
+	        dir_marco = aux->dir;
+	               //SI FUE MODIFICADO, ESCRIBIR PAGINA EN MEMORIA
+	        if(aux->bit_modificacion == 1)
+	         {
+	        	// TODO: Implementar SWAP y sincronizacion
+	         }
+	         aux->bit_presencia = 0;
 
 	    }
+
+	    e->dir = dir_marco;
+	    e->bit_presencia = 1;
+	    log_info(logger, "el bit de presencia es: %d",e->bit_presencia);
+	    log_info(logger,"pagina %d del proceso %d lista en memoria",e->num_pag,id);
 
 
 }
