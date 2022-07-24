@@ -10,7 +10,7 @@ void iniciar_servidor_memoria(){
 
 	while(1){
 		clienteMemoria = esperar_cliente(serverMemoria);
-        pthread_create(&thr_memoria_individual, NULL, (void*) manejarDispatch, (void*) clienteMemoria);
+        pthread_create(&thr_memoria_individual, NULL, (void*) manejarConexion, (void*) clienteMemoria);
         pthread_detach(thr_memoria_individual);
 	}
 
@@ -22,7 +22,7 @@ void retardo_memoria() {
 	sleep(config_values.retardo_memoria / 1000);
 }
 
-int manejarDispatch(int socket_cliente){
+int manejarConexion(int socket_cliente){
 
 	//TIEMPO RETARDO MEMORIA
 	retardo_memoria();
