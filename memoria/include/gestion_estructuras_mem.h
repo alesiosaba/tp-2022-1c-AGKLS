@@ -18,6 +18,7 @@ void inicializar_tablas_de_entradas();
 entrada_tabla_N2* tabla_contiene_marco(t_tablaN2 *t, int num_marco);
 entrada_tabla_N2* conseguir_entrada_pagina(int dir_tablaN1, int pag);
 entrada_tabla_N2* conseguir_pagina_en_marco(int num_marco);
+t_list* conseguir_marcos_proceso(int dir_tablaN1);
 t_list* conseguir_numeros_marcos_proceso(int id);
 proceso_en_memoria* buscar_proceso_por_id(int id);
 

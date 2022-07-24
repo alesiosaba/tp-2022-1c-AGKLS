@@ -262,6 +262,31 @@ entrada_tabla_N2* conseguir_pagina_en_marco(int num_marco)
     return ret;
 }
 
+t_list* conseguir_marcos_proceso(int dir_tablaN1)
+{
+    t_tablaN1 *t = list_get(tablasN1, dir_tablaN1);
+    t_list *marcos = list_create();
+    t_list_iterator *iterador = list_iterator_create(t);
+    while(list_iterator_has_next(iterador))
+    {
+        //ENTRADA TIENE DIR DE TABLA NIVEL 2
+        entrada_tabla_N1 *e1 = list_iterator_next(iterador);
+        //CONSIGUE TABLA
+        t_list_iterator *iterador2 = list_iterator_create(list_get(tablasN2, e1->dir));
+        while(list_iterator_has_next(iterador2))
+        {
+            //CONSIGUE ENTRADA DE TABLA N2
+            entrada_tabla_N2 *e2 = list_iterator_next(iterador2);
+            if(e2->bit_presencia == 1)
+            {
+                list_add(marcos, e2);
+            }
+        }
+        list_iterator_destroy(iterador2);
+    }
+    list_iterator_destroy(iterador);
+    return marcos;
+}
 
 t_list* conseguir_numeros_marcos_proceso(int id)
 {

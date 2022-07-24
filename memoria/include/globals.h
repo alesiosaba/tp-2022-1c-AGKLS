@@ -45,6 +45,8 @@ typedef struct
     int id_proceso;
     t_list* entradas_N1;
     t_list* marcos_reservados;
+	int posicion_puntero_clock;
+
 }proceso_en_memoria;
 
 // Estructuras propias del modulo Memoria

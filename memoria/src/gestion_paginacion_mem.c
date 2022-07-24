@@ -13,6 +13,23 @@ int criterio_clock(entrada_tabla_N2 *e)
         return 1;
 }
 
+entrada_tabla_N2* aplicar_busqueda_clock(int id, int dir_tablaN1)
+{
+    proceso_en_memoria *p = buscar_proceso_por_id(id);
+    t_list *marcos_proceso = conseguir_marcos_proceso(dir_tablaN1);
+    entrada_tabla_N2 *ret = NULL;
+    while(criterio_clock(ret) == 0)
+    {
+        ret = list_get(marcos_proceso, p->posicion_puntero_clock);
+        p->posicion_puntero_clock++;
+        if(p->posicion_puntero_clock == list_size(marcos_proceso))
+            p->posicion_puntero_clock = 0;
+    }
+    list_destroy(marcos_proceso);
+    log_info(logger, "Pagina a reemplazar %d en marco %d", ret->num_pag, ret->dir);
+    return ret;
+}
+
 int criterio_clock_mejorado(entrada_tabla_N2 *e, int vuelta)
 {
     switch(vuelta)
@@ -43,6 +60,46 @@ int criterio_clock_mejorado(entrada_tabla_N2 *e, int vuelta)
         return 0;
         break;
     }
+}
+
+entrada_tabla_N2* aplicar_busqueda_clock_mejorado(int id, int dir_tablaN1)
+{
+    proceso_en_memoria *p = buscar_proceso_por_id(id);
+    t_list *marcos_proceso = conseguir_marcos_proceso(dir_tablaN1);
+
+    entrada_tabla_N2 *ret = list_get(marcos_proceso, p->posicion_puntero_clock);
+    int vuelta = 0;
+    int pos_inicial = p->posicion_puntero_clock;
+    /*for(int i = 0; i < marcos_por_proceso; i++)
+    {
+        if(p->posicion_puntero_clock == list_size(marcos_proceso))
+        {
+            p->posicion_puntero_clock = 0;
+        }
+        if(criterio_clock_mejorado(ret, vuelta))
+            break;
+    }
+    return ret;*/
+
+    while(criterio_clock_mejorado(ret, vuelta))
+    {
+        ret = list_get(marcos_proceso, p->posicion_puntero_clock);
+        p->posicion_puntero_clock++;
+        if(p->posicion_puntero_clock == list_size(marcos_proceso))
+        {
+            p->posicion_puntero_clock = 0;
+        }
+        if(p->posicion_puntero_clock == pos_inicial)
+        {
+            vuelta++;
+        }
+    }
+
+    //list_destroy_and_destroy_elements(marcos_proceso, free);
+    list_destroy(marcos_proceso);
+    log_info(logger, "Pagina a reemplazar %d en marco %d", ret->num_pag, ret->dir);
+    //NOTA: podria eliminar los elementos en la lista principal (chequear despues)
+    return ret;
 }
 
 int dir_marco_vacio_proceso(int id)
