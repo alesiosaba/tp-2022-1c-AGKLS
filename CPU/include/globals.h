@@ -13,11 +13,33 @@
 
 
 #include "../../shared/include/utils/utils.h"
-#include "../../shared/include/utils/utils.h"
 #include "../../shared/include/utils/sockets.h"
 #include "../../shared/include/utils/protocolo.h"
 
+// enum utilizado para los identificadores de instruccion
+typedef enum {NO_OP, IO, READ, WRITE, COPY, EXIT_} IDENTIFICADOR_INSTRUCCION;
+
+const static struct {
+    IDENTIFICADOR_INSTRUCCION  val;
+    const char *str;
+} conversion [] = {
+    {NO_OP, "NO_OP"},
+    {IO, "I/O"},
+    {READ, "READ"},
+    {WRITE, "WRITE"},
+    {COPY, "COPY"},
+    {EXIT_, "EXIT"},
+};
+
+IDENTIFICADOR_INSTRUCCION str2enum (charstr);
+
+// VARIABLES GLOBALES
 bool gv_flag_interrupcion;
+bool gv_flag_desalojar_proceso;
+
+// SEMAFOROS MUTEX
+pthread_mutex_t mtx_gv_flag_interrupcion;
+pthread_mutex_t mtx_gv_flag_desalojar_proceso;
 
 // hilo de atencion a servidor dispatch
 pthread_t thr_dispatch;
@@ -31,5 +53,6 @@ pthread_t thr_memoria;
 int tamanio_pagina;
 // Cantidad de entradas por tabla (viene de la config del modulo Memoria)
 int cant_entradas_por_tabla;
+
 
 #endif

@@ -13,7 +13,7 @@ void servidorDispatch(){
 
 	while(1){
 		clienteDispatch = esperar_cliente(serverDispatch);
-        pthread_create(&thr_dispatch_individual, NULL, (void*) manejarConexion, (void*) clienteDispatch);
+        pthread_create(&thr_dispatch_individual, NULL, (void*) manejarDispatch, (void*) clienteDispatch);
         pthread_detach(thr_dispatch_individual);
 	}
 
@@ -49,7 +49,7 @@ void conectar_memoria(){
 
 	pthread_t thr_memoria_individual;
 
-	if(pthread_create(&thr_memoria_individual, NULL, (void*) manejarConexion,(void*)conexionAMemoria) != 0){
+	if(pthread_create(&thr_memoria_individual, NULL, (void*) manejarDispatch,(void*)conexionAMemoria) != 0){
 		log_error(logger, "Error al crear el hilo la Memoria");
 	}
 
@@ -70,13 +70,13 @@ void conexiones (){
 }
 
 
-
+// manejar conexion de Interrupt
 void manejarInterrupt(int socket_cliente){
 	while (1) {
 		int cod_op = recibir_operacion(socket_cliente);
 		switch (cod_op) {
 		case INTERRUPCION:
-			gv_flag_interrupcion = true;
+			activar_flag_interrupcion();
 			log_info(logger, INTERRUPCION_RECIBIDA);
 			break;
 
@@ -90,8 +90,8 @@ void manejarInterrupt(int socket_cliente){
 	}
 }
 
-
-int manejarConexion(int socket_cliente){
+// manejar conexion de Dispatch
+int manejarDispatch(int socket_cliente){
 
 	t_list* lista;
 	struct pcb *pcb;
@@ -104,30 +104,26 @@ int manejarConexion(int socket_cliente){
 		case MENSAJE:
 			recibir_mensaje(socket_cliente);
 			break;
+
 		case PAQUETE:
 			lista = recibir_paquete(socket_cliente);
 			log_info(logger, LECTURA_DE_VALORES);
 			break;
+
 		case PAQUETE_PCB:
 			log_debug(logger, RECEPCION_PAQUETE_PCB);
 			recv_paquete_pcb(socket_cliente, &pcb);
 			log_debug(logger, "Me llego el pcb PID: %d", pcb->id);
 			imprimir_PCB(pcb);
-			while(gv_flag_interrupcion!=true);
 
-			//ejecutar_ciclo_instruccion(&pcb);
-			//sleep(1);
-			//char* leido = readline(">");
-			// ejecutar_ciclo_instruccion(&pcb);
-			if(i==3){
-				send_paquete_pcb(socket_cliente,pcb,PAQUETE_PCB_EXIT);
-				i=0;
-			}else{
-				send_paquete_pcb(socket_cliente, pcb, PAQUETE_PCB); //SOLO PARA PRUEBAS
-			}
-			gv_flag_interrupcion=false;
-			i++;
+			log_debug(logger, "Alojando proceso en el CPU - PID: %d", pcb->id);
+
+			ejecutar_ciclo_instruccion(&pcb);
+
+			log_debug(logger, "Desalojando proceso del CPU - PID: %d", pcb->id);
+
 			break;
+
 		case RESPUESTA_HANDSHAKE_INICIAL:
 			log_debug(logger, "Respuesta de Handshake inicial");
 			struct handshake_inicial_s hd_inicial = recv_respuesta_handshake_inicial(socket_cliente);
@@ -136,9 +132,11 @@ int manejarConexion(int socket_cliente){
 			log_debug(logger,"tm : %d",tamanio_pagina);
 			log_debug(logger,"ce : %d",cant_entradas_por_tabla);
 			break;
+
 		case -1:
 			log_error(logger, SERVIDOR_DESCONEXION);
 			return EXIT_FAILURE;
+
 		default:
 			log_warning(logger,OPERACION_DESCONOCIDA);
 			break;
