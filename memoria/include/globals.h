@@ -44,7 +44,7 @@ typedef struct
 {
     int id_proceso;
     t_list* entradas_N1;
-    t_list *marcos_reservados;
+    t_list* marcos_reservados;
 }proceso_en_memoria;
 
 // Estructuras propias del modulo Memoria

@@ -14,5 +14,5 @@
 
 void solicitud_lectura(int socket_cliente, t_log *logger);
 void solicitud_tabla_paginas(int socket_cliente, t_log *logger);
-
+void solicitud_marco(int socket_cliente, t_log *logger);
 #endif /* GESTION_SOLICITUDES_MEM_H_ */

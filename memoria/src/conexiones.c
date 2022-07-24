@@ -56,6 +56,10 @@ int manejarConexion(int socket_cliente){
 			log_info(logger, "Memoria recibio SOLICITUD_TABLA_PAGINAS");
             solicitud_tabla_paginas(socket_cliente, logger);
 			break;
+		case SOLICITUD_MARCO:
+			log_info(logger, "Memoria recibio SOLICITUD_MARCO");
+            solicitud_marco(socket_cliente, logger);
+			break;
 		case -1:
 			log_error(logger, SERVIDOR_DESCONEXION);
 			return EXIT_FAILURE;

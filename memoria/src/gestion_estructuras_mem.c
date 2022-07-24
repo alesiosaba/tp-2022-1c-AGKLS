@@ -195,3 +195,79 @@ int cantidad_paginas_necesarias(int tamanioProceso){
     return ceil(cantidad);
 }
 
+
+
+proceso_en_memoria* buscar_proceso_por_id(int id)
+{
+
+    bool id_equals(proceso_en_memoria *p){
+        return p->id_proceso == id;
+    }
+
+    proceso_en_memoria *aux = (proceso_en_memoria*)list_find(procesos_en_memoria, (void*)id_equals);
+    return aux;
+}
+
+entrada_tabla_N2* tabla_contiene_marco(t_tablaN2 *t, int num_marco)
+{
+    entrada_tabla_N2 *ret;
+    for(int i = 0; i < list_size(t); i++)
+    {
+        ret = list_get(t, i);
+        if(ret->bit_presencia == 1 && ret->dir == num_marco * config_values.tam_pagina)
+        {
+            return ret;
+        }
+    }
+    return NULL;
+}
+
+
+entrada_tabla_N2* conseguir_entrada_pagina(int dir_tablaN1, int pag)
+{
+    //conseguir tabla nivel 1
+    t_tablaN1 *t = list_get(tablasN1, dir_tablaN1);
+
+    //numero entrada = division numero pagina por paginas tablas redondeado para arriba
+    int num_entrada_n1 = ceil(pag / config_values.entradas_por_tabla);
+    entrada_tabla_N1 *e1 = list_get(t, num_entrada_n1);
+
+    //conseguir tabla nivel 2
+    t_tablaN2 *t2 = list_get(tablasN2, e1->dir);
+
+    //desplazamiento en tabla = resto de division anterior
+    int num_entrada_n2 = pag % config_values.entradas_por_tabla;
+    entrada_tabla_N2 *e2 = list_get(t2, num_entrada_n2);
+    return e2;
+}
+
+entrada_tabla_N2* conseguir_pagina_en_marco(int num_marco)
+{
+    t_list_iterator *iterador = list_iterator_create(tablasN2);
+    entrada_tabla_N2 *ret = NULL;
+    t_tablaN2 *t;
+    while(list_iterator_has_next(iterador))
+    {
+
+        t = list_iterator_next(iterador);
+
+        ret = tabla_contiene_marco(t, num_marco);
+        if(ret != NULL)
+        {
+            list_iterator_destroy(iterador);
+            return ret;
+        }
+    }
+    list_iterator_destroy(iterador);
+    return ret;
+}
+
+
+t_list* conseguir_numeros_marcos_proceso(int id)
+{
+    proceso_en_memoria *ret = buscar_proceso_por_id(id);
+    return ret->marcos_reservados;
+}
+
+
+

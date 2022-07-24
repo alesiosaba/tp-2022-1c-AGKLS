@@ -21,3 +21,21 @@ void solicitud_tabla_paginas(int socket_cliente, t_log *logger){
     // Liberamos memoria
     list_destroy_and_destroy_elements(parametros,free);
 }
+
+void solicitud_marco(int socket_cliente, t_log *logger){
+	// Recibe parametros del socket fd
+	t_list *parametros = recibir_paquete(socket_cliente);
+	int *id = list_get(parametros, 0);
+	int *dir_tablaN1 = list_get(parametros, 1);
+	int *num_pag = list_get(parametros, 2);
+	log_info(logger,"solicitud_marco - dir tabla: %d, numero pagina: %d", *dir_tablaN1, *num_pag);
+
+	// TODO: Contemplar procesos suspendidos
+
+
+
+    entrada_tabla_N2 *e2 = conseguir_entrada_pagina(*dir_tablaN1, *num_pag);
+
+
+
+}
