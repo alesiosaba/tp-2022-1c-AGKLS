@@ -37,8 +37,8 @@ void ejecutar_ciclo_instruccion(pcb** pcb){
 		log_debug(logger, "gv_flag_desalojar_proceso: %d", gv_flag_desalojar_proceso);
 		log_debug(logger, "gv_flag_interrupcion: %d", gv_flag_interrupcion);
 
-		log_warning(logger, "Esperando getchar()");
-		getchar();
+		//log_warning(logger, "Esperando getchar()");
+		//getchar();
 
 
 	} while(!hay_desalojo_proceso());

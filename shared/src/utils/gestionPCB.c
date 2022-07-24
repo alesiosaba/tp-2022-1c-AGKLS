@@ -130,9 +130,9 @@ t_paquete* generar_paquete_pcb(struct pcb PCB_a_enviar, op_code codigo_paquete){
 	agregar_a_paquete(paquete, estimacion, strlen(estimacion));
 
 	// pcb -> status
-	char* state = string_new();
-	sprintf(state, "%d\0", PCB_a_enviar.status);
-	agregar_a_paquete(paquete, state, strlen(state));
+	char* status = string_new();
+	sprintf(status, "%d\0", PCB_a_enviar.status);
+	agregar_a_paquete(paquete, status, strlen(status));
 
 	// pcb -> tiempo_a_bloquearse
 	char* tiempo_a_bloquearse = string_new();
@@ -317,6 +317,7 @@ void imprimir_PCB(pcb* nodo_pcb){
 	printf("\n\tTabla paginas: %d", nodo_pcb->tabla_paginas);
 	printf("\n\tESTIMACION: %f", nodo_pcb->estimacion_rafaga);
 	printf("\n\tSTATUS: %s", imprimir_status(nodo_pcb->status));
+	printf("\n\tSTATUS int: %d", nodo_pcb->status);
 	printf("\n\tTiempo a bloquearse: %d\n\n", nodo_pcb->tiempo_a_bloquearse);
 	// mostrar_lista_instrucciones(nodo_pcb->instrucciones);
 

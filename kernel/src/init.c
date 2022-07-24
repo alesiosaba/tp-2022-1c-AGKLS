@@ -24,13 +24,17 @@ config_t inicializar(){
     listaDesbloqueoPendiente = list_create();
 //semaforos
     sem_init(&sem_ProcesosNew,1,0);
+    sem_init(&sem_ProcesosSuspendedBlk,1,0);
+    sem_init(&sem_ProcesosSuspended,1,0);
     sem_init(&sem_enviarPCB,1,0);
     sem_init(&sem_respuestaPCB,1,0);
     sem_init(&sem_comenzarProcesos,1,1);
     sem_init(&sem_multiprogramacion,1,config_values.grado_multiprog);
 //MUTEX
+    pthread_mutex_init(&mtx_ready,NULL);
     pthread_mutex_init(&mtx_planificador,NULL);
     pthread_mutex_init(&mtx_susblk, NULL);
+    pthread_mutex_init(&mtx_susrdy, NULL);
     pthread_mutex_init(&mtx_blocked, NULL);
 
 

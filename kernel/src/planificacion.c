@@ -15,11 +15,11 @@ void iniciarPlanificacion() {
     if (pthread_create(&thr_bloqueos, NULL, (void*) &planificacion_bloqueo, NULL) != 0) {
 		log_error(logger, "Error al crear el hilo de bloqueos");
         error++;
-    }/*
-    if (pthread_create(&hiloSuspended, NULL, (void*) &resolverSuspended, NULL) != 0) {
+    }
+    if (pthread_create(&thr_suspended, NULL, (void*) &planificacion_suspended, NULL) != 0) {
 		log_error(logger, "Error al crear el hilo de suspended");
         error++;
-	}*/
+	}
 	if(error) log_info(logger,"Planificadores Inicializados");
 }
 
@@ -52,9 +52,8 @@ void planificadorMedianoPlazo(pcb *nodo_pcb){
 		log_info(logger,"El proceso %d se suspende por exceso de tiempo bloqueado",nodo_pcb->id);
 		dequeue_blocked_at_index(index);
 		movePCBto(&nodo_pcb, SUSPENDED_BLOCKED);
-		//TODO iniciar suspended blocked
+		sem_post(&sem_ProcesosSuspendedBlk);
 		sem_post(&sem_multiprogramacion);
-
 	}
 	pthread_mutex_unlock(&mtx_planificador);
 }
@@ -84,6 +83,7 @@ void planificacion_cpu(int socket_fd){
 		pcb* pcb = list_get(listaExec, 0);
 		op_code codigo_paquete = PAQUETE_PCB;
 		start_time = time(NULL);
+		imprimir_PCB(pcb);
 		send_paquete_pcb(conexionACPU, pcb, codigo_paquete);
 		destruir_PCB(pcb);
 		pcb = recv_mensajes_cpu(socket_fd, &tipo_instruccion);
@@ -141,12 +141,15 @@ void planificacion_bloqueo(){
 		if(index != -1){
 			dequeue_blocked_at_index(index);
 			movePCBto(&pcb, READY);
-			log_debug(logger,"El proceso %d termino la IO y vuelve a Ready",pcb->id);
+			log_debug(logger,BLOQUEO_TERMINADO,pcb->id);
             sem_post(&sem_ProcesosReady);
 		}else{
-			proceso_esta_en_lista(listaSuspendedBlocked, pcb->id);
+			index = proceso_esta_en_lista(listaSuspendedBlocked, pcb->id);
 			if(index != -1){
-
+				pcb = dequeue_suspendedblk_at_index(index);
+				movePCBto(&pcb, SUSPENDED_READY);
+				sem_wait(&sem_ProcesosSuspendedBlk);
+				sem_post(&sem_ProcesosSuspended);
 			}
 		}
 		pthread_mutex_unlock(&mtx_planificador);
@@ -154,16 +157,16 @@ void planificacion_bloqueo(){
 
 }
 
-
-pcb* dequeu_ready(){
-
-	if(planificador_es_fifo()){
-		return list_remove(listaReady,0);
-	}else{
-		list_sort(listaReady, (void*)menor_rafaga);
-		return list_remove(listaReady,0);
+void planificacion_suspended(){
+	pcb* pcb;
+	while(1){
+		sem_wait(&sem_ProcesosSuspended);
+		sem_wait(&sem_multiprogramacion);
+		pcb = dequeue_suspended_ready();
+		movePCBto(&pcb, READY);
+		log_info(logger, SUSPENCION_TERMINADA, pcb->id);
+		sem_post(&sem_ProcesosReady);
 	}
-
 }
 
 
@@ -199,7 +202,11 @@ void movePCBto(pcb** new_pcb, status new_status){
 		list_add(listaSuspendedBlocked, *new_pcb);
 		pthread_mutex_unlock(&mtx_susblk);
 		log_debug(logger, PROCESS_MOVE_SUSBLK, (*new_pcb)->id);
-
+	case SUSPENDED_READY:
+		pthread_mutex_lock(&mtx_susrdy);
+		list_add(listaSuspendedReady, *new_pcb);
+		pthread_mutex_unlock(&mtx_susrdy);
+		log_debug(logger, PROCESS_MOVE_SUSRDY, (*new_pcb)->id);
 	case EXIT:
 			list_add(listaExit, *new_pcb);
 			sem_post(&sem_multiprogramacion);
@@ -208,8 +215,6 @@ void movePCBto(pcb** new_pcb, status new_status){
 	}
 
 }
-
-
 
 void print_grado_multiprogramacion(){
 	int cantidad_procesos_ex = list_size(listaExec);
@@ -232,26 +237,8 @@ void estimar_proxima_rafaga(pcb* pcb, double rafaga){
 }
 
 
-bool menor_rafaga(pcb *pcb1, pcb *pcb2) {
-    return pcb1->estimacion_rafaga <= pcb2->estimacion_rafaga;
-}
-
 bool planificador_es_fifo(){
 	return config_values.algoritmo_planificacion == FIFO;
-}
-
-pcb* dequeue_blocked(){
-	pthread_mutex_lock(&mtx_blocked);
-	pcb* pcb = list_remove(listaBlocked, 0);
-	pthread_mutex_unlock(&mtx_blocked);
-	return pcb;
-}
-
-pcb* dequeue_blocked_at_index(int index){
-	pthread_mutex_lock(&mtx_blocked);
-	pcb* pcb = list_remove(listaBlocked, index);
-	pthread_mutex_unlock(&mtx_blocked);
-	return pcb;
 }
 
 int proceso_esta_en_lista(t_list* lista, int id){

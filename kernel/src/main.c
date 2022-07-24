@@ -9,7 +9,7 @@ void sighandler(int s){
 	if(conexionACPU_interrupt){
 		liberar_conexion(&conexionACPU_interrupt);
 	}
-
+	matar_hilos();
 	terminar_programa();
 	exit(0);
 }
@@ -37,6 +37,8 @@ void matar_hilos(){
     pthread_cancel(thr_memoria);
     pthread_cancel(thr_planifLT);
     pthread_cancel(thr_planifST);
+    pthread_cancel(thr_bloqueos);
+    pthread_cancel(thr_suspended);
 }
 
 void recibirComandos(){
@@ -62,6 +64,8 @@ void esperar_hilos() {
         pthread_join(thr_memoria, NULL);
         pthread_join(thr_planifST, NULL);
         pthread_join(thr_planifLT, NULL);
+        pthread_join(thr_bloqueos, NULL);
+        pthread_join(thr_suspended, NULL);
 }
 
 
@@ -81,6 +85,8 @@ void terminar_programa()
 	sem_destroy(&sem_ProcesosReady);
 	sem_destroy(&sem_respuestaPCB);
 	sem_destroy(&sem_multiprogramacion);
+	sem_destroy(&sem_ProcesosSuspended);
+	sem_destroy(&sem_ProcesosSuspendedBlk);
 	log_debug(logger,SEMAFOROS_DESTRUIDOS);
 	//config
 	config_destroy(config);
