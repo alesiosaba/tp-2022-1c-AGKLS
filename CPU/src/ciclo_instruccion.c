@@ -63,8 +63,6 @@ nodo_instruccion* fetch(pcb** pcb){
 
 	nodo_instruccion* instruccion;
 	instruccion = list_get((*pcb)->instrucciones,(*pcb)->program_counter);
-	//para pruebas
-	//instruccion = list_get((*pcb)->instrucciones,7);
 	(*pcb)->program_counter++;
 	return instruccion;
 }
@@ -147,7 +145,7 @@ void exec_exit(pcb** pcb){
 void execute(nodo_instruccion* instruccion, pcb** pcb, int valorMemoria){
 	log_debug(logger, COMIENZO_ETAPA_EXECUTE, (*pcb)->id);
 
-	IDENTIFICADOR_INSTRUCCION identificador_instruccion = str2enum(instruccion->instruccion.identificador);
+	IDENTIFICADOR_INSTRUCCION identificador_instruccion = str_to_identificador_enum(instruccion->instruccion.identificador);
 
 	switch (identificador_instruccion){
 		case NO_OP:
@@ -246,7 +244,7 @@ int escribirValorEnMemoria(int* direccionLogica, int valor){
 	return 322;
 }
 
-IDENTIFICADOR_INSTRUCCION str2enum (char *str)
+IDENTIFICADOR_INSTRUCCION str_to_identificador_enum (char *str)
 {
      int j;
      for (j = 0;  j < sizeof (conversion) / sizeof (conversion[0]);  ++j)
