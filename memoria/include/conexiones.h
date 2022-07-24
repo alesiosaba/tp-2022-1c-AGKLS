@@ -11,6 +11,6 @@ int serverMemoria;
 int clienteMemoria;
 
 void iniciar_servidor_memoria();
-int manejarConexion(int socket_cliente);
+int manejarDispatch(int socket_cliente);
 
 #endif
