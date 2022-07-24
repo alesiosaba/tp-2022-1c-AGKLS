@@ -53,7 +53,7 @@ pcb* deserializar_PCB(t_list* lista){
 
 	// agarro el sexto elemento (status)
 	t_list* status = list_remove(lista, 0);
-	pcb->status = atoi(status);
+	pcb->status = str_to_status_enum(status);
 
 	// agarro el septimo elemento (tiempo_a_bloquearse)
 	t_list* tiempo_a_bloquearse = list_remove(lista, 0);
@@ -63,6 +63,13 @@ pcb* deserializar_PCB(t_list* lista){
 	deserializar_lista_instrucciones(lista, pcb->instrucciones);
 
 	return pcb;
+}
+
+status str_to_status_enum(char* str){
+	int j;
+	     for (j = 0;  j < sizeof (conversion_status) / sizeof (conversion_status[0]);  ++j)
+	         if (atoi(str) != conversion_status[j].str)
+	             return conversion_status[j].val;
 }
 
 char* generar_renglon_instruccion(struct instruccion* instruccion_a_enviar){
@@ -112,32 +119,32 @@ t_paquete* generar_paquete_pcb(struct pcb PCB_a_enviar, op_code codigo_paquete){
 	// pcb -> tamanio
 	char* tamanio = string_new();
 	sprintf(tamanio, "%d\0", PCB_a_enviar.tamanio);
-	agregar_a_paquete(paquete, tamanio, strlen(tamanio));
+	agregar_a_paquete(paquete, tamanio, strlen(tamanio) + 1);
 
 	// pcb -> program_counter
 	char* program_counter = string_new();
 	sprintf(program_counter, "%d\0", PCB_a_enviar.program_counter);
-	agregar_a_paquete(paquete, program_counter, strlen(program_counter));
+	agregar_a_paquete(paquete, program_counter, strlen(program_counter) + 1);
 
 	// pcb -> tabla_paginas
 	char* tabla_paginas = string_new();
 	sprintf(tabla_paginas, "%d\0", PCB_a_enviar.tabla_paginas);
-	agregar_a_paquete(paquete, tabla_paginas, strlen(tabla_paginas));
+	agregar_a_paquete(paquete, tabla_paginas, strlen(tabla_paginas) + 1);
 
 	// pcb -> estimacion
 	char estimacion[100];
 	sprintf(estimacion, "%f\0", PCB_a_enviar.estimacion_rafaga);
-	agregar_a_paquete(paquete, estimacion, strlen(estimacion));
+	agregar_a_paquete(paquete, estimacion, strlen(estimacion) + 1);
 
 	// pcb -> status
 	char* state = string_new();
 	sprintf(state, "%d\0", PCB_a_enviar.status);
-	agregar_a_paquete(paquete, state, strlen(state));
+	agregar_a_paquete(paquete, state, strlen(state) + 1);
 
 	// pcb -> tiempo_a_bloquearse
 	char* tiempo_a_bloquearse = string_new();
 	sprintf(tiempo_a_bloquearse, "%d\0", PCB_a_enviar.tiempo_a_bloquearse);
-	agregar_a_paquete(paquete, tiempo_a_bloquearse, strlen(tiempo_a_bloquearse));
+	agregar_a_paquete(paquete, tiempo_a_bloquearse, strlen(tiempo_a_bloquearse) + 1);
 
 	// pcb -> instrucciones
 	// buffer para concatenar instruccion y sus parametros
@@ -317,12 +324,13 @@ void imprimir_PCB(pcb* nodo_pcb){
 	printf("\n\tTabla paginas: %d", nodo_pcb->tabla_paginas);
 	printf("\n\tESTIMACION: %f", nodo_pcb->estimacion_rafaga);
 	printf("\n\tSTATUS: %s", imprimir_status(nodo_pcb->status));
+	printf("\n\tint STATUS: %d", nodo_pcb->status);
 	printf("\n\tTiempo a bloquearse: %d\n\n", nodo_pcb->tiempo_a_bloquearse);
 	// mostrar_lista_instrucciones(nodo_pcb->instrucciones);
 
 }
 
-char* imprimir_status(int status){
+char* imprimir_status(status status){
 	switch(status){
 		case 0:
 			return "NEW";
