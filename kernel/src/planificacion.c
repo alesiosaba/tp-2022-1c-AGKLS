@@ -1,6 +1,5 @@
 #include "../include/planificacion.h"
 
-
 void iniciarPlanificacion() {
     bool error=true;
     if (pthread_create(&thr_planifST, NULL, (void*) &planificadorCortoPlazo, NULL) != 0) {
@@ -13,11 +12,10 @@ void iniciarPlanificacion() {
         error = false;
 	}
     log_debug(logger, "se creo un thread para %s", "LTS");
-    /*
-    if (pthread_create(&hiloBloqueos, NULL, (void*) &resolverBloqueos, NULL) != 0) {
+    if (pthread_create(&thr_bloqueos, NULL, (void*) &planificacion_bloqueo, NULL) != 0) {
 		log_error(logger, "Error al crear el hilo de bloqueos");
         error++;
-	}
+    }/*
     if (pthread_create(&hiloSuspended, NULL, (void*) &resolverSuspended, NULL) != 0) {
 		log_error(logger, "Error al crear el hilo de suspended");
         error++;
@@ -25,38 +23,40 @@ void iniciarPlanificacion() {
 	if(error) log_info(logger,"Planificadores Inicializados");
 }
 
-
-void movePCBto(pcb** new_pcb, status new_status){
-	(*new_pcb)->status = new_status ;
-	switch(new_status){
-	case READY:
-		list_add(listaReady, *new_pcb);
-
-		if(!planificador_es_fifo() && !list_is_empty(listaExec)){
-			send_interrupcion(conexionACPU_interrupt);
-			log_debug(logger, INTERRUPCION_ENVIADA);
+void planificadorLargoPlazo(pcb *nodo_pcb){
+	pcb* pcb;
+	int respuestaMemoriaDummy = 10;
+	int numeroTabla;
+	while(1){
+		sem_wait(&sem_ProcesosNew);
+		print_grado_multiprogramacion();
+		sem_wait(&sem_multiprogramacion);
+		pcb = list_get(listaNew,0);
+		numeroTabla = respuestaMemoriaDummy; //todo Acá pido el numero de tabla para la memoria
+		if(numeroTabla < 9999){
+			log_info(logger,INICIALIZACION_PROCESOS,pcb->id);
+			pcb = list_remove(listaNew,0);
+			movePCBto(&pcb, READY);
+			sem_post(&sem_ProcesosReady);
 		}
-
-		log_debug(logger, PROCESS_MOVE_READY, (*new_pcb)->id);
-		break;
-	case NEW:
-		list_add(listaNew, *new_pcb);
-		log_debug(logger, PROCESS_MOVE_NEW, (*new_pcb)->id);
-		break;
-	case EXECUTION:
-		list_add(listaExec, *new_pcb);
-		log_debug(logger, PROCESS_MOVE_EXEC, (*new_pcb)->id);
-		break;
-	case EXIT:
-			list_add(listaExit, *new_pcb);
-			log_debug(logger, PROCESS_MOVE_EXIT, (*new_pcb)->id);
-			break;
 	}
-
 }
 
-bool planificador_es_fifo(){
-	return config_values.algoritmo_planificacion == FIFO;
+void planificadorMedianoPlazo(pcb *nodo_pcb){
+	log_info(logger,"Empieza el contador para la suspensión del proceso %d",nodo_pcb->id);
+	usleep(config_values.t_bloqueo_max*1000);
+	pthread_mutex_lock(&mtx_planificador);
+	int index = proceso_esta_en_lista(listaBlocked, nodo_pcb->id);
+	if(index != -1){
+		//TODO avisar a memoria para suspender el proceso
+		log_info(logger,"El proceso %d se suspende por exceso de tiempo bloqueado",nodo_pcb->id);
+		dequeue_blocked_at_index(index);
+		movePCBto(&nodo_pcb, SUSPENDED_BLOCKED);
+		//TODO iniciar suspended blocked
+		sem_post(&sem_multiprogramacion);
+
+	}
+	pthread_mutex_unlock(&mtx_planificador);
 }
 
 void planificadorCortoPlazo(pcb *nodo_pcb){
@@ -73,38 +73,6 @@ void planificadorCortoPlazo(pcb *nodo_pcb){
 		log_info(logger,"Pongo a ejecutar al proceso %d",pcb->id);
 	}
 
-}
-
-pcb* dequeu_ready(){
-
-	if(planificador_es_fifo()){
-		return list_remove(listaReady,0);
-	}else{
-		list_sort(listaReady, (void*)menor_rafaga);
-		return list_remove(listaReady,0);
-	}
-
-}
-
-bool menor_rafaga(pcb *pcb1, pcb *pcb2) {
-    return pcb1->estimacion_rafaga <= pcb2->estimacion_rafaga;
-}
-
-void planificadorLargoPlazo(pcb *nodo_pcb){
-	pcb* pcb;
-	int respuestaMemoriaDummy = 10;
-	int numeroTabla;
-	while(1){
-		sem_wait(&sem_ProcesosNew);
-		pcb = list_get(listaNew,0);
-		numeroTabla = respuestaMemoriaDummy; //todo Acá pido el numero de tabla para la memoria
-		if(numeroTabla < 9999){
-			log_info(logger,INICIALIZACION_PROCESOS,pcb->id);
-			pcb = list_remove(listaNew,0);
-			movePCBto(&pcb, READY);
-			sem_post(&sem_ProcesosReady);
-		}
-	}
 }
 
 void planificacion_cpu(int socket_fd){
@@ -136,12 +104,19 @@ void planificacion_cpu(int socket_fd){
 			break;
 		case 1: //IO
 			log_debug(logger, "Replanificacion: IO");
+			if(!planificador_es_fifo()) estimar_proxima_rafaga(pcb, tiempo_rafaga);
+			movePCBto(&pcb, BLOCKED);
+			list_add(listaDesbloqueoPendiente, pcb);
+            pthread_create(&thr_planifMT[pcb->id], NULL, (void*) &planificadorMedianoPlazo, pcb);
+            pthread_detach(thr_planifMT[pcb->id]);
+            sem_post(&sem_ProcesosBloqueo);
 			break;
 		case 2: //EXIT
 			//TODO avisar memoria
 			log_debug(logger, "Replanificacion: EXIT");
 			movePCBto(&pcb, EXIT);
 			send_paquete_kernel(arr_procesos[pcb->id],TERMINO_EL_PROCESO);
+			close(arr_procesos[pcb->id]);
 			break;
 		default:
 			break;
@@ -150,11 +125,143 @@ void planificacion_cpu(int socket_fd){
 	}
  }
 
+void planificacion_bloqueo(){
+	pcb* pcb;
+	int tiempo_bloqueo;
+	int index;
+	while(1){
+		sem_wait(&sem_ProcesosBloqueo);
+		pcb = list_remove(listaDesbloqueoPendiente,0);
+		tiempo_bloqueo = pcb->tiempo_a_bloquearse;
+		log_info(logger, "El proceso %d esta realizando una IO", pcb->id);
+		usleep(tiempo_bloqueo*1000);
+
+		pthread_mutex_lock(&mtx_planificador);
+		index = proceso_esta_en_lista(listaBlocked, pcb->id);
+		if(index != -1){
+			dequeue_blocked_at_index(index);
+			movePCBto(&pcb, READY);
+			log_debug(logger,"El proceso %d termino la IO y vuelve a Ready",pcb->id);
+            sem_post(&sem_ProcesosReady);
+		}else{
+			proceso_esta_en_lista(listaSuspendedBlocked, pcb->id);
+			if(index != -1){
+
+			}
+		}
+		pthread_mutex_unlock(&mtx_planificador);
+	}
+
+}
+
+
+pcb* dequeu_ready(){
+
+	if(planificador_es_fifo()){
+		return list_remove(listaReady,0);
+	}else{
+		list_sort(listaReady, (void*)menor_rafaga);
+		return list_remove(listaReady,0);
+	}
+
+}
+
+
+void movePCBto(pcb** new_pcb, status new_status){
+	(*new_pcb)->status = new_status ;
+	switch(new_status){
+	case READY:
+		list_add(listaReady, *new_pcb);
+
+		if(!planificador_es_fifo() && !list_is_empty(listaExec)){
+			send_interrupcion(conexionACPU_interrupt);
+			log_debug(logger, INTERRUPCION_ENVIADA);
+		}
+
+		log_debug(logger, PROCESS_MOVE_READY, (*new_pcb)->id);
+		break;
+	case NEW:
+		list_add(listaNew, *new_pcb);
+		log_debug(logger, PROCESS_MOVE_NEW, (*new_pcb)->id);
+		break;
+	case EXECUTION:
+		list_add(listaExec, *new_pcb);
+		log_debug(logger, PROCESS_MOVE_EXEC, (*new_pcb)->id);
+		break;
+	case BLOCKED:
+		pthread_mutex_lock(&mtx_blocked);
+		list_add(listaBlocked, *new_pcb);
+		pthread_mutex_unlock(&mtx_blocked);
+		log_debug(logger, PROCESS_MOVE_BLOCKED, (*new_pcb)->id);
+		break;
+	case SUSPENDED_BLOCKED:
+		pthread_mutex_lock(&mtx_susblk);
+		list_add(listaSuspendedBlocked, *new_pcb);
+		pthread_mutex_unlock(&mtx_susblk);
+		log_debug(logger, PROCESS_MOVE_SUSBLK, (*new_pcb)->id);
+
+	case EXIT:
+			list_add(listaExit, *new_pcb);
+			sem_post(&sem_multiprogramacion);
+			log_debug(logger, PROCESS_MOVE_EXIT, (*new_pcb)->id);
+			break;
+	}
+
+}
+
+
+
+void print_grado_multiprogramacion(){
+	int cantidad_procesos_ex = list_size(listaExec);
+	int cantidad_procesos_re = list_size(listaReady);
+	int cantidad_procesos_bl = list_size(listaBlocked);
+
+	int procesos = cantidad_procesos_ex + cantidad_procesos_re + cantidad_procesos_bl;
+
+	int grado_multiprogramacion = config_values.grado_multiprog;
+
+	log_info(logger, "Grado de multiprogramacion: %d", grado_multiprogramacion);
+	log_info(logger, "Cantidad de procesos Actual: %d", procesos);
+
+}
 
 void estimar_proxima_rafaga(pcb* pcb, double rafaga){
 	//E(n+1) = Alfa * Rn + (1-Alfa) * En
 	double estimacion = config_values.alfa * rafaga + (1 - config_values.alfa) * pcb->estimacion_rafaga;
 	pcb->estimacion_rafaga = estimacion;
+}
+
+
+bool menor_rafaga(pcb *pcb1, pcb *pcb2) {
+    return pcb1->estimacion_rafaga <= pcb2->estimacion_rafaga;
+}
+
+bool planificador_es_fifo(){
+	return config_values.algoritmo_planificacion == FIFO;
+}
+
+pcb* dequeue_blocked(){
+	pthread_mutex_lock(&mtx_blocked);
+	pcb* pcb = list_remove(listaBlocked, 0);
+	pthread_mutex_unlock(&mtx_blocked);
+	return pcb;
+}
+
+pcb* dequeue_blocked_at_index(int index){
+	pthread_mutex_lock(&mtx_blocked);
+	pcb* pcb = list_remove(listaBlocked, index);
+	pthread_mutex_unlock(&mtx_blocked);
+	return pcb;
+}
+
+int proceso_esta_en_lista(t_list* lista, int id){
+    int i;
+    pcb* pcb;
+    for (i=0; i<list_size(lista); i++) {
+        pcb = list_get(lista,i);
+        if (pcb->id==id) return i;
+    }
+    return -1;
 }
 
 
