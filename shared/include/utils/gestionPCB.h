@@ -19,6 +19,7 @@ void agregar_instruccion(t_list* lista_instrucciones, void* buffer);
 void completar_nodo_instruccion(nodo_instruccion* nodo_instruccion, char* buffer_original);
 void agregar_nuevo_parametro(nodo_instruccion* nodo_instruccion, char* parametro);
 void imprimir_PCB(pcb* nodo_pcb);
+char* imprimir_status(int status);
 
 void destruir_parametros(nodo_parametro* parametro);
 void destruir_instrucciones(nodo_instruccion* ins);

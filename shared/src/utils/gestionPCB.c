@@ -160,6 +160,8 @@ t_paquete* generar_paquete_pcb(struct pcb PCB_a_enviar, op_code codigo_paquete){
 
 void mostrar_lista_instrucciones(t_list* lista_instrucciones){
 
+	printf("\n\nLista de instrucciones:\n");
+
 	int i = 0;
 	while(i < list_size(lista_instrucciones)){
 
@@ -314,11 +316,36 @@ void imprimir_PCB(pcb* nodo_pcb){
 	printf("\n\tPC: %d", nodo_pcb->program_counter);
 	printf("\n\tTabla paginas: %d", nodo_pcb->tabla_paginas);
 	printf("\n\tEST %f", nodo_pcb->estimacion_rafaga);
-	printf("\n\tSTATUS %d", nodo_pcb->status);
-	printf("\n\tTiempo a bloquearse: %d", nodo_pcb->tiempo_a_bloquearse);
-	printf("\n\nLista de instrucciones:\n");
-	mostrar_lista_instrucciones(nodo_pcb->instrucciones);
+	printf("\n\tSTATUS %d", imprimir_status(nodo_pcb->status));
+	printf("\n\tTiempo a bloquearse: %d\n\n", nodo_pcb->tiempo_a_bloquearse);
+	// mostrar_lista_instrucciones(nodo_pcb->instrucciones);
 
+}
+
+char* imprimir_status(int status){
+	switch(status){
+		case 0:
+			return "NEW";
+			break;
+		case 1:
+			return "READY";
+			break;
+		case 2:
+			return "EXECUTION";
+			break;
+		case 3:
+			return "BLOCKED";
+			break;
+		case 4:
+			return "SUSPENDED_READY";
+			break;
+		case 5:
+			return "SUSPENDED_BLOCKED";
+			break;
+		case 6:
+			return "EXIT";
+			break;
+	}
 }
 
 void destruir_PCB(pcb* pcb){

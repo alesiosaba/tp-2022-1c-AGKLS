@@ -28,8 +28,15 @@
 
 #define INTERRUPCION_ENVIADA "Se envio una interrupcion a CPU"
 #define INTERRUPCION_RECIBIDA "Se recibio una interrupcion de Kernel"
+
 // MENSAJES UTILIZADOS EN  CPU
+
 #define COMIENZO_CICLO_INSTRUCCION "Comienza ciclo de instruccion - PID: %d"
+#define COMIENZO_ETAPA_FETCH "Comienza etapa FETCH - PID: %d"
+#define COMIENZO_ETAPA_DECODE "Comienza etapa DECODE - PID: %d"
+#define COMIENZO_ETAPA_FETCH_OPERANDS "Comienza etapa FETCH_OPERANDS - PID: %d"
+#define COMIENZO_ETAPA_EXECUTE "Comienza etapa EXECUTE - PID: %d"
+#define COMIENZO_ETAPA_CHECK_INTERRUPT "Comienza etapa CHECK_INTERRUPT - PID: %d"
 
 // SOCKETS:
 
