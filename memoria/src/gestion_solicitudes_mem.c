@@ -41,6 +41,8 @@ void solicitud_marco(int socket_cliente, t_log *logger){
         traer_pagina_a_memoria(*id, *dir_tablaN1, e2);
     }
 
-    // TODO: Enviar numero de direccion y liberar memoria
+    enviar_num(socket_cliente, e2->dir, logger);
+    log_info(logger, "envio de marco para el proceso: %d", *id);
+    list_destroy_and_destroy_elements(parametros,free);
 
 }

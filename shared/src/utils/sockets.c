@@ -268,3 +268,13 @@ void enviar_tabla_N2(int socket_cliente, t_tablaN2 *t, t_log *logger)
 
 	free(buffer);
 }
+
+int enviar_num(int conexion, int num, t_log *logger)
+{
+	int ret = send(conexion, &num, sizeof(uint32_t), 0);
+	if(ret < sizeof(uint32_t))
+		log_error(logger, "Error al enviar numero");
+
+	return ret;
+}
+
