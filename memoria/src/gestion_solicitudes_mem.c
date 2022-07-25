@@ -30,9 +30,13 @@ void solicitud_marco(int socket_cliente, t_log *logger){
 	int *num_pag = list_get(parametros, 2);
 	log_info(logger,"solicitud_marco - dir tabla: %d, numero pagina: %d", *dir_tablaN1, *num_pag);
 
-	// TODO: Contemplar procesos suspendidos
-
-
+    proceso_en_memoria *proceso = buscar_proceso_por_id(*id);
+    if(proceso->esta_suspendido == 1){
+        sem_wait(&(proceso->suspension_completa));
+        reservar_marcos_proceso(proceso);
+        proceso->esta_suspendido = 0;
+        log_info(logger,"Proceso desuspendido: %d", *id);
+    }
 
     entrada_tabla_N2 *e2 = conseguir_entrada_pagina(*dir_tablaN1, *num_pag);
 

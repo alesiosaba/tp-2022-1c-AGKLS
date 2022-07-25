@@ -6,6 +6,7 @@
 
 #include "../../shared/include/utils/utils.h"
 #include <commons/bitarray.h>
+#include <semaphore.h>
 
 typedef struct config_t
 {
@@ -46,7 +47,8 @@ typedef struct
     t_list* entradas_N1;
     t_list* marcos_reservados;
 	int posicion_puntero_clock;
-
+    int esta_suspendido;
+    sem_t suspension_completa;
 }proceso_en_memoria;
 
 // Estructuras propias del modulo Memoria

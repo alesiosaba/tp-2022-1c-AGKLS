@@ -70,16 +70,6 @@ entrada_tabla_N2* aplicar_busqueda_clock_mejorado(int id, int dir_tablaN1)
     entrada_tabla_N2 *ret = list_get(marcos_proceso, p->posicion_puntero_clock);
     int vuelta = 0;
     int pos_inicial = p->posicion_puntero_clock;
-    /*for(int i = 0; i < marcos_por_proceso; i++)
-    {
-        if(p->posicion_puntero_clock == list_size(marcos_proceso))
-        {
-            p->posicion_puntero_clock = 0;
-        }
-        if(criterio_clock_mejorado(ret, vuelta))
-            break;
-    }
-    return ret;*/
 
     while(criterio_clock_mejorado(ret, vuelta))
     {
@@ -94,11 +84,8 @@ entrada_tabla_N2* aplicar_busqueda_clock_mejorado(int id, int dir_tablaN1)
             vuelta++;
         }
     }
-
-    //list_destroy_and_destroy_elements(marcos_proceso, free);
     list_destroy(marcos_proceso);
     log_info(logger, "Pagina a reemplazar %d en marco %d", ret->num_pag, ret->dir);
-    //NOTA: podria eliminar los elementos en la lista principal (chequear despues)
     return ret;
 }
 

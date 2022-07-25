@@ -21,6 +21,7 @@ entrada_tabla_N2* conseguir_pagina_en_marco(int num_marco);
 t_list* conseguir_marcos_proceso(int dir_tablaN1);
 t_list* conseguir_numeros_marcos_proceso(int id);
 proceso_en_memoria* buscar_proceso_por_id(int id);
+void reservar_marcos_proceso(proceso_en_memoria *p);
 
 // ------------------
 t_list* reservar_paginas(int idProceso, int tamanioProceso);
