@@ -12,6 +12,7 @@
 #include <stdio.h>
 #include "./gestion_estructuras_mem.h"
 #include "../../shared/include/utils/utils.h"
+#include "./disco.h"
 
 int dir_marco_vacio_proceso(int id);
 void traer_pagina_a_memoria(int id, int dir_tablaN1 ,entrada_tabla_N2 *e);
