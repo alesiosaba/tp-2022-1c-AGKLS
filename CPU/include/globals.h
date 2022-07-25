@@ -33,9 +33,20 @@ const static struct {
 
 IDENTIFICADOR_INSTRUCCION str_to_identificador_enum (charstr);
 
+struct entrada_TLB {
+	int numero_pagina;
+	int marco;
+	time_t insUltRef;
+} entrada_TLB;
+
 // VARIABLES GLOBALES
 bool gv_flag_interrupcion;
 bool gv_flag_desalojar_proceso;
+// ID de proceso ejecutado en el CPU
+int procesoAnterior;
+
+// Entradas TLB
+t_list* TLB;
 
 // SEMAFOROS MUTEX
 pthread_mutex_t mtx_gv_flag_interrupcion;
@@ -53,6 +64,15 @@ pthread_t thr_memoria;
 int tamanio_pagina;
 // Cantidad de entradas por tabla (viene de la config del modulo Memoria)
 int cant_entradas_por_tabla;
+
+// se utilizan para abrir un hilo para escuchar por el puerto dispatch
+int serverDispatch;
+int clienteDispatch;
+// se utilizan para abrir un hilo para escuchar por el puerto interrupt
+int serverInterrupt;
+int clienteInterrupt;
+
+int conexionAMemoria;
 
 
 #endif

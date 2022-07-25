@@ -18,6 +18,103 @@ bool recv_paquete_pcb(int fd, pcb** nodo_pcb){
 	return true;
 }
 
+// SERIALIZACION CPU - MEMORIA
+
+bool send_solicitud_tabla_N1(int fd, int id_tablaN1, int entrada_tabla_primer_nivel, op_code codigo_paquete){
+	log_debug(logger, "Entro a send_solicitud_tabla_N1()");
+
+	t_paquete *paquete = crear_paquete(codigo_paquete);
+	agregar_a_paquete(paquete, &id_tablaN1, sizeof(int));
+	agregar_a_paquete(paquete, &entrada_tabla_primer_nivel, sizeof(int));
+
+	log_debug(logger, "Arme paquete de solicitud tabla N1");
+
+	enviar_paquete(paquete, fd);
+
+	log_debug(logger, "Envie solicitud tabla N1");
+
+	return eliminar_paquete(paquete);
+}
+
+// retorna entrada de tabla N1 (eso apunta a una tabla N2)
+int recv_respuesta_solicitud_N1(int fd){
+
+	log_debug(logger, "Entro a recv_respuesta_solicitud_N1()");
+
+	t_list* lista;
+	lista = recibir_paquete(fd);
+	int tablaN2 = atoi(list_remove(lista, 0));
+	list_destroy(lista);
+
+	log_debug(logger, "Recibi respuesta de solicitud N1");
+
+	return tablaN2;
+}
+
+bool send_solicitud_tabla_N2(int fd, int id_tablaN2, int entrada_tabla_segundo_nivel, op_code codigo_paquete){
+	log_debug(logger, "Entro a send_solicitud_tabla_N2()");
+
+	t_paquete *paquete = crear_paquete(codigo_paquete);
+	agregar_a_paquete(paquete, &id_tablaN2, sizeof(int));
+	agregar_a_paquete(paquete, &entrada_tabla_segundo_nivel, sizeof(int));
+
+	log_debug(logger, "Arme paquete de solicitud tabla N2");
+
+	enviar_paquete(paquete, fd);
+
+	log_debug(logger, "Envie solicitud tabla N2");
+
+	return eliminar_paquete(paquete);
+}
+
+int recv_respuesta_solicitud_N2(int fd){
+	log_debug(logger, "Entro a recv_respuesta_solicitud_N1()");
+
+	t_list* lista;
+	lista = recibir_paquete(fd);
+	int frame = atoi(list_remove(lista, 0));
+	list_destroy(lista);
+
+	log_debug(logger, "Recibi respuesta de solicitud N2");
+
+	return frame;
+}
+
+// esta funcion responde tanto a consultas de tabla N1 y N2
+void send_respuesta_solicitud_tabla(int fd, int valor_solicitado){
+	log_debug(logger, "Entro a send_respuesta_solicitud_tabla()");
+
+	t_paquete* paquete = crear_paquete();
+	char* valor_a_enviar = string_new();
+	sprintf(valor_a_enviar, "%d\0", valor_solicitado);
+	agregar_a_paquete(paquete, valor_a_enviar, strlen(valor_a_enviar) + 1);
+	enviar_paquete(paquete, fd);
+	eliminar_paquete(paquete);
+
+	log_debug(logger, "Salgo de send_respuesta_solicitud_tabla()");
+}
+
+// esta funcion recibe en MEMORIA tanto consultas de tabla N1 y N2
+void recv_solicitud_tabla(int fd, consulta_en_tabla_paginas *consulta){
+	log_debug(logger, "Entro a recv_solicitud_tabla()");
+
+	t_list* lista;
+	lista = recibir_paquete(fd);
+
+	int *id_tabla = list_remove(lista, 0);
+	consulta->id_tabla = atoi(id_tabla);
+
+	int* entrada_en_tabla = list_remove(lista, 0);
+	consulta->entrada_en_tabla = atoi(entrada_en_tabla);
+
+	log_debug(logger, "id_tabla: %d\tentrada: %d", consulta->id_tabla, consulta->entrada_en_tabla);
+
+	log_debug(logger, "Salgo de recv_solicitud_tabla()");
+
+	list_destroy(lista);
+}
+
+
 bool recv_paquete_consola(int fd, pcb** nodo_pcb){
 	t_list* lista;
 	lista = recibir_paquete(fd);
@@ -55,6 +152,8 @@ struct handshake_inicial_s recv_respuesta_handshake_inicial(int fd){
 	hd_inicial.cant_entradas_por_tabla = atoi(cant_entradas_por_tabla);
 
 	log_debug(logger,"deserializada la resp de handshake");
+
+	list_destroy(lista);
 
 	return hd_inicial;
 }

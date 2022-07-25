@@ -10,6 +10,12 @@ void inicializar(){
 	desactivar_flag_desalojo();
 	desactivar_flag_interrupcion();
 
+	// ID de proceso ejecutado en el CPU
+	procesoAnterior = -1;
+
+	// Entradas TLB
+	TLB = list_create();
+
 	// semaforos mutex
 	pthread_mutex_init(&mtx_gv_flag_desalojar_proceso, NULL);
 	pthread_mutex_init(&mtx_gv_flag_interrupcion, NULL);

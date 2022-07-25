@@ -7,8 +7,9 @@ void conexiones ();
 void servidorDispatch();
 void servidorInterrupt();
 void realizar_handshake_inicial();
-void manejarInterrupt(int socket_cliente);
+int manejarInterrupt(int socket_cliente);
 int manejarDispatch(int socket_cliente);
+int manejarMemoria(int socket_cliente);
 
 
 #endif

@@ -234,9 +234,9 @@ uint32_t buscarValorEnMemoria(pcb** pcb, int direccionLogica){
 
 	log_debug(logger,"Entro en buscarValorEnMemoria()");
 
-	int id_tablaN1 = (*pcb)->tabla_paginas;
+	// log_debug(logger,"\nbuscar:\n\tPID: %d\n\tid_tablaN1: %d\n\tdir. logica:%d", (*pcb)->id, id_tablaN1, direccionLogica);
 
-	log_debug(logger,"\nbuscar:\n\tPID: %d\n\tid_tablaN1: %d\n\tdir. logica:%d", (*pcb)->id, id_tablaN1, direccionLogica);
+	// int direccion_fisica = traducir_dir_logica(pcb, direccionLogica);
 
 	uint32_t resultado = 14;
 
@@ -248,9 +248,9 @@ bool escribirValorEnMemoria(pcb** pcb, int direccionLogica, uint32_t valor){
 
 	log_debug(logger,"Entro en escribirValorEnMemoria()");
 
-	int id_tablaN1 = (*pcb)->tabla_paginas;
+	// int direccion_fisica = traducir_dir_logica(pcb, direccionLogica);
 
-	log_debug(logger,"\nescribir:\n\tPID: %d\n\tid_tablaN1: %d\n\tdir. logica:%d\n\tValor en uint32_t: %u", (*pcb)->id, id_tablaN1, direccionLogica, valor);
+	// log_debug(logger,"\nescribir:\n\tPID: %d\n\tid_tablaN1: %d\n\tdir. logica:%d\n\tValor en uint32_t: %u", (*pcb)->id, id_tablaN1, direccionLogica, valor);
 
 	//TODO: devolver bool que confirme lectura correcta
 	return true;

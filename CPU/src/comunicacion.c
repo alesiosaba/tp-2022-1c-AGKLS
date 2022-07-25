@@ -49,7 +49,7 @@ void conectar_memoria(){
 
 	pthread_t thr_memoria_individual;
 
-	if(pthread_create(&thr_memoria_individual, NULL, (void*) manejarDispatch,(void*)conexionAMemoria) != 0){
+	if(pthread_create(&thr_memoria_individual, NULL, (void*) manejarMemoria,(void*)conexionAMemoria) != 0){
 		log_error(logger, "Error al crear el hilo la Memoria");
 	}
 
@@ -71,7 +71,7 @@ void conexiones (){
 
 
 // manejar conexion de Interrupt
-void manejarInterrupt(int socket_cliente){
+int manejarInterrupt(int socket_cliente){
 	while (1) {
 		int cod_op = recibir_operacion(socket_cliente);
 		switch (cod_op) {
@@ -86,6 +86,44 @@ void manejarInterrupt(int socket_cliente){
 		default:
 			log_warning(logger,OPERACION_DESCONOCIDA);
 			break;
+		}
+	}
+}
+
+int manejarMemoria(int socket_cliente){
+	t_list* lista;
+	struct pcb *pcb;
+
+	int i = 0;
+
+	while (1) {
+		int cod_op = recibir_operacion(socket_cliente);
+		switch (cod_op) {
+			case MENSAJE:
+				recibir_mensaje(socket_cliente);
+				break;
+
+			case PAQUETE:
+				lista = recibir_paquete(socket_cliente);
+				log_info(logger, LECTURA_DE_VALORES);
+				break;
+
+			case RESPUESTA_HANDSHAKE_INICIAL:
+				log_debug(logger, "Respuesta de Handshake inicial");
+				struct handshake_inicial_s handshake_inicial = recv_respuesta_handshake_inicial(socket_cliente);
+				tamanio_pagina = handshake_inicial.tamanio_pagina;
+				cant_entradas_por_tabla = handshake_inicial.cant_entradas_por_tabla;
+				log_debug(logger,"tam pag: %d",tamanio_pagina);
+				log_debug(logger,"cant entradas : %d",cant_entradas_por_tabla);
+			break;
+
+			case -1:
+				log_error(logger, SERVIDOR_DESCONEXION);
+				return EXIT_FAILURE;
+
+			default:
+				log_warning(logger,OPERACION_DESCONOCIDA);
+				break;
 		}
 	}
 }
@@ -119,19 +157,16 @@ int manejarDispatch(int socket_cliente){
 
 			log_debug(logger, "Alojando proceso en el CPU - PID: %d", pcb->id);
 
+			// limpiar_tlb(pcb->id);
 			ejecutar_ciclo_instruccion(&pcb);
+
+			log_debug(logger, "Estaba como procesoAnterior el PID : %d", procesoAnterior);
+			procesoAnterior = pcb->id;
+			log_debug(logger, "quedó como procesoAnterior el PID : %d", procesoAnterior);
 
 			log_debug(logger, "Desalojando proceso del CPU - PID: %d", pcb->id);
 
-			break;
 
-		case RESPUESTA_HANDSHAKE_INICIAL:
-			log_debug(logger, "Respuesta de Handshake inicial");
-			struct handshake_inicial_s handshake_inicial = recv_respuesta_handshake_inicial(socket_cliente);
-			tamanio_pagina = handshake_inicial.tamanio_pagina;
-			cant_entradas_por_tabla = handshake_inicial.cant_entradas_por_tabla;
-			log_debug(logger,"tam pag: %d",tamanio_pagina);
-			log_debug(logger,"cant entradas : %d",cant_entradas_por_tabla);
 			break;
 
 		case -1:

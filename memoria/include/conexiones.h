@@ -6,7 +6,6 @@
 #include "../../shared/include/utils/gestionPCB.h"
 #include "../../shared/include/utils/protocolo.h"
 
-
 int serverMemoria;
 int clienteMemoria;
 

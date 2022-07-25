@@ -5,6 +5,7 @@
 #include "../../shared/include/utils/messages.h"
 
 #include "init.h"
+#include "mmu.h"
 
 void ejecutar_ciclo_instruccion(pcb** pcb);
 
