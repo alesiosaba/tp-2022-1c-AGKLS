@@ -152,7 +152,6 @@ int manejarDispatch(int socket_cliente){
 			log_debug(logger, RECEPCION_PAQUETE_PCB);
 			recv_paquete_pcb(socket_cliente, &pcb);
 			log_debug(logger, "Me llego el pcb PID: %d", pcb->id);
-			pcb->tiempo_a_bloquearse = 1000;
 			imprimir_PCB(pcb);
 
 			log_debug(logger, "Alojando proceso en el CPU - PID: %d", pcb->id);

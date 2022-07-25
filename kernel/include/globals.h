@@ -55,6 +55,7 @@ pthread_t thr_planifLT;
 pthread_t thr_planifST;
 pthread_t thr_planifMT[1024];
 pthread_t thr_bloqueos;
+pthread_t thr_suspended;
 
 //SOCKETS
 int server_fd;
@@ -89,10 +90,14 @@ sem_t sem_enviarPCB;
 sem_t sem_respuestaPCB;
 sem_t sem_multiprogramacion;
 sem_t sem_ProcesosBloqueo;
+sem_t sem_ProcesosSuspendedBlk;
+sem_t sem_ProcesosSuspended;
 
 //MUTEX
+pthread_mutex_t mtx_ready;
 pthread_mutex_t mtx_blocked;
 pthread_mutex_t mtx_susblk;
+pthread_mutex_t mtx_susrdy;
 pthread_mutex_t	mtx_planificador;
 
 

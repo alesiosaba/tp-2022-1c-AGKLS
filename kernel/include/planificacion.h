@@ -12,17 +12,12 @@ void planificadorMedianoPlazo();
 
 void planificacion_cpu(int socket_fd);
 void planificacion_bloqueo();
+void planificacion_suspended();
 
 //UTILS
 bool planificador_es_fifo();
 void estimar_proxima_rafaga(pcb* pcb, double rafaga);
-pcb* dequeu_ready();
-bool menor_rafaga(pcb *pcb1, pcb *pcb2);
 void print_grado_multiprogramacion();
 int  proceso_esta_en_lista(t_list* lista, int id);
-
-//MUTEX
-pcb* dequeue_blocked();
-pcb* dequeue_blocked_at_index(int index);
 
 #endif

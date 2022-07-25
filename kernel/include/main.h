@@ -2,7 +2,7 @@
 #define MAIN_H_
 
 
-#include "../include/conexiones.h"
+#include "../include/listas.h"
 
 // Definiciones de Inicio y Fin de programa
 void terminar_programa();
