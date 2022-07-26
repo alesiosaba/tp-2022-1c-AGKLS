@@ -370,7 +370,7 @@ void reservar_marcos_proceso(proceso_en_memoria *p)
             int marco = i;
 
             list_add(p->marcos_reservados, (void*) marco);
-            // A priori estoy poniendo el bit en 0 para reservarlo y nuestro criterio es al reves
+            // A priori estoy poniendo el bit en 0 para reservarlo. Revisar si tengo que setear.
             bitarray_clean_bit(bitmap_marcos, i);
             cantidad_marcos_reservados++;
         }

@@ -50,7 +50,7 @@ t_pedido_disco* crear_pedido_crear_archivo(int id)
     pthread_mutex_lock(&mutex_cola_pedidos);
     queue_push(pedidos_disco, p);
     pthread_mutex_unlock(&mutex_cola_pedidos);
-
+    // TODO: Implementar gestion de pedidos en Disco
     sem_post(&lista_tiene_pedidos);
     return p;
 }
