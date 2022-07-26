@@ -16,6 +16,7 @@ void agregar_a_paquete(t_paquete* paquete, void* valor, int tamanio);
 void enviar_paquete(t_paquete* paquete, int socket_cliente);
 void liberar_conexion(int *socket_cliente);
 bool eliminar_paquete(t_paquete* paquete);
+int enviar_num(int conexion, int num, t_log *logger);
 
 // Definicion de Comportamientos de Servidor
 
@@ -25,6 +26,14 @@ int esperar_cliente(int);
 t_list* recibir_paquete(int);
 void recibir_mensaje(int);
 int recibir_operacion(int);
+
+
+// Memoria
+// Serializacion
+void* serializar_tabla_N2(op_code op, t_tablaN2 *t, size_t *size);
+
+// Envio
+void enviar_tabla_N2(int socket_cliente, t_tablaN2 *t, t_log *logger);
 
 
 #endif

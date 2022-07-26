@@ -31,6 +31,9 @@ typedef enum op_code
 	// Operaciones en Memoria
 	NUEVO_PROCESO,
 	HANDSHAKE_INICIAL,
+	SOLICITUD_NUEVO_PROCESO,
+	SOLICITUD_TABLA_PAGINAS,
+	SOLICITUD_MARCO,
 	// En CPU
 	RESPUESTA_HANDSHAKE_INICIAL,
 	// serializacion CPU - Memoria
@@ -125,5 +128,23 @@ int tamanioStringArray(char** a);
 FILE* abrir_archivo_lectura(char* path_pseudocodigo);
 void error_handler(t_log* logger, char* message_handler,char *message, char *var1, char *var2);
 
+
+// Estructuras paginacion memoria
+
+typedef struct {
+	int num_pag;
+	int dir; //MARCO
+	int bit_presencia;
+	int bit_uso;
+	int bit_modificacion;
+} entrada_tabla_N2;
+
+typedef struct {
+	int num_tabla; //id tabla2
+	int dir; //index en lista general de tablasN2
+} entrada_tabla_N1;
+
+typedef t_list t_tablaN2; // elementos tipo entrada_tabla_N2
+typedef t_list t_tablaN1; // elementos tipo entrada_tabla_N1
 
 #endif /* UTILS_H_ */
