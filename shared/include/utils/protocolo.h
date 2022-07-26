@@ -23,9 +23,9 @@ struct handshake_inicial_s recv_respuesta_handshake_inicial(int fd);
 bool send_interrupcion(int fd);
 
 // serializacion CPU - Memoria
-bool send_solicitud_tabla_N1(int fd, int id_tablaN1, int entrada_tabla_primer_nivel, op_code codigo_paquete);
+bool send_solicitud_tabla_N1(int fd, int id_tablaN1, int entrada_tabla_primer_nivel);
 int recv_respuesta_solicitud_N1(int fd);
-bool send_solicitud_tabla_N2(int fd, int id_tablaN2, int entrada_tabla_segundo_nivel, op_code codigo_paquete);
+bool send_solicitud_tabla_N2(int fd, int id_tablaN2, int entrada_tabla_segundo_nivel);
 int recv_respuesta_solicitud_N2(int fd);
 void recv_solicitud_tabla(int fd, consulta_en_tabla_paginas *consulta);
 void send_respuesta_solicitud_tabla(int fd, int valor_solicitado);

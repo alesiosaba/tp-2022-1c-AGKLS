@@ -20,12 +20,17 @@ bool recv_paquete_pcb(int fd, pcb** nodo_pcb){
 
 // SERIALIZACION CPU - MEMORIA
 
-bool send_solicitud_tabla_N1(int fd, int id_tablaN1, int entrada_tabla_primer_nivel, op_code codigo_paquete){
+bool send_solicitud_tabla_N1(int fd, int id_tablaN1, int entrada_tabla_primer_nivel){
 	log_debug(logger, "Entro a send_solicitud_tabla_N1()");
 
-	t_paquete *paquete = crear_paquete(codigo_paquete);
-	agregar_a_paquete(paquete, &id_tablaN1, sizeof(int));
-	agregar_a_paquete(paquete, &entrada_tabla_primer_nivel, sizeof(int));
+	t_paquete *paquete = crear_paquete(SOLICITUD_TABLA_PAGINA_N1);
+	char* id_tablaN1_str = string_new();
+	sprintf(id_tablaN1_str, "%d\0", id_tablaN1);
+	agregar_a_paquete(paquete, id_tablaN1_str, strlen(id_tablaN1_str) + 1);
+
+	char* entrada_tabla_primer_nivel_str = string_new();
+	sprintf(entrada_tabla_primer_nivel_str, "%d\0", entrada_tabla_primer_nivel);
+	agregar_a_paquete(paquete, entrada_tabla_primer_nivel_str, strlen(entrada_tabla_primer_nivel_str) + 1);
 
 	log_debug(logger, "Arme paquete de solicitud tabla N1");
 
@@ -51,12 +56,18 @@ int recv_respuesta_solicitud_N1(int fd){
 	return tablaN2;
 }
 
-bool send_solicitud_tabla_N2(int fd, int id_tablaN2, int entrada_tabla_segundo_nivel, op_code codigo_paquete){
+bool send_solicitud_tabla_N2(int fd, int id_tablaN2, int entrada_tabla_segundo_nivel){
 	log_debug(logger, "Entro a send_solicitud_tabla_N2()");
 
-	t_paquete *paquete = crear_paquete(codigo_paquete);
-	agregar_a_paquete(paquete, &id_tablaN2, sizeof(int));
-	agregar_a_paquete(paquete, &entrada_tabla_segundo_nivel, sizeof(int));
+	t_paquete *paquete = crear_paquete(SOLICITUD_TABLA_PAGINA_N2);
+	char* id_tablaN2_str = string_new();
+	sprintf(id_tablaN2_str, "%d\0", id_tablaN2);
+	agregar_a_paquete(paquete, id_tablaN2_str, strlen(id_tablaN2_str) + 1);
+
+	char* entrada_tabla_segundo_nivel_str = string_new();
+	sprintf(entrada_tabla_segundo_nivel_str, "%d\0", entrada_tabla_segundo_nivel);
+	agregar_a_paquete(paquete, entrada_tabla_segundo_nivel_str, strlen(entrada_tabla_segundo_nivel_str) + 1);
+
 
 	log_debug(logger, "Arme paquete de solicitud tabla N2");
 
