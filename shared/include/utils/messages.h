@@ -22,14 +22,26 @@
 #define PROCESS_MOVE_READY "El PID: %d se pasó a READY"
 #define PROCESS_MOVE_EXIT "El PID: %d se pasó a EXIT"
 #define PROCESS_MOVE_NEW "El PID: %d se pasó a NEW"
+#define PROCESS_MOVE_BLOCKED "El PID: %d se pasó a Blocked"
+#define PROCESS_MOVE_SUSBLK "El PID: %d se pasó a Suspended Blocked"
+#define PROCESS_MOVE_SUSRDY "El PID: %d se pasó a Suspended Ready"
 
+#define BLOQUEO_TERMINADO "El PID: %d vuelve a Ready desde el bloqueo"
+#define SUSPENCION_TERMINADA "El PID: %d vuelve a Ready desde la Suspencion"
 #define TERMINO_EL_PROCESO "El Proceso Termino Exitosamente"
 
 
 #define INTERRUPCION_ENVIADA "Se envio una interrupcion a CPU"
 #define INTERRUPCION_RECIBIDA "Se recibio una interrupcion de Kernel"
+
 // MENSAJES UTILIZADOS EN  CPU
+
 #define COMIENZO_CICLO_INSTRUCCION "Comienza ciclo de instruccion - PID: %d"
+#define COMIENZO_ETAPA_FETCH "Comienza etapa FETCH - PID: %d"
+#define COMIENZO_ETAPA_DECODE "Comienza etapa DECODE - PID: %d"
+#define COMIENZO_ETAPA_FETCH_OPERANDS "Comienza etapa FETCH_OPERANDS - PID: %d"
+#define COMIENZO_ETAPA_EXECUTE "Comienza etapa EXECUTE - PID: %d"
+#define COMIENZO_ETAPA_CHECK_INTERRUPT "Comienza etapa CHECK_INTERRUPT - PID: %d"
 
 // SOCKETS:
 

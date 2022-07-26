@@ -1,7 +1,6 @@
 #ifndef INIT_H_
 #define INIT_H_
 
-//#include "../../shared/include/utils/utils.h"
 #include "globals.h"
 
 #define ARCHIVO_DE_CONFIGURACION "CPU.config"
@@ -21,15 +20,6 @@ typedef struct config_t
 
 } config_t;
 config_t config_values;
-
-// se utilizan para abrir un hilo para escuchar por el puerto dispatch
-int serverDispatch;
-int clienteDispatch;
-// se utilizan para abrir un hilo para escuchar por el puerto interrupt
-int serverInterrupt;
-int clienteInterrupt;
-
-int conexionAMemoria;
 
 void inicializar();
 config_t leer_config();

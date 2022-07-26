@@ -7,7 +7,18 @@ void inicializar(){
 	log_info(logger, "Log de CPU iniciado");
 
 	// globales
-	gv_flag_interrupcion = false;
+	desactivar_flag_desalojo();
+	desactivar_flag_interrupcion();
+
+	// ID de proceso ejecutado en el CPU
+	procesoAnterior = -1;
+
+	// Entradas TLB
+	TLB = list_create();
+
+	// semaforos mutex
+	pthread_mutex_init(&mtx_gv_flag_desalojar_proceso, NULL);
+	pthread_mutex_init(&mtx_gv_flag_interrupcion, NULL);
 
 	// leo la configuracion del cpu
 	config = iniciar_config(ARCHIVO_DE_CONFIGURACION);

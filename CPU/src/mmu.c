@@ -1,28 +1,66 @@
 #include "../include/mmu.h"
 
-int traduccion_direccion_logica(pcb* pcb, int direccion_logica){
+int traducir_dir_logica(pcb** pcb, int direccion_logica){
+
+	log_debug(logger,"Inicia traduccion de direccion logica");
 
 	int numero_pagina = obtener_numero_pagina(direccion_logica);
-	int desplazamiento = obtener_desplazamiento(direccion_logica,numero_pagina);
+	int desplazamiento = obtener_desplazamiento(direccion_logica, numero_pagina);
 
+	/*
 	// Buscamos si la pagina está en la TLB
-	int marco_en_TLB = busqueda_pagina_en_TLB(pcb,numero_pagina);
+	int marco_en_TLB = busqueda_pagina_en_TLB(numero_pagina);
 
 	if(estaEnTLB(marco_en_TLB)){
 		log_debug(logger,"TLB HIT");
 		log_debug(logger,"La pagina buscada esta en el marco %d", marco_en_TLB);
 
 		// Devuelvo la direccion fisica compuesta de marco + desplazamiento
-		return marco_en_TLB + desplazamiento;
+		// return marco_en_TLB + desplazamiento;
+		//TODO:
+		return 77;
 
 	}
 	log_debug(logger,"TLB MISS");
+	 */
 
+	int id_tablaN1 = (*pcb)->tabla_paginas;
 	int entrada_tabla_primer_nivel = obtener_entrada_tabla_primer_nivel(numero_pagina);
+
+
+	// SOLICITUD ENTRADA DE TABLA N1
+	// ENVIO DIR TABLA N1 y NUM ENTRADA TABLA NIVEL 1
+	send_solicitud_tabla_N1(conexionAMemoria, id_tablaN1, entrada_tabla_primer_nivel);
+
+	// RECIBO N° DE TABLA N2
+	int id_tablaN2 = recv_respuesta_solicitud_N1(conexionAMemoria);
 	int entrada_tabla_segundo_nivel = obtener_entrada_tabla_segundo_nivel(numero_pagina);
 
+	// SOLICITUD ENTRADA DE TABLA N2
+	// ENVIO DIR TABLA N2 y NUM ENTRADA TABLA NIVEL 2
+	send_solicitud_tabla_N2(conexionAMemoria, id_tablaN2, entrada_tabla_segundo_nivel);
 
-	return 1;
+	// RECIBO N° DE FRAME
+	int frame = recv_respuesta_solicitud_N2(conexionAMemoria);
+
+	log_debug(logger,"Frame: %d", frame);
+
+	// Si no tuve TLB Hit SI o SI se agrega pagina con su marco a la TLB
+
+	struct entrada_TLB* entrada_nueva ;
+
+	entrada_nueva->numero_pagina = numero_pagina;
+	entrada_nueva->marco = frame;
+	// TODO: usar libreria de guido para timestamps
+	entrada_nueva->insUltRef = 0;
+
+	agregar_entrada_TLB(entrada_nueva);
+
+
+	log_debug(logger,"Finaliza traduccion de direccion logica");
+
+	// TO DO:
+	return 666;
 
 }
 

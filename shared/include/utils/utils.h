@@ -35,7 +35,12 @@ typedef enum op_code
 	SOLICITUD_TABLA_PAGINAS,
 	SOLICITUD_MARCO,
 	// En CPU
-	RESPUESTA_HANDSHAKE_INICIAL
+	RESPUESTA_HANDSHAKE_INICIAL,
+	// serializacion CPU - Memoria
+	SOLICITUD_TABLA_PAGINA_N1,
+	RESPUESTA_SOLICITUD_N1,
+	SOLICITUD_TABLA_PAGINA_N2,
+	RESPUESTA_SOLICITUD_N2
 }op_code;
 
 
@@ -70,6 +75,12 @@ typedef struct nodo_instruccion
 {
 	instruccion instruccion;
 } nodo_instruccion;
+
+typedef struct consulta_en_tabla_paginas
+{
+	int id_tabla;
+	int entrada_en_tabla;
+} consulta_en_tabla_paginas;
 
 typedef enum status
 {
