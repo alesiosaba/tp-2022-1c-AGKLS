@@ -27,11 +27,11 @@ typedef struct t_pedido_disco
 
 enum OPERACIONES_DISCO
 {
-    CREAR_ARCHIVO,
-    ESCRIBIR_ARCHIVO,
-    LEER_ARCHIVO,
-    DISCO_SUSPENDER_PROCESO,
-    ELIMINAR_ARCHIVO
+    CREAR_ARCHIVO_SWAP,
+    ESCRIBIR_ARCHIVO_SWAP,
+    LEER_ARCHIVO_SWAP,
+    DISCO_SUSPENDER_PROCESO_SWAP,
+    ELIMINAR_ARCHIVO_SWAP
 };
 
 t_queue* pedidos_disco;
@@ -41,6 +41,7 @@ sem_t lista_tiene_pedidos;
 // Funciones
 t_pedido_disco* crear_pedido_escribir(int id, int dir_marco, int num_pag);
 t_pedido_disco* crear_pedido_lectura(int id, int dir_marco, int num_pag);
+t_pedido_disco* crear_pedido_crear_archivo(int id);
 void eliminar_pedido_disco(t_pedido_disco *p);
 
 #endif /* DISCO_H_ */

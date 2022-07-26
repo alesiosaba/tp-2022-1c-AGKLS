@@ -52,6 +52,10 @@ int manejarConexion(int socket_cliente){
 			// TODO: incompleto
 			asignar_nuevas_paginas(pcb);
 			break;
+		case SOLICITUD_NUEVO_PROCESO:
+			log_info(logger, "Memoria recibio SOLICITUD_NUEVO_PROCESO");
+			solicitud_nuevo_proceso(socket_cliente, logger);
+			break;
 		case SOLICITUD_TABLA_PAGINAS:
 			log_info(logger, "Memoria recibio SOLICITUD_TABLA_PAGINAS");
             solicitud_tabla_paginas(socket_cliente, logger);

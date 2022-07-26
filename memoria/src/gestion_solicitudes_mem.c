@@ -9,12 +9,12 @@ void solicitud_tabla_paginas(int socket_cliente, t_log *logger){
     log_info(logger,"solicitud_tabla_paginas - Dir tabla: %d Entrada: %d", *dir_tabla, *num_entrada);
 
     // Tablas de 1er nivel
-    t_tablaN1 *tabla = list_get(tablasN1, *dir_tabla);
+    t_tablaN1 *tabla = list_get(entradas_tabla_primer_nivel, *dir_tabla);
     log_info(logger, "Tamanio tabla 1er Nivel: %d", list_size(tabla));
     // Busca la entrada
     entrada_tabla_N1 *entrada = list_get(tabla, *num_entrada);
     // Direccion N2
-    t_tablaN2 *direccionN2 = list_get(tablasN2, entrada->dir);
+    t_tablaN2 *direccionN2 = list_get(entradas_tabla_segundo_nivel, entrada->dir);
     // Enviamos direccion N2 encontrada
     log_info(logger,"Enviando  %d", *num_entrada);
     enviar_tabla_N2(socket_cliente, direccionN2, logger);
@@ -49,4 +49,30 @@ void solicitud_marco(int socket_cliente, t_log *logger){
     log_info(logger, "envio de marco para el proceso: %d", *id);
     list_destroy_and_destroy_elements(parametros,free);
 
+}
+
+void solicitud_nuevo_proceso(int socket_cliente, t_log *logger){
+    t_list *parametros = recibir_paquete(socket_cliente);
+    int *id = list_get(parametros, 0);
+    int *tamanio_proceso = list_get(parametros, 1);
+    proceso_en_memoria *proceso = asignar_proceso(*id, *tamanio_proceso);
+    // Sincronizacion tabla primer nivel
+    pthread_mutex_lock(&mutex_tablasN1);
+    int dir_tabla = list_add(entradas_tabla_primer_nivel, proceso->tablaN1);
+    pthread_mutex_unlock(&mutex_tablasN1);
+    // Sincronizacion procesos en memoria
+    pthread_mutex_lock(&mutex_procesos_en_memoria);
+    list_add(procesos_en_memoria, proceso);
+    pthread_mutex_unlock(&mutex_procesos_en_memoria);
+    // Reservar marcos
+    reservar_marcos_proceso(proceso);
+    dump_bitmap(bitmap_marcos);
+    //Crear solicitud de creacion de archivo swap
+    t_pedido_disco *p = crear_pedido_crear_archivo(*id);
+    sem_wait(&(p->pedido_listo));
+    eliminar_pedido_disco(p);
+    //Retornar direccion tabla primer nivel
+    enviar_num(socket_cliente, dir_tabla, logger);
+    log_info(logger,"estructuras del proceso %d creadas correctamente",*id);
+    list_destroy_and_destroy_elements(parametros,free);
 }
