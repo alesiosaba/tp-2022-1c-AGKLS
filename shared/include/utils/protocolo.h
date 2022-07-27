@@ -30,6 +30,9 @@ int recv_respuesta_solicitud_N2(int fd);
 void recv_solicitud_tabla(int fd, consulta_en_tabla_paginas *consulta);
 void send_respuesta_solicitud_tabla(int fd, int valor_solicitado);
 
+// comunicaciones entre memoria y kernel
+bool send_respuesta_nuevo_proceso(int fd, int numero_tabla);
+int recv_respuesta_nuevo_proceso(int fd);
 /*
 bool send_debug(int fd);
 */

@@ -22,6 +22,12 @@ void inicializar(){
 	log_info(logger, "marcos_por_proceso: %d", config_values.marcos_por_proceso);
 	log_info(logger, "retardo_swap: %d", config_values.retardo_swap);
 	log_info(logger, "path_swap: %s\n", config_values.path_swap);
+
+	//inicio mutex
+    pthread_mutex_init(&mutex_tablasN1,NULL);
+    pthread_mutex_init(&mutex_tablasN2,NULL);
+    pthread_mutex_init(&mutex_procesos_en_memoria, NULL);
+
 }
 
 

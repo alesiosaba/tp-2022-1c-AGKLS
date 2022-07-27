@@ -32,12 +32,17 @@ void planificadorLargoPlazo(pcb *nodo_pcb){
 		print_grado_multiprogramacion();
 		sem_wait(&sem_multiprogramacion);
 		pcb = list_get(listaNew,0);
-		numeroTabla = respuestaMemoriaDummy; //todo Acá pido el numero de tabla para la memoria
+		send_paquete_pcb(conexionAMemoria, pcb, SOLICITUD_NUEVO_PROCESO); //todo Acá pido el numero de tabla para la memoria
+		numeroTabla = recv_respuesta_nuevo_proceso(conexionAMemoria);
+		log_debug(logger, "Se recibió el numero de tabla %d desde Memoria", numeroTabla);
 		if(numeroTabla < 9999){
+			pcb->tabla_paginas = numeroTabla;
 			log_info(logger,INICIALIZACION_PROCESOS,pcb->id);
 			pcb = list_remove(listaNew,0);
 			movePCBto(&pcb, READY);
 			sem_post(&sem_ProcesosReady);
+		}else{
+			error_handler(logger, errorMessageAux, ERROR_NUEVO_PROCESO_MEMORIA,pcb->id, NULL);
 		}
 	}
 }
@@ -115,7 +120,7 @@ void planificacion_cpu(int socket_fd){
 			//TODO avisar memoria
 			log_debug(logger, "Replanificacion: EXIT");
 			movePCBto(&pcb, EXIT);
-			send_paquete_kernel(arr_procesos[pcb->id],TERMINO_EL_PROCESO);
+			send_paquete_kernel(arr_procesos[pcb->id],PAQUETE_KERNEL_EXIT);
 			close(arr_procesos[pcb->id]);
 			break;
 		default:
@@ -202,16 +207,18 @@ void movePCBto(pcb** new_pcb, status new_status){
 		list_add(listaSuspendedBlocked, *new_pcb);
 		pthread_mutex_unlock(&mtx_susblk);
 		log_debug(logger, PROCESS_MOVE_SUSBLK, (*new_pcb)->id);
+		break;
 	case SUSPENDED_READY:
 		pthread_mutex_lock(&mtx_susrdy);
 		list_add(listaSuspendedReady, *new_pcb);
 		pthread_mutex_unlock(&mtx_susrdy);
 		log_debug(logger, PROCESS_MOVE_SUSRDY, (*new_pcb)->id);
+		break;
 	case EXIT:
-			list_add(listaExit, *new_pcb);
-			sem_post(&sem_multiprogramacion);
-			log_debug(logger, PROCESS_MOVE_EXIT, (*new_pcb)->id);
-			break;
+		list_add(listaExit, *new_pcb);
+		sem_post(&sem_multiprogramacion);
+		log_debug(logger, PROCESS_MOVE_EXIT, (*new_pcb)->id);
+		break;
 	}
 
 }

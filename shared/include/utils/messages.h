@@ -4,6 +4,7 @@
 //MENSAJES UTILES UTILIZADOS PARA LOGS y PRINTS
 #define ERROR_RECEPCION_PCB "Error al recibir el PCB desde el CPU"
 #define ERROR_AL_ABRIR_ARCHIVO "Error al abrir el Archivo"
+#define ERROR_NUEVO_PROCESO_MEMORIA "Error al crear la estructura de memoria para el proceso %d"
 #define TERMINANDO_EL_LOG "Terminando el Log"
 #define CONFIGURACION_CERRADA "Archivo de configuracion cerrado"
 #define SEMAFOROS_DESTRUIDOS "Los semaforos fueron destruidos"

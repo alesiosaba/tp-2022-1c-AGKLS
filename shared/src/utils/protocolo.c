@@ -1,12 +1,10 @@
 #include "../include/utils/protocolo.h"
 
 bool send_paquete_pcb(int fd, pcb* nodo_pcb, op_code codigo_paquete){
-
 	t_paquete* paquete = generar_paquete_pcb(*nodo_pcb, codigo_paquete);
 	enviar_paquete(paquete, fd);
 	log_debug(logger, PCB_ENVIADO, nodo_pcb->id);
 	return eliminar_paquete(paquete);
-
 }
 
 bool recv_paquete_pcb(int fd, pcb** nodo_pcb){
@@ -125,7 +123,6 @@ void recv_solicitud_tabla(int fd, consulta_en_tabla_paginas *consulta){
 	list_destroy(lista);
 }
 
-
 bool recv_paquete_consola(int fd, pcb** nodo_pcb){
 	t_list* lista;
 	lista = recibir_paquete(fd);
@@ -194,12 +191,45 @@ bool send_respuesta_handshake_inicial(int fd, int tamanio_pagina, int cant_entra
 	return eliminar_paquete(paquete);
 }
 
-
-
-
 bool send_interrupcion(int fd){
 	t_paquete* paquete = crear_paquete(INTERRUPCION);
 	enviar_paquete(paquete, fd);
 	log_debug(logger, "Enviando interrupcion a CPU");
 	return eliminar_paquete(paquete);
 }
+
+bool send_respuesta_nuevo_proceso(int fd, int numero_tabla){
+	log_debug(logger, "Enviando respuesta a Kernel, numero de tabla %d", numero_tabla);
+	t_paquete *paquete = crear_paquete(RESPUESTA_NUEVO_PROCESO);
+	char* numero_tabla_str = string_new();
+	sprintf(numero_tabla_str, "%d\0", numero_tabla);
+	agregar_a_paquete(paquete, numero_tabla_str, strlen(numero_tabla_str) + 1);
+	enviar_paquete(paquete, fd);
+	return true;
+}
+
+int recv_respuesta_nuevo_proceso(int fd){
+	t_list* lista;
+	op_code cod_op;
+	cod_op = recibir_operacion(fd);
+
+	switch (cod_op) {
+
+	case RESPUESTA_NUEVO_PROCESO:
+		lista = recibir_paquete(fd);
+		int numero_tabla = atoi(list_remove(lista, 0));
+		list_destroy(lista);
+		return numero_tabla;
+	case -1:
+		log_warning(logger, SERVIDOR_DESCONEXION);
+		return NULL;
+	default:
+		log_warning(logger,OPERACION_DESCONOCIDA);
+		break;
+	}
+
+	log_warning(logger, "La memoria respondio erroneamente a la creacion de un proceso nuevo");
+
+	return 9999;
+}
+

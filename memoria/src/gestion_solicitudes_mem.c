@@ -52,12 +52,14 @@ void solicitud_marco(int socket_cliente, t_log *logger){
 
 }
 
-void solicitud_nuevo_proceso(int socket_cliente, t_log *logger){
-    t_list *parametros = recibir_paquete(socket_cliente);
-    int *id = list_get(parametros, 0);
-    int *tamanio_proceso = list_get(parametros, 1);
-    log_info(logger,"solicitud_nuevo_proceso - solicitud para proceso %d de tamanio %d",*id, *tamanio_proceso);
-    proceso_en_memoria *proceso = asignar_proceso(*id, *tamanio_proceso);
+void solicitud_nuevo_proceso(int socket_cliente){
+	pcb *nodo_pcb;
+	recv_paquete_pcb(socket_cliente, &nodo_pcb);
+
+    log_info(logger,"solicitud_nuevo_proceso - solicitud para proceso %d de tamanio %d",nodo_pcb->id, nodo_pcb->tamanio);
+
+    proceso_en_memoria *proceso = asignar_proceso(nodo_pcb->id, nodo_pcb->tamanio);
+
     // Sincronizacion tabla primer nivel
     pthread_mutex_lock(&mutex_tablasN1);
     int dir_tabla = list_add(entradas_tabla_primer_nivel, proceso->tablaN1);
@@ -69,18 +71,23 @@ void solicitud_nuevo_proceso(int socket_cliente, t_log *logger){
     log_info(logger,"solicitud_nuevo_proceso - agregado nuevo proceso a lista procesos_en_memoria");
     pthread_mutex_unlock(&mutex_procesos_en_memoria);
     // Reservar marcos
+    /*
     reservar_marcos_proceso(proceso);
-    log_info(logger,"solicitud_nuevo_proceso - reservados marcos");
+    log_debug(logger,"LOG DE TEST");
+   // log_info(logger,"solicitud_nuevo_proceso - reservados marcos");
     dump_bitmap(bitmap_marcos);
     //Crear solicitud de creacion de archivo swap
-    t_pedido_disco *p = crear_pedido_crear_archivo(*id);
+    t_pedido_disco *p = crear_pedido_crear_archivo(nodo_pcb->id);
     log_info(logger,"solicitud_nuevo_proceso - creada solicitud de creacion archivo swap");
     // TODO: Postear semaforo cuando esta listo el pedido
     sem_wait(&(p->pedido_listo));
     eliminar_pedido_disco(p);
     log_info(logger,"solicitud_nuevo_proceso - eliminado pedido disco");
     //Retornar direccion tabla primer nivel
-    enviar_num(socket_cliente, dir_tabla, logger);
-    log_info(logger,"solicitud_nuevo_proceso - termino ejecucion para proceso %d",*id);
-    list_destroy_and_destroy_elements(parametros,free);
+*/
+    dir_tabla = 33;
+    send_respuesta_nuevo_proceso(socket_cliente, dir_tabla);
+
+    log_info(logger,"solicitud_nuevo_proceso - termino ejecucion para proceso %d",nodo_pcb->id);
+    //list_destroy_and_destroy_elements(nodo_pcb,free);
 }

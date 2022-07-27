@@ -14,7 +14,7 @@ void manejar_memoria(int socket_fd){
     args->log = logger;
     args->fd = socket_fd;
     // ACA VA LA ESCUCHA DEL KERNEL A LA MEMORIA
-    manejarConexion(args);
+    //manejarConexion(args);
  }
 
 void manejar_cpu_interrupcion(int socket_fd){

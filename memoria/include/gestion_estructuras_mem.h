@@ -23,11 +23,7 @@ void reservar_marcos_proceso(proceso_en_memoria *p);
 // Procesos
 proceso_en_memoria* buscar_proceso_por_id(int id);
 proceso_en_memoria* asignar_proceso(int id, int tamanio_proceso);
-// Sincronizacion
-pthread_mutex_t mutex_tablasN1;
-pthread_mutex_t mutex_tablasN2;
-pthread_mutex_t mutex_procesos_en_memoria;
-// ------------------
+
 t_list* reservar_paginas(int idProceso, int tamanioProceso);
 
 // Liberar espacio de estructuras utilizadas por el modulo

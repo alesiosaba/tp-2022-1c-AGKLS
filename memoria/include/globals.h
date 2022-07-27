@@ -52,6 +52,7 @@ typedef struct
 	t_tablaN1 *tablaN1;
 }proceso_en_memoria;
 
+
 // Estructuras propias del modulo Memoria
 
 t_bitarray* bitmap_marcos;
@@ -63,6 +64,12 @@ t_list* procesos_en_memoria;
 
 // hilo de atencion a servidor memoria
 pthread_t thr_memoria;
+
+// Sincronizacion
+pthread_mutex_t mutex_tablasN1;
+pthread_mutex_t mutex_tablasN2;
+pthread_mutex_t mutex_procesos_en_memoria;
+// ------------------
 
 void* espacio_lectura_escritura_procesos;
 
