@@ -11,7 +11,10 @@ int main(void) {
 	// aca se maneja la conexion dispatch, interrupt y con memoria
 	conexiones();
 
+	realizar_handshake_inicial();
+
 	terminar_programa(logger, config);
+
 	return EXIT_SUCCESS;
 }
 

@@ -21,7 +21,7 @@ bool recv_paquete_pcb(int fd, pcb** nodo_pcb){
 bool send_solicitud_tabla_N1(int fd, int id_tablaN1, int entrada_tabla_primer_nivel){
 	log_debug(logger, "Entro a send_solicitud_tabla_N1()");
 
-	t_paquete *paquete = crear_paquete(SOLICITUD_TABLA_PAGINA_N1);
+	t_paquete* paquete = crear_paquete(SOLICITUD_TABLA_PAGINA_N1);
 	char* id_tablaN1_str = string_new();
 	sprintf(id_tablaN1_str, "%d\0", id_tablaN1);
 	agregar_a_paquete(paquete, id_tablaN1_str, strlen(id_tablaN1_str) + 1);
@@ -141,27 +141,37 @@ bool send_paquete_kernel(int fd, op_code codigo_paquete){
 bool send_handshake_inicial(int fd){
 	t_paquete* paquete = crear_paquete(HANDSHAKE_INICIAL);
 	enviar_paquete(paquete, fd);
-	log_debug(logger, "Handshake inicial con modulo Memoria");
+	log_debug(logger, "Enviando handshake con cod_op: %d", paquete->codigo_operacion);
 	eliminar_paquete(paquete);
 	return true;
 }
 
 // En CPU
 struct handshake_inicial_s recv_respuesta_handshake_inicial(int fd){
+
 	t_list* lista;
+	log_debug(logger, "recibir_paquete en recv_respuesta_handshake_inicial");
+
+	op_code cod_op;
+	cod_op = recibir_operacion(fd);
+
 	lista = recibir_paquete(fd);
 
 	struct handshake_inicial_s hd_inicial;
 
-	t_list* tam_pagina = list_remove(lista,0);
-	hd_inicial.tamanio_pagina = atoi(tam_pagina);
+	int tam_pagina = atoi(list_remove(lista,0));
+	hd_inicial.tamanio_pagina = tam_pagina;
+	log_debug(logger, "tam_pagina: %d", tam_pagina);
 
-	t_list* cant_entradas_por_tabla = list_remove(lista,0);
-	hd_inicial.cant_entradas_por_tabla = atoi(cant_entradas_por_tabla);
+	int cant_entradas_por_tabla = atoi(list_remove(lista,0));
+	hd_inicial.cant_entradas_por_tabla = cant_entradas_por_tabla;
+	log_debug(logger, "cant_entradas_por_tabla: %d", cant_entradas_por_tabla);
 
 	log_debug(logger,"deserializada la resp de handshake");
 
 	list_destroy(lista);
+
+	log_debug(logger, "salgo de recibir_paquete en recv_respuesta_handshake_inicial");
 
 	return hd_inicial;
 }

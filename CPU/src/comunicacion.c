@@ -36,7 +36,7 @@ void servidorInterrupt(){
 }
 
 void conectar_memoria(){
-	conexionAMemoria = crear_conexion(config_values.IP_memoria,config_values.puerto_memoria);
+	conexionAMemoria = crear_conexion(config_values.IP_memoria, config_values.puerto_memoria);
 
 	if(conexionAMemoria == -1){
 		log_error(logger, "El servidor de memoria no esta disponible");
@@ -44,19 +44,15 @@ void conectar_memoria(){
 		exit(-1);
 	}
 
-	// TODO: Mejor lugar para este pedido?
-	realizar_handshake_inicial();
-
-	pthread_t thr_memoria_individual;
-
-	if(pthread_create(&thr_memoria_individual, NULL, (void*) manejarMemoria,(void*)conexionAMemoria) != 0){
+	if(pthread_create(&thr_memoria, NULL, (void*) manejarMemoria, (void*) conexionAMemoria) != 0){
 		log_error(logger, "Error al crear el hilo la Memoria");
 	}
 
+	log_debug(logger, "Se creo un thread para %s", "Memoria");
 	log_info(logger, "Conexión exitosa con la Memoria");
 }
 
-void conexiones (){
+void conexiones(){
 
 	// abro un hilo para escuchar por el puerto dispatch
 	pthread_create(&thr_dispatch, NULL, (void*) &servidorDispatch, NULL);
@@ -64,9 +60,7 @@ void conexiones (){
 	// abro un hilo para escuchar por el puerto interrupt
 	pthread_create(&thr_interrupt, NULL, (void*) &servidorInterrupt, NULL);
 
-	// abro un hilo para escuchar por el puerto dedicado a la memoria
-	pthread_create(&thr_memoria, NULL, (void*) &conectar_memoria, NULL);
-
+	conectar_memoria();
 }
 
 
@@ -90,43 +84,11 @@ int manejarInterrupt(int socket_cliente){
 	}
 }
 
-int manejarMemoria(int socket_cliente){
-	t_list* lista;
-	struct pcb *pcb;
-
-	int i = 0;
-
-	while (1) {
-		int cod_op = recibir_operacion(socket_cliente);
-		switch (cod_op) {
-			case MENSAJE:
-				recibir_mensaje(socket_cliente);
-				break;
-
-			case PAQUETE:
-				lista = recibir_paquete(socket_cliente);
-				log_info(logger, LECTURA_DE_VALORES);
-				break;
-
-			case RESPUESTA_HANDSHAKE_INICIAL:
-				log_debug(logger, "Respuesta de Handshake inicial");
-				struct handshake_inicial_s handshake_inicial = recv_respuesta_handshake_inicial(socket_cliente);
-				tamanio_pagina = handshake_inicial.tamanio_pagina;
-				cant_entradas_por_tabla = handshake_inicial.cant_entradas_por_tabla;
-				log_debug(logger,"tam pag: %d",tamanio_pagina);
-				log_debug(logger,"cant entradas : %d",cant_entradas_por_tabla);
-			break;
-
-			case -1:
-				log_error(logger, SERVIDOR_DESCONEXION);
-				return EXIT_FAILURE;
-
-			default:
-				log_warning(logger,OPERACION_DESCONOCIDA);
-				break;
-		}
-	}
-}
+void manejarMemoria(int socket_fd){
+    t_procesar_conexion_args* args = malloc(sizeof(t_procesar_conexion_args));
+    args->log = logger;
+    args->fd = socket_fd;
+ }
 
 // manejar conexion de Dispatch
 int manejarDispatch(int socket_cliente){
@@ -180,5 +142,21 @@ int manejarDispatch(int socket_cliente){
 }
 
 void realizar_handshake_inicial(){
-	send_handshake_inicial(conexionAMemoria);
+
+	t_paquete* paquete = crear_paquete(HANDSHAKE_INICIAL);
+	enviar_paquete(paquete, conexionAMemoria);
+	eliminar_paquete(paquete);
+
+	log_debug(logger, "esperando recv_respuesta_handshake_inicial");
+
+	struct handshake_inicial_s handshake_inicial = recv_respuesta_handshake_inicial(conexionAMemoria);
+
+	log_debug(logger, "struct de handsake asignada");
+
+	tamanio_pagina = handshake_inicial.tamanio_pagina;
+	cant_entradas_por_tabla = handshake_inicial.cant_entradas_por_tabla;
+
+	log_debug(logger, "Respuesta de Handshake inicial");
+	log_debug(logger, "tam pag: %d",tamanio_pagina);
+	log_debug(logger, "cant entradas : %d",cant_entradas_por_tabla);
 }
