@@ -3,8 +3,8 @@
 
 #include "../../shared/include/utils/utils.h"
 #include "../../shared/include/utils/protocolo.h"
-#include "globals.h"
 #include "tlb.h"
+#include "init.h"
 #include <math.h>
 
 int traducir_dir_logica(pcb** pcb, int direccion_logica);
