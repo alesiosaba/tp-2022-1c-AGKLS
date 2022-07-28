@@ -10,6 +10,7 @@
 
 #include "globals.h"
 #include "../../shared/include/utils/utils.h"
+#include "disco.h"
 
 void terminar_programa();
 
