@@ -219,11 +219,9 @@ int se_necesita_generar_otra_entrada_N1(int paginasReservadas){
 }
 
 int cantidad_paginas_necesarias(int tamanioProceso){
-    float cantidad = tamanioProceso / config_values.tam_pagina;
+    double cantidad = (double) tamanioProceso / (double) config_values.tam_pagina;
     return ceil(cantidad);
 }
-
-
 
 proceso_en_memoria* buscar_proceso_por_id(int id)
 {
