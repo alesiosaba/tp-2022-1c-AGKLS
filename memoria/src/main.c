@@ -18,8 +18,10 @@ int main(void) {
 
 	inicializar_estructuras();
 
-	// abro un hilo para atender por el puerto de escucha (Kernel y CPU)
+	// Hilo puerto de escucha (Kernel y CPU)
 	pthread_create(&thr_memoria, NULL, (void*) &iniciar_servidor_memoria, NULL);
+	// Hilo SWAP
+    pthread_create(&thr_swap, NULL, (void*) &gestionar_solicitudes_swap, NULL);
 
 	terminar_programa();
 	return EXIT_SUCCESS;
