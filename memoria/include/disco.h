@@ -17,12 +17,13 @@
 #include <sys/types.h>
 #include <semaphore.h>
 #include <commons/collections/queue.h>
+#include "../../shared/include/utils/utils.h"
 
 typedef struct t_pedido_disco
 {
     int operacion_disco;
     int argumentos[3];
-    sem_t pedido_listo;
+    sem_t pedido_swap_listo;
 } t_pedido_disco;
 
 enum OPERACIONES_DISCO
@@ -35,13 +36,17 @@ enum OPERACIONES_DISCO
 };
 
 t_queue* pedidos_disco;
-pthread_mutex_t mutex_cola_pedidos;
-sem_t lista_tiene_pedidos;
+pthread_mutex_t mutex_cola_pedidos_swap;
+sem_t semaforo_cola_pedidos_swap;
 
 // Funciones
-t_pedido_disco* crear_pedido_escribir(int id, int dir_marco, int num_pag);
-t_pedido_disco* crear_pedido_lectura(int id, int dir_marco, int num_pag);
-t_pedido_disco* crear_pedido_crear_archivo(int id);
+void gestionar_solicitudes_swap();
+// Gestion de pedidos
+t_pedido_disco* crear_pedido_escribir_swap(int id, int dir_marco, int num_pag);
+t_pedido_disco* crear_pedido_leer_swap(int id, int dir_marco, int num_pag);
+t_pedido_disco* crear_pedido_crear_archivo_swap(int id);
 void eliminar_pedido_disco(t_pedido_disco *p);
+// Manejo swap
+void crear_archivo_swap(int pid);
 
 #endif /* DISCO_H_ */

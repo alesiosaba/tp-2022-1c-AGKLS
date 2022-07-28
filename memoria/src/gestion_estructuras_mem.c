@@ -71,14 +71,11 @@ void armar_bitmap_marcos(){
 	int bytesNecesarios = ceil(bytesNecesarios_f);
 	log_debug(logger, "Se necesitarán %d (%d bits) para representar a todos los marcos de la memoria" , bytesNecesarios , cantidadMarcos);
 
-	// Reservamos en memoria el espacio donde se almacenarán los bits representando los marcos
-	char* bitsMarcos = malloc(bytesNecesarios);
-
 	// bitmap - el bloque de memoria que contiene los bits a leer/escribir
 	char* bitmap_real = malloc(bytesNecesarios);
 
 	// bitarray_create retorna un struct t_bitarray*
-	bitmap_marcos = bitarray_create(bitmap_real, bitsMarcos);
+	bitmap_marcos = bitarray_create(bitmap_real, bytesNecesarios);
 
 	limpiar_bitmap(cantidadMarcos);
 
@@ -400,7 +397,6 @@ void dump_bitmap(t_bitarray *bitmap)
     for(int aux=0;aux<cantidadDeBits;aux++){
         if(bitarray_test_bit(bitmap, aux)==1){
             string_append(&cadenaDeBitmap, "1");
-
         }
         else
             string_append(&cadenaDeBitmap, "0");

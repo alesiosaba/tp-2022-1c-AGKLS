@@ -64,6 +64,7 @@ t_list* procesos_en_memoria;
 
 // hilo de atencion a servidor memoria
 pthread_t thr_memoria;
+pthread_t thr_swap;
 
 // Sincronizacion
 pthread_mutex_t mutex_tablasN1;
