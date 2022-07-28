@@ -70,11 +70,11 @@ void solicitud_nuevo_proceso(int socket_cliente){
     list_add(procesos_en_memoria, proceso);
     log_info(logger,"solicitud_nuevo_proceso - agregado nuevo proceso a lista procesos_en_memoria");
     pthread_mutex_unlock(&mutex_procesos_en_memoria);
-    // Reservar marcos
     /*
+    // Reservar marcos
     reservar_marcos_proceso(proceso);
     log_debug(logger,"LOG DE TEST");
-   // log_info(logger,"solicitud_nuevo_proceso - reservados marcos");
+    log_info(logger,"solicitud_nuevo_proceso - reservados marcos");
     dump_bitmap(bitmap_marcos);
     //Crear solicitud de creacion de archivo swap
     t_pedido_disco *p = crear_pedido_crear_archivo(nodo_pcb->id);
@@ -84,8 +84,7 @@ void solicitud_nuevo_proceso(int socket_cliente){
     eliminar_pedido_disco(p);
     log_info(logger,"solicitud_nuevo_proceso - eliminado pedido disco");
     //Retornar direccion tabla primer nivel
-*/
-    dir_tabla = 33;
+     */
     send_respuesta_nuevo_proceso(socket_cliente, dir_tabla);
 
     log_info(logger,"solicitud_nuevo_proceso - termino ejecucion para proceso %d",nodo_pcb->id);

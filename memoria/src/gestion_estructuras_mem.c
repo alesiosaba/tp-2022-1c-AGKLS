@@ -38,25 +38,25 @@ void inicializar_estructuras(){
 // Reserva cierta cantidad de espacio en memoria para poder ser escrita o leida por los distintos procesos
 void reservar_espacio_lectura_escritura(){
 
-	log_debug(logger, "reservar_espacio_lectura_escritura()");
+	// log_debug(logger, "reservar_espacio_lectura_escritura()");
 
-	log_debug(logger, "------- Reservar espacio de memoria contiguo");
+	// log_debug(logger, "------- Reservar espacio de memoria contiguo");
 
-	log_debug(logger, "Se reservarán %d cantidad de bytes en memoria" , config_values.tam_memoria);
+	// log_debug(logger, "Se reservarán %d cantidad de bytes en memoria" , config_values.tam_memoria);
 
 	// La cantidad de espacio (en bytes) que se va a reservar viene ya por archivo de configuracion
 	// config_values->tam_memoria
 
 	espacio_lectura_escritura_procesos = malloc(config_values.tam_memoria);
 
-	log_debug(logger, "------- Finalizacion de Reservar espacio de memoria contiguo");
+	// log_debug(logger, "------- Finalizacion de Reservar espacio de memoria contiguo");
 }
 
 // Armar un array de bits que representen si los marcos están ocupados o no
 void armar_bitmap_marcos(){
-	log_debug(logger, "armar_bitmap_marcos()");
+	// log_debug(logger, "armar_bitmap_marcos()");
 
-	log_debug(logger, "------- Armar bitmap de marcos disponibles y ocupados");
+	// log_debug(logger, "------- Armar bitmap de marcos disponibles y ocupados");
 
 	// En estos calculos usamos la funcion ceil() para no quedarnos con cantidades menores a las que necesitamos
 
@@ -64,12 +64,12 @@ void armar_bitmap_marcos(){
 
 	int cantidadMarcos = ceil(cantidadMarcos_f);
 
-	log_debug(logger, "La memoria tendrá %d marcos en total" , cantidadMarcos);
+	// log_debug(logger, "La memoria tendrá %d marcos en total" , cantidadMarcos);
 
 	double bytesNecesarios_f = cantidadMarcos / 8;
 
 	int bytesNecesarios = ceil(bytesNecesarios_f);
-	log_debug(logger, "Se necesitarán %d (%d bits) para representar a todos los marcos de la memoria" , bytesNecesarios , cantidadMarcos);
+	// log_debug(logger, "Se necesitarán %d (%d bits) para representar a todos los marcos de la memoria" , bytesNecesarios , cantidadMarcos);
 
 	// Reservamos en memoria el espacio donde se almacenarán los bits representando los marcos
 	char* bitsMarcos = malloc(bytesNecesarios);
@@ -82,19 +82,19 @@ void armar_bitmap_marcos(){
 
 	limpiar_bitmap(cantidadMarcos);
 
-	log_debug(logger, "------- Finalizacion de Armado bitmap de marcos disponibles y ocupados");
+	// log_debug(logger, "------- Finalizacion de Armado bitmap de marcos disponibles y ocupados");
 
 }
 
 void inicializar_tablas_de_entradas(){
-	log_debug(logger, "inicializar_tablas_de_entradas()");
+	// log_debug(logger, "inicializar_tablas_de_entradas()");
 
-	log_debug(logger, "------- Inicializar listas de entradas a ambas tablas de niveles");
+	// log_debug(logger, "------- Inicializar listas de entradas a ambas tablas de niveles");
 
 	entradas_tabla_primer_nivel = list_create();
 	entradas_tabla_segundo_nivel = list_create();
 
-	log_debug(logger, "------- Finalizacion de inicializacion de listas de entradas a ambas tablas de niveles");
+	// log_debug(logger, "------- Finalizacion de inicializacion de listas de entradas a ambas tablas de niveles");
 }
 
 entrada_tabla_N1* agregar_entrada_tabla_primer_nivel(t_tablaN1 *tabla){
@@ -118,7 +118,7 @@ entrada_tabla_N2* agregar_entrada_tabla_segundo_nivel(t_tablaN2 *tabla){
 
 void inicializar_lista_procesos_en_memoria() {
 
-	log_debug(logger, "inicializar_lista_procesos_en_memoria()");
+	// log_debug(logger, "inicializar_lista_procesos_en_memoria()");
 
 	log_debug(logger, "------- Inicializar lista de procesos en memoria");
 

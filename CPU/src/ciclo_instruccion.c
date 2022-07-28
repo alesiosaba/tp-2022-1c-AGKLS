@@ -17,15 +17,15 @@ void ejecutar_ciclo_instruccion(pcb** pcb){
 		imprimir_instruccion(instruccion);
 
 		// interpretar qué instrucción es la que se va a ejecutar (solo COPY ejecuta fetch_operands)
-		log_debug(logger, COMIENZO_ETAPA_DECODE, (*pcb)->id);
+		// log_debug(logger, COMIENZO_ETAPA_DECODE, (*pcb)->id);
 		int esCopy = decode(instruccion);
 
 		// buscar valor en memoria del parametro de COPY
 		uint32_t valorLeidoDeMemoria = 0;
 		if(esCopy){
-			log_debug(logger, COMIENZO_ETAPA_FETCH_OPERANDS, (*pcb)->id);
+			// log_debug(logger, COMIENZO_ETAPA_FETCH_OPERANDS, (*pcb)->id);
 			valorLeidoDeMemoria = fetch_operands(pcb, instruccion);
-			log_debug(logger, "FETCH OPERANDS retorna: %u",valorLeidoDeMemoria);
+			// log_debug(logger, "FETCH OPERANDS retorna: %u",valorLeidoDeMemoria);
 		}
 
 		// ejecucion de instruccion
@@ -34,12 +34,8 @@ void ejecutar_ciclo_instruccion(pcb** pcb){
 		// chequear si el Kernel nos envió una interrupcion
 		check_interrupt(pcb);
 
-		log_debug(logger, "gv_flag_desalojar_proceso: %d", gv_flag_desalojar_proceso);
-		log_debug(logger, "gv_flag_interrupcion: %d", gv_flag_interrupcion);
-
-		//log_warning(logger, "Esperando getchar()");
-		//getchar();
-
+		// log_debug(logger, "gv_flag_desalojar_proceso: %d", gv_flag_desalojar_proceso);
+		// log_debug(logger, "gv_flag_interrupcion: %d", gv_flag_interrupcion);
 
 	} while(!hay_desalojo_proceso());
 
@@ -59,7 +55,7 @@ void imprimir_instruccion(nodo_instruccion* instruccion) {
 
 // buscar la próxima instrucción a ejecutar
 nodo_instruccion* fetch(pcb** pcb){
-	log_debug(logger, COMIENZO_ETAPA_FETCH, (*pcb)->id);
+	// log_debug(logger, COMIENZO_ETAPA_FETCH, (*pcb)->id);
 
 	nodo_instruccion* instruccion;
 	instruccion = list_get((*pcb)->instrucciones,(*pcb)->program_counter);
@@ -81,27 +77,27 @@ uint32_t fetch_operands(pcb** pcb, nodo_instruccion* instruccion){
 }
 
 void exec_no_op(){
-	log_debug(logger, "CASE de EXECUTE: entro en NO_OP");
+	// log_debug(logger, "CASE de EXECUTE: entro en NO_OP");
 
 	char* retardo_config = config_values.retardo_NOOP;
 	int retardo = atoi(retardo_config);
 	msleep(retardo);
 
-	log_debug(logger, "Finalizacion instruccion NO_OP");
+	// log_debug(logger, "Finalizacion instruccion NO_OP");
 }
 
 void exec_read(nodo_instruccion* instruccion, pcb** pcb){
-	log_debug(logger, "CASE de EXECUTE: entro en READ");
+	// log_debug(logger, "CASE de EXECUTE: entro en READ");
 
 	int* direccionLogica = list_get(instruccion->instruccion.parametros,0);
 
 	int valor = buscarValorEnMemoria(pcb, *direccionLogica);
 
-	log_info(logger, "VALOR RETORNADO POR READ: %d",valor);
+	// log_info(logger, "VALOR RETORNADO POR READ: %d",valor);
 }
 
 void exec_write(nodo_instruccion* instruccion, pcb** pcb){
-	log_debug(logger, "CASE de EXECUTE: entro en WRITE");
+	// log_debug(logger, "CASE de EXECUTE: entro en WRITE");
 
 	nodo_parametro* nodo_parametro = list_get(instruccion->instruccion.parametros,1);
 	uint32_t valorAescribir = nodo_parametro->parametro;
@@ -111,35 +107,35 @@ void exec_write(nodo_instruccion* instruccion, pcb** pcb){
 }
 
 void exec_copy(nodo_instruccion* instruccion, uint32_t valorMemoria, pcb** pcb){
-	log_debug(logger, "CASE de EXECUTE: entro en COPY");
+	// log_debug(logger, "CASE de EXECUTE: entro en COPY");
 
 	int* direccionLogica = list_get(instruccion->instruccion.parametros,0);
 	escribirValorEnMemoria(pcb, *direccionLogica, valorMemoria);
 }
 
 void exec_i_o(nodo_instruccion* instruccion, pcb** pcb){
-	log_debug(logger, "CASE de EXECUTE: entro en I/0");
+	// log_debug(logger, "CASE de EXECUTE: entro en I/0");
 
 	nodo_parametro* tiempoDeBloqueo = list_get(instruccion->instruccion.parametros,0);
 	(*pcb)->tiempo_a_bloquearse = tiempoDeBloqueo->parametro;
-	log_debug(logger, "Tiempo a bloquearse %d",(*pcb)->tiempo_a_bloquearse);
+	// log_debug(logger, "Tiempo a bloquearse %d",(*pcb)->tiempo_a_bloquearse);
 
 	send_paquete_pcb(clienteDispatch, *pcb, PAQUETE_PCB_IO);
 	activar_flag_desalojo();
 }
 
 void exec_exit(pcb** pcb){
-	log_debug(logger, "CASE: entro en EXIT");
+	// log_debug(logger, "CASE: entro en EXIT");
 
 	send_paquete_pcb(clienteDispatch, *pcb, PAQUETE_PCB_EXIT);
 	activar_flag_desalojo();
 
-	log_debug(logger, "Finalizando exec_exit()");
+	// log_debug(logger, "Finalizando exec_exit()");
 }
 
 // ejecucion de instruccion
 void execute(nodo_instruccion* instruccion, pcb** pcb, uint32_t valorMemoria){
-	log_debug(logger, COMIENZO_ETAPA_EXECUTE, (*pcb)->id);
+	// log_debug(logger, COMIENZO_ETAPA_EXECUTE, (*pcb)->id);
 
 	IDENTIFICADOR_INSTRUCCION identificador_instruccion = str_to_identificador_enum(instruccion->instruccion.identificador);
 
@@ -172,7 +168,7 @@ void execute(nodo_instruccion* instruccion, pcb** pcb, uint32_t valorMemoria){
 
 // chequear si el Kernel nos envió una interrupcion
 void check_interrupt(pcb** pcb){
-	log_debug(logger, COMIENZO_ETAPA_CHECK_INTERRUPT, (*pcb)->id);
+	// log_debug(logger, COMIENZO_ETAPA_CHECK_INTERRUPT, (*pcb)->id);
 
 	if(hay_interrupcion()){
 		log_debug(logger,"check_interrupt() detecto una INTERRUPCION");
@@ -232,7 +228,7 @@ void desactivar_flag_desalojo() {
 
 uint32_t buscarValorEnMemoria(pcb** pcb, int direccionLogica){
 
-	log_debug(logger,"Entro en buscarValorEnMemoria()");
+	// log_debug(logger,"Entro en buscarValorEnMemoria()");
 
 	// log_debug(logger,"\nbuscar:\n\tPID: %d\n\tid_tablaN1: %d\n\tdir. logica:%d", (*pcb)->id, id_tablaN1, direccionLogica);
 
@@ -246,7 +242,7 @@ uint32_t buscarValorEnMemoria(pcb** pcb, int direccionLogica){
 
 bool escribirValorEnMemoria(pcb** pcb, int direccionLogica, uint32_t valor){
 
-	log_debug(logger,"Entro en escribirValorEnMemoria()");
+	// log_debug(logger,"Entro en escribirValorEnMemoria()");
 
 	int direccion_fisica = traducir_dir_logica(pcb, direccionLogica);
 

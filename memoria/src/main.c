@@ -2,8 +2,9 @@
 
 //Finalizacion por interrupción ctrl + c
 void sighandler(int s){
-	if(clienteMemoria){
-		liberar_conexion(&clienteMemoria);
+	if(clienteMemoriaCPU || clienteMemoriaKernel){
+		liberar_conexion(&clienteMemoriaCPU);
+		liberar_conexion(&clienteMemoriaKernel);
 	}
 	terminar_programa();
 	exit(0);
@@ -18,23 +19,32 @@ int main(void) {
 
 	inicializar_estructuras();
 
-	// abro un hilo para atender por el puerto de escucha (Kernel y CPU)
-	pthread_create(&thr_memoria, NULL, (void*) &iniciar_servidor_memoria, NULL);
+	// abro un hilo para atender por el puerto de escucha al CPU
+	pthread_create(&thr_memoriaCPU, NULL, (void*) &iniciar_servidor_memoriaCPU, NULL);
+
+
+	// abro un hilo para atender por el puerto de escucha al Kernel
+	pthread_create(&thr_memoriaKernel, NULL, (void*) &iniciar_servidor_memoriaKernel, NULL);
 
 	terminar_programa();
+
 	return EXIT_SUCCESS;
 }
 
 void terminar_programa()
 {
 
-	pthread_join(thr_memoria, NULL);
+	pthread_join(thr_memoriaCPU, NULL);
+	pthread_join(thr_memoriaKernel, NULL);
+
 	config_destroy(config);
 	log_debug(logger,CONFIGURACION_CERRADA);
-	if(clienteMemoria){
-		liberar_conexion(&clienteMemoria);
-	}
-	close(serverMemoria);
+	if(clienteMemoriaCPU || clienteMemoriaKernel){
+			liberar_conexion(&clienteMemoriaCPU);
+			liberar_conexion(&clienteMemoriaKernel);
+		}
+	close(serverMemoriaCPU);
+	close(serverMemoriaKernel);
 	log_debug(logger,TERMINANDO_EL_LOG);
 	liberar_estructuras();
 }

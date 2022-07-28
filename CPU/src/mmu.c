@@ -2,7 +2,7 @@
 
 int traducir_dir_logica(pcb** pcb, int direccion_logica){
 
-	log_debug(logger,"Inicia traduccion de direccion logica");
+	// log_debug(logger,"Inicia traduccion de direccion logica");
 
 	int numero_pagina = obtener_numero_pagina(direccion_logica);
 	int desplazamiento = obtener_desplazamiento(direccion_logica, numero_pagina);
@@ -42,7 +42,7 @@ int traducir_dir_logica(pcb** pcb, int direccion_logica){
 		return 77;
 
 	}
-	// log_debug(logger,"TLB MISS");
+	//log_debug(logger,"TLB MISS");
 
 	int id_tablaN1 = (*pcb)->tabla_paginas;
 	int entrada_tabla_primer_nivel = obtener_entrada_tabla_primer_nivel(numero_pagina);
@@ -52,6 +52,10 @@ int traducir_dir_logica(pcb** pcb, int direccion_logica){
 
 	// SOLICITUD ENTRADA DE TABLA N1
 	// ENVIO DIR TABLA N1 y NUM ENTRADA TABLA NIVEL 1
+	// enviar_mensaje("send_solicitud_tabla_N1", conexionAMemoria);
+	t_paquete* paquete = crear_paquete(SOLICITUD_TABLA_PAGINAS);
+	enviar_paquete(paquete, conexionAMemoria);
+	eliminar_paquete(paquete);
 	// send_solicitud_tabla_N1(conexionAMemoria, id_tablaN1, entrada_tabla_primer_nivel);
 
 	// RECIBO N° DE TABLA N2
@@ -63,6 +67,12 @@ int traducir_dir_logica(pcb** pcb, int direccion_logica){
 
 	// SOLICITUD ENTRADA DE TABLA N2
 	// ENVIO DIR TABLA N2 y NUM ENTRADA TABLA NIVEL 2
+	// enviar_mensaje("send_solicitud_tabla_N2", conexionAMemoria);
+
+	paquete = crear_paquete(SOLICITUD_MARCO);
+	enviar_paquete(paquete, conexionAMemoria);
+	eliminar_paquete(paquete);
+
 	// send_solicitud_tabla_N2(conexionAMemoria, id_tablaN2, entrada_tabla_segundo_nivel);
 
 	// RECIBO N° DE FRAME
@@ -93,7 +103,7 @@ int traducir_dir_logica(pcb** pcb, int direccion_logica){
 
 	// imprimir_TLB();
 
-	log_debug(logger,"Finaliza traduccion de direccion logica");
+	// log_debug(logger,"Finaliza traduccion de direccion logica");
 
 	// TODO: como devolver la direccion fisica
 	return 666;
@@ -101,17 +111,17 @@ int traducir_dir_logica(pcb** pcb, int direccion_logica){
 }
 
 int obtener_numero_pagina(int direccion_logica){
-	return floor(direccion_logica / tamanio_pagina);
+	return 3; //floor(direccion_logica / tamanio_pagina);
 }
 
 int obtener_entrada_tabla_primer_nivel(int numero_pagina) {
-	return floor(numero_pagina / cant_entradas_por_tabla);
+	return 4; //floor(numero_pagina / cant_entradas_por_tabla);
 }
 
 int obtener_entrada_tabla_segundo_nivel(int numero_pagina) {
-	return numero_pagina % cant_entradas_por_tabla;
+	return 5; // numero_pagina % cant_entradas_por_tabla;
 }
 
 int obtener_desplazamiento(int direccion_logica, int numero_pagina) {
-	return direccion_logica - numero_pagina * tamanio_pagina;
+	return 6; // direccion_logica - numero_pagina * tamanio_pagina;
 }

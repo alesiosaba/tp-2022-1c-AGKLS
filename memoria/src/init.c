@@ -14,6 +14,7 @@ void inicializar(){
 	config_values = leer_config();
 	log_info(logger, "Archivo de configuracion:");
 	log_info(logger, "puerto_escucha: %s", config_values.puerto_escucha);
+	log_info(logger, "puerto_escucha_CPU: %s", config_values.puerto_escucha_CPU);
 	log_info(logger, "tam_memoria: %d", config_values.tam_memoria);
 	log_info(logger, "tam_pagina: %d", config_values.tam_pagina);
 	log_info(logger, "entradas_por_tabla: %d", config_values.entradas_por_tabla);
@@ -36,6 +37,7 @@ config_t leer_config(){
 	config_t config_values;
 
 	config_values.puerto_escucha = config_get_string_value(config, "PUERTO_ESCUCHA");
+	config_values.puerto_escucha_CPU = config_get_string_value(config, "PUERTO_ESCUCHA_CPU");
 	config_values.tam_memoria = config_get_int_value(config, "TAM_MEMORIA");
 	config_values.tam_pagina = config_get_int_value(config, "TAM_PAGINA");
 	config_values.entradas_por_tabla = config_get_int_value(config, "ENTRADAS_POR_TABLA");

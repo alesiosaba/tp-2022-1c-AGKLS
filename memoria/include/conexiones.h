@@ -6,10 +6,16 @@
 #include "../../shared/include/utils/gestionPCB.h"
 #include "../../shared/include/utils/protocolo.h"
 
-int serverMemoria;
-int clienteMemoria;
+int serverMemoriaCPU;
+int serverMemoriaKernel;
 
-void iniciar_servidor_memoria();
-int manejarConexion(int socket_cliente);
+int clienteMemoriaCPU;
+int clienteMemoriaKernel;
+
+void iniciar_servidor_memoriaCPU();
+void iniciar_servidor_memoriaKernel();
+int manejarConexionKernel(int socket_cliente);
+int manejarConexionCPU(int socket_cliente);
+void handshake_inicial();
 
 #endif

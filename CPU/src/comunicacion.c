@@ -44,11 +44,13 @@ void conectar_memoria(){
 		exit(-1);
 	}
 
+	/*
 	if(pthread_create(&thr_memoria, NULL, (void*) manejarMemoria, (void*) conexionAMemoria) != 0){
 		log_error(logger, "Error al crear el hilo la Memoria");
 	}
-
 	log_debug(logger, "Se creo un thread para %s", "Memoria");
+	*/
+
 	log_info(logger, "Conexión exitosa con la Memoria");
 }
 
@@ -143,14 +145,63 @@ int manejarDispatch(int socket_cliente){
 
 void realizar_handshake_inicial(){
 
+	uint32_t handshake = 1;
+	uint32_t tam_pagina;
+	uint32_t entradas_por_tabla;
+
+	log_info(logger, "INICIO HANDSHAKE con Memoria");
+
+	send(conexionAMemoria, &handshake, sizeof(uint32_t), NULL);
+	recv(conexionAMemoria, &tam_pagina, sizeof(uint32_t), MSG_WAITALL);
+
+	send(conexionAMemoria, &handshake, sizeof(uint32_t), NULL);
+	recv(conexionAMemoria, &entradas_por_tabla, sizeof(uint32_t), MSG_WAITALL);
+
+	log_info(logger, "INICIO HANDSHAKE con Memoria");
+
+	// log_debug(logger, "Valores obtenidos de la devolucion del handshake");
+	// log_debug(logger, "tam_pagina: %d", tam_pagina);
+	// log_debug(logger, "entradas_por_tabla: %d", entradas_por_tabla);
+
+	// asigno variables globales de CPU con valores enviados por memoria
+	tamanio_pagina = tam_pagina;
+	cant_entradas_por_tabla = entradas_por_tabla;
+
+	/*
 	t_paquete* paquete = crear_paquete(HANDSHAKE_INICIAL);
 	enviar_paquete(paquete, conexionAMemoria);
 	eliminar_paquete(paquete);
 
 	log_debug(logger, "esperando recv_respuesta_handshake_inicial");
 
-	struct handshake_inicial_s handshake_inicial = recv_respuesta_handshake_inicial(conexionAMemoria);
+	//struct handshake_inicial_s handshake_inicial = recv_respuesta_handshake_inicial(conexionAMemoria);
+	//
 
+	t_list* lista;
+	log_debug(logger, "recibir_paquete en recv_respuesta_handshake_inicial");
+
+	op_code cod_op;
+	cod_op = recibir_operacion(fd);
+
+	lista = recibir_paquete(fd);
+
+	struct handshake_inicial_s hd_inicial;
+
+	int tam_pagina = atoi(list_remove(lista,0));
+	hd_inicial.tamanio_pagina = tam_pagina;
+	log_debug(logger, "tam_pagina: %d", tam_pagina);
+
+	int cant_entradas_por_tabla = atoi(list_remove(lista,0));
+	hd_inicial.cant_entradas_por_tabla = cant_entradas_por_tabla;
+	log_debug(logger, "cant_entradas_por_tabla: %d", cant_entradas_por_tabla);
+
+	log_debug(logger,"deserializada la resp de handshake");
+
+	list_destroy(lista);
+
+	log_debug(logger, "salgo de recibir_paquete en recv_respuesta_handshake_inicial");
+
+	//
 	log_debug(logger, "struct de handsake asignada");
 
 	tamanio_pagina = handshake_inicial.tamanio_pagina;
@@ -159,4 +210,5 @@ void realizar_handshake_inicial(){
 	log_debug(logger, "Respuesta de Handshake inicial");
 	log_debug(logger, "tam pag: %d",tamanio_pagina);
 	log_debug(logger, "cant entradas : %d",cant_entradas_por_tabla);
+	*/
 }

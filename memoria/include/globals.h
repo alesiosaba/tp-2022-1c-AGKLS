@@ -11,6 +11,7 @@
 typedef struct config_t
 {
 	char* puerto_escucha;
+	char* puerto_escucha_CPU;
 	int tam_memoria;
 	int tam_pagina;
 	int entradas_por_tabla;
@@ -62,8 +63,10 @@ t_list* entradas_tabla_segundo_nivel;
 // Esta lista nos permite averiguar en que paginas está el proceso
 t_list* procesos_en_memoria;
 
-// hilo de atencion a servidor memoria
-pthread_t thr_memoria;
+// hilo de atencion de servidor memoria a CPU
+pthread_t thr_memoriaCPU;
+// hilo de atencion de servidor memoria a Kernel
+pthread_t thr_memoriaKernel;
 
 // Sincronizacion
 pthread_mutex_t mutex_tablasN1;
