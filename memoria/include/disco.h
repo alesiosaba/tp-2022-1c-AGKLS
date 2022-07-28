@@ -41,6 +41,8 @@ sem_t semaforo_cola_pedidos_swap;
 
 // Funciones
 void gestionar_solicitudes_swap();
+//Utils
+char* path_archivo_swap(int pid);
 // Gestion de pedidos
 t_pedido_disco* crear_pedido_escribir_swap(int id, int dir_marco, int num_pag);
 t_pedido_disco* crear_pedido_leer_swap(int id, int dir_marco, int num_pag);
@@ -48,5 +50,5 @@ t_pedido_disco* crear_pedido_crear_archivo_swap(int id);
 void eliminar_pedido_disco(t_pedido_disco *p);
 // Manejo swap
 void crear_archivo_swap(int pid);
-
+void escribir_archivo_swap(int pid, int dir_pag, int num_pag);
 #endif /* DISCO_H_ */

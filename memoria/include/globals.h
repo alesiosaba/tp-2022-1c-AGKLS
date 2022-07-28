@@ -56,8 +56,8 @@ typedef struct
 // Estructuras propias del modulo Memoria
 
 t_bitarray* bitmap_marcos;
-t_list* entradas_tabla_primer_nivel;
-t_list* entradas_tabla_segundo_nivel;
+t_list* tablas_primer_nivel;
+t_list* tablas_segundo_nivel;
 
 // Esta lista nos permite averiguar en que paginas está el proceso
 t_list* procesos_en_memoria;

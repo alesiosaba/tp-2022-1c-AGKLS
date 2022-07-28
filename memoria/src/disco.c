@@ -23,6 +23,12 @@ void gestionar_solicitudes_swap(){
       		pid = p->argumentos[0];
       		crear_archivo_swap(pid);
       		break;
+     	case ESCRIBIR_ARCHIVO_SWAP:
+      		pid = p->argumentos[0];
+      		direccion = p->argumentos[1];
+      		pag = p->argumentos[2];
+      		escribir_archivo_swap(pid);
+      		break;
        }
 
        sem_post(&(p->pedido_swap_listo));
@@ -33,6 +39,22 @@ void gestionar_solicitudes_swap(){
 
 
 // Funciones
+// Utils
+char* path_archivo_swap(int pid){
+	// Armamos la cadena del nombre del archivo
+	// String vacio
+	char *filename  = string_new();
+    // Le agregamos el root pasado por config
+	string_append(&filename, config_values.path_swap);
+	string_append(&filename, "/");
+	// Hacemos un string con el PID y lo agregamos a la ruta
+	char *pidString = string_itoa(pid);
+	string_append(&filename, pidString);
+    // agregamos extension
+	string_append(&filename, ".swap.txt");
+	return filename;
+}
+
 // Gestion de pedidos
 t_pedido_disco* crear_pedido_escribir_swap(int id, int dir_marco, int num_pag)
 {
@@ -102,17 +124,8 @@ void crear_archivo_swap(int pid){
         log_info(logger,"crear_archivo_swap: El directorio %s no existe. Se crea nuevo directorio.", config_values.path_swap);
     }
 
-    // Armamos la cadena del nombre del archivo
-    // String vacio
-    char * filename  = string_new();
-    // Le agregamos el root pasado por config
-    string_append(&filename, config_values.path_swap);
-    string_append(&filename, "/");
-    // Hacemos un string con el PID y lo agregamos a la ruta
-    char * pidString = string_itoa(pid);
-    string_append(&filename, pidString);
-    // agregamos extension
-    string_append(&filename, ".swap.txt");
+
+    char * filename = path_archivo_swap(pid);
     log_info(logger,"crear_archivo_swap: Se va a crear archivo: %s", filename);
 
     // Creacion del archivo
@@ -120,8 +133,16 @@ void crear_archivo_swap(int pid){
     archivo = fopen(filename,"w+");
 
     free(filename);
-
-    free(pidString);
     fclose(archivo);
 
+}
+
+void escribir_archivo_swap(int pid, int dir_pag, int num_pag){
+	char * path = path_archivo_swap(pid);
+	FILE * file;
+	file = fopen(path, "r+");
+	fseek(file, config_values.tam_pagina * num_pag, SEEK_SET);
+	fwrite(espacio_lectura_escritura_procesos + dir_pag,config_values.tam_pagina,1,file);
+	fclose(file);
+	free(path);
 }

@@ -122,7 +122,7 @@ void traer_pagina_a_memoria(int id, int dir_tablaN1 , entrada_tabla_N2 *e){
 
 	        //GUARDAR DIR MARCO ELEGIDO
 	        dir_marco = aux->dir;
-	               //SI FUE MODIFICADO, ESCRIBIR PAGINA EN MEMORIA
+	        //SI FUE MODIFICADO, ESCRIBIR PAGINA EN MEMORIA
 	        if(aux->bit_modificacion == 1)
 	         {
 	            t_pedido_disco *p = crear_pedido_escribir_swap(id, aux->dir, aux->num_pag);
