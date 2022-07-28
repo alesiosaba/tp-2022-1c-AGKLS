@@ -27,7 +27,7 @@ void gestionar_solicitudes_swap(){
       		pid = p->argumentos[0];
       		direccion = p->argumentos[1];
       		pag = p->argumentos[2];
-      		escribir_archivo_swap(pid);
+      		escribir_archivo_swap(pid, direccion, pag);
       		break;
        }
 
