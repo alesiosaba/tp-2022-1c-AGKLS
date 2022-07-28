@@ -2,13 +2,6 @@
 
 //Finalizacion por interrupción cntrl + c
 void sighandler(int s){
-	if(conexionACPU){
-		liberar_conexion(&conexionACPU);
-	}
-
-	if(conexionACPU_interrupt){
-		liberar_conexion(&conexionACPU_interrupt);
-	}
 	matar_hilos();
 	terminar_programa();
 	exit(0);
@@ -33,7 +26,6 @@ int main(void) {
 void matar_hilos(){
 	pthread_cancel(thr_consolas);
     pthread_cancel(thr_cpu);
-    pthread_cancel(thr_cpu_interrupt);
     pthread_cancel(thr_memoria);
     pthread_cancel(thr_planifLT);
     pthread_cancel(thr_planifST);
@@ -60,7 +52,6 @@ void recibirComandos(){
 void esperar_hilos() {
 		pthread_join(thr_consolas, NULL);
         pthread_join(thr_cpu,NULL);
-        pthread_join(thr_cpu_interrupt,NULL);
         pthread_join(thr_memoria, NULL);
         pthread_join(thr_planifST, NULL);
         pthread_join(thr_planifLT, NULL);
@@ -71,13 +62,13 @@ void esperar_hilos() {
 
 void terminar_programa()
 {
-	send_paquete_kernel(arr_procesos[0], TERMINO_EL_PROCESO);
-
 	//conexiones
 	liberar_conexion(&conexionACPU);
 	liberar_conexion(&conexionACPU_interrupt);
 	liberar_conexion(&conexionAMemoria);
 	log_debug(logger,CONEXION_CERRADA);
+	//server
+	close(server_fd);
 	//Semaforos
 	sem_destroy(&sem_ProcesosNew);
 	sem_destroy(&sem_enviarPCB);

@@ -2,7 +2,7 @@
 
 void manejar_consolas(int server_fd){
 	while(1) {
-        arr_procesos[idProceso] = esperar_cliente(server_fd); // @suppress("Symbol is not resolved")
+        arr_procesos[idProceso] = esperar_cliente(server_fd);
         log_info(logger,"Nueva consola recibida");
         server_escuchar(logger, "Consola", arr_procesos[idProceso]);
     }
@@ -16,11 +16,6 @@ void manejar_memoria(int socket_fd){
     // ACA VA LA ESCUCHA DEL KERNEL A LA MEMORIA
     //manejarConexion(args);
  }
-
-void manejar_cpu_interrupcion(int socket_fd){
-	while(1){
-	}
-}
 
 
 pcb* recv_mensajes_cpu(int socket_cpu, int ** tipo_instruccion){
@@ -73,14 +68,13 @@ int manejarConexion(void* void_args){
 
 	t_list* lista;
 	pcb* nodo_pcb;
-//	while (socket_cliente != -1) {
+
 	op_code cod_op;
 	cod_op = recibir_operacion(socket_cliente);
 
 	switch (cod_op) {
 	case PAQUETE_CONSOLA:
 		recibir_pcb(socket_cliente, &nodo_pcb);
-//			imprimir_PCB(nodo_pcb);
 		list_add(listaNew,nodo_pcb);
 		list_add(listaProcesos,nodo_pcb);
 		log_info(logger,"Se recibió un nuevo proceso - PID:%d",idProceso-1);
@@ -93,8 +87,6 @@ int manejarConexion(void* void_args){
 		log_warning(logger,OPERACION_DESCONOCIDA);
 		break;
 	}
-//	}
-	log_warning(logger, "El cliente se desconecto de %s server", server_name);
 
 	return EXIT_SUCCESS;
 
