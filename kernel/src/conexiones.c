@@ -39,10 +39,6 @@ void conectar_cpu(){
 		terminar_programa();
 	}
 
-	if(pthread_create(&thr_cpu_interrupt, NULL, (void*) manejar_cpu_interrupcion,(void*)conexionACPU_interrupt) != 0){
-		log_error(logger, "Error al crear el hilo con el CPU - Interrupt");
-	}
-	log_debug(logger, "se creo un thread para %s", "CPU-I");
 	log_info(logger,"Conexion exitosa con CPU-Interrupt");
 
 }

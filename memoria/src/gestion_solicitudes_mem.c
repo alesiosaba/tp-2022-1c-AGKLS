@@ -7,13 +7,13 @@ void solicitud_tabla_paginas(int socket_cliente, t_log *logger){
     int *dir_tabla = list_get(parametros, 0);
     int *num_entrada = list_get(parametros, 1);
     log_info(logger,"solicitud_tabla_paginas - Dir tabla: %d Entrada: %d", *dir_tabla, *num_entrada);
-    // Tablas de 1er nivel
-    t_tablaN1 *tabla = list_get(entradas_tabla_primer_nivel, *dir_tabla);
+    // Busco la tabla N1 correspondiente a la dir_tabla recibida
+    t_tablaN1 *tabla = list_get(tablas_primer_nivel, *dir_tabla);
     log_info(logger, "solicitud_tabla_paginas - Tamanio tabla 1er Nivel: %d", list_size(tabla));
-    // Busca la entrada
+    // Busco la entrada solicitada en mi tabla N1
     entrada_tabla_N1 *entrada = list_get(tabla, *num_entrada);
-    // Direccion N2
-    t_tablaN2 *direccionN2 = list_get(entradas_tabla_segundo_nivel, entrada->dir);
+    // Buscamos la tabla de pagians de segundo nivel que tenga la direccion de la pagina solicitada
+    t_tablaN2 *direccionN2 = list_get(tablas_segundo_nivel, entrada->dir);
     // Enviamos direccion N2 encontrada
     log_info(logger,"solicitud_tabla_paginas - Enviando  %d", *num_entrada);
     enviar_tabla_N2(socket_cliente, direccionN2, logger);
@@ -62,7 +62,7 @@ void solicitud_nuevo_proceso(int socket_cliente){
 
     // Sincronizacion tabla primer nivel
     pthread_mutex_lock(&mutex_tablasN1);
-    int dir_tabla = list_add(entradas_tabla_primer_nivel, proceso->tablaN1);
+    int dir_tabla = list_add(tablas_primer_nivel, proceso->tablaN1);
     log_info(logger,"solicitud_nuevo_proceso - direccion tabla asignada %d", dir_tabla);
     pthread_mutex_unlock(&mutex_tablasN1);
     // Sincronizacion procesos en memoria
@@ -77,10 +77,10 @@ void solicitud_nuevo_proceso(int socket_cliente){
     log_info(logger,"solicitud_nuevo_proceso - reservados marcos");
     dump_bitmap(bitmap_marcos);
     //Crear solicitud de creacion de archivo swap
-    t_pedido_disco *p = crear_pedido_crear_archivo(nodo_pcb->id);
+    t_pedido_disco *p = crear_pedido_crear_archivo_swap(nodo_pcb->id);
     log_info(logger,"solicitud_nuevo_proceso - creada solicitud de creacion archivo swap");
     // TODO: Postear semaforo cuando esta listo el pedido
-    sem_wait(&(p->pedido_listo));
+    sem_wait(&(p->pedido_swap_listo));
     eliminar_pedido_disco(p);
     log_info(logger,"solicitud_nuevo_proceso - eliminado pedido disco");
     //Retornar direccion tabla primer nivel

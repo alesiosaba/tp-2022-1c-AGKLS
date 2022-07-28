@@ -25,6 +25,9 @@ int main(void) {
 
 	// abro un hilo para atender por el puerto de escucha al Kernel
 	pthread_create(&thr_memoriaKernel, NULL, (void*) &iniciar_servidor_memoriaKernel, NULL);
+	
+	// Hilo SWAP
+    pthread_create(&thr_swap, NULL, (void*) &gestionar_solicitudes_swap, NULL);
 
 	terminar_programa();
 

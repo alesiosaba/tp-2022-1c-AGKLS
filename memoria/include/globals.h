@@ -57,8 +57,8 @@ typedef struct
 // Estructuras propias del modulo Memoria
 
 t_bitarray* bitmap_marcos;
-t_list* entradas_tabla_primer_nivel;
-t_list* entradas_tabla_segundo_nivel;
+t_list* tablas_primer_nivel;
+t_list* tablas_segundo_nivel;
 
 // Esta lista nos permite averiguar en que paginas está el proceso
 t_list* procesos_en_memoria;
@@ -67,6 +67,8 @@ t_list* procesos_en_memoria;
 pthread_t thr_memoriaCPU;
 // hilo de atencion de servidor memoria a Kernel
 pthread_t thr_memoriaKernel;
+
+pthread_t thr_swap;
 
 // Sincronizacion
 pthread_mutex_t mutex_tablasN1;
