@@ -17,5 +17,6 @@
 void terminar_programa();
 void sighandler(int s);
 void terminar_programa();
+void esperar_hilos();
 
 #endif

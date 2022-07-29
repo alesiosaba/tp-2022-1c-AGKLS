@@ -23,12 +23,13 @@ struct handshake_inicial_s recv_respuesta_handshake_inicial(int fd);
 bool send_interrupcion(int fd);
 
 // serializacion CPU - Memoria
-bool send_solicitud_tabla_N1(int fd, int id_tablaN1, int entrada_tabla_primer_nivel);
+bool send_solicitud_tabla_N1(int fd, int id_tablaN1, int entrada_tabla_primer_nivel, int proceso_id);
 int recv_respuesta_solicitud_N1(int fd);
-bool send_solicitud_tabla_N2(int fd, int id_tablaN2, int entrada_tabla_segundo_nivel);
+bool send_solicitud_tabla_N2(int fd, int id_tablaN2, int entrada_tabla_segundo_nivel, int proceso_id);
 int recv_respuesta_solicitud_N2(int fd);
-void recv_solicitud_tabla(int fd, consulta_en_tabla_paginas *consulta);
-void send_respuesta_solicitud_tabla(int fd, int valor_solicitado);
+void recv_solicitud_tabla(int fd, consulta_en_tabla_paginas** consulta);
+void send_respuesta_solicitud_tabla(int fd, int valor_solicitado, op_code cod_op);
+consulta_en_tabla_paginas* deserializar_solicitud_tablas(t_list* lista);
 
 // comunicaciones entre memoria y kernel
 bool send_respuesta_nuevo_proceso(int fd, int numero_tabla);
