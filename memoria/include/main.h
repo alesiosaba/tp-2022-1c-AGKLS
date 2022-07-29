@@ -13,6 +13,8 @@
 #include "disco.h"
 
 void terminar_programa();
+void esperar_hilos();
+void matar_hilos();
 
 
 #endif

@@ -29,23 +29,35 @@ int main(void) {
 	// Hilo SWAP
     pthread_create(&thr_swap, NULL, (void*) &gestionar_solicitudes_swap, NULL);
 
+    esperar_hilos();
+
 	terminar_programa();
 
 	return EXIT_SUCCESS;
 }
 
+void esperar_hilos(){
+	pthread_join(thr_memoriaCPU, NULL);
+	pthread_join(thr_memoriaKernel, NULL);
+	pthread_join(thr_swap, NULL);
+}
+
+void matar_hilos(){
+	pthread_cancel(thr_memoriaCPU);
+	pthread_cancel(thr_memoriaKernel);
+	pthread_cancel(thr_swap);
+}
+
 void terminar_programa()
 {
 
-	pthread_join(thr_memoriaCPU, NULL);
-	pthread_join(thr_memoriaKernel, NULL);
-
+	matar_hilos();
 	config_destroy(config);
 	log_debug(logger,CONFIGURACION_CERRADA);
 	if(clienteMemoriaCPU || clienteMemoriaKernel){
 			liberar_conexion(&clienteMemoriaCPU);
 			liberar_conexion(&clienteMemoriaKernel);
-		}
+	}
 	close(serverMemoriaCPU);
 	close(serverMemoriaKernel);
 	log_debug(logger,TERMINANDO_EL_LOG);

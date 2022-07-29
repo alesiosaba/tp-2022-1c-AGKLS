@@ -13,6 +13,9 @@ int main(void) {
 
 	realizar_handshake_inicial();
 
+	esperar_hilos();
+
+
 	terminar_programa(logger, config);
 
 	return EXIT_SUCCESS;
@@ -30,13 +33,25 @@ void sighandler(int s){
 	exit(0);
 }
 
-void terminar_programa(){
+void esperar_hilos(){
 	pthread_join(thr_dispatch, NULL);
 	pthread_join(thr_interrupt, NULL);
 	pthread_join(thr_memoria, NULL);
+}
+
+void matar_hilos(){
+	pthread_cancel(thr_dispatch);
+	pthread_cancel(thr_interrupt);
+	pthread_cancel(thr_memoria);
+}
+
+void terminar_programa(){
+	matar_hilos();
 	config_destroy(config);
 	log_debug(logger,CONFIGURACION_CERRADA);
 	liberar_conexion(&conexionAMemoria);
+	close(serverDispatch);
+	close(serverInterrupt);
 	log_debug(logger,TERMINANDO_EL_LOG);
 	log_destroy(logger);
 
