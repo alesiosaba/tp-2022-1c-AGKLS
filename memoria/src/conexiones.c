@@ -73,7 +73,7 @@ int manejarConexionCPU(int socket_cliente){
 	retardo_memoria();
 
 	t_list* lista;
-	struct consulta_en_tabla_paginas *consulta;
+	struct consulta_en_tabla_paginas* consulta;
 
 		while (1){
 			// log_debug(logger, "dentro de manejarConexionCPU() socket: %d", socket_cliente);
@@ -92,23 +92,30 @@ int manejarConexionCPU(int socket_cliente){
 			case SOLICITUD_TABLA_PAGINA_N1:
 				log_info(logger, "Memoria recibio SOLICITUD_TABLA_PAGINA_N1");
 				recv_solicitud_tabla(socket_cliente, &consulta);
-				log_debug(logger, "id_tablaN1: %d\tentrada: %d", consulta->id_tabla, consulta->entrada_en_tabla);
+				log_warning(logger, "Despues del recv en SOLICITUD_TABLA_PAGINA_N1");
+
 
 				// buscar entrada tabla N1 utilizando el objeto consulta
-				int numero_tabla_N2 = 786;
+				// TODO: numero_tabla_N2 = solicitud_tabla_paginas(socket_cliente, logger); pasandole los valores que necesiten
+				int numero_tabla_N2 = consulta->entrada_en_tabla;
 
-				send_respuesta_solicitud_tabla(socket_cliente, numero_tabla_N2);
+				log_warning(logger, "numero_tabla_N2 que se envia: %d" , numero_tabla_N2);
+
+				send_respuesta_solicitud_tabla(socket_cliente, numero_tabla_N2, RESPUESTA_SOLICITUD_N1);
 				break;
 
 			case SOLICITUD_TABLA_PAGINA_N2:
 				log_info(logger, "Memoria recibio SOLICITUD_TABLA_PAGINA_N2");
 				recv_solicitud_tabla(socket_cliente, &consulta);
-				log_debug(logger, "id_tablaN2: %d\tentrada: %d", consulta->id_tabla, consulta->entrada_en_tabla);
+				log_warning(logger, "Despues del recv en SOLICITUD_TABLA_PAGINA_N2");
 
 				// buscar entrada tabla N1 utilizando el objeto consulta
-				int frame = 987;
+				// TODO: frame = solicitud_marco(socket_cliente, logger); pasandole los valores que necesiten
+				int frame = consulta->id_tabla;
 
-				send_respuesta_solicitud_tabla(socket_cliente, frame);
+				log_warning(logger, "frame que se envia: %d" , frame);
+
+				send_respuesta_solicitud_tabla(socket_cliente, frame, RESPUESTA_SOLICITUD_N2);
 				break;
 
 
@@ -173,7 +180,7 @@ int manejarConexionKernel(int socket_cliente){
 		}
 }
 
-
+/*
 int manejarConexion(int socket_cliente){
 	//TIEMPO RETARDO MEMORIA
 	retardo_memoria();
@@ -212,7 +219,7 @@ int manejarConexion(int socket_cliente){
 			// TODO: incompleto
 			asignar_nuevas_paginas(pcb);
 			break;
-      	*/
+
       
 		case SOLICITUD_NUEVO_PROCESO:
 			log_info(logger, "Memoria recibio SOLICITUD_NUEVO_PROCESO");
@@ -259,3 +266,4 @@ int manejarConexion(int socket_cliente){
 	}
 
 }
+*/

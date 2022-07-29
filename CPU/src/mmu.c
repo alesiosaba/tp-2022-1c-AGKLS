@@ -53,33 +53,26 @@ int traducir_dir_logica(pcb** pcb, int direccion_logica){
 	// SOLICITUD ENTRADA DE TABLA N1
 	// ENVIO DIR TABLA N1 y NUM ENTRADA TABLA NIVEL 1
 	// enviar_mensaje("send_solicitud_tabla_N1", conexionAMemoria);
-	t_paquete* paquete = crear_paquete(SOLICITUD_TABLA_PAGINAS);
-	enviar_paquete(paquete, conexionAMemoria);
-	eliminar_paquete(paquete);
-	// send_solicitud_tabla_N1(conexionAMemoria, id_tablaN1, entrada_tabla_primer_nivel);
+
+	send_solicitud_tabla_N1(conexionAMemoria, id_tablaN1, entrada_tabla_primer_nivel, (*pcb)->id);
 
 	// RECIBO N° DE TABLA N2
-	// int id_tablaN2 = recv_respuesta_solicitud_N1(conexionAMemoria);
-	// int entrada_tabla_segundo_nivel = obtener_entrada_tabla_segundo_nivel(numero_pagina);
-	int id_tablaN2 = 8;
-	int entrada_tabla_segundo_nivel = 6;
+	int id_tablaN2 = recv_respuesta_solicitud_N1(conexionAMemoria);
 
+	log_debug(logger, "id_tabla2 recibido: %d", id_tablaN2);
+
+	int entrada_tabla_segundo_nivel = obtener_entrada_tabla_segundo_nivel(numero_pagina);
 
 	// SOLICITUD ENTRADA DE TABLA N2
 	// ENVIO DIR TABLA N2 y NUM ENTRADA TABLA NIVEL 2
 	// enviar_mensaje("send_solicitud_tabla_N2", conexionAMemoria);
 
-	paquete = crear_paquete(SOLICITUD_MARCO);
-	enviar_paquete(paquete, conexionAMemoria);
-	eliminar_paquete(paquete);
-
-	// send_solicitud_tabla_N2(conexionAMemoria, id_tablaN2, entrada_tabla_segundo_nivel);
+	send_solicitud_tabla_N2(conexionAMemoria, id_tablaN2, entrada_tabla_segundo_nivel, (*pcb)->id);
 
 	// RECIBO N° DE FRAME
-	// int frame = recv_respuesta_solicitud_N2(conexionAMemoria);
+	int frame = recv_respuesta_solicitud_N2(conexionAMemoria);
 
-	int frame = 0;
-	frame = (numero_pagina) * 10;
+	log_debug(logger, "frame recibido: %d", frame);
 
 	// log_debug(logger,"Frame: %d", frame);
 

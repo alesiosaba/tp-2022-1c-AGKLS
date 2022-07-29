@@ -18,7 +18,7 @@ bool recv_paquete_pcb(int fd, pcb** nodo_pcb){
 
 // SERIALIZACION CPU - MEMORIA
 
-bool send_solicitud_tabla_N1(int fd, int id_tablaN1, int entrada_tabla_primer_nivel){
+bool send_solicitud_tabla_N1(int fd, int id_tablaN1, int entrada_tabla_primer_nivel, int proceso_id){
 	log_debug(logger, "Entro a send_solicitud_tabla_N1()");
 
 	t_paquete* paquete = crear_paquete(SOLICITUD_TABLA_PAGINA_N1);
@@ -29,6 +29,10 @@ bool send_solicitud_tabla_N1(int fd, int id_tablaN1, int entrada_tabla_primer_ni
 	char* entrada_tabla_primer_nivel_str = string_new();
 	sprintf(entrada_tabla_primer_nivel_str, "%d\0", entrada_tabla_primer_nivel);
 	agregar_a_paquete(paquete, entrada_tabla_primer_nivel_str, strlen(entrada_tabla_primer_nivel_str) + 1);
+
+	char* proceso_id_str = string_new();
+	sprintf(proceso_id_str, "%d\0", proceso_id);
+	agregar_a_paquete(paquete, proceso_id_str, strlen(proceso_id_str) + 1);
 
 	log_debug(logger, "Arme paquete de solicitud tabla N1");
 
@@ -44,6 +48,9 @@ int recv_respuesta_solicitud_N1(int fd){
 
 	log_debug(logger, "Entro a recv_respuesta_solicitud_N1()");
 
+	op_code cod_op;
+	cod_op = recibir_operacion(fd);
+
 	t_list* lista;
 	lista = recibir_paquete(fd);
 	int tablaN2 = atoi(list_remove(lista, 0));
@@ -54,7 +61,7 @@ int recv_respuesta_solicitud_N1(int fd){
 	return tablaN2;
 }
 
-bool send_solicitud_tabla_N2(int fd, int id_tablaN2, int entrada_tabla_segundo_nivel){
+bool send_solicitud_tabla_N2(int fd, int id_tablaN2, int entrada_tabla_segundo_nivel, int proceso_id){
 	log_debug(logger, "Entro a send_solicitud_tabla_N2()");
 
 	t_paquete *paquete = crear_paquete(SOLICITUD_TABLA_PAGINA_N2);
@@ -66,6 +73,9 @@ bool send_solicitud_tabla_N2(int fd, int id_tablaN2, int entrada_tabla_segundo_n
 	sprintf(entrada_tabla_segundo_nivel_str, "%d\0", entrada_tabla_segundo_nivel);
 	agregar_a_paquete(paquete, entrada_tabla_segundo_nivel_str, strlen(entrada_tabla_segundo_nivel_str) + 1);
 
+	char* proceso_id_str = string_new();
+	sprintf(proceso_id_str, "%d\0", proceso_id);
+	agregar_a_paquete(paquete, proceso_id_str, strlen(proceso_id_str) + 1);
 
 	log_debug(logger, "Arme paquete de solicitud tabla N2");
 
@@ -79,6 +89,9 @@ bool send_solicitud_tabla_N2(int fd, int id_tablaN2, int entrada_tabla_segundo_n
 int recv_respuesta_solicitud_N2(int fd){
 	log_debug(logger, "Entro a recv_respuesta_solicitud_N1()");
 
+	op_code cod_op;
+	cod_op = recibir_operacion(fd);
+
 	t_list* lista;
 	lista = recibir_paquete(fd);
 	int frame = atoi(list_remove(lista, 0));
@@ -90,10 +103,10 @@ int recv_respuesta_solicitud_N2(int fd){
 }
 
 // esta funcion responde tanto a consultas de tabla N1 y N2
-void send_respuesta_solicitud_tabla(int fd, int valor_solicitado){
+void send_respuesta_solicitud_tabla(int fd, int valor_solicitado, op_code cod_op){
 	log_debug(logger, "Entro a send_respuesta_solicitud_tabla()");
 
-	t_paquete* paquete = crear_paquete();
+	t_paquete* paquete = crear_paquete(cod_op);
 	char* valor_a_enviar = string_new();
 	sprintf(valor_a_enviar, "%d\0", valor_solicitado);
 	agregar_a_paquete(paquete, valor_a_enviar, strlen(valor_a_enviar) + 1);
@@ -103,20 +116,31 @@ void send_respuesta_solicitud_tabla(int fd, int valor_solicitado){
 	log_debug(logger, "Salgo de send_respuesta_solicitud_tabla()");
 }
 
+consulta_en_tabla_paginas* deserializar_solicitud_tablas(t_list* lista){
+	consulta_en_tabla_paginas* consulta_aux =(struct consulta_en_tabla_paginas*) malloc(sizeof(struct consulta_en_tabla_paginas));
+
+	int* id_tabla = list_remove(lista, 0);
+	consulta_aux->id_tabla = atoi(id_tabla);
+
+	int* entrada_en_tabla = list_remove(lista, 0);
+	consulta_aux->entrada_en_tabla = atoi(entrada_en_tabla);
+
+	int* id_proceso = list_remove(lista, 0);
+	consulta_aux->id_proceso = atoi(id_proceso);
+
+	return consulta_aux;
+}
+
 // esta funcion recibe en MEMORIA tanto consultas de tabla N1 y N2
-void recv_solicitud_tabla(int fd, consulta_en_tabla_paginas *consulta){
+void recv_solicitud_tabla(int fd, consulta_en_tabla_paginas** consulta){
 	log_debug(logger, "Entro a recv_solicitud_tabla()");
 
 	t_list* lista;
 	lista = recibir_paquete(fd);
 
-	int *id_tabla = list_remove(lista, 0);
-	consulta->id_tabla = atoi(id_tabla);
+	*consulta = deserializar_solicitud_tablas(lista);
 
-	int* entrada_en_tabla = list_remove(lista, 0);
-	consulta->entrada_en_tabla = atoi(entrada_en_tabla);
-
-	log_debug(logger, "id_tabla: %d\tentrada: %d", consulta->id_tabla, consulta->entrada_en_tabla);
+	log_debug(logger, "PID: %d\tid_tabla: %d\tentrada: %d", (*consulta)->id_proceso ,(*consulta)->id_tabla, (*consulta)->entrada_en_tabla);
 
 	log_debug(logger, "Salgo de recv_solicitud_tabla()");
 

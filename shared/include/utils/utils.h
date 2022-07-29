@@ -79,6 +79,7 @@ typedef struct nodo_instruccion
 
 typedef struct consulta_en_tabla_paginas
 {
+	int id_proceso;
 	int id_tabla;
 	int entrada_en_tabla;
 } consulta_en_tabla_paginas;
