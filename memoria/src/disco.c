@@ -29,6 +29,22 @@ void gestionar_solicitudes_swap(){
       		pag = p->argumentos[2];
       		escribir_archivo_swap(pid, direccion, pag);
       		break;
+     	case ELIMINAR_ARCHIVO_SWAP:
+     	    pid = p->argumentos[0];
+     	    eliminar_archivo_swap(pid);
+     	    break;
+     	case LEER_ARCHIVO_SWAP:
+     	    pid = p->argumentos[0];
+     	    direccion = p->argumentos[1];
+     	    pag = p->argumentos[2];
+     	    enviar_pagina_a_memoria(pid, direccion, pag);
+     	    break;
+     	 case DISCO_SUSPENDER_PROCESO_SWAP:
+     	    pid = p->argumentos[0];
+     	    direccion = p->argumentos[1];
+     	    suspender_paginas(pid, direccion);
+     	    break;
+
        }
 
        sem_post(&(p->pedido_swap_listo));
@@ -80,6 +96,45 @@ t_pedido_disco* crear_pedido_leer_swap(int id, int dir_marco, int num_pag)
     p->argumentos[0] = id;
     p->argumentos[1] = dir_marco;
     p->argumentos[2] = num_pag;
+    sem_init(&(p->pedido_swap_listo), 0, 0);
+
+    pthread_mutex_lock(&mutex_cola_pedidos_swap);
+    queue_push(pedidos_disco, p);
+    pthread_mutex_unlock(&mutex_cola_pedidos_swap);
+
+    sem_post(&semaforo_cola_pedidos_swap);
+    return p;
+}
+
+//LEER ARCHIVO SWAP
+void enviar_pagina_a_memoria(int pid, int dir_pag, int num_pag){
+
+    char * path = path_archivo_swap(pid);
+
+    FILE * file;
+
+    file = fopen(path, "r");
+
+    fseek(file,config_values.tam_pagina*num_pag,SEEK_SET);
+
+    fread(espacio_lectura_escritura_procesos + dir_pag, config_values.tam_pagina,1,file);
+
+    log_info(logger,"pagina %d enviada a memoria correctamente",num_pag);
+
+    fclose(file);
+    free(path);
+}
+
+
+
+
+
+
+t_pedido_disco* crear_pedido_eliminar_archivo_swap(int id)
+{
+    t_pedido_disco *p = malloc(sizeof(t_pedido_disco));
+    p->operacion_disco = ELIMINAR_ARCHIVO_SWAP;
+    p->argumentos[0] = id;
     sem_init(&(p->pedido_swap_listo), 0, 0);
 
     pthread_mutex_lock(&mutex_cola_pedidos_swap);
@@ -146,3 +201,46 @@ void escribir_archivo_swap(int pid, int dir_pag, int num_pag){
 	fclose(file);
 	free(path);
 }
+
+void eliminar_archivo_swap(int pid){
+
+    char* aux = path_archivo_swap(pid);
+
+    if(remove(aux)==0){
+        log_info(logger, "el archivo %s fue eliminado correctamente", aux);
+    }
+    else{
+        log_error(logger, "el archivo no se pudo eliminar");
+    }
+
+    free(aux);
+}
+
+void suspender_paginas(int pid, int dir_tablaN1)
+{
+    t_list *marcos = conseguir_marcos_proceso(dir_tablaN1);
+    /*
+        NOTA: este valor se usa para que en la primer vuelta
+        disco no haga un usleep dos veces (una por el pedido suspension
+        y otra por el primer pedido de escribir pagina)
+    */
+    int contador = 0;
+    for(int i = 0; i < list_size(marcos); i++)
+    {
+        entrada_tabla_N2 *e = list_get(marcos, i);
+        if(e->bit_modificacion == 1)
+        {
+            usleep(contador * 1000);
+            contador = config_values.retardo_swap;
+            escribir_archivo_swap(pid, e->dir, e->num_pag);
+            log_info(logger, "se guardaron los cambios de la pagina %d correctamente del proceso %d",e->num_pag, pid);
+        }
+
+
+        e->bit_modificacion = 0;
+        e->bit_presencia = 0;
+    }
+    list_destroy(marcos);
+}
+
+

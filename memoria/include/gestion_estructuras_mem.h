@@ -4,6 +4,7 @@
 #include "main.h"
 #include <semaphore.h>
 
+//MEMORIA PRINCIPAL (espacio usuario)
 // Crear espacio de estructuras utilizadas por el modulo
 void inicializar_estructuras();
 
