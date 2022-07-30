@@ -2,6 +2,10 @@
 
 ## Grupo: AGKLS
 
+### Links de descarga de vm's
+
+https://www.utnso.com.ar/recursos/maquinas-virtuales/
+
 ### VM ubuntu-server
 
 **Configurar network adapter en la vm**
