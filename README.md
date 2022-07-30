@@ -10,13 +10,13 @@ https://www.utnso.com.ar/recursos/maquinas-virtuales/
 
 ## VM ubuntu-server
 
-# Configurar network adapter en la vm
+### Configurar network adapter en la vm
 
 - Revisar si corresponde tildar la opcion "Cable Connected"
 
 ![image](https://user-images.githubusercontent.com/62452207/181865772-c5fca0cc-d5cf-45e2-a120-b103bf49cdf7.png)
 
-# Una vez iniciada la vm comprobar la ip local asignada a ubuntu-server:
+### Una vez iniciada la vm comprobar la ip local asignada a ubuntu-server:
 
 **Usar el comando** `ifconfig`
 
