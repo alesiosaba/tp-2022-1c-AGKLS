@@ -6,6 +6,12 @@
 
 **Configurar network adapter en la vm**
 
+- Revisar si corresponde tildar la opcion "Cable Connected"
+
 ![image](https://user-images.githubusercontent.com/62452207/181865772-c5fca0cc-d5cf-45e2-a120-b103bf49cdf7.png)
 
-**Una vez iniciada la vm configurar **
+**Una vez iniciada la vm comprobar la ip local asignada a ubuntu-server:**
+
+Usar el comando `ifconfig`
+
+![image](https://user-images.githubusercontent.com/62452207/181865973-ed7442f3-d4de-4601-9e8f-297a115b7e61.png)
