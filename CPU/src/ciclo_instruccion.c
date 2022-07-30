@@ -173,7 +173,7 @@ void check_interrupt(pcb** pcb){
 	if(hay_interrupcion()){
 		log_debug(logger,"check_interrupt() detecto una INTERRUPCION");
 		// (desalojo por interrupcion) se envia el PCB de nuevo a kernel para replanificar
-		send_paquete_pcb(clienteDispatch, pcb, PAQUETE_PCB);
+		send_paquete_pcb(clienteDispatch, *pcb, PAQUETE_PCB);
 		activar_flag_desalojo();
 		desactivar_flag_interrupcion();
 	}
