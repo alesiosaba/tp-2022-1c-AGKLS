@@ -66,6 +66,11 @@ https://www.youtube.com/watch?v=knRei6OBU4Q&t=264s
 
 `valgrind ./bin/consola.out`
 
+- Algunas opciones por parámetro copadas:
+`--leak-check=yes` habilita el detector de memory leaks.	
+`--log-file=<nombreArchivo>` crea un log de lo que nos muestra Valgrind por pantalla. 
+- Si no habilitamos la opción `--leak-check` y existen memory leaks en nuestro programa, Valgrind nos dejará un mensaje mágico de éste tipo: `Rerun with --leak-check=full to see details of leaked memory.`
+
 ### una vez terminado el programa obtenemos la informacion que nos brinda valgrind
 
 ![image](https://user-images.githubusercontent.com/62452207/182001907-9839476b-03a4-4bab-92db-181ff424ceeb.png)
