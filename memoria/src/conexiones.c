@@ -3,7 +3,7 @@
 #include "../include/init.h"
 
 void iniciar_servidor_memoriaCPU(){
-	serverMemoriaCPU = iniciar_servidor(IP, config_values.puerto_escucha_CPU);
+	serverMemoriaCPU = iniciar_servidor(config_values.ip_escucha, config_values.puerto_escucha_CPU);
 	log_debug(logger, "Servidor de memoria - CPU listo para recibir conexiones.");
 
 	pthread_t thr_memoria_CPU;
@@ -25,7 +25,7 @@ void iniciar_servidor_memoriaCPU(){
 }
 
 void iniciar_servidor_memoriaKernel(){
-	serverMemoriaKernel = iniciar_servidor(IP, config_values.puerto_escucha);
+	serverMemoriaKernel = iniciar_servidor(config_values.ip_escucha, config_values.puerto_escucha_kernel);
 	log_debug(logger, "Servidor de memoria - Kernel listo para recibir conexiones.");
 
 	pthread_t thr_memoria_Kernel;

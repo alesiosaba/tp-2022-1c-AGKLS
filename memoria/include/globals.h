@@ -10,7 +10,7 @@
 
 typedef struct config_t
 {
-	char* puerto_escucha;
+	char* puerto_escucha_kernel;
 	char* puerto_escucha_CPU;
 	int tam_memoria;
 	int tam_pagina;
@@ -20,6 +20,7 @@ typedef struct config_t
 	int marcos_por_proceso;
 	int retardo_swap;
 	char* path_swap;
+	char* ip_escucha;
 } config_t;
 
 config_t config_values;
