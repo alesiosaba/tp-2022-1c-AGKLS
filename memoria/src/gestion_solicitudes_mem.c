@@ -55,6 +55,7 @@ void solicitud_marco(int socket_cliente, t_log *logger){
 void solicitud_nuevo_proceso(int socket_cliente){
 	pcb *nodo_pcb;
 	recv_paquete_pcb(socket_cliente, &nodo_pcb);
+	imprimir_PCB(nodo_pcb);
 
     log_info(logger,"solicitud_nuevo_proceso - solicitud para proceso %d de tamanio %d",nodo_pcb->id, nodo_pcb->tamanio);
 

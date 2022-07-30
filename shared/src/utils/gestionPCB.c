@@ -327,7 +327,7 @@ void imprimir_PCB(pcb* nodo_pcb){
 	printf("\n\tSTATUS int: %d", nodo_pcb->status);
 	printf("\n\tint STATUS: %d", nodo_pcb->status);
 	printf("\n\tTiempo a bloquearse: %d\n\n", nodo_pcb->tiempo_a_bloquearse);
-	// mostrar_lista_instrucciones(nodo_pcb->instrucciones);
+	mostrar_lista_instrucciones(nodo_pcb->instrucciones);
 
 }
 

@@ -12,7 +12,7 @@ bool recv_paquete_pcb(int fd, pcb** nodo_pcb){
 	lista = recibir_paquete(fd);
 	*nodo_pcb = deserializar_PCB(lista);
 	log_debug(logger, PCB_DESERIALIZADO, (*nodo_pcb)->id);
-	free(lista);
+	list_clean_and_destroy_elements(lista, free);
 	return true;
 }
 
@@ -144,13 +144,14 @@ void recv_solicitud_tabla(int fd, consulta_en_tabla_paginas** consulta){
 
 	log_debug(logger, "Salgo de recv_solicitud_tabla()");
 
-	list_destroy(lista);
+	list_clean_and_destroy_elements(lista, free);
 }
 
 bool recv_paquete_consola(int fd, pcb** nodo_pcb){
 	t_list* lista;
 	lista = recibir_paquete(fd);
 	*nodo_pcb = armar_PCB_nuevo(lista);
+	list_clean_and_destroy_elements(lista, free);
 	return true;
 }
 

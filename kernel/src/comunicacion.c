@@ -114,6 +114,7 @@ void recibir_pcb(int fd, pcb** nodo_pcb){
 // Esta funcion notifica a la memoria de un proceso nuevo y envia un pcb para asignar su tabla de paginas
 void inicializar_estructuras_en_memoria(pcb* nodo_pcb){
 	op_code codigo_paquete = PAQUETE_PCB;
+	imprimir_PCB(nodo_pcb);
 	send_paquete_pcb(conexionAMemoria, nodo_pcb, codigo_paquete);
 }
 
