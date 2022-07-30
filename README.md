@@ -46,4 +46,41 @@ Para descargar el archivo de deploy podemos descargarlo desde nuestro "server" u
 
 ![image](https://user-images.githubusercontent.com/62452207/181871505-c68fbb81-49e5-4ded-90a2-22553a38bf79.png)
 
+# Usando Valgrind para memory leaks
+
+- Guia
+
+https://docs.utnso.com.ar/guias/herramientas/valgrind.html#introduccion
+
+- Video charla
+
+https://www.youtube.com/watch?v=knRei6OBU4Q&t=264s
+
+![image](https://user-images.githubusercontent.com/62452207/182000819-71c6f3a8-56e6-4399-b29f-593e0310f806.png)
+
+## viendo memory leaks en Eclipse
+
+![image](https://user-images.githubusercontent.com/62452207/182001168-79480544-77b6-449a-96b1-90b7819cacea.png) 
+
+## viendo memory leaks en la terminal
+
+![image](https://user-images.githubusercontent.com/62452207/182001697-a7cebbfd-38c0-43bc-a259-76b6fc1bb61b.png)
+
+### para ver memory leaks producidos por un programa debemos ejecutar el programa de la siguiente manera:
+
+`valgrind ./bin/consola.out`
+
+### una vez terminado el programa obtenemos la informacion que nos brinda valgrind
+
+![image](https://user-images.githubusercontent.com/62452207/182001907-9839476b-03a4-4bab-92db-181ff424ceeb.png)
+
+## parametros de valgrind 
+
+- *definitely lost*: **muy importante no tener**
+- *indirectly lost*: **muy importante no tener**
+- *possibly lost*:
+- *still reacheable*:
+- *suppressed*:
+
+![image](https://user-images.githubusercontent.com/62452207/182001710-08fb0ce0-3817-4df0-a1e2-373f1c228ac1.png)
 
