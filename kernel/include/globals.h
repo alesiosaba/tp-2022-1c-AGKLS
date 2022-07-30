@@ -41,6 +41,7 @@ typedef struct config_t
 	double  alfa;
 	int	   grado_multiprog;
 	int	   t_bloqueo_max;
+	char* ip_escucha;
 } config_t;
 
 

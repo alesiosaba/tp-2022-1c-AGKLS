@@ -17,6 +17,7 @@ typedef struct config_t
 	char*  puerto_memoria;
 	char*  puerto_escucha_dispatch;
 	char*  puerto_escucha_interrupt;
+	char* ip_escucha;
 
 } config_t;
 config_t config_values;

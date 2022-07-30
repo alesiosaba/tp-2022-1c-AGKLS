@@ -6,7 +6,7 @@
 
 
 void servidorDispatch(){
-	serverDispatch = iniciar_servidor(IP, config_values.puerto_escucha_dispatch);
+	serverDispatch = iniciar_servidor(config_values.ip_escucha, config_values.puerto_escucha_dispatch);
 	log_info(logger, "Servidor listo para recibir la conexion dispatch del kernel");
 
 	pthread_t thr_dispatch_individual;
@@ -21,7 +21,7 @@ void servidorDispatch(){
 }
 
 void servidorInterrupt(){
-	serverInterrupt = iniciar_servidor(IP, config_values.puerto_escucha_interrupt);
+	serverInterrupt = iniciar_servidor(config_values.ip_escucha, config_values.puerto_escucha_interrupt);
 	log_info(logger, "Servidor listo para recibir la conexion interrupt del kernel");
 
 	pthread_t thr_interrupt_individual;

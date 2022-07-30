@@ -45,7 +45,7 @@ void conectar_cpu(){
 
 
 void servidor_procesos() {
-	server_fd = iniciar_servidor(IP, config_values.puerto_escucha);
+	server_fd = iniciar_servidor(config_values.ip_escucha, config_values.puerto_escucha);
 	if (pthread_create(&thr_consolas, NULL, (void*) manejar_consolas,(void*)server_fd) != 0) {
 		log_error(logger, "Error al crear el hilo del servidor");
 	}

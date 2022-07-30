@@ -31,7 +31,8 @@ void inicializar(){
 	log_info(logger, "IP_memoria: %s", config_values.IP_memoria);
 	log_info(logger, "puerto_memoria: %s", config_values.puerto_memoria);
 	log_info(logger, "puerto_escucha_dispatch: %s", config_values.puerto_escucha_dispatch);
-	log_info(logger, "puerto_escucha_interrupt: %s\n", config_values.puerto_escucha_interrupt);
+	log_info(logger, "puerto_escucha_interrupt: %s", config_values.puerto_escucha_interrupt);
+	log_info(logger, "ip_escucha: %s\n", config_values.ip_escucha);
 }
 
 
@@ -46,6 +47,7 @@ config_t leer_config(){
 	config_values.puerto_memoria = config_get_string_value(config, "PUERTO_MEMORIA");
 	config_values.puerto_escucha_dispatch = config_get_string_value(config, "PUERTO_ESCUCHA_DISPATCH");
 	config_values.puerto_escucha_interrupt = config_get_string_value(config, "PUERTO_ESCUCHA_INTERRUPT");
+	config_values.ip_escucha = config_get_string_value(config, "IP_ESCUCHA");
 
 	return config_values;
 

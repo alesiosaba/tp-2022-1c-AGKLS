@@ -4,8 +4,6 @@
 #include <sys/socket.h>
 #include "utils.h"
 
-#define IP "127.0.0.1"
-
 // Definicion de Comportamientos de Cliente
 
 int crear_conexion(char* ip, char* puerto);

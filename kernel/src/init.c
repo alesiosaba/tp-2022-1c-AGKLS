@@ -67,6 +67,7 @@ config_t leer_config(){
 	config_values.alfa = config_get_double_value(config, "ALFA");
 	config_values.grado_multiprog = config_get_int_value(config, "GRADO_MULTIPROGRAMACION");
 	config_values.t_bloqueo_max = config_get_int_value(config, "TIEMPO_MAXIMO_BLOQUEADO");
+	config_values.ip_escucha = config_get_string_value(config, "IP_ESCUCHA");
 
 	return config_values;
 
