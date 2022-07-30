@@ -12,7 +12,7 @@ https://www.utnso.com.ar/recursos/maquinas-virtuales/
 
 ### Configurar network adapter en la vm
 
-- Revisar si corresponde tildar la opcion "Cable Connected"
+- Verificar que se encuentra seleccionada la opcion "Cable Connected"
 
 ![image](https://user-images.githubusercontent.com/62452207/181865772-c5fca0cc-d5cf-45e2-a120-b103bf49cdf7.png)
 
@@ -25,3 +25,23 @@ https://www.utnso.com.ar/recursos/maquinas-virtuales/
 **Si no se configura una ip local automaticamente usar:**
 
 `sudo systemctl restart networking`
+
+### Iniciar servidor http en maquina linux 
+
+usar comando: `python -m SimpleHTTPServer`
+
+este comando levanta un server http en la ip que indica `ifconfig` y el puerto 8000 por defecto
+
+verificar en que ruta se ejecuta el comando, recomendado moverse a carpeta root
+
+![image](https://user-images.githubusercontent.com/62452207/181870733-9f381f8f-6629-4827-8845-6e74048fd245.png)
+
+Para comprobar que esta iniciado el server podemos verlo desde un navegador: 
+
+![image](https://user-images.githubusercontent.com/62452207/181870711-18651211-1e46-439a-8a62-66981ade3926.png)
+
+Para descargar el archivo de deploy podemos descargarlo desde nuestro "server" utilizando `wget`
+
+`wget 192.168.0.69:8000/home/utnso/shared_folder/deploy.sh`
+
+![image](https://user-images.githubusercontent.com/62452207/181871380-ccc733fe-ea32-45ed-8be7-422c57cb7efb.png)
