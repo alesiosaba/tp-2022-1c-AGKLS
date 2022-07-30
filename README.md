@@ -1,5 +1,9 @@
 # TP SO 2022 1C - Grupo: AGKLS
 
+## Enunciado 
+
+https://docs.google.com/document/d/17WP76Vsi6ZrYlpYT8xOPXzLf42rQgtyKsOdVkyL5Jj0/edit
+
 ## Links de descarga de vm's
 
 https://www.utnso.com.ar/recursos/maquinas-virtuales/
