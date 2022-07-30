@@ -32,12 +32,15 @@ config_t inicializar(){
     sem_init(&sem_multiprogramacion,1,config_values.grado_multiprog);
 //MUTEX
     pthread_mutex_init(&mtx_ready,NULL);
+    pthread_mutex_init(&mtx_new,NULL);
+    pthread_mutex_init(&mtx_exec,NULL);
     pthread_mutex_init(&mtx_planificador,NULL);
     pthread_mutex_init(&mtx_susblk, NULL);
     pthread_mutex_init(&mtx_susrdy, NULL);
     pthread_mutex_init(&mtx_blocked, NULL);
-
-
+    pthread_mutex_init(&mtx_exit, NULL);
+    pthread_mutex_init(&mtx_desbloqueo, NULL);
+    pthread_mutex_init(&mtx_procesos, NULL);
 
     return config_values;
 }

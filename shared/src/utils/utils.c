@@ -54,11 +54,10 @@ void liberarStringArray(char** stringArray){
 // esta funcion abre un archivo en modo lectura y retorna un puntero al "file"
 FILE* abrir_archivo_lectura(char* path_pseudocodigo){
 	FILE* file = fopen(path_pseudocodigo,"r");
+	char* message_handler = string_new();
 
 	if(file == NULL) {
-		// TO DO
-		// log_error(logger, "Error al abrir archivo");
-		printf("no se pudo abrir el archivo con la ruta especificada");
+		error_handler(logger, message_handler, ERROR_AL_ABRIR_ARCHIVO, path_pseudocodigo, NULL);
 		exit(1);
 	}
 

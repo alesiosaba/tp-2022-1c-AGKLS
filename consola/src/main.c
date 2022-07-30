@@ -14,38 +14,17 @@ int main(int argc, char** argv) {
 		return EXIT_FAILURE;
 	}
 
-
 	// Asigno parametros enviados por consola
 	char* path_pseudocodigo = argv[1];
 	char* tamanio_proceso = argv[2];
 
 	enviar_info_proceso(path_pseudocodigo, tamanio_proceso);
-
 	log_info(logger, "Aguardando Respuesta de Kernel...");
-
 	respuesta_kernel = recv_mensajes_kernel(conexion);
-
 	if(respuesta_kernel == TERMINO_EL_PROCESO){
 		log_info(logger, "Terminando la consola...");
 		terminar_programa();
 	}
-
-/*
-	while (1){
-		sleep(1);
-
-		char* leido = readline(">");
-		char** split = string_split(leido, " ");
-		if (string_equals_ignore_case(split[0], "exit"))
-		{
-			free(leido);
-			liberarStringArray(split);
-			break;
-		}
-
-	}
-*/
-
 	log_info(logger, "Finalizo correctamente el programa");
 	terminar_programa();
 	return EXIT_SUCCESS;
@@ -99,7 +78,7 @@ void paquete(char* path_pseudocodigo, char* tamanio_proceso)
 
 int recv_mensajes_kernel(int socket_kernel){
 
-	t_list* lista;
+	t_list* lista; // @suppress("Type cannot be resolved")
 
 	op_code cod_op;
 	cod_op = recibir_operacion(socket_kernel);

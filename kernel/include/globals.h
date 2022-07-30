@@ -95,12 +95,15 @@ sem_t sem_ProcesosSuspended;
 
 //MUTEX
 pthread_mutex_t mtx_ready;
+pthread_mutex_t mtx_new;
+pthread_mutex_t mtx_exec;
 pthread_mutex_t mtx_blocked;
 pthread_mutex_t mtx_susblk;
 pthread_mutex_t mtx_susrdy;
 pthread_mutex_t	mtx_planificador;
-
-
+pthread_mutex_t	mtx_exit;
+pthread_mutex_t	mtx_desbloqueo;
+pthread_mutex_t	mtx_procesos;
 /*
 pthread_t hiloServer;
 pthread_t hiloDispatch;

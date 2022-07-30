@@ -75,8 +75,10 @@ int manejarConexion(void* void_args){
 	switch (cod_op) {
 	case PAQUETE_CONSOLA:
 		recibir_pcb(socket_cliente, &nodo_pcb);
-		list_add(listaNew,nodo_pcb);
-		list_add(listaProcesos,nodo_pcb);
+		movePCBto(&nodo_pcb, NEW);
+		enqueue_proceso(&nodo_pcb);
+		//list_add(listaNew,nodo_pcb);
+		//list_add(listaProcesos,nodo_pcb);
 		log_info(logger,"Se recibió un nuevo proceso - PID:%d",idProceso-1);
 		sem_post(&sem_ProcesosNew);
 		break;

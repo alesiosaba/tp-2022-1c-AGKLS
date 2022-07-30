@@ -38,7 +38,7 @@ void planificadorLargoPlazo(pcb *nodo_pcb){
 		if(numeroTabla < 9999){
 			pcb->tabla_paginas = numeroTabla;
 			log_info(logger,INICIALIZACION_PROCESOS,pcb->id);
-			pcb = list_remove(listaNew,0);
+			pcb = dequeue_new();
 			movePCBto(&pcb, READY);
 			sem_post(&sem_ProcesosReady);
 		}else{
@@ -93,7 +93,7 @@ void planificacion_cpu(int socket_fd){
 		destruir_PCB(pcb);
 		pcb = recv_mensajes_cpu(socket_fd, &tipo_instruccion);
 		end_time = time(NULL);
-		list_remove(listaExec, 0);
+		dequeue_execution();
 		tiempo_rafaga=difftime(end_time,start_time)*1000;
 		log_debug(logger,"Duracion de la rafaga de CPU: %f milisegundos",tiempo_rafaga);
 		if(pcb == NULL){
@@ -111,7 +111,8 @@ void planificacion_cpu(int socket_fd){
 			log_debug(logger, "Replanificacion: IO");
 			if(!planificador_es_fifo()) estimar_proxima_rafaga(pcb, tiempo_rafaga);
 			movePCBto(&pcb, BLOCKED);
-			list_add(listaDesbloqueoPendiente, pcb);
+			enqueue_desbloqueo_pendiente(&pcb);
+			//list_add(listaDesbloqueoPendiente, pcb);
             pthread_create(&thr_planifMT[pcb->id], NULL, (void*) &planificadorMedianoPlazo, pcb);
             pthread_detach(thr_planifMT[pcb->id]);
             sem_post(&sem_ProcesosBloqueo);
@@ -136,7 +137,7 @@ void planificacion_bloqueo(){
 	int index;
 	while(1){
 		sem_wait(&sem_ProcesosBloqueo);
-		pcb = list_remove(listaDesbloqueoPendiente,0);
+		pcb = dequeue_desbloqueo_pend();
 		tiempo_bloqueo = pcb->tiempo_a_bloquearse;
 		log_info(logger, "El proceso %d esta realizando una IO", pcb->id);
 		usleep(tiempo_bloqueo*1000);
@@ -179,21 +180,25 @@ void movePCBto(pcb** new_pcb, status new_status){
 	(*new_pcb)->status = new_status ;
 	switch(new_status){
 	case READY:
+		pthread_mutex_lock(&mtx_ready);
 		list_add(listaReady, *new_pcb);
-
+		pthread_mutex_unlock(&mtx_ready);
 		if(!planificador_es_fifo() && !list_is_empty(listaExec)){
 			send_interrupcion(conexionACPU_interrupt);
 			log_debug(logger, INTERRUPCION_ENVIADA);
 		}
-
 		log_debug(logger, PROCESS_MOVE_READY, (*new_pcb)->id);
 		break;
 	case NEW:
+		pthread_mutex_lock(&mtx_new);
 		list_add(listaNew, *new_pcb);
+		pthread_mutex_unlock(&mtx_new);
 		log_debug(logger, PROCESS_MOVE_NEW, (*new_pcb)->id);
 		break;
 	case EXECUTION:
+		pthread_mutex_lock(&mtx_exec);
 		list_add(listaExec, *new_pcb);
+		pthread_mutex_unlock(&mtx_exec);
 		log_debug(logger, PROCESS_MOVE_EXEC, (*new_pcb)->id);
 		break;
 	case BLOCKED:
@@ -215,8 +220,10 @@ void movePCBto(pcb** new_pcb, status new_status){
 		log_debug(logger, PROCESS_MOVE_SUSRDY, (*new_pcb)->id);
 		break;
 	case EXIT:
+		pthread_mutex_lock(&mtx_exit);
 		list_add(listaExit, *new_pcb);
 		sem_post(&sem_multiprogramacion);
+		pthread_mutex_unlock(&mtx_exit);
 		log_debug(logger, PROCESS_MOVE_EXIT, (*new_pcb)->id);
 		break;
 	}

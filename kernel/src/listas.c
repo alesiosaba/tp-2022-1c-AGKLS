@@ -11,6 +11,20 @@ pcb* dequeu_ready(){
 	return pcb;
 }
 
+pcb* dequeue_execution(){
+	pthread_mutex_lock(&mtx_exec);
+	pcb* pcb = list_remove(listaExec, 0);
+	pthread_mutex_unlock(&mtx_exec);
+	return pcb;
+}
+
+pcb* dequeue_new(){
+	pthread_mutex_lock(&mtx_new);
+	pcb* pcb = list_remove(listaNew, 0);
+	pthread_mutex_unlock(&mtx_new);
+	return pcb;
+}
+
 pcb* dequeue_blocked(){
 	pthread_mutex_lock(&mtx_blocked);
 	pcb* pcb = list_remove(listaBlocked, 0);
@@ -46,9 +60,31 @@ pcb* dequeue_suspended_ready(){
 	return pcb;
 }
 
+pcb* dequeue_desbloqueo_pend(){
+	pthread_mutex_lock(&mtx_desbloqueo);
+	pcb* pcb = list_remove(listaDesbloqueoPendiente, 0);
+	pthread_mutex_unlock(&mtx_desbloqueo);
+	return pcb;
+}
+
+bool enqueue_proceso(pcb** pcb){
+	pthread_mutex_lock(&mtx_procesos);
+	list_add(listaProcesos, *pcb);
+	pthread_mutex_unlock(&mtx_procesos);
+	return pcb;
+}
+
+bool enqueue_desbloqueo_pendiente(pcb** pcb){
+	pthread_mutex_lock(&mtx_desbloqueo);
+	list_add(listaDesbloqueoPendiente, *pcb);
+	pthread_mutex_unlock(&mtx_desbloqueo);
+	return pcb;
+}
 
 bool menor_rafaga(pcb *pcb1, pcb *pcb2) {
     return pcb1->estimacion_rafaga <= pcb2->estimacion_rafaga;
 }
+
+
 
 
