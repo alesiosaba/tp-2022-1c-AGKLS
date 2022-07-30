@@ -1,12 +1,8 @@
 # TP SO 2022 1C - Grupo: AGKLS
 
-## Enunciado 
+## [Enunciado - TP SO 2022 1C](https://docs.google.com/document/d/17WP76Vsi6ZrYlpYT8xOPXzLf42rQgtyKsOdVkyL5Jj0/edit)
 
-https://docs.google.com/document/d/17WP76Vsi6ZrYlpYT8xOPXzLf42rQgtyKsOdVkyL5Jj0/edit
-
-## Links de descarga de vm's
-
-https://www.utnso.com.ar/recursos/maquinas-virtuales/
+## [Links de descarga de vm's](https://www.utnso.com.ar/recursos/maquinas-virtuales/)
 
 ## VM ubuntu-server
 
@@ -74,13 +70,52 @@ https://www.youtube.com/watch?v=knRei6OBU4Q&t=264s
 
 ![image](https://user-images.githubusercontent.com/62452207/182001907-9839476b-03a4-4bab-92db-181ff424ceeb.png)
 
-## parametros de valgrind 
+## conceptos de valgrind 
 
 - *definitely lost*: **muy importante no tener**
 - *indirectly lost*: **muy importante no tener**
-- *possibly lost*:
-- *still reacheable*:
-- *suppressed*:
+- *possibly lost*: **se puede generar, readline genera un poco, tampoco darle mucha bola**
+- *still reacheable*: **no darle bola**
+- *suppressed*: **no darle bola**
 
 ![image](https://user-images.githubusercontent.com/62452207/182001710-08fb0ce0-3817-4df0-a1e2-373f1c228ac1.png)
 
+# Helgrind
+
+## Analiza que esta pasando con los hilos
+
+## Usando Helgrind en Eclipse
+
+![image](https://user-images.githubusercontent.com/62452207/182002029-bdf5b64e-5b25-4c92-88e7-a85a6da81abf.png)
+
+### cambiar tool to run:
+
+![image](https://user-images.githubusercontent.com/62452207/182002048-3da26c85-7ea5-4e7c-922d-241a20dd357f.png)
+
+### helgrind nos indica en que linea del programa y en que hilo exactamente hay problemas entre hilos
+
+- RaceCondition: posible condicion de carrrera 
+
+![image](https://user-images.githubusercontent.com/62452207/182002082-19756c83-28a0-4403-9fc3-9e694022cc64.png)
+
+## Usando Helgrind en la terminal
+
+`valgrind --tool=helgrind ./bin/memoria.out`
+
+![image](https://user-images.githubusercontent.com/62452207/182002145-aca607ab-b3c5-4c66-a711-b5f1d5a1543e.png)
+
+## conceptos de helgrind 
+
+- **CUIDADO** que ejecutando con helgrind un programa la herramienta _**puede salvar y atajar**_ errores como segmentation fault, obviamente no se puede usar en la entrega.
+
+- ***Thread #2 was created by 0x10924A: main(ejemplo.c:35)*** nos indica en que programa y en que linea se creo el hilo
+
+![image](https://user-images.githubusercontent.com/62452207/182002331-ee6e374e-5151-480c-ad20-3b97f1e52f02.png)
+
+- ***Possible data race ... Locks held: none***: significa sin tener ningun semaforo, tambien nos indica en que linea se genera el problema
+
+![image](https://user-images.githubusercontent.com/62452207/182002319-e3310532-79f9-4549-ba3f-617e9b517aff.png)
+
+- ***Lock at 0x483CC9C was first observed*** puede indicar un deadlock y la linea del programa que la genera
+
+![image](https://user-images.githubusercontent.com/62452207/182002404-ec2a9916-d8ac-4e6e-88de-31add1ef5e7a.png)
