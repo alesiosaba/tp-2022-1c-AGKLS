@@ -44,4 +44,6 @@ Para descargar el archivo de deploy podemos descargarlo desde nuestro "server" u
 
 `wget 192.168.0.69:8000/home/utnso/shared_folder/deploy.sh`
 
-![image](https://user-images.githubusercontent.com/62452207/181871380-ccc733fe-ea32-45ed-8be7-422c57cb7efb.png)
+![image](https://user-images.githubusercontent.com/62452207/181871505-c68fbb81-49e5-4ded-90a2-22553a38bf79.png)
+
+
