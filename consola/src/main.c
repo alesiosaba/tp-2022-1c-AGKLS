@@ -3,16 +3,16 @@
 int main(int argc, char** argv) {
 	system("clear");
 
-	int respuesta_kernel = 0;
-
-	inicializar();
-
 	// Chequear que están los 2 parametros que pide el TP
 	// Path al archivo de pseudocodigo y tamanio de espacio de direcciones del proceso
 	if(argc != 3){
-		log_error(logger, "Cantidad erronea de parametros");
+		printf("Cantidad erronea de parametros.\n");
 		return EXIT_FAILURE;
 	}
+
+	int respuesta_kernel = 0;
+
+	inicializar();
 
 	// Asigno parametros enviados por consola
 	char* path_pseudocodigo = argv[1];

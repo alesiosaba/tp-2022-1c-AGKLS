@@ -1,7 +1,7 @@
 echo Limpiando memoria.config ...
 
-cd ../../memoria/
-rm memoria.config
+cd ../../memoria/exec_conf/
+rm memoria.config -f
 touch memoria.config
 
 echo "LOG_LEVEL=DEBUG" >> memoria.config

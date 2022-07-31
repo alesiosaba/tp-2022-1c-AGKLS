@@ -3,8 +3,7 @@
 
 #include "globals.h"
 
-#define ARCHIVO_DE_CONFIGURACION "CPU.config"
-#define ARCHIVO_DE_LOG "CPU.log"
+#define ARCHIVO_DE_LOG "./../logs/CPU"
 #define LOGGER "CPU Log"
 
 
@@ -23,7 +22,7 @@ typedef struct config_t
 } config_t;
 config_t config_values;
 
-void inicializar();
+void inicializar(char* config_path);
 config_t leer_config();
 
 #endif

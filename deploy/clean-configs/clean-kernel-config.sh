@@ -1,7 +1,7 @@
 echo Limpiando kernel.config ...
 
-cd ../../kernel/
-rm kernel.config
+cd ../../kernel/exec_conf/
+rm kernel.config -f
 touch kernel.config
 
 echo "LOG_LEVEL=DEBUG" >> kernel.config

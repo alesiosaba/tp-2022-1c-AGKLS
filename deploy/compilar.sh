@@ -2,13 +2,13 @@ clear
 echo Eliminando logs...
 echo
 cd ../consola
-rm consola.log
+rm consola.log -f
 cd ../CPU
-rm CPU.log
+rm CPU.log -f
 cd ../kernel
-rm kernel.log
+rm kernel.log -f
 cd ../memoria
-rm memoria.log
+rm memoria.log -f
 
 echo
 echo Compilando modulos...

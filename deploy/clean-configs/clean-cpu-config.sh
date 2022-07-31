@@ -1,8 +1,8 @@
 
 echo Limpiando CPU.config ...
 
-cd ../../CPU/
-rm CPU.config
+cd ../../CPU/exec_conf/
+rm CPU.config -f
 touch CPU.config
 
 echo "LOG_LEVEL=DEBUG" >> cpu.config

@@ -10,12 +10,19 @@ void sighandler(int s){
 	exit(0);
 }
 
-int main(void) {
+int main(int argc, char** argv) {
+
+	if (argc < 2) {
+		printf("Cantidad erronea de parametros.\n");
+        return EXIT_FAILURE;
+    }
 
 	signal(SIGINT, sighandler); //Terminar el programa al oprimir ctrl + C en terminal
 
+	char* config_path = argv[1];
+
 	// Leer config y arrancar logger
-	inicializar();
+	inicializar(config_path);
 
 	inicializar_estructuras();
 

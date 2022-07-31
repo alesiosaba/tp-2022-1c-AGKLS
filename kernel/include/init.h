@@ -3,11 +3,10 @@
 
 #include "../include/globals.h"
 
-#define ARCHIVO_DE_CONFIGURACION "kernel.config"
-#define ARCHIVO_DE_LOG "kernel.log"
+#define ARCHIVO_DE_LOG "./../logs/kernel"
 #define LOGGER "Kernel Log"
 
-config_t inicializar();
+config_t inicializar(char* config_path);
 config_t leer_config();
 void imprimir_config();
 

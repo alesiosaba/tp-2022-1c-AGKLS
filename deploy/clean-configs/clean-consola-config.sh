@@ -1,7 +1,7 @@
 echo Limpiando consola.config ...
 
 cd ../../consola/
-rm consola.config
+rm consola.config -f
 touch consola.config
 
 echo "LOG_LEVEL=DEBUG" >> consola.config

@@ -7,9 +7,16 @@ void sighandler(int s){
 	exit(0);
 }
 
-int main(void) {
+int main(int argc, char** argv) {
+
+	if (argc < 2) {
+		printf("Cantidad erronea de parametros.\n");
+        return EXIT_FAILURE;
+    }
+
+	char* config_path = argv[1];
 	signal(SIGINT, sighandler); //Terminar el programa al oprimir ctrl + C en terminal
-	inicializar();
+	inicializar(config_path);
 	imprimir_config();
 	pthread_create(&thr_comandos, NULL, (void*) &recibirComandos, NULL);
 	pthread_detach(&thr_comandos);

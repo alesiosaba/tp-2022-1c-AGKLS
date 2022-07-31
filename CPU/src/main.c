@@ -2,11 +2,18 @@
 #include "../include/comunicacion.h"
 #include "../include/globals.h"
 
-int main(void) {
+int main(int argc, char** argv) {
+
+	if (argc < 2) {
+		printf("Cantidad erronea de parametros.\n");
+        return EXIT_FAILURE;
+    }
 
 	signal(SIGINT, sighandler); //Terminar el programa al oprimir ctrl + C en terminal
 
-	inicializar();
+	char* config_path = argv[1];
+
+	inicializar(config_path);
 
 	// aca se maneja la conexion dispatch, interrupt y con memoria
 	conexiones();

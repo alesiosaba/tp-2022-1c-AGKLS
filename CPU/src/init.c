@@ -1,13 +1,25 @@
 #include "../include/init.h"
 
-void inicializar(){
+void inicializar(char* config_path){
 
 	// leo la configuracion del cpu
-	config = iniciar_config(ARCHIVO_DE_CONFIGURACION);
+	config = iniciar_config(config_path);
 	config_values = leer_config();
 
 	// inicio el logger del cpu
-	logger = iniciar_logger(config_values.log_level,ARCHIVO_DE_LOG,LOGGER);
+	char* logger_name = string_new();
+	char timestamp_string[18];
+    time_t    caltime;
+    struct tm * broketime;
+    // find current time, convert to broken-down time
+    time(&caltime);
+    broketime = localtime(&caltime);
+    // append timestamp in the format "_yymmdd_hhmmss"
+    strftime(timestamp_string,18,"_%d-%m-%y_%H%M%S",broketime);
+	string_append(&logger_name, ARCHIVO_DE_LOG);
+	string_append(&logger_name, timestamp_string);
+	string_append(&logger_name, ".log");
+	logger = iniciar_logger(config_values.log_level,logger_name,LOGGER);
 
 	// globales
 	desactivar_flag_desalojo();
