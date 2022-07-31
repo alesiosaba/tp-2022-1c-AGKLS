@@ -234,10 +234,12 @@ bool send_interrupcion(int fd){
 }
 
 bool send_respuesta_nuevo_proceso(int fd, int numero_tabla){
-	log_debug(logger, "Enviando respuesta a Kernel, numero de tabla %d", numero_tabla);
+	// log_debug(logger, "Enviando respuesta a Kernel, numero de tabla %d", numero_tabla);
+
 	t_paquete *paquete = crear_paquete(RESPUESTA_NUEVO_PROCESO);
 	char* numero_tabla_str = string_new();
 	sprintf(numero_tabla_str, "%d\0", numero_tabla);
+
 	agregar_a_paquete(paquete, numero_tabla_str, strlen(numero_tabla_str) + 1);
 	enviar_paquete(paquete, fd);
 	return true;

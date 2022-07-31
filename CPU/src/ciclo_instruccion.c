@@ -5,8 +5,8 @@ void ejecutar_ciclo_instruccion(pcb** pcb){
 
 	// el ciclo de instruccion queda en loop hasta una I/O, EXIT o INTERRUPCION de kernel
 	do {
-		log_debug(logger, COMIENZO_CICLO_INSTRUCCION, (*pcb)->id);
-		log_debug(logger, "PC = %d", (*pcb)->program_counter);
+		// log_debug(logger, COMIENZO_CICLO_INSTRUCCION, (*pcb)->id);
+		// log_debug(logger, "PC = %d", (*pcb)->program_counter);
 
 		desactivar_flag_desalojo();
 
@@ -39,7 +39,7 @@ void ejecutar_ciclo_instruccion(pcb** pcb){
 
 	} while(!hay_desalojo_proceso());
 
-	log_debug(logger, "Saliendo de ejecutar_ciclo_instruccion()");
+	// log_debug(logger, "Saliendo de ejecutar_ciclo_instruccion()");
 }
 		
 void imprimir_instruccion(nodo_instruccion* instruccion) {
