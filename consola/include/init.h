@@ -3,7 +3,7 @@
 
 
 #define ARCHIVO_DE_CONFIGURACION "consola.config"
-#define ARCHIVO_DE_LOG "./logs/consola"
+#define ARCHIVO_DE_LOG "consola.log"
 #define LOGGER "Consola Log"
 
 

@@ -41,7 +41,12 @@ typedef enum op_code
 	SOLICITUD_TABLA_PAGINA_N1,
 	RESPUESTA_SOLICITUD_N1,
 	SOLICITUD_TABLA_PAGINA_N2,
-	RESPUESTA_SOLICITUD_N2
+	RESPUESTA_SOLICITUD_N2,
+	// Pedidos lectura/escritura a Memoria desde CPU
+	PEDIDO_LECTURA,
+	PEDIDO_ESCRITURA,
+	RESPUESTA_PEDIDO_LECTURA,
+	RESPUESTA_PEDIDO_ESCRITURA
 }op_code;
 
 
@@ -83,6 +88,11 @@ typedef struct consulta_en_tabla_paginas
 	int id_tabla;
 	int entrada_en_tabla;
 } consulta_en_tabla_paginas;
+
+typedef struct direccion_fisica {
+	uint32_t marco;
+	uint32_t desplazamiento;
+} direccion_fisica;
 
 typedef enum status
 {

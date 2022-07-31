@@ -34,6 +34,21 @@ consulta_en_tabla_paginas* deserializar_solicitud_tablas(t_list* lista);
 // comunicaciones entre memoria y kernel
 bool send_respuesta_nuevo_proceso(int fd, int numero_tabla);
 int recv_respuesta_nuevo_proceso(int fd);
+
+
+// Pedidos de Lectura desde CPU a Memoria
+void recv_pedido_lectura(int socket_cliente, struct direccion_fisica** direccion_fisica_lectura);
+void send_respuesta_pedido_lectura(int socket_cliente, uint32_t valor_leido);
+void send_pedido_lectura(int socketCliente, struct direccion_fisica direccion_fisica_lectura);
+uint32_t recv_respuesta_pedido_lectura(int socketCliente);
+
+// Pedidos de Escritura desde CPU a Memoria
+void send_pedido_escritura(int socketCliente, struct direccion_fisica direccion_fisica_lectura, uint32_t valor_a_escribir);
+int recv_pedido_escritura(int socket_cliente, struct direccion_fisica** direccion_fisica_lectura);
+void send_respuesta_pedido_escritura(int socket_cliente, int resultadoEscritura);
+bool recv_respuesta_pedido_escritura(int socketCliente);
+
+
 /*
 bool send_debug(int fd);
 */

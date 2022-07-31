@@ -11,6 +11,7 @@ void inicializar(){
 	char* puerto;
 	char* errorMessageAux[1024];
 
+	/*
 	char* logger_name = string_new();
 	char timestamp_string[18];
     time_t    caltime;
@@ -23,12 +24,14 @@ void inicializar(){
 	string_append(&logger_name, ARCHIVO_DE_LOG);
 	string_append(&logger_name, timestamp_string);
 	string_append(&logger_name, ".log");
+	logger = iniciar_logger(log_level, logger_name, LOGGER);
+	*/
 
 	config = iniciar_config(ARCHIVO_DE_CONFIGURACION);
 	config_values = leer_config();
 	
 	log_level = config_values.log_level;
-	logger = iniciar_logger(log_level, logger_name, LOGGER);
+	logger = iniciar_logger(log_level, ARCHIVO_DE_LOG, LOGGER);
 	log_info(logger, "Se generó correctamente el logger");
 	log_info(logger, "Se generó correctamente la configuracion\n");
 

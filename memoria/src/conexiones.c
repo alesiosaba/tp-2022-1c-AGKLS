@@ -72,22 +72,14 @@ int manejarConexionCPU(int socket_cliente){
 	//TIEMPO RETARDO MEMORIA
 	retardo_memoria();
 
-	t_list* lista;
 	struct consulta_en_tabla_paginas* consulta;
+	struct direccion_fisica* direccion_fisica_lectura;
 
 		while (1){
 			// log_debug(logger, "dentro de manejarConexionCPU() socket: %d", socket_cliente);
 			// log_debug(logger,"Esperando nueva operacion en socket: %d", socket_cliente);
 			int cod_op = recibir_operacion(socket_cliente);
 			switch (cod_op) {
-			case MENSAJE:
-				recibir_mensaje(socket_cliente);
-				break;
-
-			case PAQUETE:
-				lista = recibir_paquete(socket_cliente);
-				log_debug(logger, LECTURA_DE_VALORES);
-				break;
 
 			case SOLICITUD_TABLA_PAGINA_N1:
 				log_info(logger, "Memoria recibio SOLICITUD_TABLA_PAGINA_N1");
@@ -110,6 +102,36 @@ int manejarConexionCPU(int socket_cliente){
 				send_respuesta_solicitud_tabla(socket_cliente, frame, RESPUESTA_SOLICITUD_N2);
 				break;
 
+			case PEDIDO_LECTURA:
+				log_info(logger, "Memoria recibio PEDIDO_LECTURA");
+
+				recv_pedido_lectura(socket_cliente, &direccion_fisica_lectura);
+
+				// TODO: Hacer lectura_valor_buscado(direccion_fisica_lectura);
+				// uint32_t valor_leido = lectura_valor_buscado(direccion_fisica_lectura);
+
+				// DUMMY
+				uint32_t valor_leido = 8;
+
+				send_respuesta_pedido_lectura(socket_cliente, valor_leido);
+
+				break;
+
+			case PEDIDO_ESCRITURA:
+				log_info(logger, "Memoria recibio PEDIDO_ESCRITURA");
+
+				int valor_a_escribir = recv_pedido_escritura(socket_cliente, &direccion_fisica_lectura);
+
+				// TODO: Hacer escritura_valor_buscado(direccion_fisica_lectura, valor_a_escribir);
+				// bool resultadoEscritura = escritura_valor_buscado(direccion_fisica_lectura, valor_a_escribir);
+
+				// DUMMY
+				bool resultadoEscritura = true;
+
+				send_respuesta_pedido_escritura(socket_cliente,resultadoEscritura);
+
+				break;
+
 			case -1:
 				log_error(logger, SERVIDOR_DESCONEXION);
 				return EXIT_FAILURE;
@@ -118,15 +140,15 @@ int manejarConexionCPU(int socket_cliente){
 				break;
 			}
 		}
+
+	free(consulta);
+	free(direccion_fisica_lectura);
 }
 
 int manejarConexionKernel(int socket_cliente){
 
 	//TIEMPO RETARDO MEMORIA
 	retardo_memoria();
-
-	t_list* lista;
-	struct pcb *pcb;
 
 	// handshake_inicial();
 
@@ -135,14 +157,6 @@ int manejarConexionKernel(int socket_cliente){
 			// log_debug(logger,"Esperando nueva operacion en socket: %d", socket_cliente);
 			int cod_op = recibir_operacion(socket_cliente);
 			switch (cod_op) {
-			case MENSAJE:
-				recibir_mensaje(socket_cliente);
-				break;
-
-			case PAQUETE:
-				lista = recibir_paquete(socket_cliente);
-				log_debug(logger, LECTURA_DE_VALORES);
-				break;
 
 			case SOLICITUD_NUEVO_PROCESO:
 				log_info(logger, "Memoria recibio SOLICITUD_NUEVO_PROCESO");
@@ -158,91 +172,3 @@ int manejarConexionKernel(int socket_cliente){
 			}
 		}
 }
-
-/*
-int manejarConexion(int socket_cliente){
-	//TIEMPO RETARDO MEMORIA
-	retardo_memoria();
-
-	t_list* lista;
-	struct pcb *pcb;
-	struct consulta_en_tabla_paginas *consulta;
-
-	while (1){
-		// log_debug(logger, "dentro de manejarConexion() socket: %d", socket_cliente);
-		// log_debug(logger,"Esperando nueva operacion en socket: %d", socket_cliente);
-		int cod_op = recibir_operacion(socket_cliente);
-		switch (cod_op) {
-		case MENSAJE:
-			recibir_mensaje(socket_cliente);
-			break;
-
-		case PAQUETE:
-			lista = recibir_paquete(socket_cliente);
-			log_debug(logger, LECTURA_DE_VALORES);
-			break;
-
-		/*
-		case HANDSHAKE_INICIAL:
-			log_debug(logger, "HANDSHAKE INICIAL con modulo CPU");
-			send_respuesta_handshake_inicial(socket_cliente, config_values.tam_pagina, config_values.entradas_por_tabla);
-			break;
-		*/
-
-		/*
-		case NUEVO_PROCESO:
-			// El proceso tiene que ser almacenado en memoria
-			recv_paquete_pcb(socket_cliente, &pcb);
-			imprimir_PCB(pcb);
-
-			// TODO: incompleto
-			asignar_nuevas_paginas(pcb);
-			break;
-
-      
-		case SOLICITUD_NUEVO_PROCESO:
-			log_info(logger, "Memoria recibio SOLICITUD_NUEVO_PROCESO");
-			solicitud_nuevo_proceso(socket_cliente, logger);
-			break;
-      
-		case SOLICITUD_TABLA_PAGINAS:
-			log_info(logger, "Memoria recibio SOLICITUD_TABLA_PAGINAS");
-            solicitud_tabla_paginas(socket_cliente, logger);
-			break;
-      
-		case SOLICITUD_MARCO:
-			log_info(logger, "Memoria recibio SOLICITUD_MARCO");
-            solicitud_marco(socket_cliente, logger);
-			break;
-
-		case SOLICITUD_TABLA_PAGINA_N1:
-			recv_solicitud_tabla(socket_cliente, &consulta);
-			log_debug(logger, "id_tablaN1: %d\tentrada: %d", consulta->id_tabla, consulta->entrada_en_tabla);
-
-			// buscar entrada tabla N1 utilizando el objeto consulta
-			int numero_tabla_N2 = 786;
-
-			send_respuesta_solicitud_tabla(socket_cliente, numero_tabla_N2);
-			break;
-
-		case SOLICITUD_TABLA_PAGINA_N2:
-			recv_solicitud_tabla(socket_cliente, &consulta);
-			log_debug(logger, "id_tablaN2: %d\tentrada: %d", consulta->id_tabla, consulta->entrada_en_tabla);
-
-			// buscar entrada tabla N1 utilizando el objeto consulta
-			int frame = 987;
-
-			send_respuesta_solicitud_tabla(socket_cliente, frame);
-			break;
-
-		case -1:
-			log_error(logger, SERVIDOR_DESCONEXION);
-			return EXIT_FAILURE;
-		default:
-			log_warning(logger,OPERACION_DESCONOCIDA);
-			break;
-		}
-	}
-
-}
-*/

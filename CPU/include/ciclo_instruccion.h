@@ -29,10 +29,12 @@ void exec_exit(pcb** pcb);
 uint32_t buscarValorEnMemoria(pcb** pcb, int direccionLogica);
 
 // realizar escritura en una direccion logica de memoria
-bool escribirValorEnMemoria(pcb** pcb, int direccionLogica, uint32_t valor);
+void escribirValorEnMemoria(pcb** pcb, int direccionLogica, uint32_t valor_a_escribir);
 
 // imprimir instruccion a ejecutar por el ciclo de instruccion
 void imprimir_instruccion(nodo_instruccion* instruccion);
+
+uint32_t lectura_valor_en_memoria(direccion_fisica);
 
 // manejo de flags globales en CPU
 bool hay_desalojo_proceso();

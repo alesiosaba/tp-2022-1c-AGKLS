@@ -7,7 +7,7 @@
 #include "init.h"
 #include <math.h>
 
-int traducir_dir_logica(pcb** pcb, int direccion_logica);
+struct direccion_fisica traducir_dir_logica(pcb** pcb, int direccion_logica);
 int obtener_numero_pagina(int direccion_logica);
 int obtener_entrada_tabla_primer_nivel(int numero_pagina);
 int obtener_entrada_tabla_segundo_nivel(int numero_pagina);
