@@ -27,7 +27,9 @@ void gestionar_solicitudes_swap(){
       		pid = p->argumentos[0];
       		direccion = p->argumentos[1];
       		pag = p->argumentos[2];
+      		log_debug(logger,"gestionar_solicitudes_swap: solicitud ESCRIBIR_ARCHIVO_SWAP recibida: PID %d Direccion: %d, num_pag: %d", pid, direccion, pag);
       		escribir_archivo_swap(pid, direccion, pag);
+      		log_debug(logger,"gestionar_solicitudes_swap: solicitud ESCRIBIR_ARCHIVO_SWAP resuelta");
       		break;
      	case ELIMINAR_ARCHIVO_SWAP:
      	    pid = p->argumentos[0];
@@ -46,8 +48,8 @@ void gestionar_solicitudes_swap(){
      	    break;
 
        }
-
-       sem_post(&(p->pedido_swap_listo));
+ 	  log_debug(logger,"gestionar_solicitudes_swap: Solicitud SWAP Resuelta");
+      sem_post(&(p->pedido_swap_listo));
 
     }
 
@@ -108,6 +110,7 @@ t_pedido_disco* crear_pedido_leer_swap(int id, int dir_marco, int num_pag)
 
 //LEER ARCHIVO SWAP
 void enviar_pagina_a_memoria(int pid, int dir_pag, int num_pag){
+    log_info(logger, "enviar_pagina_a_memoria: Para PID: %d se leera la pagina nro %d y se guardara en dir: %d ", pid, num_pag, dir_pag);
 
     char * path = path_archivo_swap(pid);
 
@@ -115,12 +118,17 @@ void enviar_pagina_a_memoria(int pid, int dir_pag, int num_pag){
 
     file = fopen(path, "r");
 
-    fseek(file,config_values.tam_pagina*num_pag,SEEK_SET);
+    log_info(logger, "enviar_pagina_a_memoria: Para PID: %d se busca archivo swap: %s", pid, path);
+    if(fseek(file,config_values.tam_pagina*num_pag,SEEK_SET)){
+        log_info(logger, "No se pudo ubicar pagina en swap");
+    }
 
-    fread(espacio_lectura_escritura_procesos + dir_pag, config_values.tam_pagina,1,file);
+    log_info(logger, "enviar_pagina_a_memoria: Se comienza a leer el archivo swap desde: %d", config_values.tam_pagina * num_pag);
 
-    log_info(logger,"pagina %d enviada a memoria correctamente",num_pag);
 
+    fread(espacio_lectura_escritura_procesos + dir_pag, config_values.tam_pagina,1, file);
+
+    log_info(logger,"enviar_pagina_a_memoria: Se envio la pagina %d a memoria ",num_pag);
     fclose(file);
     free(path);
 }

@@ -4,7 +4,7 @@
 
 void iniciar_servidor_memoriaCPU(){
 	serverMemoriaCPU = iniciar_servidor(config_values.ip_escucha, config_values.puerto_escucha_CPU);
-	log_debug(logger, "Servidor de memoria - CPU listo para recibir conexiones.");
+	log_debug(logger, "Servidor de memoria - Memoria CPU listo: IP: %s, Puerto: %s", config_values.ip_escucha, config_values.puerto_escucha_CPU);
 
 	pthread_t thr_memoria_CPU;
 
@@ -26,7 +26,7 @@ void iniciar_servidor_memoriaCPU(){
 
 void iniciar_servidor_memoriaKernel(){
 	serverMemoriaKernel = iniciar_servidor(config_values.ip_escucha, config_values.puerto_escucha_kernel);
-	log_debug(logger, "Servidor de memoria - Kernel listo para recibir conexiones.");
+	log_debug(logger, "Servidor de memoria - Memoria Kernel listo: IP: %s, Puerto: %s", config_values.ip_escucha, config_values.puerto_escucha_kernel);
 
 	pthread_t thr_memoria_Kernel;
 
@@ -92,15 +92,8 @@ int manejarConexionCPU(int socket_cliente){
 			case SOLICITUD_TABLA_PAGINA_N1:
 				log_info(logger, "Memoria recibio SOLICITUD_TABLA_PAGINA_N1");
 				recv_solicitud_tabla(socket_cliente, &consulta);
-				log_warning(logger, "Despues del recv en SOLICITUD_TABLA_PAGINA_N1");
-
-
-				// buscar entrada tabla N1 utilizando el objeto consulta
-				// TODO: numero_tabla_N2 = solicitud_tabla_paginas(socket_cliente, logger); pasandole los valores que necesiten
-				int numero_tabla_N2 = consulta->entrada_en_tabla;
-
-				log_warning(logger, "numero_tabla_N2 que se envia: %d" , numero_tabla_N2);
-
+				log_info(logger, "SOLICITUD_TABLA_PAGINA_N1: PID: %d ID_TABLA_N1: %d ENTRADA_TABLA_N1 %d", consulta->id_proceso, consulta->id_tabla, consulta->entrada_en_tabla);
+				int numero_tabla_N2 = solicitud_tabla_paginas(consulta->id_tabla, consulta->entrada_en_tabla);
 				send_respuesta_solicitud_tabla(socket_cliente, numero_tabla_N2, RESPUESTA_SOLICITUD_N1);
 				break;
 
@@ -110,25 +103,11 @@ int manejarConexionCPU(int socket_cliente){
 				log_warning(logger, "Despues del recv en SOLICITUD_TABLA_PAGINA_N2");
 
 				// buscar entrada tabla N1 utilizando el objeto consulta
-				// TODO: frame = solicitud_marco(socket_cliente, logger); pasandole los valores que necesiten
-				int frame = consulta->id_tabla;
+				int frame = solicitud_marco(consulta->id_proceso, consulta->id_tabla, consulta->entrada_en_tabla);
 
 				log_warning(logger, "frame que se envia: %d" , frame);
 
 				send_respuesta_solicitud_tabla(socket_cliente, frame, RESPUESTA_SOLICITUD_N2);
-				break;
-
-
-			case SOLICITUD_TABLA_PAGINAS:
-				log_info(logger, "Memoria recibio SOLICITUD_TABLA_PAGINAS");
-				lista = recibir_paquete(socket_cliente);
-				// solicitud_tabla_paginas(socket_cliente, logger);
-				break;
-
-			case SOLICITUD_MARCO:
-				log_info(logger, "Memoria recibio SOLICITUD_MARCO");
-				lista = recibir_paquete(socket_cliente);
-				// solicitud_marco(socket_cliente, logger);
 				break;
 
 			case -1:

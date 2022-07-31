@@ -78,9 +78,8 @@ void armar_bitmap_marcos(){
 	bitmap_marcos = bitarray_create(bitmap_real, bytesNecesarios);
 
 	limpiar_bitmap(cantidadMarcos);
-
-	// log_debug(logger, "------- Finalizacion de Armado bitmap de marcos disponibles y ocupados");
-
+	log_debug(logger, "armar_bitmap_marcos: Finalizacion de Armado bitmap de marcos");
+    dump_bitmap(bitmap_marcos);
 }
 
 void inicializar_tablas_de_entradas(){
@@ -255,7 +254,7 @@ entrada_tabla_N2* conseguir_entrada_pagina(int dir_tablaN1, int pag)
 	t_tablaN1 *t = list_get(tablas_primer_nivel, dir_tablaN1);
 
     //numero entrada = division numero pagina por paginas tablas redondeado para arriba
-    int num_entrada_n1 = ceil(pag / config_values.entradas_por_tabla);
+    int num_entrada_n1 = ceil((double) pag / (double) config_values.entradas_por_tabla);
     entrada_tabla_N1 *e1 = list_get(t, num_entrada_n1);
 
     //conseguir tabla nivel 2
@@ -360,13 +359,13 @@ void reservar_marcos_proceso(proceso_en_memoria *p)
     int cantidad_marcos_reservados = 0;
     for(int i = 0; cantidad_marcos_reservados < config_values.marcos_por_proceso; i++)
     {
-        if(bitarray_test_bit(bitmap_marcos, i))
+        if(!bitarray_test_bit(bitmap_marcos, i))
         {
             int marco = i;
 
             list_add(p->marcos_reservados, (void*) marco);
             // A priori estoy poniendo el bit en 0 para reservarlo. Revisar si tengo que setear.
-            bitarray_clean_bit(bitmap_marcos, i);
+            bitarray_set_bit(bitmap_marcos, i);
             cantidad_marcos_reservados++;
         }
     }
@@ -374,14 +373,14 @@ void reservar_marcos_proceso(proceso_en_memoria *p)
 
 proceso_en_memoria* asignar_proceso(int id, int tamanio_proceso){
 
-	proceso_en_memoria *ret = malloc(sizeof(proceso_en_memoria));
-	ret->id_proceso = id;
-	ret->posicion_puntero_clock = 0;
-	ret->tablaN1 = crear_tablaN1(tamanio_proceso);
-	ret->marcos_reservados = list_create();
-	sem_init(&(ret->suspension_completa), 0, 0);
-	ret->esta_suspendido = 0;
-	return ret;
+	proceso_en_memoria *nuevoProceso = malloc(sizeof(proceso_en_memoria));
+	nuevoProceso->id_proceso = id;
+	nuevoProceso->posicion_puntero_clock = 0;
+	nuevoProceso->tablaN1 = crear_tablaN1(tamanio_proceso);
+	nuevoProceso->marcos_reservados = list_create();
+	sem_init(&(nuevoProceso->suspension_completa), 0, 0);
+	nuevoProceso->esta_suspendido = 0;
+	return nuevoProceso;
 }
 
 void dump_bitmap(t_bitarray *bitmap)
