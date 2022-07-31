@@ -2,6 +2,12 @@
 
 ## [Enunciado - TP SO 2022 1C](https://docs.google.com/document/d/17WP76Vsi6ZrYlpYT8xOPXzLf42rQgtyKsOdVkyL5Jj0/edit)
 
+## [Guia de deploy ](https://docs.utnso.com.ar/guias/herramientas/deploy.html#objetivo)
+
+## [Guia de bash](https://docs.utnso.com.ar/guias/consola/bash.html#comandos-basicos)
+
+## [Documento de pruebas](https://docs.google.com/document/d/1SBBTCweMCiBg6TPTt7zxdinRh4ealRasbu0bVlkty5o/edit) 
+
 ## [Links de descarga de vm's](https://www.utnso.com.ar/recursos/maquinas-virtuales/)
 
 ## VM ubuntu-server
