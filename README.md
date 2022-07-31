@@ -8,6 +8,8 @@
 
 ## [Documento de pruebas](https://docs.google.com/document/d/1SBBTCweMCiBg6TPTt7zxdinRh4ealRasbu0bVlkty5o/edit) 
 
+https://github.com/sisoputnfrba/kiss-pruebas
+
 ## [Links de descarga de vm's](https://www.utnso.com.ar/recursos/maquinas-virtuales/)
 
 ## VM ubuntu-server
