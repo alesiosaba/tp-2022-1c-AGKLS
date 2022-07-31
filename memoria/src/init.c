@@ -2,17 +2,16 @@
 
 
 void inicializar(){
-//Logs y Config
-
-	// inicio el logger
-	logger = iniciar_logger("DEBUG",ARCHIVO_DE_LOG,LOGGER);
-	log_info(logger, "Log de Memoria iniciado");
-
 	// leo la configuracion
 	config = iniciar_config(ARCHIVO_DE_CONFIGURACION);
-	log_info(logger, "Leyendo config...\n");
 	config_values = leer_config();
+
+	// inicio el logger
+	logger = iniciar_logger(config_values.log_level,ARCHIVO_DE_LOG,LOGGER);
+	log_info(logger, "Log de Memoria iniciado");
+
 	log_info(logger, "Archivo de configuracion:");
+	log_info(logger, "LOG_LEVEL: %s", config_values.log_level);
 	log_info(logger, "puerto_escucha_kernel: %s", config_values.puerto_escucha_kernel);
 	log_info(logger, "puerto_escucha_CPU: %s", config_values.puerto_escucha_CPU);
 	log_info(logger, "tam_memoria: %d", config_values.tam_memoria);
@@ -37,6 +36,7 @@ config_t leer_config(){
 
 	config_t config_values;
 
+	config_values.log_level = config_get_string_value(config, "LOG_LEVEL");
 	config_values.puerto_escucha_kernel = config_get_string_value(config, "PUERTO_ESCUCHA_KERNEL");
 	config_values.puerto_escucha_CPU = config_get_string_value(config, "PUERTO_ESCUCHA_CPU");
 	config_values.tam_memoria = config_get_int_value(config, "TAM_MEMORIA");

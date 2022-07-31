@@ -1,7 +1,6 @@
 clear
 
 echo
-echo
 echo Limpiando las config de todos los modulos...
 echo
 

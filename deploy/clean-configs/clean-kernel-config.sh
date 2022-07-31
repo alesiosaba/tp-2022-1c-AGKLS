@@ -1,6 +1,4 @@
-echo
 echo Limpiando kernel.config ...
-echo
 
 cd ../../kernel/
 rm kernel.config

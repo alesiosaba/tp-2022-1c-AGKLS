@@ -10,6 +10,7 @@
 
 typedef struct config_t
 {
+	char*  log_level;
 	char*  entradas_TLB;
 	char*  reemplazo_TLB;
 	char*  retardo_NOOP;

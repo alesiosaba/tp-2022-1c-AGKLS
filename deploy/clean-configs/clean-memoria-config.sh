@@ -1,11 +1,10 @@
-echo
 echo Limpiando memoria.config ...
-echo
 
 cd ../../memoria/
 rm memoria.config
 touch memoria.config
 
+echo "LOG_LEVEL=DEBUG" >> memoria.config
 echo "PUERTO_ESCUCHA_KERNEL=8002" >> memoria.config
 echo "PUERTO_ESCUCHA_CPU=8007" >> memoria.config
 echo "TAM_MEMORIA=4096" >> memoria.config

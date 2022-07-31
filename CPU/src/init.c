@@ -2,9 +2,12 @@
 
 void inicializar(){
 
+	// leo la configuracion del cpu
+	config = iniciar_config(ARCHIVO_DE_CONFIGURACION);
+	config_values = leer_config();
+
 	// inicio el logger del cpu
-	logger = iniciar_logger("DEBUG",ARCHIVO_DE_LOG,LOGGER);
-	log_info(logger, "Log de CPU iniciado");
+	logger = iniciar_logger(config_values.log_level,ARCHIVO_DE_LOG,LOGGER);
 
 	// globales
 	desactivar_flag_desalojo();
@@ -20,11 +23,8 @@ void inicializar(){
 	pthread_mutex_init(&mtx_gv_flag_desalojar_proceso, NULL);
 	pthread_mutex_init(&mtx_gv_flag_interrupcion, NULL);
 
-	// leo la configuracion del cpu
-	config = iniciar_config(ARCHIVO_DE_CONFIGURACION);
-	log_info(logger, "Leyendo config...\n");
-	config_values = leer_config();
 	log_info(logger, "Archivo de configuracion:");
+	log_info(logger, "LOG_LEVEL: %s", config_values.log_level);
 	log_info(logger, "entradas_TLB: %s", config_values.entradas_TLB);
 	log_info(logger, "reemplazo_TLB: %s", config_values.reemplazo_TLB);
 	log_info(logger, "retardo_NOOP: %s", config_values.retardo_NOOP);
@@ -40,6 +40,7 @@ config_t leer_config(){
 
 	config_t config_values;
 
+	config_values.log_level = config_get_string_value(config, "LOG_LEVEL");
 	config_values.entradas_TLB = config_get_string_value(config, "ENTRADAS_TLB");
 	config_values.reemplazo_TLB = config_get_string_value(config, "REEMPLAZO_TLB");
 	config_values.retardo_NOOP = config_get_string_value(config, "RETARDO_NOOP");

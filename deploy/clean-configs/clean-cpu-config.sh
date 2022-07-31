@@ -1,11 +1,11 @@
-echo
-echo Limpiando cpu.config ...
-echo
+
+echo Limpiando CPU.config ...
 
 cd ../../CPU/
-rm cpu.config
-touch cpu.config
+rm CPU.config
+touch CPU.config
 
+echo "LOG_LEVEL=DEBUG" >> cpu.config
 echo "ENTRADAS_TLB=4" >> cpu.config
 echo "REEMPLAZO_TLB=LRU" >> cpu.config
 echo "RETARDO_NOOP=1000" >> cpu.config

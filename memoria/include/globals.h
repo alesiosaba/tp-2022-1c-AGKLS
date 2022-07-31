@@ -10,6 +10,7 @@
 
 typedef struct config_t
 {
+	char* log_level;
 	char* puerto_escucha_kernel;
 	char* puerto_escucha_CPU;
 	int tam_memoria;
