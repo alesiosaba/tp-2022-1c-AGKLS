@@ -17,7 +17,14 @@ void inicializar(){
 	log_level = config_values.log_level;
 	logger = iniciar_logger(log_level, logger_name, LOGGER);
 	log_info(logger, "Se generó correctamente el logger");
-	log_info(logger, "Se generó correctamente la configuracion");
+	log_info(logger, "Se generó correctamente la configuracion\n");
+
+	log_info(logger, "Archivo de configuracion:");
+	log_info(logger, "LOG_LEVEL: %s", config_values.log_level);
+	log_info(logger, "IP_KERNEL: %s", config_values.ip_kernel);
+	log_info(logger, "PUERTO_KERNEL: %s\n", config_values.puerto_kernel);
+
+
 	ip = config_values.ip_kernel;
 	puerto = config_values.puerto_kernel;
 	conexion = crear_conexion(ip, puerto);

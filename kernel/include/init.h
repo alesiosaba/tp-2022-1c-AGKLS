@@ -9,5 +9,6 @@
 
 config_t inicializar();
 config_t leer_config();
+void imprimir_config();
 
 #endif

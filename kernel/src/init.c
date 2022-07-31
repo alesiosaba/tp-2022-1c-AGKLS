@@ -76,5 +76,22 @@ config_t leer_config(){
 
 }
 
+void imprimir_config(){
+
+    log_info(logger, "Archivo de configuracion:");
+	log_info(logger, "log_level: %s", config_values.log_level);
+    log_info(logger, "ip_memoria: %s", config_values.ip_memoria);
+    log_info(logger, "puerto_memoria: %s", config_values.puerto_memoria);
+    log_info(logger, "ip_cpu: %s", config_values.ip_cpu);
+    log_info(logger, "puerto_cpu_dispatch: %s", config_values.puerto_cpu_dispatch);
+    log_info(logger, "puerto_cpu_interrupt: %s", config_values.puerto_cpu_interrupt);
+    log_info(logger, "puerto_escucha: %s", config_values.puerto_escucha);
+    log_info(logger, "algoritmo_planificacion: %s", config_get_string_value(config, "ALGORITMO_PLANIFICACION"));
+    log_info(logger, "estimacion_inicial: %f", config_values.estimacion_inicial);
+    log_info(logger, "alfa: %f", config_values.alfa);
+    log_info(logger, "grado_multiprog: %d", config_values.grado_multiprog);
+    log_info(logger, "t_bloqueo_max: %d", config_values.t_bloqueo_max);
+    log_info(logger, "ip_escucha: %s\n", config_values.ip_escucha);
+}
 
 

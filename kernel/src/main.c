@@ -10,6 +10,7 @@ void sighandler(int s){
 int main(void) {
 	signal(SIGINT, sighandler); //Terminar el programa al oprimir ctrl + C en terminal
 	inicializar();
+	imprimir_config();
 	pthread_create(&thr_comandos, NULL, (void*) &recibirComandos, NULL);
 	pthread_detach(&thr_comandos);
 	log_debug(logger, "se creo un thread para %s", "comandos");

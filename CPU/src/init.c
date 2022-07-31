@@ -28,7 +28,7 @@ void inicializar(){
 	log_info(logger, "entradas_TLB: %s", config_values.entradas_TLB);
 	log_info(logger, "reemplazo_TLB: %s", config_values.reemplazo_TLB);
 	log_info(logger, "retardo_NOOP: %s", config_values.retardo_NOOP);
-	log_info(logger, "IP_memoria: %s", config_values.IP_memoria);
+	log_info(logger, "ip_memoria: %s", config_values.IP_memoria);
 	log_info(logger, "puerto_memoria: %s", config_values.puerto_memoria);
 	log_info(logger, "puerto_escucha_dispatch: %s", config_values.puerto_escucha_dispatch);
 	log_info(logger, "puerto_escucha_interrupt: %s", config_values.puerto_escucha_interrupt);
