@@ -3,7 +3,7 @@
 
 #include "globals.h"
 
-#define ARCHIVO_DE_LOG "./../logs/CPU"
+#define ARCHIVO_DE_LOG "CPU.log"
 #define LOGGER "CPU Log"
 
 

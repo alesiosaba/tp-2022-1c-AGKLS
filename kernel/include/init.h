@@ -3,7 +3,7 @@
 
 #include "../include/globals.h"
 
-#define ARCHIVO_DE_LOG "./../logs/kernel"
+#define ARCHIVO_DE_LOG "kernel.log"
 #define LOGGER "Kernel Log"
 
 config_t inicializar(char* config_path);

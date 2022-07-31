@@ -8,6 +8,7 @@ void inicializar(char* config_path){
 	config_values = leer_config();
 
 	// inicio el logger
+	/*
 	char* logger_name = string_new();
 	char timestamp_string[18];
     time_t    caltime;
@@ -20,7 +21,9 @@ void inicializar(char* config_path){
 	string_append(&logger_name, ARCHIVO_DE_LOG);
 	string_append(&logger_name, timestamp_string);
 	string_append(&logger_name, ".log");
-	logger = iniciar_logger(config_values.log_level,logger_name,LOGGER);
+	// logger = iniciar_logger(config_values.log_level,logger_name,LOGGER);
+	*/
+	logger = iniciar_logger(config_values.log_level,ARCHIVO_DE_LOG,LOGGER);
 	log_info(logger, "Log de Memoria iniciado");
 
 	log_info(logger, "Archivo de configuracion:");

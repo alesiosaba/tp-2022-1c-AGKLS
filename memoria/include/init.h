@@ -1,7 +1,7 @@
 #ifndef INIT_H_
 #define INIT_H_
 
-#define ARCHIVO_DE_LOG "./../logs/memoria"
+#define ARCHIVO_DE_LOG "memoria.log"
 #define LOGGER "Memoria Log"
 
 #include "globals.h"

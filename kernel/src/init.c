@@ -10,6 +10,7 @@ config_t inicializar(char* config_path){
 	config = iniciar_config(config_path);
 	config_values = leer_config();
 	log_level = config_values.log_level;
+	/*
 	char* logger_name = string_new();
 	char timestamp_string[18];
     time_t    caltime;
@@ -23,6 +24,8 @@ config_t inicializar(char* config_path){
 	string_append(&logger_name, timestamp_string);
 	string_append(&logger_name, ".log");
     logger = iniciar_logger(log_level, logger_name, LOGGER);
+    */
+    logger = iniciar_logger(log_level, ARCHIVO_DE_LOG, LOGGER);
 //globales
 	idProceso = 0;
     listaNew = list_create();
