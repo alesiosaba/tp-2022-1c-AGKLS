@@ -226,30 +226,57 @@ void desactivar_flag_desalojo() {
 	pthread_mutex_unlock(&mtx_gv_flag_desalojar_proceso);
 }
 
+uint32_t lectura_valor_en_memoria(struct direccion_fisica direccion_fisica_lectura){
+
+	// log_debug(logger, "Entro a lectura_valor_en_memoria()");
+
+	send_pedido_lectura(conexionAMemoria, direccion_fisica_lectura);
+
+	uint32_t valor_buscado = recv_respuesta_pedido_lectura(conexionAMemoria);
+
+	// log_debug(logger, "Recibi respuesta de PEDIDO_LECTURA");
+
+	// log_debug(logger, "Valor recibido desde Memoria: %d", valor_buscado);
+
+	// log_debug(logger, "Salgo a lectura_valor_en_memoria()");
+
+	return valor_buscado;
+}
+
+
 uint32_t buscarValorEnMemoria(pcb** pcb, int direccionLogica){
 
 	// log_debug(logger,"Entro en buscarValorEnMemoria()");
 
 	// log_debug(logger,"\nbuscar:\n\tPID: %d\n\tid_tablaN1: %d\n\tdir. logica:%d", (*pcb)->id, id_tablaN1, direccionLogica);
 
-	int direccion_fisica = traducir_dir_logica(pcb, direccionLogica);
+	struct direccion_fisica direccion_fisica = traducir_dir_logica(pcb, direccionLogica);
 
-	uint32_t resultado = 14;
+	uint32_t valor_buscado = lectura_valor_en_memoria(direccion_fisica);
 
-	//TODO: implementar correcto comportamiento
-	return resultado;
+	log_debug(logger, "Se leyo el valor %d", valor_buscado);
+
+	return valor_buscado;
 }
 
-bool escribirValorEnMemoria(pcb** pcb, int direccionLogica, uint32_t valor){
+void escribirValorEnMemoria(pcb** pcb, int direccionLogica, uint32_t valor_a_escribir){
 
 	// log_debug(logger,"Entro en escribirValorEnMemoria()");
 
-	int direccion_fisica = traducir_dir_logica(pcb, direccionLogica);
-
 	// log_debug(logger,"\nescribir:\n\tPID: %d\n\tid_tablaN1: %d\n\tdir. logica:%d\n\tValor en uint32_t: %u", (*pcb)->id, id_tablaN1, direccionLogica, valor);
 
-	//TODO: devolver bool que confirme lectura correcta
-	return true;
+	struct direccion_fisica direccion_fisica = traducir_dir_logica(pcb, direccionLogica);
+
+	send_pedido_escritura(conexionAMemoria, direccion_fisica, valor_a_escribir);
+
+	// Si la escritura en Memoria fue correcta se recibe un mensaje de OK desde Memoria
+
+	bool escrituraCorrecta = recv_respuesta_pedido_escritura(conexionAMemoria);
+
+	if(escrituraCorrecta)
+		log_info(logger,"La escritura fue correcta");
+	else
+		log_info(logger,"NO se pudo realizar correctamente la escritura");
 }
 
 IDENTIFICADOR_INSTRUCCION str_to_identificador_enum (char *str)

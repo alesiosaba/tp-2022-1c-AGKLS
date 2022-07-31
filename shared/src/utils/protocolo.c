@@ -268,3 +268,170 @@ int recv_respuesta_nuevo_proceso(int fd){
 	return 9999;
 }
 
+struct direccion_fisica* deserializar_direccion_fisica(t_list* lista){
+	direccion_fisica* direccion_fisica_aux = (struct direccion_fisica*)malloc(sizeof(struct direccion_fisica));
+
+	int* marco = list_remove(lista, 0);
+	direccion_fisica_aux->marco = atoi(marco);
+
+	int* desplazamiento = list_remove(lista, 0);
+	direccion_fisica_aux->desplazamiento = atoi(desplazamiento);
+
+	return direccion_fisica_aux;
+}
+
+void recv_pedido_lectura(int socket_cliente, struct direccion_fisica** direccion_fisica_lectura){
+	// log_debug(logger, "Entro a recv_pedido_lectura()");
+
+	t_list* lista;
+	lista = recibir_paquete(socket_cliente);
+
+	*direccion_fisica_lectura = deserializar_direccion_fisica(lista);
+
+	/*
+	 log_debug(logger, "Direccion fisica recibida:");
+	log_debug(logger, "Marco: %d\tDesplazamiento: %d", (*direccion_fisica_lectura)->marco, (*direccion_fisica_lectura)->desplazamiento);
+	log_debug(logger, "Salgo de recv_solicitud_tabla()");
+	 */
+	list_clean_and_destroy_elements(lista, free);
+}
+
+void send_respuesta_pedido_lectura(int socket_cliente, uint32_t valor_leido){
+
+	// log_debug(logger, "Entro a send_respuesta_pedido_lectura()");
+
+	t_paquete* paquete = crear_paquete(RESPUESTA_PEDIDO_LECTURA);
+
+	char* valor_a_enviar = string_new();
+	sprintf(valor_a_enviar, "%d\0", valor_leido);
+
+	// log_debug(logger,"valor a enviar por la lectura: %s", valor_a_enviar);
+
+	agregar_a_paquete(paquete, valor_a_enviar, strlen(valor_a_enviar) + 1);
+	enviar_paquete(paquete, socket_cliente);
+	eliminar_paquete(paquete);
+
+	// log_debug(logger, "Salgo de send_respuesta_pedido_lectura()");
+}
+
+void send_pedido_lectura(int socketCliente, struct direccion_fisica direccion_fisica_lectura){
+	// Parte del send que hagamos
+	// log_debug(logger, "Entro a send_PEDIDO_LECTURA()");
+
+	t_paquete* paquete = crear_paquete(PEDIDO_LECTURA);
+	char* marco_str = string_new();
+	sprintf(marco_str, "%d\0", direccion_fisica_lectura.marco);
+	agregar_a_paquete(paquete, marco_str, strlen(marco_str) + 1);
+
+	char* desplazamiento_str = string_new();
+	sprintf(desplazamiento_str, "%d\0",direccion_fisica_lectura.desplazamiento);
+	agregar_a_paquete(paquete, desplazamiento_str,strlen(desplazamiento_str) + 1);
+
+	// log_debug(logger, "Arme paquete de PEDIDO_LECTURA");
+	enviar_paquete(paquete, socketCliente);
+
+	// log_debug(logger, "Envie PEDIDO_LECTURA");
+	eliminar_paquete(paquete);
+}
+
+uint32_t recv_respuesta_pedido_lectura(int socketCliente){
+	// log_debug(logger, "Entro a recv_PEDIDO_LECTURA()");
+
+	op_code cod_op;
+	cod_op = recibir_operacion(socketCliente);
+
+	t_list* lista;
+	lista = recibir_paquete(socketCliente);
+
+	uint32_t valor_buscado = atoi(list_remove(lista, 0));
+	list_destroy(lista);
+
+	return valor_buscado;
+}
+
+void send_pedido_escritura(int socketCliente, struct direccion_fisica direccion_fisica_lectura, uint32_t valor_a_escribir){
+	// Parte del send que hagamos
+	// log_debug(logger, "Entro a send_pedido_escritura()");
+
+	t_paquete* paquete = crear_paquete(PEDIDO_ESCRITURA);
+	char* marco_str = string_new();
+	sprintf(marco_str, "%d\0", direccion_fisica_lectura.marco);
+	agregar_a_paquete(paquete, marco_str, strlen(marco_str) + 1);
+
+	char* desplazamiento_str = string_new();
+	sprintf(desplazamiento_str, "%d\0",direccion_fisica_lectura.desplazamiento);
+	agregar_a_paquete(paquete, desplazamiento_str,strlen(desplazamiento_str) + 1);
+
+	char* valor_escritura_str = string_new();
+	sprintf(valor_escritura_str, "%d\0",valor_a_escribir);
+	agregar_a_paquete(paquete, valor_escritura_str,strlen(valor_escritura_str) + 1);
+
+	// log_debug(logger, "Arme paquete de PEDIDO_ESCRITURA");
+	enviar_paquete(paquete, socketCliente);
+
+	log_debug(logger, "Envie PEDIDO_ESCRITURA");
+	eliminar_paquete(paquete);
+}
+
+int recv_pedido_escritura(int socket_cliente, struct direccion_fisica** direccion_fisica_lectura){
+	// log_debug(logger, "Entro a recv_pedido_escritura()");
+
+	t_list* lista;
+	lista = recibir_paquete(socket_cliente);
+
+	*direccion_fisica_lectura = deserializar_direccion_fisica(lista);
+
+	int valor_a_escribir = atoi(list_remove(lista, 0));
+	/*
+	log_debug(logger, "Direccion fisica recibida:");
+	log_debug(logger, "Marco: %d\tDesplazamiento: %d", (*direccion_fisica_lectura)->marco, (*direccion_fisica_lectura)->desplazamiento);
+	log_debug(logger, "Valor a ser escrito en memoria: %d", valor_a_escribir);
+
+	log_debug(logger, "Salgo de recv_pedido_escritura()");
+	*/
+	list_clean_and_destroy_elements(lista, free);
+}
+
+void send_respuesta_pedido_escritura(int socket_cliente, int resultadoEscritura){
+
+	log_debug(logger, "Entro a send_respuesta_pedido_escritura()");
+
+	t_paquete* paquete = crear_paquete(RESPUESTA_PEDIDO_LECTURA);
+
+	char* resultadoEscritura_str = string_new();
+	sprintf(resultadoEscritura_str, "%d\0", resultadoEscritura);
+
+	log_debug(logger,"valor a enviar por la escritura: %s", resultadoEscritura_str);
+
+	agregar_a_paquete(paquete, resultadoEscritura_str, strlen(resultadoEscritura_str) + 1);
+	enviar_paquete(paquete, socket_cliente);
+	eliminar_paquete(paquete);
+
+	log_debug(logger, "Salgo de send_respuesta_pedido_escritura()");
+}
+
+bool recv_respuesta_pedido_escritura(int socketCliente){
+	log_debug(logger, "Entro a recv_respuesta_pedido_escritura()");
+
+	op_code cod_op;
+	cod_op = recibir_operacion(socketCliente);
+
+	t_list* lista;
+	lista = recibir_paquete(socketCliente);
+
+	bool resultadoEscritura = atoi(list_remove(lista, 0));
+	list_destroy(lista);
+
+	return resultadoEscritura;
+}
+
+
+
+
+
+
+
+
+
+
+
