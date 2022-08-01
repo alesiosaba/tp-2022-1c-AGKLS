@@ -77,9 +77,9 @@ void solicitud_nuevo_proceso(int socket_cliente){
 }
 
 
-bool solicitud_escritura_memoria(int dato, uint32_t marco, uint32_t desplazamiento){
-    log_debug(logger,"solicitud_escritura_memoria - Escribiendo en marco %d con desplazamiento %d", marco, desplazamiento);
-    return escribir_memoria(dato, marco, desplazamiento) == EXIT_SUCCESS;
+int solicitud_escritura_memoria(int dato, uint32_t marco, uint32_t desplazamiento){
+    log_debug(logger,"solicitud_escritura_memoria - Escribiendo %d en marco %d con desplazamiento %d", dato, marco, desplazamiento);
+    return escribir_memoria(dato, marco, desplazamiento);
 }
 
 uint32_t solicitud_lectura_memoria(uint32_t marco, uint32_t desplazamiento){

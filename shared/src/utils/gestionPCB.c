@@ -279,8 +279,9 @@ void completar_nodo_instruccion(nodo_instruccion* nodo_instruccion, char* buffer
 
 	// Limpiamos los caracteres basura del final del buffer
 	char* buffer = string_new();
+	memset(buffer,'\0',strlen(buffer_original));
 	strcpy(buffer, buffer_original);
-	string_trim_right(&buffer);
+//	string_trim_right(&buffer);
 
 	// utilizamos strtok para completar el identificador y los parametros de la instruccion
 	char str[30];

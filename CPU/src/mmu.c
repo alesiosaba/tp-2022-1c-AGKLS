@@ -88,18 +88,19 @@ struct direccion_fisica traducir_dir_logica(pcb** pcb, int direccion_logica){
 	return direccion_fisica_buscada;
 }
 
+// TODO: TESTEAR
 int obtener_numero_pagina(int direccion_logica){
-	return 3; //floor(direccion_logica / tamanio_pagina);
+	return floor( (double) direccion_logica / (double) tamanio_pagina);
 }
-
+// TODO: TESTEAR
 int obtener_entrada_tabla_primer_nivel(int numero_pagina) {
-	return 4; //floor(numero_pagina / cant_entradas_por_tabla);
+	return floor( (double) numero_pagina / (double) cant_entradas_por_tabla);
 }
-
+// TODO: TESTEAR
 int obtener_entrada_tabla_segundo_nivel(int numero_pagina) {
-	return 5; // numero_pagina % cant_entradas_por_tabla;
+	return numero_pagina % cant_entradas_por_tabla;
 }
 
 int obtener_desplazamiento(int direccion_logica, int numero_pagina) {
-	return 6; // direccion_logica - numero_pagina * tamanio_pagina;
+	return direccion_logica - numero_pagina * tamanio_pagina;
 }

@@ -376,7 +376,7 @@ void send_pedido_escritura(int socketCliente, struct direccion_fisica direccion_
 }
 
 int recv_pedido_escritura(int socket_cliente, struct direccion_fisica** direccion_fisica_lectura){
-	// log_debug(logger, "Entro a recv_pedido_escritura()");
+	 log_debug(logger, "Entro a recv_pedido_escritura()");
 
 	t_list* lista;
 	lista = recibir_paquete(socket_cliente);
@@ -384,6 +384,8 @@ int recv_pedido_escritura(int socket_cliente, struct direccion_fisica** direccio
 	*direccion_fisica_lectura = deserializar_direccion_fisica(lista);
 
 	int valor_a_escribir = atoi(list_remove(lista, 0));
+	 log_debug(logger, "recv_pedido_escritura: El valor recibido a ser leido es %d", valor_a_escribir);
+
 	/*
 	log_debug(logger, "Direccion fisica recibida:");
 	log_debug(logger, "Marco: %d\tDesplazamiento: %d", (*direccion_fisica_lectura)->marco, (*direccion_fisica_lectura)->desplazamiento);
@@ -392,6 +394,8 @@ int recv_pedido_escritura(int socket_cliente, struct direccion_fisica** direccio
 	log_debug(logger, "Salgo de recv_pedido_escritura()");
 	*/
 	list_clean_and_destroy_elements(lista, free);
+
+	return valor_a_escribir;
 }
 
 void send_respuesta_pedido_escritura(int socket_cliente, int resultadoEscritura){
@@ -420,7 +424,8 @@ bool recv_respuesta_pedido_escritura(int socketCliente){
 
 	t_list* lista;
 	lista = recibir_paquete(socketCliente);
-
+    // TODO: Si la ejecucion es exitosa se devuelve 0, pero 0 es interpretado como false.
+	// Ver de normalizar esto
 	bool resultadoEscritura = atoi(list_remove(lista, 0));
 	list_destroy(lista);
 

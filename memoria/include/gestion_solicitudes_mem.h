@@ -17,7 +17,7 @@
 void solicitud_nuevo_proceso(int socket_cliente);
 int solicitud_tabla_paginas(int id_tabla, int entrada_en_tabla);
 int solicitud_marco(int pid, int id_tabla, int entrada_en_tabla);
-bool solicitud_escritura_memoria(int dato, uint32_t marco, uint32_t desplazamiento);
+int solicitud_escritura_memoria(int dato, uint32_t marco, uint32_t desplazamiento);
 uint32_t solicitud_lectura_memoria(uint32_t marco, uint32_t desplazamiento);
 
 #endif /* GESTION_SOLICITUDES_MEM_H_ */

@@ -112,7 +112,7 @@ int manejarConexionCPU(int socket_cliente){
 			case PEDIDO_ESCRITURA:
 				log_info(logger, "Memoria recibio PEDIDO_ESCRITURA");
 				int valor_a_escribir = recv_pedido_escritura(socket_cliente, &direccion_fisica_lectura);
-				bool resultadoEscritura = solicitud_escritura_memoria(valor_a_escribir, direccion_fisica_lectura->marco, direccion_fisica_lectura->desplazamiento);
+				int resultadoEscritura = solicitud_escritura_memoria(valor_a_escribir, direccion_fisica_lectura->marco, direccion_fisica_lectura->desplazamiento);
 				send_respuesta_pedido_escritura(socket_cliente,resultadoEscritura);
 				break;
 

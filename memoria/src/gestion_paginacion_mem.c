@@ -147,6 +147,7 @@ void traer_pagina_a_memoria(int id, int dir_tablaN1 , entrada_tabla_N2 *e){
 
 int escribir_memoria(int dato, uint32_t marco, uint32_t desplazamiento)
 {
+    log_debug(logger, "escribir_memoria: Se intentara escribir %d en el marco %d", dato, marco);
     //CONSIGUE PAGINA EN MARCO
     log_info(logger, "escribir_memoria: Buscando pagina que contiene marco %d",marco);
     entrada_tabla_N2 *pag = conseguir_pagina_en_marco(marco);
@@ -159,7 +160,8 @@ int escribir_memoria(int dato, uint32_t marco, uint32_t desplazamiento)
     // TODO: Ver si hay que sumar solo el desplazamiento o toda la direccion fisica
     memcpy(espacio_lectura_escritura_procesos + desplazamiento, &dato, sizeof(uint32_t));
     log_debug(logger, "escribir_memoria: Se escribio exitosamente");
-    return EXIT_SUCCESS;
+    // TODO: SI devolvemos 0 (EXIT_SUCCESS) CPU lo interpreta como fail
+    return 1;
 }
 
 uint32_t leer_memoria(uint32_t marco, uint32_t desplazamiento){
