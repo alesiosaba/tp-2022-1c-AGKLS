@@ -104,32 +104,16 @@ int manejarConexionCPU(int socket_cliente){
 
 			case PEDIDO_LECTURA:
 				log_info(logger, "Memoria recibio PEDIDO_LECTURA");
-
 				recv_pedido_lectura(socket_cliente, &direccion_fisica_lectura);
-
-				// TODO: Hacer lectura_valor_buscado(direccion_fisica_lectura);
-				// uint32_t valor_leido = lectura_valor_buscado(direccion_fisica_lectura);
-
-				// DUMMY
-				uint32_t valor_leido = 8;
-
+				uint32_t valor_leido = solicitud_lectura_memoria(direccion_fisica_lectura->marco, direccion_fisica_lectura->desplazamiento);
 				send_respuesta_pedido_lectura(socket_cliente, valor_leido);
-
 				break;
 
 			case PEDIDO_ESCRITURA:
 				log_info(logger, "Memoria recibio PEDIDO_ESCRITURA");
-
 				int valor_a_escribir = recv_pedido_escritura(socket_cliente, &direccion_fisica_lectura);
-
-				// TODO: Hacer escritura_valor_buscado(direccion_fisica_lectura, valor_a_escribir);
-				// bool resultadoEscritura = escritura_valor_buscado(direccion_fisica_lectura, valor_a_escribir);
-
-				// DUMMY
-				bool resultadoEscritura = true;
-
+				bool resultadoEscritura = solicitud_escritura_memoria(valor_a_escribir, direccion_fisica_lectura->marco, direccion_fisica_lectura->desplazamiento);
 				send_respuesta_pedido_escritura(socket_cliente,resultadoEscritura);
-
 				break;
 
 			case -1:

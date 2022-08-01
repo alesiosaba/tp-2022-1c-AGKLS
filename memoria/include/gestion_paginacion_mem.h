@@ -20,7 +20,8 @@ void traer_pagina_a_memoria(int id, int dir_tablaN1 ,entrada_tabla_N2 *e);
 int criterio_clock(entrada_tabla_N2 *e);
 entrada_tabla_N2* aplicar_busqueda_clock(int id, int dir_tablaN1);
 int criterio_clock_mejorado(entrada_tabla_N2 *e, int vuelta);
-
+int escribir_memoria(int dato, uint32_t marco, uint32_t desplazamiento);
+uint32_t leer_memoria(uint32_t marco, uint32_t desplazamiento);
 
 
 #endif /* GESTION_PAGINACION_MEM_H_ */

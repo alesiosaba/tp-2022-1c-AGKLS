@@ -75,3 +75,36 @@ void solicitud_nuevo_proceso(int socket_cliente){
     log_info(logger,"solicitud_nuevo_proceso - termino ejecucion para proceso %d",nodo_pcb->id);
     //list_destroy_and_destroy_elements(nodo_pcb,free);
 }
+
+
+bool solicitud_escritura_memoria(int dato, uint32_t marco, uint32_t desplazamiento){
+    log_debug(logger,"solicitud_escritura_memoria - Escribiendo en marco %d con desplazamiento %d", marco, desplazamiento);
+    return escribir_memoria(dato, marco, desplazamiento) == EXIT_SUCCESS;
+}
+
+uint32_t solicitud_lectura_memoria(uint32_t marco, uint32_t desplazamiento){
+    log_debug(logger,"solicitud_lectura_memoria - Leyeno marco %d con desplazamiento %d", marco, desplazamiento);
+    return leer_memoria(marco, desplazamiento);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

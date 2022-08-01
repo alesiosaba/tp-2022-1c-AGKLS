@@ -143,3 +143,37 @@ void traer_pagina_a_memoria(int id, int dir_tablaN1 , entrada_tabla_N2 *e){
 
 
 }
+
+
+int escribir_memoria(int dato, uint32_t marco, uint32_t desplazamiento)
+{
+    //CONSIGUE PAGINA EN MARCO
+    log_info(logger, "escribir_memoria: Buscando pagina que contiene marco %d",marco);
+    entrada_tabla_N2 *pag = conseguir_pagina_en_marco(marco);
+    log_info(logger, "escribir_memoria: Se encontro la pagina %d", pag->num_pag);
+    //PAGINA FUE USADA
+    pag->bit_uso = 1;
+    //PAGINA FUE MODIFICADA
+    pag->bit_modificacion = 1;
+    log_debug(logger, "escribir_memoria: Escribiendo %d", dato);
+    // TODO: Ver si hay que sumar solo el desplazamiento o toda la direccion fisica
+    memcpy(espacio_lectura_escritura_procesos + desplazamiento, &dato, sizeof(uint32_t));
+    log_debug(logger, "escribir_memoria: Se escribio exitosamente");
+    return EXIT_SUCCESS;
+}
+
+uint32_t leer_memoria(uint32_t marco, uint32_t desplazamiento){
+    log_debug(logger, "leer_memoria: Se leera el marco %d con despl %d", marco, desplazamiento);
+    // Busca la pagina segun el marco
+    entrada_tabla_N2 *pag = conseguir_pagina_en_marco(marco);
+    // Bit de uso
+    pag->bit_uso = 1;
+    //LEE Y RETORNA DATO
+    uint32_t dato;
+    // TODO: Leemos + deplz o leemos +dir_fisica completa?
+    memcpy(&dato, espacio_lectura_escritura_procesos + desplazamiento, sizeof(uint32_t));
+    log_debug(logger, "leer_memoria: El marco %d con despl %d contiene el dato: %d", marco, desplazamiento, dato);
+    return dato;
+}
+
+
