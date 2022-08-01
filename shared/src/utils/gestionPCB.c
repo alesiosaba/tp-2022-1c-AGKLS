@@ -167,7 +167,7 @@ t_paquete* generar_paquete_pcb(struct pcb PCB_a_enviar, op_code codigo_paquete){
 
 void mostrar_lista_instrucciones(t_list* lista_instrucciones){
 
-	printf("\n\nLista de instrucciones:\n");
+	printf("\nLista de instrucciones:\n");
 
 	int i = 0;
 	while(i < list_size(lista_instrucciones)){
@@ -279,8 +279,10 @@ void completar_nodo_instruccion(nodo_instruccion* nodo_instruccion, char* buffer
 
 	// Limpiamos los caracteres basura del final del buffer
 	char* buffer = string_new();
+	memset(buffer,'\0',strlen(buffer_original));
 	strcpy(buffer, buffer_original);
-	string_trim_right(&buffer);
+	// TODO: string_trim_right porque revienta
+	// string_trim_right(&buffer);
 
 	// utilizamos strtok para completar el identificador y los parametros de la instruccion
 	char str[30];
@@ -326,9 +328,9 @@ void imprimir_PCB(pcb* nodo_pcb){
 	printf("\n\tSTATUS: %s", imprimir_status(nodo_pcb->status));
 	printf("\n\tSTATUS int: %d", nodo_pcb->status);
 	printf("\n\tint STATUS: %d", nodo_pcb->status);
-	printf("\n\tTiempo a bloquearse: %d\n\n", nodo_pcb->tiempo_a_bloquearse);
-	// mostrar_lista_instrucciones(nodo_pcb->instrucciones);
-
+	printf("\n\tTiempo a bloquearse: %d\n", nodo_pcb->tiempo_a_bloquearse);
+	mostrar_lista_instrucciones(nodo_pcb->instrucciones);
+	printf("\n");
 }
 
 char* imprimir_status(status status){

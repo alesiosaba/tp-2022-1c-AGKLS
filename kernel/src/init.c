@@ -22,7 +22,8 @@ config_t inicializar(char* config_path){
 	string_append(&logger_name, ARCHIVO_DE_LOG);
 	string_append(&logger_name, timestamp_string);
 	string_append(&logger_name, ".log");
-    logger = iniciar_logger(log_level, logger_name, LOGGER);
+
+    logger = iniciar_logger(log_level, "kernel.log", LOGGER);
 //globales
 	idProceso = 0;
     listaNew = list_create();
