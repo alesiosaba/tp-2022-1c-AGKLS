@@ -32,6 +32,7 @@ void planificadorLargoPlazo(pcb *nodo_pcb){
 		print_grado_multiprogramacion();
 		sem_wait(&sem_multiprogramacion);
 		pcb = list_get(listaNew,0);
+		log_debug(logger, "Enviando PCB a Memoria");
 		imprimir_PCB(pcb);
 		send_paquete_pcb(conexionAMemoria, pcb, SOLICITUD_NUEVO_PROCESO); //todo Acá pido el numero de tabla para la memoria
 		numeroTabla = recv_respuesta_nuevo_proceso(conexionAMemoria);

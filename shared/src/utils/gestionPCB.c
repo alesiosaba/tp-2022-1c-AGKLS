@@ -53,7 +53,7 @@ pcb* deserializar_PCB(t_list* lista){
 
 	// agarro el sexto elemento (status)
 	t_list* status = list_remove(lista, 0);
-	pcb->status = str_to_status_enum(status);
+	pcb->status = atoi(status);
 
 	// agarro el septimo elemento (tiempo_a_bloquearse)
 	t_list* tiempo_a_bloquearse = list_remove(lista, 0);
@@ -65,11 +65,17 @@ pcb* deserializar_PCB(t_list* lista){
 	return pcb;
 }
 
-status str_to_status_enum(char* str){
+status str_to_status_enum(char* aux){
 	int j;
-	     for (j = 0;  j < sizeof (conversion_status) / sizeof (conversion_status[0]);  ++j)
+
+	char* str = string_new();
+	string_append(&str, aux);
+
+	for (j = 0;  j < sizeof (conversion_status) / sizeof (conversion_status[0]);  ++j)
 	         if (atoi(str) != conversion_status[j].str)
 	             return conversion_status[j].val;
+
+	free(str);
 }
 
 char* generar_renglon_instruccion(struct instruccion* instruccion_a_enviar){
@@ -81,7 +87,7 @@ char* generar_renglon_instruccion(struct instruccion* instruccion_a_enviar){
 
 	// Si la instruccion no tiene parametros directamente devuelve el renglon
 	if(!list_is_empty(instruccion_a_enviar->parametros)){
-		char* parametroStr =  string_new();
+
 
 		// Caso que la instruccion tenga al menos 1 parametro
 		int i = 0;
@@ -90,7 +96,8 @@ char* generar_renglon_instruccion(struct instruccion* instruccion_a_enviar){
 			string_append(&renglon_instruccion, " ");
 
 			nodo_parametro* param = list_get(instruccion_a_enviar->parametros, i);
-			sprintf(parametroStr, "%d", param->parametro);
+			// sprintf(parametroStr, "%d", param->parametro);
+			char* parametroStr = string_itoa(param->parametro);
 
 			string_append(&renglon_instruccion, parametroStr);
 
@@ -112,23 +119,20 @@ t_paquete* generar_paquete_pcb(struct pcb PCB_a_enviar, op_code codigo_paquete){
 	t_list* lista_instrucciones = PCB_a_enviar.instrucciones;
 
 	// pcb -> id
-	char* id =  string_new();
-	sprintf(id, "%d\0", PCB_a_enviar.id);
+	char* id = string_itoa(PCB_a_enviar.id);
 	agregar_a_paquete(paquete, id, strlen(id) + 1);
+	free(id);
 
 	// pcb -> tamanio
-	char* tamanio = string_new();
-	sprintf(tamanio, "%d\0", PCB_a_enviar.tamanio);
+	char* tamanio = string_itoa(PCB_a_enviar.tamanio);
 	agregar_a_paquete(paquete, tamanio, strlen(tamanio) + 1);
 
 	// pcb -> program_counter
-	char* program_counter = string_new();
-	sprintf(program_counter, "%d\0", PCB_a_enviar.program_counter);
+	char* program_counter = string_itoa(PCB_a_enviar.program_counter);
 	agregar_a_paquete(paquete, program_counter, strlen(program_counter) + 1);
 
 	// pcb -> tabla_paginas
-	char* tabla_paginas = string_new();
-	sprintf(tabla_paginas, "%d\0", PCB_a_enviar.tabla_paginas);
+	char* tabla_paginas = string_itoa(PCB_a_enviar.tabla_paginas);
 	agregar_a_paquete(paquete, tabla_paginas, strlen(tabla_paginas) + 1);
 
 	// pcb -> estimacion
@@ -137,13 +141,11 @@ t_paquete* generar_paquete_pcb(struct pcb PCB_a_enviar, op_code codigo_paquete){
 	agregar_a_paquete(paquete, estimacion, strlen(estimacion) + 1);
 
 	// pcb -> status
-	char* status = string_new();
-	sprintf(status, "%d\0", PCB_a_enviar.status);
-	agregar_a_paquete(paquete, status, strlen(status));
+	char* status = string_itoa((int) PCB_a_enviar.status);
+	agregar_a_paquete(paquete, status, strlen(status) + 1);
 
 	// pcb -> tiempo_a_bloquearse
-	char* tiempo_a_bloquearse = string_new();
-	sprintf(tiempo_a_bloquearse, "%d\0", PCB_a_enviar.tiempo_a_bloquearse);
+	char* tiempo_a_bloquearse = string_itoa(PCB_a_enviar.tiempo_a_bloquearse);
 	agregar_a_paquete(paquete, tiempo_a_bloquearse, strlen(tiempo_a_bloquearse) + 1);
 
 	// pcb -> instrucciones
@@ -279,9 +281,12 @@ void completar_nodo_instruccion(nodo_instruccion* nodo_instruccion, char* buffer
 
 	// Limpiamos los caracteres basura del final del buffer
 	char* buffer = string_new();
-	memset(buffer,'\0',strlen(buffer_original));
-	strcpy(buffer, buffer_original);
-//	string_trim_right(&buffer);
+	// memset(buffer,'\0',strlen(buffer_original));
+	// memset(buffer,'\0',sizeof(buffer_original));
+	string_append(&buffer, buffer_original);
+
+	// strcpy(buffer, buffer_original);
+	//	string_trim_right(&buffer);
 
 	// utilizamos strtok para completar el identificador y los parametros de la instruccion
 	char str[30];
