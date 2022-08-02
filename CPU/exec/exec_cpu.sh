@@ -1,2 +1,4 @@
 clear
-./../bin/CPU.out ./../exec_conf/CPU.config
+echo Ejecutando cpu: cpu.config 
+echo
+./../bin/cpu.out ./../exec_conf/cpu.config

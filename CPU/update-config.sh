@@ -1,5 +1,5 @@
 echo
-echo Actualizando CPU.config ...
+echo Actualizando cpu.config ...
 echo
 
 read -p "Ingrese LOG_LEVEL: " LOG_LEVEL

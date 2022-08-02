@@ -1,9 +1,9 @@
 
-echo Limpiando CPU.config ...
+echo Limpiando cpu.config ...
 
-cd ../../CPU/exec_conf/
-rm CPU.config -f
-touch CPU.config
+cd ../../cpu/exec_conf/
+rm cpu.config -f
+touch cpu.config
 
 echo "LOG_LEVEL=DEBUG" >> cpu.config
 echo "ENTRADAS_TLB=4" >> cpu.config

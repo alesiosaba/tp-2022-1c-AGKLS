@@ -3,7 +3,6 @@
 
 
 config_t inicializar(char* config_path){
-	system("clear");
 	errorMessageAux = string_new();
 //Logs y Config
 	char* log_level;
