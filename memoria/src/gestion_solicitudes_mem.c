@@ -40,7 +40,7 @@ int solicitud_marco(int pid, int id_tabla, int entrada_en_tabla){
 }
 
 void solicitud_nuevo_proceso(int socket_cliente){
-	struct pcb *nodo_pcb;
+	pcb *nodo_pcb;
 	recv_paquete_pcb(socket_cliente, &nodo_pcb);
 	imprimir_PCB(nodo_pcb);
 
@@ -88,13 +88,45 @@ uint32_t solicitud_lectura_memoria(uint32_t marco, uint32_t desplazamiento){
 }
 
 
+void solicitud_suspension_proceso(int socket_cliente){
+	pcb *nodo_pcb;
+    recv_paquete_pcb(socket_cliente, &nodo_pcb);
+    log_debug(logger,"solicitud_suspension_proceso - pcb recibido");
+	imprimir_PCB(nodo_pcb);
+
+   // TODO: Ver si la direccion tabla N1 la recibimos o la definimos en proceso_en_memoria
+    proceso_en_memoria *proceso = buscar_proceso_por_id(nodo_pcb->id);
+
+    log_info(logger, "solicitud_suspension_proceso: Se intentara suspender proceso PID: %d con dir_tabla_n1: %d", nodo_pcb->id,  nodo_pcb->tabla_paginas );
+
+    proceso->esta_suspendido = 1;
+
+    log_info(logger, "solicitud_suspension_proceso: Creando solicitud de suspension de proceso en SWAP" );
+
+    // Escribir en swap aquellas paginas con bit de modificacion en 1
+    t_pedido_disco* p = crear_pedido_suspension_proceso_swap(nodo_pcb->id, nodo_pcb->tabla_paginas);
+    sem_wait(&(p->pedido_swap_listo));
+    eliminar_pedido_disco(p);
+    log_info(logger, "solicitud_suspension_proceso: Liberando marcos del proceso" );
+    liberar_marcos_de_proceso(nodo_pcb->id);
+    log_info(logger, "solicitud_suspension_proceso: Marcos liberados." );
+    dump_bitmap(bitmap_marcos);
+
+    log_info(logger, "solicitud_suspension_proceso: Proceso suspendido. Posteando semaforo suspension completa." );
+    sem_post(&(proceso->suspension_completa));
+}
 
 
 
-
-
-
-
+void solicitud_desuspension_proceso(int socket_cliente){
+	pcb *nodo_pcb;
+    recv_paquete_pcb(socket_cliente, &nodo_pcb);
+	log_debug(logger,"solicitud_desuspension_proceso - pcb recibido: %d", nodo_pcb->id);
+    proceso_en_memoria *proceso = buscar_proceso_por_id(nodo_pcb->id);
+    log_info(logger, "solicitud_desuspension_proceso: Reservando marcos para el proceso" );
+	reservar_marcos_proceso(proceso);
+	dump_bitmap(bitmap_marcos);
+}
 
 
 

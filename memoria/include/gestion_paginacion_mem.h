@@ -24,6 +24,6 @@ uint32_t direccion_fisica_completa(uint32_t marco, uint32_t desplazamiento);
 int criterio_clock_mejorado(entrada_tabla_N2 *e, int vuelta);
 int escribir_memoria(int dato, uint32_t marco, uint32_t desplazamiento);
 uint32_t leer_memoria(uint32_t marco, uint32_t desplazamiento);
-
+void liberar_marcos_de_proceso(int pid);
 
 #endif /* GESTION_PAGINACION_MEM_H_ */

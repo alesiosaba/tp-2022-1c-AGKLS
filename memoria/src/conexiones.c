@@ -82,7 +82,7 @@ int manejarConexionCPU(int socket_cliente){
 			switch (cod_op) {
 
 			case SOLICITUD_TABLA_PAGINA_N1:
-				log_info(logger, "Memoria recibio SOLICITUD_TABLA_PAGINA_N1");
+				log_debug(logger, "Memoria recibio SOLICITUD_TABLA_PAGINA_N1");
 				recv_solicitud_tabla(socket_cliente, &consulta);
 				log_info(logger, "SOLICITUD_TABLA_PAGINA_N1: PID: %d ID_TABLA_N1: %d ENTRADA_TABLA_N1 %d", consulta->id_proceso, consulta->id_tabla, consulta->entrada_en_tabla);
 				int numero_tabla_N2 = solicitud_tabla_paginas(consulta->id_tabla, consulta->entrada_en_tabla);
@@ -90,7 +90,7 @@ int manejarConexionCPU(int socket_cliente){
 				break;
 
 			case SOLICITUD_TABLA_PAGINA_N2:
-				log_info(logger, "Memoria recibio SOLICITUD_TABLA_PAGINA_N2");
+				log_debug(logger, "Memoria recibio SOLICITUD_TABLA_PAGINA_N2");
 				recv_solicitud_tabla(socket_cliente, &consulta);
 				log_warning(logger, "Despues del recv en SOLICITUD_TABLA_PAGINA_N2");
 
@@ -103,14 +103,14 @@ int manejarConexionCPU(int socket_cliente){
 				break;
 
 			case PEDIDO_LECTURA:
-				log_info(logger, "Memoria recibio PEDIDO_LECTURA");
+				log_debug(logger, "Memoria recibio PEDIDO_LECTURA");
 				recv_pedido_lectura(socket_cliente, &direccion_fisica_lectura);
 				uint32_t valor_leido = solicitud_lectura_memoria(direccion_fisica_lectura->marco, direccion_fisica_lectura->desplazamiento);
 				send_respuesta_pedido_lectura(socket_cliente, valor_leido);
 				break;
 
 			case PEDIDO_ESCRITURA:
-				log_info(logger, "Memoria recibio PEDIDO_ESCRITURA");
+				log_debug(logger, "Memoria recibio PEDIDO_ESCRITURA");
 				int valor_a_escribir = recv_pedido_escritura(socket_cliente, &direccion_fisica_lectura);
 				int resultadoEscritura = solicitud_escritura_memoria(valor_a_escribir, direccion_fisica_lectura->marco, direccion_fisica_lectura->desplazamiento);
 				send_respuesta_pedido_escritura(socket_cliente,resultadoEscritura);
@@ -147,6 +147,15 @@ int manejarConexionKernel(int socket_cliente){
 				solicitud_nuevo_proceso(socket_cliente, logger);
 				break;
 
+			case SOLICITUD_SUSPENSION_PROCESO:
+				log_debug(logger, "Memoria recibio SOLICITUD_SUSPENSION_PROCESO");
+				solicitud_suspension_proceso(socket_cliente);
+				break;
+
+			case SOLICITUD_DESUSPENSION_PROCESO:
+				log_debug(logger, "Memoria recibio SOLICITUD_SUSPENSION_PROCESO");
+				solicitud_desuspension_proceso(socket_cliente);
+				break;
 			case -1:
 				log_error(logger, SERVIDOR_DESCONEXION);
 				return EXIT_FAILURE;

@@ -41,7 +41,7 @@ void gestionar_solicitudes_swap(){
      	    pag = p->argumentos[2];
      	    enviar_pagina_a_memoria(pid, direccion, pag);
      	    break;
-     	 case DISCO_SUSPENDER_PROCESO_SWAP:
+     	 case SUSPENDER_PROCESO_SWAP:
      	    pid = p->argumentos[0];
      	    direccion = p->argumentos[1];
      	    suspender_paginas(pid, direccion);
@@ -133,11 +133,6 @@ void enviar_pagina_a_memoria(int pid, int dir_pag, int num_pag){
     free(path);
 }
 
-
-
-
-
-
 t_pedido_disco* crear_pedido_eliminar_archivo_swap(int id)
 {
     t_pedido_disco *p = malloc(sizeof(t_pedido_disco));
@@ -153,9 +148,8 @@ t_pedido_disco* crear_pedido_eliminar_archivo_swap(int id)
     return p;
 }
 
-void eliminar_pedido_disco(t_pedido_disco *p)
-{
-    // Ver de liberar los argumentos individualmente
+void eliminar_pedido_disco(t_pedido_disco *p){
+    // TODO: Ver de liberar los argumentos individualmente. Debe estar leakeando.
     free(p);
 }
 
@@ -173,6 +167,22 @@ t_pedido_disco* crear_pedido_crear_archivo_swap(int id)
     sem_post(&semaforo_cola_pedidos_swap);
     return p;
 }
+
+t_pedido_disco* crear_pedido_suspension_proceso_swap(int id, int dir_tabla_n1){
+	t_pedido_disco *p = malloc(sizeof(t_pedido_disco));
+	p->operacion_disco = SUSPENDER_PROCESO_SWAP;
+	p->argumentos[0] = id;
+	p->argumentos[1] = dir_tabla_n1;
+	sem_init(&(p->pedido_swap_listo), 0, 0);
+
+	pthread_mutex_lock(&mutex_cola_pedidos_swap);
+	queue_push(pedidos_disco, p);
+	pthread_mutex_unlock(&mutex_cola_pedidos_swap);
+
+	sem_post(&semaforo_cola_pedidos_swap);
+	return p;
+}
+
 
 
 // Manejo swap
@@ -243,8 +253,6 @@ void suspender_paginas(int pid, int dir_tablaN1)
             escribir_archivo_swap(pid, e->dir, e->num_pag);
             log_info(logger, "se guardaron los cambios de la pagina %d correctamente del proceso %d",e->num_pag, pid);
         }
-
-
         e->bit_modificacion = 0;
         e->bit_presencia = 0;
     }

@@ -387,18 +387,31 @@ void dump_bitmap(t_bitarray *bitmap)
 {
     size_t cantidadDeBits =  bitarray_get_max_bit(bitmap);
 
-    char* cadenaDeBitmap = malloc(cantidadDeBits);
+    char* cadena = malloc(cantidadDeBits);
 
-    strcpy(cadenaDeBitmap, "\0");
+    strcpy(cadena, "\0");
 
     for(int aux=0;aux<cantidadDeBits;aux++){
         if(bitarray_test_bit(bitmap, aux)==1){
-            string_append(&cadenaDeBitmap, "1");
+            string_append(&cadena, "1");
         }
         else
-            string_append(&cadenaDeBitmap, "0");
+            string_append(&cadena, "0");
     }
 
-    log_info(logger,"el estado del bitmap es: %s",cadenaDeBitmap);
-    free(cadenaDeBitmap);
+    log_info(logger,"dump_bitmap - Estado actual: %s", cadena);
+    free(cadena);
+}
+
+void liberar_marcos_bitmap(t_list *marcos)
+{
+	//Iteramos el bitarray con los marcos
+    t_list_iterator *iterador = list_iterator_create(marcos);
+    while(list_iterator_has_next(iterador))
+    {
+    	// Ponemos en cero los marcos a liberar
+        int marco = (int) list_iterator_next(iterador);
+        bitarray_clean_bit(bitmap_marcos, marco);
+    }
+    list_iterator_destroy(iterador);
 }

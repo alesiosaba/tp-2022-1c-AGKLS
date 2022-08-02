@@ -31,7 +31,7 @@ enum OPERACIONES_DISCO
     CREAR_ARCHIVO_SWAP,
     ESCRIBIR_ARCHIVO_SWAP,
     LEER_ARCHIVO_SWAP,
-    DISCO_SUSPENDER_PROCESO_SWAP,
+    SUSPENDER_PROCESO_SWAP,
     ELIMINAR_ARCHIVO_SWAP
 };
 
@@ -48,6 +48,7 @@ t_pedido_disco* crear_pedido_escribir_swap(int id, int dir_marco, int num_pag);
 t_pedido_disco* crear_pedido_leer_swap(int id, int dir_marco, int num_pag);
 t_pedido_disco* crear_pedido_crear_archivo_swap(int id);
 t_pedido_disco* crear_pedido_eliminar_archivo_swap(int id);
+t_pedido_disco* crear_pedido_suspension_proceso_swap(int id, int dir_tabla_n1);
 void eliminar_pedido_disco(t_pedido_disco *p);
 // Manejo swap
 void crear_archivo_swap(int pid);

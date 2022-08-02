@@ -31,4 +31,5 @@ t_list* reservar_paginas(int idProceso, int tamanioProceso);
 void liberar_estructuras();
 void limpiar_bitmap();
 void dump_bitmap();
+void liberar_marcos_bitmap(t_list *marcos);
 #endif
