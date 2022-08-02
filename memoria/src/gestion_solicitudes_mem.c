@@ -130,6 +130,31 @@ void solicitud_desuspension_proceso(int socket_cliente){
 
 
 
+void solicitud_eliminar_proceso(int socket_cliente){
+	pcb *nodo_pcb;
+	recv_paquete_pcb(socket_cliente, &nodo_pcb);
+	log_debug(logger,"solicitud_eliminar_proceso - pcb recibido");
+    imprimir_PCB(nodo_pcb);
+    proceso_en_memoria *proceso = buscar_proceso_por_id(nodo_pcb->id);
+    log_info(logger, "solicitud_eliminar_proceso: Se intentara eliminar proceso PID: %d con dir_tabla_n1: %d", nodo_pcb->id,  nodo_pcb->tabla_paginas );
+
+    if(proceso->esta_suspendido == 1){
+    	sem_wait(&(proceso->suspension_completa));
+    	reservar_marcos_proceso(proceso);
+    	dump_bitmap(bitmap_marcos);
+    	proceso->esta_suspendido = 0;
+    	log_info(logger,"solicitud_eliminar_proceso - se desuspendio PID: %d", nodo_pcb->id);
+    }
+
+	log_info(logger,"solicitud_eliminar_proceso - eliminando paginas del proceso");
+    eliminar_paginas_proceso(nodo_pcb->id , nodo_pcb->tabla_paginas);
+    t_pedido_disco *p = crear_pedido_eliminar_archivo_swap(nodo_pcb->id);
+    sem_wait(&(p->pedido_swap_listo));
+    eliminar_pedido_disco(p);
+	log_info(logger,"solicitud_eliminar_proceso - eliminando estructura del proceso en memoria");
+    eliminar_estructura_proceso(nodo_pcb->id);
+    //list_destroy(parametros);
+}
 
 
 

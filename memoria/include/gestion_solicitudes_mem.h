@@ -21,5 +21,5 @@ int solicitud_escritura_memoria(int dato, uint32_t marco, uint32_t desplazamient
 uint32_t solicitud_lectura_memoria(uint32_t marco, uint32_t desplazamiento);
 void solicitud_suspension_proceso(int socket_cliente);
 void solicitud_desuspension_proceso(int socket_cliente);
-
+void solicitud_eliminar_proceso(int socket_cliente);
 #endif /* GESTION_SOLICITUDES_MEM_H_ */

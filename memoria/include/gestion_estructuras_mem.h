@@ -32,4 +32,7 @@ void liberar_estructuras();
 void limpiar_bitmap();
 void dump_bitmap();
 void liberar_marcos_bitmap(t_list *marcos);
+void eliminar_paginas_proceso(int id, int dir_tablaN1);
+void eliminar_estructura_proceso(int id);
+void eliminar_proceso(proceso_en_memoria *p);
 #endif

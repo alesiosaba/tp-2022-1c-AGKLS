@@ -415,3 +415,44 @@ void liberar_marcos_bitmap(t_list *marcos)
     }
     list_iterator_destroy(iterador);
 }
+
+void eliminar_paginas_proceso(int id, int dir_tabla_n1)
+{
+    log_info(logger,"eliminar_paginas_proceso - Eliminando paginas del proceso %d con dir_tabla-n1", id, dir_tabla_n1);
+    t_tablaN1 *t = list_get(tablas_primer_nivel, dir_tabla_n1);
+    t_list_iterator *iterador = list_iterator_create(t);
+    while(list_iterator_has_next(iterador))
+    {
+        log_info(logger,"eliminar_paginas_proceso - Eliminando entradas de la Tabla N2");
+        entrada_tabla_N1 *e1 = list_iterator_next(iterador);
+        t_tablaN2 *t2 = list_get(tablas_segundo_nivel, e1->dir);
+
+        list_clean_and_destroy_elements(t2, free);
+
+    }
+    log_info(logger,"eliminar_paginas_proceso - Eliminando Tabla N1");
+    list_clean_and_destroy_elements(t, free);
+    list_iterator_destroy(iterador);
+    log_info(logger,"eliminar_paginas_proceso - Liberando marcos de proceso %d", id);
+    liberar_marcos_de_proceso(id);
+}
+
+void eliminar_estructura_proceso(int pid)
+{
+    bool id_equals(proceso_en_memoria *p){
+        return p->id_proceso == pid;
+    }
+    log_info(logger,"eliminar_estructura_proceso - Eliminando proceso en memoria: %d", pid);
+    pthread_mutex_lock(&mutex_procesos_en_memoria);
+    list_remove_and_destroy_by_condition(procesos_en_memoria, (void*)id_equals, (void*)eliminar_proceso);
+    pthread_mutex_unlock(&mutex_procesos_en_memoria);
+    log_info(logger,"eliminar_estructura_proceso - Proceso en memoria PID: %d eliminado", pid);
+
+}
+
+
+void eliminar_proceso(proceso_en_memoria *p)
+{
+    sem_destroy(&(p->suspension_completa));
+    free(p);
+}

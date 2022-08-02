@@ -190,12 +190,15 @@ uint32_t leer_memoria(uint32_t marco, uint32_t desplazamiento){
 }
 
 void liberar_marcos_de_proceso(int pid){
+    log_info(logger, "liberar_marcos_de_proceso: Liberando marcos del proceso %d", pid);
 	 // Buscamos el proceso por pid en nuestra lista global de procesos
 	 proceso_en_memoria *p = buscar_proceso_por_id(pid);
 	 // Liberamos los marcos en nuestra lista global de marcos reservados
 	 liberar_marcos_bitmap(p->marcos_reservados);
+	 log_info(logger, "liberar_marcos_de_proceso: liberados marcos en bitmap global");
 	 // Liberamos los marcos de la lista de marcos_reservados del proceso
 	 list_clean(p->marcos_reservados);
+	 log_info(logger, "liberar_marcos_de_proceso: liberados marcos lista de marcos reservados del proceso");
 	 // TODO: ver posible leak
 //	 free(p);
 }

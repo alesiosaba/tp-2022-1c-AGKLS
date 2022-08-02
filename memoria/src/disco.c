@@ -135,6 +135,7 @@ void enviar_pagina_a_memoria(int pid, int dir_pag, int num_pag){
 
 t_pedido_disco* crear_pedido_eliminar_archivo_swap(int id)
 {
+	log_debug(logger,"crear_pedido_eliminar_archivo_swap - creando solicitud eliminar archivos SWAP");
     t_pedido_disco *p = malloc(sizeof(t_pedido_disco));
     p->operacion_disco = ELIMINAR_ARCHIVO_SWAP;
     p->argumentos[0] = id;
@@ -145,6 +146,8 @@ t_pedido_disco* crear_pedido_eliminar_archivo_swap(int id)
     pthread_mutex_unlock(&mutex_cola_pedidos_swap);
 
     sem_post(&semaforo_cola_pedidos_swap);
+	log_debug(logger,"crear_pedido_eliminar_archivo_swap - solicitud eliminar archivos SWAP terminada");
+
     return p;
 }
 

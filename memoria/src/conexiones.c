@@ -153,9 +153,14 @@ int manejarConexionKernel(int socket_cliente){
 				break;
 
 			case SOLICITUD_DESUSPENSION_PROCESO:
-				log_debug(logger, "Memoria recibio SOLICITUD_SUSPENSION_PROCESO");
+				log_debug(logger, "Memoria recibio SOLICITUD_DESUSPENSION_PROCESO");
 				solicitud_desuspension_proceso(socket_cliente);
 				break;
+			case SOLICITUD_FINALIZAR_PROCESO:
+				log_debug(logger, "Memoria recibio SOLICITUD_FINALIZAR_PROCESO");
+				solicitud_eliminar_proceso(socket_cliente);
+			    break;
+
 			case -1:
 				log_error(logger, SERVIDOR_DESCONEXION);
 				return EXIT_FAILURE;
