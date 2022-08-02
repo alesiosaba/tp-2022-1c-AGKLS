@@ -16,7 +16,7 @@ void planificacion_suspended();
 
 //UTILS
 bool planificador_es_fifo();
-void estimar_proxima_rafaga(pcb* pcb, double rafaga);
+void estimar_proxima_rafaga(pcb** pcb, double rafaga);
 void print_grado_multiprogramacion();
 int  proceso_esta_en_lista(t_list* lista, int id);
 

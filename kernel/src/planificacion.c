@@ -34,7 +34,7 @@ void planificadorLargoPlazo(pcb *nodo_pcb){
 		pcb = list_get(listaNew,0);
 		log_debug(logger, "Enviando PCB a Memoria");
 		imprimir_PCB(pcb);
-		send_paquete_pcb(conexionAMemoria, pcb, SOLICITUD_NUEVO_PROCESO); //todo Acá pido el numero de tabla para la memoria
+		send_paquete_pcb(conexionAMemoria, pcb, SOLICITUD_NUEVO_PROCESO);
 		numeroTabla = recv_respuesta_nuevo_proceso(conexionAMemoria);
 		log_debug(logger, "Se recibió el numero de tabla %d desde Memoria", numeroTabla);
 		if(numeroTabla < 9999 && conexionAMemoria != -1){
@@ -55,7 +55,7 @@ void planificadorMedianoPlazo(pcb *nodo_pcb){
 	pthread_mutex_lock(&mtx_planificador);
 	int index = proceso_esta_en_lista(listaBlocked, nodo_pcb->id);
 	if(index != -1){
-		//TODO avisar a memoria para suspender el proceso
+		send_paquete_pcb(conexionAMemoria, nodo_pcb, SOLICITUD_SUSPENSION_PROCESO);
 		log_info(logger,"El proceso %d se suspende por exceso de tiempo bloqueado",nodo_pcb->id);
 		dequeue_blocked_at_index(index);
 		movePCBto(&nodo_pcb, SUSPENDED_BLOCKED);
@@ -111,7 +111,7 @@ void planificacion_cpu(int socket_fd){
 			break;
 		case 1: //IO
 			log_debug(logger, "Replanificacion: IO");
-			if(!planificador_es_fifo()) estimar_proxima_rafaga(pcb, tiempo_rafaga);
+			if(!planificador_es_fifo()) estimar_proxima_rafaga(&pcb, tiempo_rafaga);
 			movePCBto(&pcb, BLOCKED);
 			enqueue_desbloqueo_pendiente(&pcb);
 			//list_add(listaDesbloqueoPendiente, pcb);
@@ -174,6 +174,7 @@ void planificacion_suspended(){
 		sem_wait(&sem_ProcesosSuspended);
 		sem_wait(&sem_multiprogramacion);
 		pcb = dequeue_suspended_ready();
+		send_paquete_pcb(conexionAMemoria, pcb, SOLICITUD_DESUSPENSION_PROCESO);
 		movePCBto(&pcb, READY);
 		log_info(logger, SUSPENCION_TERMINADA, pcb->id);
 		sem_post(&sem_ProcesosReady);
@@ -249,10 +250,10 @@ void print_grado_multiprogramacion(){
 
 }
 
-void estimar_proxima_rafaga(pcb* pcb, double rafaga){
+void estimar_proxima_rafaga(pcb** pcb, double rafaga){
 	//E(n+1) = Alfa * Rn + (1-Alfa) * En
-	double estimacion = config_values.alfa * rafaga + (1 - config_values.alfa) * pcb->estimacion_rafaga;
-	pcb->estimacion_rafaga = estimacion;
+	double estimacion = config_values.alfa * rafaga + (1 - config_values.alfa) * (*pcb)->estimacion_rafaga;
+	(*pcb)->estimacion_rafaga = estimacion;
 }
 
 

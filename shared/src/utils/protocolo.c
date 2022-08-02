@@ -3,7 +3,7 @@
 bool send_paquete_pcb(int fd, pcb* nodo_pcb, op_code codigo_paquete){
 	t_paquete* paquete = generar_paquete_pcb(*nodo_pcb, codigo_paquete);
 	enviar_paquete(paquete, fd);
-	log_debug(logger, PCB_ENVIADO, nodo_pcb->id);
+	log_debug(logger, PCB_ENVIADO, nodo_pcb->id, codigo_paquete);
 	return eliminar_paquete(paquete);
 }
 
@@ -12,7 +12,8 @@ bool recv_paquete_pcb(int fd, pcb** nodo_pcb){
 	lista = recibir_paquete(fd);
 	*nodo_pcb = deserializar_PCB(lista);
 	log_debug(logger, PCB_DESERIALIZADO, (*nodo_pcb)->id);
-	list_destroy_and_destroy_elements(lista, free);
+
+	//free(lista);
 	return true;
 }
 

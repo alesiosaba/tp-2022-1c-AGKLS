@@ -16,7 +16,7 @@
 #define RECEPCION_PROCESO "Se recibio un nuevo proceso"
 #define GENERANDO_PCB "Generando paquete PCB ..."
 #define INICIALIZACION_PROCESOS "Se inicializa el proceso %d"
-#define PCB_ENVIADO "Se envio un PCB - PID: %d"
+#define PCB_ENVIADO "Se envio un PCB - PID: %d - op code: %d"
 #define PCB_DESERIALIZADO "Se deserializo el PCB- PID: %d"
 
 #define PROCESS_MOVE_EXEC "El PID: %d se pasó a EXECUTION"
