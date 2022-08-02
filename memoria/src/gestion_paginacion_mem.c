@@ -145,23 +145,33 @@ void traer_pagina_a_memoria(int id, int dir_tablaN1 , entrada_tabla_N2 *e){
 }
 
 
+// ej marco 0 despl 5
+// retorna -> |----X----|---------|---------|---------|---------|---------|
+// ej marco 1 despl 7
+// retorna -> |---------|------X--|---------|---------|---------|---------|
+
+uint32_t direccion_fisica_completa(uint32_t marco, uint32_t desplazamiento){
+	return config_values.tam_pagina * marco + desplazamiento;
+}
+
 int escribir_memoria(int dato, uint32_t marco, uint32_t desplazamiento)
 {
     log_debug(logger, "escribir_memoria: Se intentara escribir %d en el marco %d", dato, marco);
-    //CONSIGUE PAGINA EN MARCO
+    // Buscamos la pagina que tiene el marco solicitado para actualizarle los bits
     log_info(logger, "escribir_memoria: Buscando pagina que contiene marco %d",marco);
     entrada_tabla_N2 *pag = conseguir_pagina_en_marco(marco);
     log_info(logger, "escribir_memoria: Se encontro la pagina %d", pag->num_pag);
-    //PAGINA FUE USADA
+    // Marcamos el uso
     pag->bit_uso = 1;
-    //PAGINA FUE MODIFICADA
+    // Marcamos modificacion
     pag->bit_modificacion = 1;
     log_debug(logger, "escribir_memoria: Escribiendo %d", dato);
-    // TODO: Ver si hay que sumar solo el desplazamiento o toda la direccion fisica
-    memcpy(espacio_lectura_escritura_procesos + desplazamiento, &dato, sizeof(uint32_t));
+    uint32_t desplazamiento_total = direccion_fisica_completa(marco, desplazamiento);
+    log_debug(logger, "escribir_memoria: La direccion fisica final es: %d", desplazamiento_total);
+    // Nos movemos la cantidad de marcos + desplazamiento interno para escribir en dicha direccion el contenido de &dato
+    memcpy(espacio_lectura_escritura_procesos + desplazamiento_total, &dato, sizeof(uint32_t));
     log_debug(logger, "escribir_memoria: Se escribio exitosamente");
-    // TODO: SI devolvemos 0 (EXIT_SUCCESS) CPU lo interpreta como fail
-    return 1;
+    return ESCRITURA_MEMORIA_EXITOSA;
 }
 
 uint32_t leer_memoria(uint32_t marco, uint32_t desplazamiento){
@@ -170,10 +180,11 @@ uint32_t leer_memoria(uint32_t marco, uint32_t desplazamiento){
     entrada_tabla_N2 *pag = conseguir_pagina_en_marco(marco);
     // Bit de uso
     pag->bit_uso = 1;
-    //LEE Y RETORNA DATO
     uint32_t dato;
-    // TODO: Leemos + deplz o leemos +dir_fisica completa?
-    memcpy(&dato, espacio_lectura_escritura_procesos + desplazamiento, sizeof(uint32_t));
+    uint32_t desplazamiento_total = direccion_fisica_completa(marco, desplazamiento);
+    log_debug(logger, "leer_memoria: La direccion fisica final es: %d", desplazamiento_total);
+    // Nos movemos la cantidad de marcos + desplazamiento interno para leer en &dato el contenido de esa direccion
+    memcpy(&dato, espacio_lectura_escritura_procesos + desplazamiento_total, sizeof(uint32_t));
     log_debug(logger, "leer_memoria: El marco %d con despl %d contiene el dato: %d", marco, desplazamiento, dato);
     return dato;
 }

@@ -18,9 +18,9 @@ int main(int argc, char** argv) {
 	signal(SIGINT, sighandler); //Terminar el programa al oprimir ctrl + C en terminal
 	inicializar(config_path);
 	imprimir_config();
-	pthread_create(&thr_comandos, NULL, (void*) &recibirComandos, NULL);
-	pthread_detach(&thr_comandos);
-	log_debug(logger, "se creo un thread para %s", "comandos");
+	// pthread_create(&thr_comandos, NULL, (void*) &recibirComandos, NULL);
+	// pthread_detach(&thr_comandos);
+	// log_debug(logger, "se creo un thread para %s", "comandos");
 	servidor_procesos();
 	iniciarPlanificacion();
 	conectar_cpu();

@@ -100,7 +100,7 @@ int server_escuchar(t_log* logger, char* server_name, int client_socket) {
 	args->fd = client_socket;
 	args->server_name = server_name;
 	manejarConexion(args);
-	free(args);
+	// free(args);
 	return EXIT_SUCCESS;
 }
 

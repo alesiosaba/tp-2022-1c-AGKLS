@@ -40,7 +40,7 @@ int solicitud_marco(int pid, int id_tabla, int entrada_en_tabla){
 }
 
 void solicitud_nuevo_proceso(int socket_cliente){
-	pcb *nodo_pcb;
+	struct pcb *nodo_pcb;
 	recv_paquete_pcb(socket_cliente, &nodo_pcb);
 	imprimir_PCB(nodo_pcb);
 
