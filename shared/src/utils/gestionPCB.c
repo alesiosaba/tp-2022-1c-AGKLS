@@ -339,10 +339,8 @@ void imprimir_PCB(pcb* nodo_pcb){
 	printf("\n\tESTIMACION: %f", nodo_pcb->estimacion_rafaga);
 	printf("\n\tSTATUS: %s", imprimir_status(nodo_pcb->status));
 	printf("\n\tSTATUS int: %d", nodo_pcb->status);
-	printf("\n\tint STATUS: %d", nodo_pcb->status);
 	printf("\n\tTiempo a bloquearse: %d\n\n", nodo_pcb->tiempo_a_bloquearse);
 	// mostrar_lista_instrucciones(nodo_pcb->instrucciones);
-
 }
 
 char* imprimir_status(status status){

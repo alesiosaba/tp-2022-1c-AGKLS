@@ -48,6 +48,8 @@ echo
 cd ../memoria
 make clean all
 
+mkdir /home/utnso/valgrind-logs
+
 echo
 echo deploy finalizado con exito
 echo

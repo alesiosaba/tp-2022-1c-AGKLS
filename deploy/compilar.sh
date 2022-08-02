@@ -1,18 +1,19 @@
 clear
 echo Eliminando logs...
-cd ../consola
+cd ../consola/exec
 rm consola.log -f
-cd ../cpu
+cd ../../cpu/exec
 rm CPU.log -f
-cd ../kernel
+cd ../../kernel/exec
 rm kernel.log -f
-cd ../memoria
+cd ../../memoria/exec
 rm memoria.log -f
+mkdir /home/utnso/valgrind-logs
 
 echo
 echo Compilando shared...
 echo
-cd ../shared
+cd ../../shared
 make clean all
 
 echo
