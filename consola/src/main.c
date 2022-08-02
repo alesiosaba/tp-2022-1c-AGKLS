@@ -1,7 +1,6 @@
 #include "../include/main.h"
 
 int main(int argc, char** argv) {
-	system("clear");
 
 	// Chequear que están los 2 parametros que pide el TP
 	// Path al archivo de pseudocodigo y tamanio de espacio de direcciones del proceso
