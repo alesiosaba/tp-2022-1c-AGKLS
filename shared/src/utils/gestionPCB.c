@@ -101,6 +101,7 @@ char* generar_renglon_instruccion(struct instruccion* instruccion_a_enviar){
 
 			string_append(&renglon_instruccion, parametroStr);
 
+			free(parametroStr);
 			i++;
 		}
 	}
@@ -126,31 +127,36 @@ t_paquete* generar_paquete_pcb(struct pcb PCB_a_enviar, op_code codigo_paquete){
 	// pcb -> tamanio
 	char* tamanio = string_itoa(PCB_a_enviar.tamanio);
 	agregar_a_paquete(paquete, tamanio, strlen(tamanio) + 1);
+	free(tamanio);
 
 	// pcb -> program_counter
 	char* program_counter = string_itoa(PCB_a_enviar.program_counter);
 	agregar_a_paquete(paquete, program_counter, strlen(program_counter) + 1);
+	free(program_counter);
 
 	// pcb -> tabla_paginas
 	char* tabla_paginas = string_itoa(PCB_a_enviar.tabla_paginas);
 	agregar_a_paquete(paquete, tabla_paginas, strlen(tabla_paginas) + 1);
+	free(tabla_paginas);
 
 	// pcb -> estimacion
-	char estimacion[100];
-	sprintf(estimacion, "%f\0", PCB_a_enviar.estimacion_rafaga);
+	char* estimacion = string_from_format("%f", PCB_a_enviar.estimacion_rafaga);
 	agregar_a_paquete(paquete, estimacion, strlen(estimacion) + 1);
+	free(estimacion);
 
 	// pcb -> status
 	char* status = string_itoa((int) PCB_a_enviar.status);
 	agregar_a_paquete(paquete, status, strlen(status) + 1);
+	free(status);
 
 	// pcb -> tiempo_a_bloquearse
 	char* tiempo_a_bloquearse = string_itoa(PCB_a_enviar.tiempo_a_bloquearse);
 	agregar_a_paquete(paquete, tiempo_a_bloquearse, strlen(tiempo_a_bloquearse) + 1);
+	free(tiempo_a_bloquearse);
 
 	// pcb -> instrucciones
 	// buffer para concatenar instruccion y sus parametros
-	char* renglon_instruccion = string_new();
+	char* renglon_instruccion;
 	//GENERAR LISTA DE INSTRUCCIONES COMO RENGLONES
 	int i = 0;
 	while(i < list_size(lista_instrucciones)){
@@ -160,6 +166,7 @@ t_paquete* generar_paquete_pcb(struct pcb PCB_a_enviar, op_code codigo_paquete){
 		agregar_a_paquete(paquete, renglon_instruccion, size);
 
 		i++;
+		free(renglon_instruccion);
 	}
 
 	return paquete;
@@ -310,6 +317,7 @@ void completar_nodo_instruccion(nodo_instruccion* nodo_instruccion, char* buffer
 		token = strtok_r(NULL, separator, &rest);
 	}
 
+	free(buffer);
 };
 
 void agregar_nuevo_parametro(nodo_instruccion* nodo_instruccion, char* parametro){

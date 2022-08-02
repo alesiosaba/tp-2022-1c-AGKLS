@@ -129,6 +129,9 @@ void planificacion_cpu(int socket_fd){
 		default:
 			break;
 		}
+
+		free(tipo_instruccion);
+
 		sem_post(&sem_comenzarProcesos);
 	}
  }
