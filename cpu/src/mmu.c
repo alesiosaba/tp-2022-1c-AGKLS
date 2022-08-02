@@ -11,7 +11,6 @@ struct direccion_fisica traducir_dir_logica(pcb** pcb, int direccion_logica){
 	int marco_en_TLB = busqueda_pagina_en_TLB(numero_pagina);
 
 	if(marco_en_TLB != -1){
-		sleep(1);
 		time_t nuevo_instante_referencia = time(NULL);
 
 		int i = 0;
@@ -26,10 +25,6 @@ struct direccion_fisica traducir_dir_logica(pcb** pcb, int direccion_logica){
 		elem->insUltRef = nuevo_instante_referencia;
 
 		log_debug(logger,"Finaliza traduccion de direccion logica");
-
-		// Devuelvo la direccion fisica compuesta de marco + desplazamiento
-		// return marco_en_TLB + desplazamiento?;
-		//TODO:
 
 		direccion_fisica_buscada.marco = marco_en_TLB;
 		direccion_fisica_buscada.desplazamiento = desplazamiento;
@@ -55,7 +50,6 @@ struct direccion_fisica traducir_dir_logica(pcb** pcb, int direccion_logica){
 
 	// SOLICITUD ENTRADA DE TABLA N2
 	// ENVIO DIR TABLA N2 y NUM ENTRADA TABLA NIVEL 2
-	// enviar_mensaje("send_solicitud_tabla_N2", conexionAMemoria);
 
 	send_solicitud_tabla_N2(conexionAMemoria, id_tablaN2, entrada_tabla_segundo_nivel, (*pcb)->id);
 
@@ -72,10 +66,6 @@ struct direccion_fisica traducir_dir_logica(pcb** pcb, int direccion_logica){
 
 	entrada_nueva->numero_pagina = numero_pagina;
 	entrada_nueva->marco = frame;
-
-	// TODO: Borrar sleep, porque el retardo se da en Memoria
-	// Esto es para que no asigne mal los instantes
-	sleep(2);
 
 	entrada_nueva->insUltRef = time(NULL);
 

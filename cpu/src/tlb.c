@@ -1,8 +1,11 @@
 #include "../include/tlb.h"
 
 void limpiar_tlb(int procesoEnEjecucion) {
-	if(procesoEnEjecucion != procesoAnterior)
+	if(procesoEnEjecucion != procesoAnterior){
+		log_debug(logger, "Tengo que limpiar TLB - PID anterior: %d - PID nuevo: %d" , procesoAnterior, procesoEnEjecucion);
 		list_clean_and_destroy_elements(TLB,free);
+	}
+
 }
 
 void imprimir_entrada_TLB(int i){
@@ -68,8 +71,6 @@ void ordenar_TLB() {
 	if (!algoritmo_es_FIFO()) {
 		// ordeno por LRU
 		// log_debug(logger, "Hago Ordenamiento LRU");
-		// TODO: usar list_sort(comparar_por_timestamps)
-
 		list_sort(TLB, (void*)instante_referencia_mas_viejo);
 	}
 }
@@ -78,7 +79,6 @@ void aplicar_algoritmo_reemplazo_TLB(struct entrada_TLB* entrada_nueva) {
 	ordenar_TLB();
 
 	// Sacar elemento decidido por algoritmo
-	// todo: Fijarse que LRU deje adelante de todooo el elemento a sacar
 	list_remove(TLB,0);
 }
 
@@ -96,4 +96,5 @@ void agregar_entrada_TLB(struct entrada_TLB* entrada_nueva) {
 bool estaEnTLB(int marco_en_TLB) {
 	// Si no es PAGE FAULT
 	return marco_en_TLB != -1;
+	// PAGE_FAULT es -1
 }

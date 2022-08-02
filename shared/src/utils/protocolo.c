@@ -23,17 +23,17 @@ bool send_solicitud_tabla_N1(int fd, int id_tablaN1, int entrada_tabla_primer_ni
 	log_debug(logger, "Entro a send_solicitud_tabla_N1()");
 
 	t_paquete* paquete = crear_paquete(SOLICITUD_TABLA_PAGINA_N1);
-	char* id_tablaN1_str = string_new();
-	sprintf(id_tablaN1_str, "%d\0", id_tablaN1);
+	char* id_tablaN1_str = string_itoa(id_tablaN1);
 	agregar_a_paquete(paquete, id_tablaN1_str, strlen(id_tablaN1_str) + 1);
+	free(id_tablaN1_str);
 
-	char* entrada_tabla_primer_nivel_str = string_new();
-	sprintf(entrada_tabla_primer_nivel_str, "%d\0", entrada_tabla_primer_nivel);
+	char* entrada_tabla_primer_nivel_str = string_itoa(entrada_tabla_primer_nivel);
 	agregar_a_paquete(paquete, entrada_tabla_primer_nivel_str, strlen(entrada_tabla_primer_nivel_str) + 1);
+	free(entrada_tabla_primer_nivel_str);
 
-	char* proceso_id_str = string_new();
-	sprintf(proceso_id_str, "%d\0", proceso_id);
+	char* proceso_id_str = string_itoa(proceso_id);
 	agregar_a_paquete(paquete, proceso_id_str, strlen(proceso_id_str) + 1);
+	free(proceso_id_str);
 
 	log_debug(logger, "Arme paquete de solicitud tabla N1");
 
@@ -54,8 +54,8 @@ int recv_respuesta_solicitud_N1(int fd){
 
 	t_list* lista;
 	lista = recibir_paquete(fd);
-	int tablaN2 = atoi(list_remove(lista, 0));
-	list_destroy(lista);
+	int tablaN2 = atoi(list_get(lista, 0));
+	list_destroy_and_destroy_elements(lista, free);
 
 	log_debug(logger, "Recibi respuesta de solicitud N1");
 
@@ -66,17 +66,18 @@ bool send_solicitud_tabla_N2(int fd, int id_tablaN2, int entrada_tabla_segundo_n
 	log_debug(logger, "Entro a send_solicitud_tabla_N2()");
 
 	t_paquete *paquete = crear_paquete(SOLICITUD_TABLA_PAGINA_N2);
-	char* id_tablaN2_str = string_new();
-	sprintf(id_tablaN2_str, "%d\0", id_tablaN2);
+
+	char* id_tablaN2_str = string_itoa(id_tablaN2);
 	agregar_a_paquete(paquete, id_tablaN2_str, strlen(id_tablaN2_str) + 1);
+	free(id_tablaN2_str);
 
-	char* entrada_tabla_segundo_nivel_str = string_new();
-	sprintf(entrada_tabla_segundo_nivel_str, "%d\0", entrada_tabla_segundo_nivel);
+	char* entrada_tabla_segundo_nivel_str = string_itoa(entrada_tabla_segundo_nivel);
 	agregar_a_paquete(paquete, entrada_tabla_segundo_nivel_str, strlen(entrada_tabla_segundo_nivel_str) + 1);
+	free(entrada_tabla_segundo_nivel_str);
 
-	char* proceso_id_str = string_new();
-	sprintf(proceso_id_str, "%d\0", proceso_id);
+	char* proceso_id_str = string_itoa(proceso_id);
 	agregar_a_paquete(paquete, proceso_id_str, strlen(proceso_id_str) + 1);
+	free(proceso_id_str);
 
 	log_debug(logger, "Arme paquete de solicitud tabla N2");
 
@@ -95,8 +96,8 @@ int recv_respuesta_solicitud_N2(int fd){
 
 	t_list* lista;
 	lista = recibir_paquete(fd);
-	int frame = atoi(list_remove(lista, 0));
-	list_destroy(lista);
+	int frame = atoi(list_get(lista, 0));
+	list_destroy_and_destroy_elements(lista,free);
 
 	log_debug(logger, "Recibi respuesta de solicitud N2");
 
@@ -353,26 +354,27 @@ uint32_t recv_respuesta_pedido_lectura(int socketCliente){
 }
 
 void send_pedido_escritura(int socketCliente, struct direccion_fisica direccion_fisica_lectura, uint32_t valor_a_escribir){
-	// Parte del send que hagamos
 	// log_debug(logger, "Entro a send_pedido_escritura()");
 
 	t_paquete* paquete = crear_paquete(PEDIDO_ESCRITURA);
-	char* marco_str = string_new();
-	sprintf(marco_str, "%d\0", direccion_fisica_lectura.marco);
+
+	char* marco_str = string_itoa(direccion_fisica_lectura.marco);
 	agregar_a_paquete(paquete, marco_str, strlen(marco_str) + 1);
+	free(marco_str);
 
-	char* desplazamiento_str = string_new();
-	sprintf(desplazamiento_str, "%d\0",direccion_fisica_lectura.desplazamiento);
+	char* desplazamiento_str = string_itoa(direccion_fisica_lectura.desplazamiento);
 	agregar_a_paquete(paquete, desplazamiento_str,strlen(desplazamiento_str) + 1);
+	free(desplazamiento_str);
 
-	char* valor_escritura_str = string_new();
-	sprintf(valor_escritura_str, "%d\0",valor_a_escribir);
+	char* valor_escritura_str = string_itoa(valor_a_escribir);
 	agregar_a_paquete(paquete, valor_escritura_str,strlen(valor_escritura_str) + 1);
+	free(valor_escritura_str);
 
 	// log_debug(logger, "Arme paquete de PEDIDO_ESCRITURA");
 	enviar_paquete(paquete, socketCliente);
 
 	log_debug(logger, "Envie PEDIDO_ESCRITURA");
+
 	eliminar_paquete(paquete);
 }
 
@@ -425,10 +427,13 @@ bool recv_respuesta_pedido_escritura(int socketCliente){
 
 	t_list* lista;
 	lista = recibir_paquete(socketCliente);
+
     // TODO: Si la ejecucion es exitosa se devuelve 0, pero 0 es interpretado como false.
 	// Ver de normalizar esto
-	bool resultadoEscritura = atoi(list_remove(lista, 0));
-	list_destroy(lista);
+	bool resultadoEscritura = atoi(list_get(lista, 0));
+
+
+	list_destroy_and_destroy_elements(lista , free);
 
 	return resultadoEscritura;
 }

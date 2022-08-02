@@ -103,24 +103,16 @@ int manejarDispatch(int socket_cliente){
 	while (1) {
 		int cod_op = recibir_operacion(socket_cliente);
 		switch (cod_op) {
-		case MENSAJE:
-			recibir_mensaje(socket_cliente);
-			break;
-
-		case PAQUETE:
-			lista = recibir_paquete(socket_cliente);
-			log_info(logger, LECTURA_DE_VALORES);
-			break;
-
 		case PAQUETE_PCB:
 			log_debug(logger, RECEPCION_PAQUETE_PCB);
 			recv_paquete_pcb(socket_cliente, &pcb);
+
 			log_debug(logger, "Me llego el pcb PID: %d", pcb->id);
 			imprimir_PCB(pcb);
 
 			log_debug(logger, "Alojando proceso en el CPU - PID: %d", pcb->id);
 
-			// limpiar_tlb(pcb->id);
+			limpiar_tlb(pcb->id);
 			ejecutar_ciclo_instruccion(&pcb);
 
 			log_debug(logger, "Estaba como procesoAnterior el PID : %d", procesoAnterior);
@@ -128,7 +120,6 @@ int manejarDispatch(int socket_cliente){
 			log_debug(logger, "quedó como procesoAnterior el PID : %d", procesoAnterior);
 
 			log_debug(logger, "Desalojando proceso del CPU - PID: %d", pcb->id);
-
 
 			break;
 
@@ -141,6 +132,8 @@ int manejarDispatch(int socket_cliente){
 			break;
 		}
 	}
+
+	free(lista);
 }
 
 void realizar_handshake_inicial(){

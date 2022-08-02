@@ -34,30 +34,37 @@ pcb* deserializar_PCB(t_list* lista){
 	// agarro el primer elemento (id)
 	t_list* id = list_remove(lista, 0);
 	pcb->id = atoi(id);
+	free(id);
 
 	// agarro el segundo elemento (tamanio)
 	t_list* tamanio = list_remove(lista, 0);
 	pcb->tamanio = atoi(tamanio);
+	free(tamanio);
 
 	// agarro el tercer elemento (program_counter)
 	t_list* program_counter = list_remove(lista, 0);
 	pcb->program_counter = atoi(program_counter);
+	free(program_counter);
 
 	// agarro el cuarto elemento (tabla_paginas)
 	t_list* tabla_paginas = list_remove(lista, 0);
 	pcb->tabla_paginas = atoi(tabla_paginas);
+	free(tabla_paginas);
 
 	// agarro el quinto elemento (estimacion)
 	t_list* estimacion = list_remove(lista, 0);
 	pcb->estimacion_rafaga = atof(estimacion);
+	free(estimacion);
 
 	// agarro el sexto elemento (status)
 	t_list* status = list_remove(lista, 0);
 	pcb->status = atoi(status);
+	free(status);
 
 	// agarro el septimo elemento (tiempo_a_bloquearse)
 	t_list* tiempo_a_bloquearse = list_remove(lista, 0);
 	pcb->tiempo_a_bloquearse = atoi(tiempo_a_bloquearse);
+	free(tiempo_a_bloquearse);
 
 	// armo la lista de instrucciones y la guardo en el PCB
 	deserializar_lista_instrucciones(lista, pcb->instrucciones);
