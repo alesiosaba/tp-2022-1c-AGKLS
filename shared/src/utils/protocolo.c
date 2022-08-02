@@ -12,7 +12,7 @@ bool recv_paquete_pcb(int fd, pcb** nodo_pcb){
 	lista = recibir_paquete(fd);
 	*nodo_pcb = deserializar_PCB(lista);
 	log_debug(logger, PCB_DESERIALIZADO, (*nodo_pcb)->id);
-	list_clean_and_destroy_elements(lista, free);
+	list_destroy_and_destroy_elements(lista, free);
 	return true;
 }
 
@@ -144,14 +144,14 @@ void recv_solicitud_tabla(int fd, consulta_en_tabla_paginas** consulta){
 
 	log_debug(logger, "Salgo de recv_solicitud_tabla()");
 
-	list_clean_and_destroy_elements(lista, free);
+	list_destroy_and_destroy_elements(lista, free);
 }
 
 bool recv_paquete_consola(int fd, pcb** nodo_pcb){
 	t_list* lista;
 	lista = recibir_paquete(fd);
 	*nodo_pcb = armar_PCB_nuevo(lista);
-	list_clean_and_destroy_elements(lista, free);
+	list_destroy_and_destroy_elements(lista, free);
 	return true;
 }
 
@@ -295,7 +295,7 @@ void recv_pedido_lectura(int socket_cliente, struct direccion_fisica** direccion
 	log_debug(logger, "Marco: %d\tDesplazamiento: %d", (*direccion_fisica_lectura)->marco, (*direccion_fisica_lectura)->desplazamiento);
 	log_debug(logger, "Salgo de recv_solicitud_tabla()");
 	 */
-	list_clean_and_destroy_elements(lista, free);
+	list_destroy_and_destroy_elements(lista, free);
 }
 
 void send_respuesta_pedido_lectura(int socket_cliente, uint32_t valor_leido){
@@ -393,7 +393,7 @@ int recv_pedido_escritura(int socket_cliente, struct direccion_fisica** direccio
 
 	log_debug(logger, "Salgo de recv_pedido_escritura()");
 	*/
-	list_clean_and_destroy_elements(lista, free);
+	list_destroy_and_destroy_elements(lista, free);
 
 	return valor_a_escribir;
 }
