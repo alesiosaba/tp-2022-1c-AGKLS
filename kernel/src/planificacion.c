@@ -120,7 +120,7 @@ void planificacion_cpu(int socket_fd){
             sem_post(&sem_ProcesosBloqueo);
 			break;
 		case 2: //EXIT
-			//TODO avisar memoria
+			send_paquete_pcb(conexionAMemoria,pcb, SOLICITUD_FINALIZAR_PROCESO);
 			log_debug(logger, "Replanificacion: EXIT");
 			movePCBto(&pcb, EXIT);
 			send_paquete_kernel(arr_procesos[pcb->id],PAQUETE_KERNEL_EXIT);
@@ -130,10 +130,9 @@ void planificacion_cpu(int socket_fd){
 			break;
 		}
 
-		free(tipo_instruccion);
-
 		sem_post(&sem_comenzarProcesos);
 	}
+	free(tipo_instruccion);
  }
 
 void planificacion_bloqueo(){

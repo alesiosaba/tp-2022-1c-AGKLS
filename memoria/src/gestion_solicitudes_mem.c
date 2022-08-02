@@ -126,6 +126,8 @@ void solicitud_desuspension_proceso(int socket_cliente){
     log_info(logger, "solicitud_desuspension_proceso: Reservando marcos para el proceso" );
 	reservar_marcos_proceso(proceso);
 	dump_bitmap(bitmap_marcos);
+	(*proceso).esta_suspendido = 0;
+
 }
 
 
@@ -139,7 +141,10 @@ void solicitud_eliminar_proceso(int socket_cliente){
     log_info(logger, "solicitud_eliminar_proceso: Se intentara eliminar proceso PID: %d con dir_tabla_n1: %d", nodo_pcb->id,  nodo_pcb->tabla_paginas );
 
     if(proceso->esta_suspendido == 1){
+		log_debug(logger, "Eliminando proceso suspendido PID: %d",
+				nodo_pcb->id);
     	sem_wait(&(proceso->suspension_completa));
+		dump_bitmap(bitmap_marcos);
     	reservar_marcos_proceso(proceso);
     	dump_bitmap(bitmap_marcos);
     	proceso->esta_suspendido = 0;
@@ -152,6 +157,7 @@ void solicitud_eliminar_proceso(int socket_cliente){
     sem_wait(&(p->pedido_swap_listo));
     eliminar_pedido_disco(p);
 	log_info(logger,"solicitud_eliminar_proceso - eliminando estructura del proceso en memoria");
+	dump_bitmap(bitmap_marcos);
     eliminar_estructura_proceso(nodo_pcb->id);
     //list_destroy(parametros);
 }
