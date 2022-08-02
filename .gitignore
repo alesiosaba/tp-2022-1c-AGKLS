@@ -1,5 +1,5 @@
 # Scripts de deploy
-deploy/*.sh
+deploy/*
 consola/update-config.sh
 cpu/update-config.sh
 kernel/update-config.sh
