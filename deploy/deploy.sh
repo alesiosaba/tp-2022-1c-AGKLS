@@ -39,7 +39,7 @@ make clean all
 echo
 echo Compilando CPU...
 echo
-cd ../CPU
+cd ../cpu
 make clean all
 
 echo

@@ -1,9 +1,8 @@
 clear
 echo Eliminando logs...
-echo
 cd ../consola
 rm consola.log -f
-cd ../CPU
+cd ../cpu
 rm CPU.log -f
 cd ../kernel
 rm kernel.log -f
@@ -11,13 +10,13 @@ cd ../memoria
 rm memoria.log -f
 
 echo
-echo Compilando modulos...
-
-echo
 echo Compilando shared...
 echo
 cd ../shared
 make clean all
+
+echo
+echo Compilando modulos...
 
 echo
 echo Compilando consola...
@@ -34,7 +33,7 @@ make clean all
 echo
 echo Compilando CPU...
 echo
-cd ../CPU
+cd ../cpu
 make clean all
 
 echo

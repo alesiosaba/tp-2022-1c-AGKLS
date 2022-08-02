@@ -6,6 +6,8 @@
 
 ## [Guia de bash](https://docs.utnso.com.ar/guias/consola/bash.html#comandos-basicos)
 
+## [Commons](https://github.dev/sisoputnfrba/so-commons-library/tree/master/src)
+
 ## [Documento de pruebas](https://docs.google.com/document/d/1SBBTCweMCiBg6TPTt7zxdinRh4ealRasbu0bVlkty5o/edit) 
 
 https://github.com/sisoputnfrba/kiss-pruebas
@@ -78,9 +80,13 @@ https://www.youtube.com/watch?v=knRei6OBU4Q&t=264s
 
 `--leak-check=yes` habilita el detector de memory leaks.	
 
+`--leak-check=full` habilita el detector de memory leaks en full.	
+
 `--log-file=<nombreArchivo>` crea un log de lo que nos muestra Valgrind por pantalla. 
 
-`valgrind ./bin/kernel.out --log-file=/home/utnso/shared_folder/valgrind-logs/kernel-valgrind.log`
+`valgrind --leak-check=full --log-file=/home/utnso/valgrind-logs/kernel.log -v ./bin/kernel.out ./exec_conf/kernel.config`
+
+![image](https://user-images.githubusercontent.com/62452207/182263718-37632ec7-ec42-407d-ae79-5f47eb8106bd.png)
 
 - Si no habilitamos la opción `--leak-check` y existen memory leaks en nuestro programa, Valgrind nos dejará un mensaje mágico de éste tipo: `Rerun with --leak-check=full to see details of leaked memory.`
 
