@@ -13,9 +13,9 @@ memoria/exec/*.sh
 
 # Configs de prueba
 consola/exec_conf/*
-cpu/exec_conf/*.config
-kernel/exec_conf/*.config
-memoria/exec_conf/*.config
+cpu/exec_conf/*
+kernel/exec_conf/*
+memoria/exec_conf/*
 
 # Prerequisites
 *.d
