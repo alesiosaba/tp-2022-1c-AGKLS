@@ -1,18 +1,21 @@
 # Scripts de deploy
-deploy/.*
-update-config.sh
+deploy/*.sh
+consola/update-config.sh
+cpu/update-config.sh
+kernel/update-config.sh
+memoria/update-config.sh
 
 # Scripts de prueba
-consola/exec/.*
-cpu/exec/.*
-kernel/exec/.*
-memoria/exec/.*
+consola/exec/*.
+cpu/exec/*.
+kernel/exec/*.
+memoria/exec/*.
 
 # Configs de prueba
-consola/exec_conf/.*
-cpu/exec_conf/.*
-kernel/exec_conf/.*
-memoria/exec_conf/.*
+consola/exec_conf/*.
+cpu/exec_conf/*.
+kernel/exec_conf/*.
+memoria/exec_conf/*.
 
 # Prerequisites
 *.d
