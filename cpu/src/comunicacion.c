@@ -109,7 +109,9 @@ int manejarDispatch(int socket_cliente){
 
 			log_debug(logger, "Me llego el pcb PID: %d", pcb->id);
 			//imprimir_PCB(pcb);
-			log_info(logger, PROCESO_ALOJADO, pcb->id);
+
+			log_warning(logger, PROCESO_ALOJADO, pcb->id);
+			// log_info(logger, PROCESO_ALOJADO, pcb->id);
 
 			limpiar_tlb(pcb->id);
 			ejecutar_ciclo_instruccion(&pcb);
@@ -118,7 +120,8 @@ int manejarDispatch(int socket_cliente){
 			procesoAnterior = pcb->id;
 			log_debug(logger, "quedó como procesoAnterior el PID : %d", procesoAnterior);
 
-			log_info(logger, PROCESO_DESALOJADO, pcb->id);
+			//log_info(logger, PROCESO_DESALOJADO, pcb->id);
+			log_warning(logger, PROCESO_DESALOJADO, pcb->id);
 			break;
 
 		case -1:

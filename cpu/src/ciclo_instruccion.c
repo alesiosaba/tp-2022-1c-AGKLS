@@ -5,7 +5,7 @@ void ejecutar_ciclo_instruccion(pcb** pcb){
 
 	// el ciclo de instruccion queda en loop hasta una I/O, EXIT o INTERRUPCION de kernel
 	do {
-		log_info(logger, COMIENZO_CICLO_INSTRUCCION, (*pcb)->id);
+		// log_info(logger, COMIENZO_CICLO_INSTRUCCION, (*pcb)->id);
 		// log_debug(logger, COMIENZO_CICLO_INSTRUCCION, (*pcb)->id);
 		// log_debug(logger, "PC = %d", (*pcb)->program_counter);
 
@@ -38,7 +38,7 @@ void ejecutar_ciclo_instruccion(pcb** pcb){
 		// log_debug(logger, "gv_flag_desalojar_proceso: %d", gv_flag_desalojar_proceso);
 		// log_debug(logger, "gv_flag_interrupcion: %d", gv_flag_interrupcion);
 
-		log_info(logger, FIN_CICLO_INSTRUCCION, (*pcb)->id);
+		// log_info(logger, FIN_CICLO_INSTRUCCION, (*pcb)->id);
 	} while(!hay_desalojo_proceso());
 
 	// log_debug(logger, "Saliendo de ejecutar_ciclo_instruccion()");
@@ -164,11 +164,13 @@ void execute(nodo_instruccion* instruccion, pcb** pcb, uint32_t valorMemoria){
 
 		case IO:
 			log_info(logger, EJECUCION_IO, (*pcb)->id);
+			log_info(logger, PROCESO_ENVIADO_A_IO, (*pcb)->id);
 			exec_i_o(instruccion, pcb);
 			break;
 
 		case EXIT_:
 			log_info(logger, EJECUCION_EXIT, (*pcb)->id);
+			log_info(logger, EJECUCION_PROCESO_FINALIZADA, (*pcb)->id);
 			exec_exit(pcb);
 			break;
 	}

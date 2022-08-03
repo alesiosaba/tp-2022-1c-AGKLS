@@ -67,6 +67,9 @@
 #define COMIENZO_ETAPA_EXECUTE 			"----- ETAPA EXECUTE 		 - PID: %d -----"
 #define COMIENZO_ETAPA_CHECK_INTERRUPT 	"----- ETAPA CHECK_INTERRUPT - PID: %d -----"
 
+#define PROCESO_ENVIADO_A_IO			"-----    PROCESO ENVIADO A I/O ----- PID: %d -----"
+#define EJECUCION_PROCESO_FINALIZADA	"----- PROCESO EJECUTADO COMPLETAMENTE  ----- PID: %d -----"
+
 // SOCKETS:
 
 #define SERVIDOR_LISTO "Servidor listo para recibir al cliente"
