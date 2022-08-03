@@ -7,7 +7,7 @@
 
 void servidorDispatch(){
 	serverDispatch = iniciar_servidor(config_values.ip_escucha, config_values.puerto_escucha_dispatch);
-	log_info(logger, "Servidor listo para recibir la conexion dispatch del kernel");
+	log_info(logger, SERVIDOR_KERNEL_DISPATCH_LISTO);
 
 	pthread_t thr_dispatch_individual;
 
@@ -22,7 +22,7 @@ void servidorDispatch(){
 
 void servidorInterrupt(){
 	serverInterrupt = iniciar_servidor(config_values.ip_escucha, config_values.puerto_escucha_interrupt);
-	log_info(logger, "Servidor listo para recibir la conexion interrupt del kernel");
+	log_info(logger, SERVIDOR_KERNEL_INTERRUPT_LISTO);
 
 	pthread_t thr_interrupt_individual;
 
@@ -109,7 +109,7 @@ int manejarDispatch(int socket_cliente){
 
 			log_debug(logger, "Me llego el pcb PID: %d", pcb->id);
 			//imprimir_PCB(pcb);
-			log_info(logger, "Alojando proceso en el CPU - PID: %d", pcb->id);
+			log_info(logger, PROCESO_ALOJADO, pcb->id);
 
 			limpiar_tlb(pcb->id);
 			ejecutar_ciclo_instruccion(&pcb);
@@ -118,8 +118,7 @@ int manejarDispatch(int socket_cliente){
 			procesoAnterior = pcb->id;
 			log_debug(logger, "quedó como procesoAnterior el PID : %d", procesoAnterior);
 
-			log_info(logger, "Desalojando proceso del CPU - PID: %d", pcb->id);
-
+			log_info(logger, PROCESO_DESALOJADO, pcb->id);
 			break;
 
 		case -1:
@@ -141,7 +140,7 @@ void realizar_handshake_inicial(){
 	uint32_t tam_pagina;
 	uint32_t entradas_por_tabla;
 
-	log_info(logger, "INICIO HANDSHAKE con Memoria");
+	log_info(logger, INICIO_HANDSHAKE_CON_MEMORIA);
 
 	send(conexionAMemoria, &handshake, sizeof(uint32_t), NULL);
 	recv(conexionAMemoria, &tam_pagina, sizeof(uint32_t), MSG_WAITALL);
@@ -149,7 +148,7 @@ void realizar_handshake_inicial(){
 	send(conexionAMemoria, &handshake, sizeof(uint32_t), NULL);
 	recv(conexionAMemoria, &entradas_por_tabla, sizeof(uint32_t), MSG_WAITALL);
 
-	log_info(logger, "FINAL HANDSHAKE con Memoria");
+	log_info(logger, FINAL_HANDSHAKE_CON_MEMORIA);
 
 	// log_debug(logger, "Valores obtenidos de la devolucion del handshake");
 	// log_debug(logger, "tam_pagina: %d", tam_pagina);

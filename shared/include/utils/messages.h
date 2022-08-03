@@ -42,14 +42,30 @@
 #define DESUSPENCION_PROCESO    "-----SE TERMINO LA SUSPENCION DEL PID %d-----"
 #define EJECUTANDO_PROCESO		"-----EJECUTANDO PID %d-----"
 #define TERMINO_EL_PROCESO		"-----El Proceso Termino Exitosamente-----"
+
 // MENSAJES UTILIZADOS EN  CPU
 
-#define COMIENZO_CICLO_INSTRUCCION "Comienza ciclo de instruccion - PID: %d"
-#define COMIENZO_ETAPA_FETCH "Comienza etapa FETCH - PID: %d"
-#define COMIENZO_ETAPA_DECODE "Comienza etapa DECODE - PID: %d"
-#define COMIENZO_ETAPA_FETCH_OPERANDS "Comienza etapa FETCH_OPERANDS - PID: %d"
-#define COMIENZO_ETAPA_EXECUTE "Comienza etapa EXECUTE - PID: %d"
-#define COMIENZO_ETAPA_CHECK_INTERRUPT "Comienza etapa CHECK_INTERRUPT - PID: %d"
+#define SERVIDOR_KERNEL_DISPATCH_LISTO 	"Servidor listo para recibir la conexion dispatch del kernel"
+#define SERVIDOR_KERNEL_INTERRUPT_LISTO "Servidor listo para recibir la conexion interrupt del kernel"
+#define INICIO_HANDSHAKE_CON_MEMORIA	"Realizando handshake con Memoria"
+#define FINAL_HANDSHAKE_CON_MEMORIA		"Handshake con Memoria finalizado"
+#define PROCESO_ALOJADO					"----- PROCESO ALOJADO           ----- PID: %d -----"
+#define PROCESO_DESALOJADO				"----- PROCESO DESALOJADO        ----- PID: %d -----"
+#define COMIENZO_CICLO_INSTRUCCION 		"-----   COMIENZA CICLO DE INSTRUCCION - PID: %d -----"
+#define FIN_CICLO_INSTRUCCION 			"-----   FINALIZA CICLO DE INSTRUCCION - PID: %d -----"
+
+#define EJECUCION_NO_OP					"-----      INSTRUCCION NO_OP - PID: %d -----"
+#define EJECUCION_READ					"-----      INSTRUCCION READ  - PID: %d -----"
+#define EJECUCION_WRITE					"-----      INSTRUCCION WRITE - PID: %d -----"
+#define EJECUCION_COPY					"-----      INSTRUCCION COPY  - PID: %d -----"
+#define EJECUCION_IO					"-----      INSTRUCCION I/O   - PID: %d -----"
+#define EJECUCION_EXIT					"-----      INSTRUCCION EXIT  - PID: %d -----"
+
+#define COMIENZO_ETAPA_FETCH 			"----- ETAPA FETCH 			 - PID: %d -----"
+#define COMIENZO_ETAPA_DECODE 			"----- ETAPA DECODE 		 - PID: %d -----"
+#define COMIENZO_ETAPA_FETCH_OPERANDS 	"----- ETAPA FETCH_OPERANDS  - PID: %d -----"
+#define COMIENZO_ETAPA_EXECUTE 			"----- ETAPA EXECUTE 		 - PID: %d -----"
+#define COMIENZO_ETAPA_CHECK_INTERRUPT 	"----- ETAPA CHECK_INTERRUPT - PID: %d -----"
 
 // SOCKETS:
 

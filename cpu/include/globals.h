@@ -15,6 +15,7 @@
 #include "../../shared/include/utils/utils.h"
 #include "../../shared/include/utils/sockets.h"
 #include "../../shared/include/utils/protocolo.h"
+#include "../../shared/include/utils/messages.h"
 
 // enum utilizado para los identificadores de instruccion
 typedef enum {NO_OP, IO, READ, WRITE, COPY, EXIT_} IDENTIFICADOR_INSTRUCCION;
