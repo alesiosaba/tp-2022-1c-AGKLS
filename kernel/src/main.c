@@ -8,19 +8,14 @@ void sighandler(int s){
 }
 
 int main(int argc, char** argv) {
-
 	if (argc < 2) {
 		printf("Cantidad erronea de parametros.\n");
         return EXIT_FAILURE;
     }
-
 	char* config_path = argv[1];
-	signal(SIGINT, sighandler); //Terminar el programa al oprimir ctrl + C en terminal
+	signal(SIGINT, sighandler);
 	inicializar(config_path);
 	imprimir_config();
-	// pthread_create(&thr_comandos, NULL, (void*) &recibirComandos, NULL);
-	// pthread_detach(&thr_comandos);
-	// log_debug(logger, "se creo un thread para %s", "comandos");
 	servidor_procesos();
 	iniciarPlanificacion();
 	conectar_cpu();

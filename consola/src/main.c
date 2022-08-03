@@ -20,7 +20,7 @@ int main(int argc, char** argv) {
 	enviar_info_proceso(path_pseudocodigo, tamanio_proceso);
 	log_info(logger, "Aguardando Respuesta de Kernel...");
 	respuesta_kernel = recv_mensajes_kernel(conexion);
-	if(respuesta_kernel == TERMINO_EL_PROCESO){
+	if (respuesta_kernel == TERMINO_EL_PROCESO) {
 		log_info(logger, "Terminando la consola...");
 		terminar_programa();
 	}

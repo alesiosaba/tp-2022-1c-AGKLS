@@ -229,10 +229,10 @@ bool send_respuesta_handshake_inicial(int fd, int tamanio_pagina, int cant_entra
 }
 
 bool send_interrupcion(int fd){
-	t_paquete* paquete = crear_paquete(INTERRUPCION);
-	enviar_paquete(paquete, fd);
+	int interrupcion = INTERRUPCION;
+	send(fd, &interrupcion, sizeof(int), 0);
 	log_debug(logger, "Enviando interrupcion a CPU");
-	return eliminar_paquete(paquete);
+	return true;
 }
 
 bool send_respuesta_nuevo_proceso(int fd, int numero_tabla){

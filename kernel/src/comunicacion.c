@@ -30,7 +30,6 @@ pcb* recv_mensajes_cpu(int socket_cpu, int ** tipo_instruccion){
 
 	case PAQUETE_PCB:
 		recv_paquete_pcb(socket_cpu, &nodo_pcb);
-		imprimir_PCB(nodo_pcb);
 		**tipo_instruccion = 0;
 		//return nodo_pcb;
 		break;
@@ -114,7 +113,6 @@ void recibir_pcb(int fd, pcb** nodo_pcb){
 // Esta funcion notifica a la memoria de un proceso nuevo y envia un pcb para asignar su tabla de paginas
 void inicializar_estructuras_en_memoria(pcb* nodo_pcb){
 	op_code codigo_paquete = PAQUETE_PCB;
-	imprimir_PCB(nodo_pcb);
 	send_paquete_pcb(conexionAMemoria, nodo_pcb, codigo_paquete);
 }
 

@@ -33,13 +33,12 @@ void planificadorLargoPlazo(pcb *nodo_pcb){
 		sem_wait(&sem_multiprogramacion);
 		pcb = list_get(listaNew,0);
 		log_debug(logger, "Enviando PCB a Memoria");
-		imprimir_PCB(pcb);
 		send_paquete_pcb(conexionAMemoria, pcb, SOLICITUD_NUEVO_PROCESO);
 		numeroTabla = recv_respuesta_nuevo_proceso(conexionAMemoria);
 		log_debug(logger, "Se recibió el numero de tabla %d desde Memoria", numeroTabla);
 		if(numeroTabla < 9999 && conexionAMemoria != -1){
 			pcb->tabla_paginas = numeroTabla;
-			log_info(logger,INICIALIZACION_PROCESOS,pcb->id);
+			log_info(logger, INICIALIZACION_PROCESOS, pcb->id);
 			pcb = dequeue_new();
 			movePCBto(&pcb, READY);
 			sem_post(&sem_ProcesosReady);
@@ -56,11 +55,11 @@ void planificadorMedianoPlazo(pcb *nodo_pcb){
 	int index = proceso_esta_en_lista(listaBlocked, nodo_pcb->id);
 	if(index != -1){
 		send_paquete_pcb(conexionAMemoria, nodo_pcb, SOLICITUD_SUSPENSION_PROCESO);
-		log_info(logger,"El proceso %d se suspende por exceso de tiempo bloqueado",nodo_pcb->id);
+		log_info(logger, SUSPENCION_PROCESO, nodo_pcb->id);
 		dequeue_blocked_at_index(index);
 		movePCBto(&nodo_pcb, SUSPENDED_BLOCKED);
-		sem_post(&sem_ProcesosSuspendedBlk);
 		sem_post(&sem_multiprogramacion);
+		sem_post(&sem_ProcesosSuspendedBlk);
 	}
 	pthread_mutex_unlock(&mtx_planificador);
 }
@@ -76,7 +75,7 @@ void planificadorCortoPlazo(pcb *nodo_pcb){
 
 		movePCBto(&pcb, EXECUTION);
 		sem_post(&sem_enviarPCB);
-		log_info(logger,"Pongo a ejecutar al proceso %d",pcb->id);
+		log_info(logger, EJECUTANDO_PROCESO, pcb->id);
 	}
 
 }
@@ -90,7 +89,6 @@ void planificacion_cpu(int socket_fd){
 		pcb* pcb = list_get(listaExec, 0);
 		op_code codigo_paquete = PAQUETE_PCB;
 		start_time = time(NULL);
-		imprimir_PCB(pcb);
 		send_paquete_pcb(conexionACPU, pcb, codigo_paquete);
 		destruir_PCB(pcb);
 		pcb = recv_mensajes_cpu(socket_fd, &tipo_instruccion);
@@ -125,6 +123,7 @@ void planificacion_cpu(int socket_fd){
 			movePCBto(&pcb, EXIT);
 			send_paquete_kernel(arr_procesos[pcb->id],PAQUETE_KERNEL_EXIT);
 			close(arr_procesos[pcb->id]);
+			log_info(logger, FINALIZACION_PROCESO, pcb->id);
 			break;
 		default:
 			break;
@@ -143,7 +142,7 @@ void planificacion_bloqueo(){
 		sem_wait(&sem_ProcesosBloqueo);
 		pcb = dequeue_desbloqueo_pend();
 		tiempo_bloqueo = pcb->tiempo_a_bloquearse;
-		log_info(logger, "El proceso %d esta realizando una IO", pcb->id);
+		log_info(logger, BLOQUEO_PROCESO, pcb->id);
 		usleep(tiempo_bloqueo*1000);
 
 		pthread_mutex_lock(&mtx_planificador);
@@ -151,7 +150,7 @@ void planificacion_bloqueo(){
 		if(index != -1){
 			dequeue_blocked_at_index(index);
 			movePCBto(&pcb, READY);
-			log_debug(logger,BLOQUEO_TERMINADO,pcb->id);
+			log_info(logger, DESBLOQUEO_PROCESO, pcb->id);
             sem_post(&sem_ProcesosReady);
 		}else{
 			index = proceso_esta_en_lista(listaSuspendedBlocked, pcb->id);
@@ -175,7 +174,7 @@ void planificacion_suspended(){
 		pcb = dequeue_suspended_ready();
 		send_paquete_pcb(conexionAMemoria, pcb, SOLICITUD_DESUSPENSION_PROCESO);
 		movePCBto(&pcb, READY);
-		log_info(logger, SUSPENCION_TERMINADA, pcb->id);
+		log_info(logger, DESUSPENCION_PROCESO, pcb->id);
 		sem_post(&sem_ProcesosReady);
 	}
 }

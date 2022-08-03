@@ -108,9 +108,8 @@ int manejarDispatch(int socket_cliente){
 			recv_paquete_pcb(socket_cliente, &pcb);
 
 			log_debug(logger, "Me llego el pcb PID: %d", pcb->id);
-			imprimir_PCB(pcb);
-
-			log_debug(logger, "Alojando proceso en el CPU - PID: %d", pcb->id);
+			//imprimir_PCB(pcb);
+			log_info(logger, "Alojando proceso en el CPU - PID: %d", pcb->id);
 
 			limpiar_tlb(pcb->id);
 			ejecutar_ciclo_instruccion(&pcb);
@@ -119,7 +118,7 @@ int manejarDispatch(int socket_cliente){
 			procesoAnterior = pcb->id;
 			log_debug(logger, "quedó como procesoAnterior el PID : %d", procesoAnterior);
 
-			log_debug(logger, "Desalojando proceso del CPU - PID: %d", pcb->id);
+			log_info(logger, "Desalojando proceso del CPU - PID: %d", pcb->id);
 
 			break;
 
@@ -150,7 +149,7 @@ void realizar_handshake_inicial(){
 	send(conexionAMemoria, &handshake, sizeof(uint32_t), NULL);
 	recv(conexionAMemoria, &entradas_por_tabla, sizeof(uint32_t), MSG_WAITALL);
 
-	log_info(logger, "INICIO HANDSHAKE con Memoria");
+	log_info(logger, "FINAL HANDSHAKE con Memoria");
 
 	// log_debug(logger, "Valores obtenidos de la devolucion del handshake");
 	// log_debug(logger, "tam_pagina: %d", tam_pagina);

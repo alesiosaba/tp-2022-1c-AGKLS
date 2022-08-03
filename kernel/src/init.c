@@ -9,21 +9,6 @@ config_t inicializar(char* config_path){
 	config = iniciar_config(config_path);
 	config_values = leer_config();
 	log_level = config_values.log_level;
-	/*
-	char* logger_name = string_new();
-	char timestamp_string[18];
-    time_t    caltime;
-    struct tm * broketime;
-    // find current time, convert to broken-down time
-    time(&caltime);
-    broketime = localtime(&caltime);
-    // append timestamp in the format "_yymmdd_hhmmss"
-    strftime(timestamp_string,18,"_%d-%m-%y_%H%M%S",broketime);
-	string_append(&logger_name, ARCHIVO_DE_LOG);
-	string_append(&logger_name, timestamp_string);
-	string_append(&logger_name, ".log");
-    logger = iniciar_logger(log_level, logger_name, LOGGER);
-    */
     logger = iniciar_logger(log_level, ARCHIVO_DE_LOG, LOGGER);
 //globales
 	idProceso = 0;
