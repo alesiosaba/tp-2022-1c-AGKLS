@@ -55,7 +55,7 @@ Para descargar el archivo de deploy podemos descargarlo desde nuestro "server" u
 ![image](https://user-images.githubusercontent.com/62452207/181871505-c68fbb81-49e5-4ded-90a2-22553a38bf79.png)
 
 Como utilizar varios terminales en ubuntu server:
-![image]([https://user-images.githubusercontent.com/62452207/181871505-c68fbb81-49e5-4ded-90a2-22553a38bf79.png](https://i.imgur.com/7sAjdR8.png))
+![image](https://i.imgur.com/7sAjdR8.png)
 
 # Usando Valgrind para memory leaks
 
