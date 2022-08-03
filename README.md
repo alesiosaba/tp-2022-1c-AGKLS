@@ -12,9 +12,9 @@
 
 https://github.com/sisoputnfrba/kiss-pruebas
 
-## [Links de descarga de vm's](https://www.utnso.com.ar/recursos/maquinas-virtuales/)
+## [Excel Pruebas KISS - TP SO](https://docs.google.com/spreadsheets/d/16eQdoXOiIEVDmFNszx0XAG6ZOMj4EcnS/edit?usp=sharing&ouid=108912568561827697344&rtpof=true&sd=true)
 
-## [Pruebas KISS - TP SO](https://docs.google.com/spreadsheets/d/16eQdoXOiIEVDmFNszx0XAG6ZOMj4EcnS/edit?usp=sharing&ouid=108912568561827697344&rtpof=true&sd=true)
+## [Links de descarga de vm's](https://www.utnso.com.ar/recursos/maquinas-virtuales/)
 
 ## VM ubuntu-server
 
