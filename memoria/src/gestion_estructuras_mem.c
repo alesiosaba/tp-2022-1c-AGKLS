@@ -253,6 +253,7 @@ entrada_tabla_N2* conseguir_entrada_pagina(int dir_tabla_n1, int pag)
     //conseguir tabla nivel 1
 	tabla_primer_nivel *t = list_get(tablas_primer_nivel, dir_tabla_n1);
 
+	// TODO: Revisarlo
     //numero entrada = division numero pagina por paginas tablas redondeado para arriba
     int num_entrada_n1 = ceil((double) pag / (double) config_values.entradas_por_tabla);
     entrada_tabla_N1 *e1 = list_get(t, num_entrada_n1);
@@ -377,6 +378,7 @@ proceso_en_memoria* asignar_proceso(int id, int tamanio_proceso){
 	nuevoProceso->id_proceso = id;
 	nuevoProceso->posicion_puntero_clock = 0;
 	nuevoProceso->tablaN1 = crear_tablaN1(tamanio_proceso);
+	nuevoProceso->dir_tabla_n1 = -1;
 	nuevoProceso->marcos_reservados = list_create();
 	sem_init(&(nuevoProceso->suspension_completa), 0, 0);
 	nuevoProceso->esta_suspendido = 0;

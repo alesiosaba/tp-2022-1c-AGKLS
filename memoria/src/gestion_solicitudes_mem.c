@@ -13,11 +13,10 @@ int solicitud_tabla_paginas(int id_tabla, int entrada_en_tabla){
 
 }
 
-int solicitud_marco(int pid, int id_tabla, int entrada_en_tabla){
+int solicitud_marco(int pid, int dir_tabla_n2, int entrada_en_tabla){
 	// Recibe parametros del socket fd
-	log_info(logger,"solicitud_marco - dir tabla: %d, numero pagina: %d", id_tabla, entrada_en_tabla);
-
     proceso_en_memoria *proceso = buscar_proceso_por_id(pid);
+	log_info(logger,"solicitud_marco - dir tabla_n1: %d dir tabla_n2: %d, numero pagina: %d", proceso->dir_tabla_n1, dir_tabla_n2, entrada_en_tabla);
     if(proceso->esta_suspendido == 1){
         log_info(logger,"solicitud_marco - Proceso %d esta suspendido. Desuspendiendo", pid);
         sem_wait(&(proceso->suspension_completa));
@@ -26,13 +25,13 @@ int solicitud_marco(int pid, int id_tabla, int entrada_en_tabla){
         log_info(logger,"solicitud_marco - Proceso desuspendido: %d", pid);
     }
 
-    entrada_tabla_N2 *e2 = conseguir_entrada_pagina(id_tabla, entrada_en_tabla);
+    entrada_tabla_N2 *e2 = conseguir_entrada_pagina(proceso->dir_tabla_n1, entrada_en_tabla);
 
     log_info(logger,"solicitud_marco - asignada tabla en entrada segundo nivel");
     if(e2->bit_presencia == 0)
     {
         log_info(logger,"solicitud_marco - bit de presencia en cero. Trayendo pagina de memoria");
-        traer_pagina_a_memoria(pid, id_tabla, e2);
+        traer_pagina_a_memoria(pid, proceso->dir_tabla_n1, e2);
     }
     log_info(logger,"solicitud_marco - se devuelve marco nro %d", e2->dir);
 
@@ -52,6 +51,7 @@ void solicitud_nuevo_proceso(int socket_cliente){
     // Sincronizacion tabla primer nivel
     pthread_mutex_lock(&mutex_tablasN1);
     int dir_tabla = list_add(tablas_primer_nivel, proceso->tablaN1);
+    proceso->dir_tabla_n1 = dir_tabla;
     log_info(logger,"solicitud_nuevo_proceso - direccion tabla asignada %d", dir_tabla);
     pthread_mutex_unlock(&mutex_tablasN1);
     // Sincronizacion procesos en memoria

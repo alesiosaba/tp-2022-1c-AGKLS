@@ -53,6 +53,7 @@ typedef struct
     int esta_suspendido;
     sem_t suspension_completa;
 	tabla_primer_nivel *tablaN1;
+	int dir_tabla_n1;
 }proceso_en_memoria;
 
 
