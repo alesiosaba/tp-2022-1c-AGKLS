@@ -28,10 +28,10 @@ int recibir_operacion(int);
 
 // Memoria
 // Serializacion
-void* serializar_tabla_N2(op_code op, t_tablaN2 *t, size_t *size);
+void* serializar_tabla_N2(op_code op, tabla_segundo_nivel *t, size_t *size);
 
 // Envio
-void enviar_tabla_N2(int socket_cliente, t_tablaN2 *t, t_log *logger);
+void enviar_tabla_N2(int socket_cliente, tabla_segundo_nivel *t, t_log *logger);
 
 
 #endif

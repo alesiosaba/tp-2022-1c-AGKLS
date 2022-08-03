@@ -3,7 +3,7 @@
 int solicitud_tabla_paginas(int id_tabla, int entrada_en_tabla){
     log_info(logger,"solicitud_tabla_paginas - Dir tabla: %d Entrada: %d",id_tabla, entrada_en_tabla);
     // Busco la tabla N1 correspondiente a la dir_tabla recibida
-    t_tablaN1 *tabla = list_get(tablas_primer_nivel,id_tabla);
+    tabla_primer_nivel *tabla = list_get(tablas_primer_nivel,id_tabla);
     log_info(logger, "solicitud_tabla_paginas - Tamanio tabla 1er Nivel: %d", list_size(tabla));
     // Busco la entrada solicitada en mi tabla N1
     entrada_tabla_N1 *entrada = list_get(tabla, entrada_en_tabla);
@@ -27,6 +27,7 @@ int solicitud_marco(int pid, int id_tabla, int entrada_en_tabla){
     }
 
     entrada_tabla_N2 *e2 = conseguir_entrada_pagina(id_tabla, entrada_en_tabla);
+
     log_info(logger,"solicitud_marco - asignada tabla en entrada segundo nivel");
     if(e2->bit_presencia == 0)
     {
@@ -35,7 +36,7 @@ int solicitud_marco(int pid, int id_tabla, int entrada_en_tabla){
     }
     log_info(logger,"solicitud_marco - se devuelve marco nro %d", e2->dir);
 
-    return e2->dir;
+    return floor(e2->dir / config_values.tam_pagina);
 
 }
 

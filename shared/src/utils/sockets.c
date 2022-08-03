@@ -236,7 +236,7 @@ t_list* recibir_paquete(int socket_cliente)
 
 // Mensajes Memoria
 // Serializacion
-void* serializar_tabla_N2(op_code op, t_tablaN2 *t, size_t *size)
+void* serializar_tabla_N2(op_code op, tabla_segundo_nivel *t, size_t *size)
 {
 	//TAMANIO = OP_CODE + DATO_TAMANIO + (LARGO LISTA * TAMANIO ENTRADA)
 	int tamanio_lista = list_size(t) * sizeof(entrada_tabla_N2);
@@ -259,7 +259,7 @@ void* serializar_tabla_N2(op_code op, t_tablaN2 *t, size_t *size)
 
 
 // Envio
-void enviar_tabla_N2(int socket_cliente, t_tablaN2 *t, t_log *logger)
+void enviar_tabla_N2(int socket_cliente, tabla_segundo_nivel *t, t_log *logger)
 {
 	size_t size;
 	log_info(logger, "Respondiendo solicitud de tabla nivel 2");

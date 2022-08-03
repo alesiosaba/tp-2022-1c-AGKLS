@@ -159,7 +159,7 @@ typedef struct {
 	int dir; //index en lista general de tablasN2
 } entrada_tabla_N1;
 
-typedef t_list t_tablaN2; // elementos tipo entrada_tabla_N2
-typedef t_list t_tablaN1; // elementos tipo entrada_tabla_N1
+typedef t_list tabla_segundo_nivel; // elementos tipo entrada_tabla_N2
+typedef t_list tabla_primer_nivel; // elementos tipo entrada_tabla_N1
 
 #endif /* UTILS_H_ */

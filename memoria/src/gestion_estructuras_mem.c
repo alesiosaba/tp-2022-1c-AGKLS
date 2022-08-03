@@ -93,14 +93,14 @@ void inicializar_tablas_de_entradas(){
 	// log_debug(logger, "------- Finalizacion de inicializacion de listas de entradas a ambas tablas de niveles");
 }
 
-entrada_tabla_N1* agregar_entrada_tabla_primer_nivel(t_tablaN1 *tabla){
+entrada_tabla_N1* agregar_entrada_tabla_primer_nivel(tabla_primer_nivel *tabla){
 	  entrada_tabla_N1* e = malloc(sizeof(entrada_tabla_N1));
 	  e->num_tabla = list_add(tabla, e);
 	  e->dir = -1;
 	  return e;
 }
 
-entrada_tabla_N2* agregar_entrada_tabla_segundo_nivel(t_tablaN2 *tabla){
+entrada_tabla_N2* agregar_entrada_tabla_segundo_nivel(tabla_segundo_nivel *tabla){
     entrada_tabla_N2* e = malloc(sizeof(entrada_tabla_N2));
     e->num_pag = -1;
     e->dir = -1;
@@ -233,7 +233,7 @@ proceso_en_memoria* buscar_proceso_por_id(int id)
     return aux;
 }
 
-entrada_tabla_N2* tabla_contiene_marco(t_tablaN2 *t, int num_marco)
+entrada_tabla_N2* tabla_contiene_marco(tabla_segundo_nivel *t, int num_marco)
 {
     entrada_tabla_N2 *ret;
     for(int i = 0; i < list_size(t); i++)
@@ -248,17 +248,17 @@ entrada_tabla_N2* tabla_contiene_marco(t_tablaN2 *t, int num_marco)
 }
 
 
-entrada_tabla_N2* conseguir_entrada_pagina(int dir_tablaN1, int pag)
+entrada_tabla_N2* conseguir_entrada_pagina(int dir_tabla_n1, int pag)
 {
     //conseguir tabla nivel 1
-	t_tablaN1 *t = list_get(tablas_primer_nivel, dir_tablaN1);
+	tabla_primer_nivel *t = list_get(tablas_primer_nivel, dir_tabla_n1);
 
     //numero entrada = division numero pagina por paginas tablas redondeado para arriba
     int num_entrada_n1 = ceil((double) pag / (double) config_values.entradas_por_tabla);
     entrada_tabla_N1 *e1 = list_get(t, num_entrada_n1);
 
     //conseguir tabla nivel 2
-    t_tablaN2 *t2 = list_get(tablas_segundo_nivel, e1->dir);
+    tabla_segundo_nivel *t2 = list_get(tablas_segundo_nivel, e1->dir);
 
     //desplazamiento en tabla = resto de division anterior
     int num_entrada_n2 = pag % config_values.entradas_por_tabla;
@@ -270,7 +270,7 @@ entrada_tabla_N2* conseguir_pagina_en_marco(int num_marco)
 {
     t_list_iterator *iterador = list_iterator_create(tablas_segundo_nivel);
     entrada_tabla_N2 *ret = NULL;
-    t_tablaN2 *t;
+    tabla_segundo_nivel *t;
     while(list_iterator_has_next(iterador))
     {
 
@@ -287,9 +287,9 @@ entrada_tabla_N2* conseguir_pagina_en_marco(int num_marco)
     return ret;
 }
 
-t_list* conseguir_marcos_proceso(int dir_tablaN1)
+t_list* conseguir_marcos_proceso(int dir_tabla_n1)
 {
-	t_tablaN1 *t = list_get(tablas_primer_nivel, dir_tablaN1);
+	tabla_primer_nivel *t = list_get(tablas_primer_nivel, dir_tabla_n1);
     t_list *marcos = list_create();
     t_list_iterator *iterador = list_iterator_create(t);
     while(list_iterator_has_next(iterador))
@@ -319,9 +319,9 @@ t_list* conseguir_numeros_marcos_proceso(int id)
     return ret->marcos_reservados;
 }
 
-t_tablaN1* crear_tablaN1(int tamanio_proceso)
+tabla_primer_nivel* crear_tablaN1(int tamanio_proceso)
 {
-    t_tablaN1 *t = list_create();
+    tabla_primer_nivel *t = list_create();
     int paginas_necesarias = cantidad_paginas_necesarias(tamanio_proceso);
     log_info(logger, "Paginas necesarias %d segun tamanio %d", paginas_necesarias, tamanio_proceso);
 
@@ -333,7 +333,7 @@ t_tablaN1* crear_tablaN1(int tamanio_proceso)
             //creo entrada
             entrada_tabla_N1 *e = agregar_entrada_tabla_primer_nivel(t);
             //creo tabla nivel 2
-            t_tablaN2 *t2 = list_create();
+            tabla_segundo_nivel *t2 = list_create();
             //dir = index en lista general
             pthread_mutex_lock(&mutex_tablasN2);
             e->dir = list_add(tablas_segundo_nivel, t2);
@@ -342,7 +342,7 @@ t_tablaN1* crear_tablaN1(int tamanio_proceso)
         //conseguir ultima entrada (ultima tabla 2)
         entrada_tabla_N1 *aux = list_get(t, list_size(t) -1);
         //buscar tabla en la dir que dice la entrada de tabla 1
-        t_tablaN2 *aux2 = list_get(tablas_segundo_nivel, aux->dir);
+        tabla_segundo_nivel *aux2 = list_get(tablas_segundo_nivel, aux->dir);
         entrada_tabla_N2 *aux3 = agregar_entrada_tabla_segundo_nivel(aux2);
 
         //DIR = NUMERO PAGINA * TAMANIO PAGINA
@@ -419,13 +419,13 @@ void liberar_marcos_bitmap(t_list *marcos)
 void eliminar_paginas_proceso(int id, int dir_tabla_n1)
 {
     log_info(logger,"eliminar_paginas_proceso - Eliminando paginas del proceso %d con dir_tabla-n1", id, dir_tabla_n1);
-    t_tablaN1 *t = list_get(tablas_primer_nivel, dir_tabla_n1);
+    tabla_primer_nivel *t = list_get(tablas_primer_nivel, dir_tabla_n1);
     t_list_iterator *iterador = list_iterator_create(t);
     while(list_iterator_has_next(iterador))
     {
         log_info(logger,"eliminar_paginas_proceso - Eliminando entradas de la Tabla N2");
         entrada_tabla_N1 *e1 = list_iterator_next(iterador);
-        t_tablaN2 *t2 = list_get(tablas_segundo_nivel, e1->dir);
+        tabla_segundo_nivel *t2 = list_get(tablas_segundo_nivel, e1->dir);
 
         list_clean_and_destroy_elements(t2, free);
 

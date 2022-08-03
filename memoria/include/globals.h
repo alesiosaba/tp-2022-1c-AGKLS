@@ -52,7 +52,7 @@ typedef struct
 	int posicion_puntero_clock;
     int esta_suspendido;
     sem_t suspension_completa;
-	t_tablaN1 *tablaN1;
+	tabla_primer_nivel *tablaN1;
 }proceso_en_memoria;
 
 
