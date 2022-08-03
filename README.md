@@ -50,9 +50,12 @@ Para comprobar que esta iniciado el server podemos verlo desde un navegador:
 
 Para descargar el archivo de deploy podemos descargarlo desde nuestro "server" utilizando `wget`
 
-`wget 192.168.0.69:8000/home/utnso/shared_folder/deploy.sh`
+`wget 192.168.100.52:8000/tp-2022-1c-AGKLS/deploy/deploy.sh`
 
 ![image](https://user-images.githubusercontent.com/62452207/181871505-c68fbb81-49e5-4ded-90a2-22553a38bf79.png)
+
+Como utilizar varios terminales en ubuntu server:
+![image]([https://user-images.githubusercontent.com/62452207/181871505-c68fbb81-49e5-4ded-90a2-22553a38bf79.png](https://i.imgur.com/7sAjdR8.png))
 
 # Usando Valgrind para memory leaks
 
