@@ -23,8 +23,11 @@ int solicitud_tabla_n2(int pid, int dir_tabla_n2, int entrada_en_tabla_n2){
         log_debug(logger,"solicitud_tabla_n2 - Proceso desuspendido: %d", pid);
     }
 
+    // Buscamos la tabla N2 correspondiente
     tabla_segundo_nivel *t2 = list_get(tablas_segundo_nivel, dir_tabla_n2);
+    // Buscamos la entrada solicitada
     entrada_tabla_N2 * e2 = list_get(t2, entrada_en_tabla_n2);
+
 	log_debug(logger, "Se encontro la entrada n2 con dir: %d num_pag: %d bit_presencia %d",e2->dir, e2->num_pag, e2->bit_presencia);
     if(e2->bit_presencia == 0)
     {
@@ -89,6 +92,7 @@ void solicitud_suspension_proceso(int socket_cliente){
 	pcb *nodo_pcb;
     recv_paquete_pcb(socket_cliente, &nodo_pcb);
     log_info(logger,"solicitud_suspension_proceso - pcb recibido: %d", nodo_pcb->id);
+    dump_bitmap(bitmap_marcos);
 
    // TODO: Ver si la direccion tabla N1 la recibimos o la definimos en proceso_en_memoria
     proceso_en_memoria *proceso = buscar_proceso_por_id(nodo_pcb->id);
@@ -118,6 +122,7 @@ void solicitud_desuspension_proceso(int socket_cliente){
 	pcb *nodo_pcb;
     recv_paquete_pcb(socket_cliente, &nodo_pcb);
 	log_debug(logger,"solicitud_desuspension_proceso - pcb recibido: %d", nodo_pcb->id);
+	dump_bitmap(bitmap_marcos);
     proceso_en_memoria *proceso = buscar_proceso_por_id(nodo_pcb->id);
     log_info(logger, "solicitud_desuspension_proceso: Reservando marcos para el proceso" );
 	reservar_marcos_proceso(proceso);

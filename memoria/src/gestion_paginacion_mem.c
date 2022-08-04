@@ -22,7 +22,7 @@ entrada_tabla_N2* obtener_entrada_n2_clock(int id, int dir_tablaN1)
     entrada_tabla_N2 *ret = NULL;
     while(criterio_clock(ret) == 0)
     {
-        log_warning(logger, "criterio_clock - ****** ACCESO SWAP ******");
+        log_warning(logger, "criterio_clock - ******* ACCESO A SWAP *******");
         ret = list_get(marcos_proceso, p->posicion_puntero_clock);
         p->posicion_puntero_clock++;
         if(p->posicion_puntero_clock == list_size(marcos_proceso))
@@ -96,27 +96,40 @@ entrada_tabla_N2* obtener_entrada_n2_clock_mejorado(int id, int dir_tablaN1)
     return ret;
 }
 
-int dir_marco_vacio_proceso(int id)
+// Obtiene numero de marco proceso que no este cargado en memoria
+int obtener_marco_vacio_de_proceso(int pid)
 {
 
-    t_list *marcos = conseguir_numeros_marcos_proceso(id);
+	// Trae los numeros de marcos asignados para pid
+    t_list *marcos = conseguir_numeros_marcos_proceso(pid);
+
     for(int i = 0; i < list_size(marcos); i++) {
         int num_marco = (int)list_get(marcos, i);
-         //SI ENCUENTRA VACIO LO RETORNA
-            if(conseguir_pagina_en_marco(num_marco) == NULL)
+	    log_warning(logger,"obtener_marco_vacio_de_proceso: el marco numero %d de PID: %d es %d", i, pid, num_marco);
+         // Por cada numero de marco, me fijo si existe una entrada N2 que lo contenga
+            if(buscar_entrada_n2_por_num_marco(num_marco) == NULL){
+        	    log_warning(logger,"obtener_marco_vacio_de_proceso: No se encontro entrada. El marco %d esta disponible", num_marco);
+            	// Si no existe ninguna, devuelvo el numero marco
                 return num_marco;
+            }
     }
-    return PAGINA_NO_ENCONTRADA;
+    log_warning(logger,"obtener_marco_vacio_de_proceso: MARCO VACIO NO ENCONTRADO");
+
+    return MARCO_VACIO_NO_ENCONTRADO;
 }
 
 void traer_pagina_a_memoria(int id, int dir_tabla_n1 , entrada_tabla_N2 *e){
-	  //DIR MARCO VACIO O -1 SI NO ENCUENTRA
-	    int num_marco = dir_marco_vacio_proceso(id);
-	    int dir_marco = num_marco * config_values.tam_pagina;
-	    log_info(logger,"traer_pagina_a_memoria: PID: %d pide de la tabla N1: %d el marco: %d", id, dir_tabla_n1, num_marco);
+	    log_warning(logger,"traer_pagina_a_memoria: PID: %d pide de la tabla N1: %d la entrada N2: %d", id, dir_tabla_n1, e->num_pag);
+	    dump_bitmap(bitmap_marcos);
+	    // Nos fijamos si hay algun marco del PID que no este referenciado por ninguna entrada n2
+	    int num_marco_vacio = obtener_marco_vacio_de_proceso(id);
+	    // De haberlo, usamos ese numero de marco para calcular la direccion
+	    int dir_marco = num_marco_vacio * config_values.tam_pagina;
 
-	    if(num_marco == PAGINA_NO_ENCONTRADA){
+	    // Si no hay, tenemos que elegir con los algoritmos de reemplazo
+	    if(num_marco_vacio == MARCO_VACIO_NO_ENCONTRADO){
 	        entrada_tabla_N2 *aux;
+		    log_warning(logger,"PAGINA NO ENCONTRADA");
 
 	        if(strcmp(config_values.algoritmo_reemplazo, "CLOCK") == 0)
 	          {
@@ -129,9 +142,10 @@ void traer_pagina_a_memoria(int id, int dir_tabla_n1 , entrada_tabla_N2 *e){
 	             aux = obtener_entrada_n2_clock_mejorado(id, dir_tabla_n1);
 	          }
 
-	        //GUARDAR DIR MARCO ELEGIDO
+	        // Guardamos la direccion del marco que elegimos
 	        dir_marco = aux->dir;
-	        //SI FUE MODIFICADO, ESCRIBIR PAGINA EN MEMORIA
+
+	        // Escribir en SWAP si fue modificada la pagina
 	        if(aux->bit_modificacion == 1)
 	         {
 	            pedido_swap *p = crear_pedido_escribir_swap(id, aux->dir, aux->num_pag);
@@ -140,7 +154,7 @@ void traer_pagina_a_memoria(int id, int dir_tabla_n1 , entrada_tabla_N2 *e){
 
 	         }
         	log_warning(logger, "traer_pagina_a_memoria: Tabla N1: %d se pone en 0 bit de presencia de entrada N2 n: %d dir fisica %d", dir_tabla_n1, e->num_pag, e->dir);
-
+        	// Actualizamos bit de presencia
 	         aux->bit_presencia = 0;
 
 	    }
@@ -150,7 +164,7 @@ void traer_pagina_a_memoria(int id, int dir_tabla_n1 , entrada_tabla_N2 *e){
 	    e->dir = dir_marco;
 	    e->bit_presencia = 1;
     	log_debug(logger, "traer_pagina_a_memoria: Tabla N1: %d se pone en 1 bit de presencia de entrada N2 n: %d dir fisica %d", dir_tabla_n1, e->num_pag, e->dir);
-	    log_info(logger,"pagina %d del proceso %d lista en memoria",e->num_pag,id);
+	    log_warning(logger,"traer_pagina_a_memoria: pagina %d del proceso %d lista en memoria",e->num_pag,id);
 }
 
 // ej marco 0 despl 0
@@ -169,7 +183,7 @@ int escribir_memoria(int dato, uint32_t marco, uint32_t desplazamiento)
     log_debug(logger, "escribir_memoria: Se intentara escribir %d en el marco %d", dato, marco);
     // Buscamos la pagina que tiene el marco solicitado para actualizarle los bits
     log_debug(logger, "escribir_memoria: Buscando pagina que contiene marco %d",marco);
-    entrada_tabla_N2 *pag = conseguir_pagina_en_marco(marco);
+    entrada_tabla_N2 *pag = buscar_entrada_n2_por_num_marco(marco);
     log_debug(logger, "escribir_memoria: Se encontro la pagina %d", pag->num_pag);
     // Marcamos el uso
     pag->bit_uso = 1;
@@ -187,7 +201,7 @@ int escribir_memoria(int dato, uint32_t marco, uint32_t desplazamiento)
 uint32_t leer_memoria(uint32_t marco, uint32_t desplazamiento){
     log_debug(logger, "leer_memoria: Se leera el marco %d con despl %d", marco, desplazamiento);
     // Busca la pagina segun el marco
-    entrada_tabla_N2 *pag = conseguir_pagina_en_marco(marco);
+    entrada_tabla_N2 *pag = buscar_entrada_n2_por_num_marco(marco);
     // Bit de uso
     pag->bit_uso = 1;
     uint32_t dato;

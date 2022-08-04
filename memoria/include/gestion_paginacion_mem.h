@@ -8,7 +8,7 @@
 #ifndef GESTION_PAGINACION_MEM_H_
 #define GESTION_PAGINACION_MEM_H_
 
-#define PAGINA_NO_ENCONTRADA -1
+#define MARCO_VACIO_NO_ENCONTRADO -1
 
 #include <stdio.h>
 #include "./gestion_estructuras_mem.h"
@@ -16,7 +16,7 @@
 #include "gestion_swap.h"
 
 #define ESCRITURA_MEMORIA_EXITOSA 1
-int dir_marco_vacio_proceso(int id);
+int obtener_marco_vacio_de_proceso(int id);
 void traer_pagina_a_memoria(int id, int dir_tabla_n1 ,entrada_tabla_N2 *e);
 // Planificacion
 

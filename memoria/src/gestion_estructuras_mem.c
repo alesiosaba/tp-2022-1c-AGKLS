@@ -233,7 +233,8 @@ proceso_en_memoria* buscar_proceso_por_id(int id)
     return aux;
 }
 
-entrada_tabla_N2* tabla_contiene_marco(tabla_segundo_nivel *t, int num_marco)
+// Recibe una tabla N2 y un numero de marco y devuelve la entrada N2 que tiene ese marco o NULL si no la tiene
+entrada_tabla_N2* obtener_entrada_n2_por_num_marco(tabla_segundo_nivel *t, int num_marco)
 {
     entrada_tabla_N2 *ret;
     for(int i = 0; i < list_size(t); i++)
@@ -267,21 +268,19 @@ entrada_tabla_N2* conseguir_entrada_pagina(int dir_tabla_n1, int pag)
     return e2;
 }
 
-entrada_tabla_N2* conseguir_pagina_en_marco(int num_marco)
+// Busca en TODAS las tablas N2 aquella entrada que tenga el num_marco y la devuelve
+entrada_tabla_N2* buscar_entrada_n2_por_num_marco(int num_marco)
 {
-	log_debug(logger, "conseguir_pagina_en_marco: %d", num_marco);
-
+	log_debug(logger, "buscar_entrada_n2_por_num_marco: %d", num_marco);
     t_list_iterator *iterador = list_iterator_create(tablas_segundo_nivel);
     entrada_tabla_N2 *ret = NULL;
     tabla_segundo_nivel *t;
+    // Recorremos todas las Tablas N2 en busqueda de aquella que tenga la entrada con el num_marco
     while(list_iterator_has_next(iterador))
     {
-
         t = list_iterator_next(iterador);
-
-        ret = tabla_contiene_marco(t, num_marco);
-        if(ret != NULL)
-        {
+        ret = obtener_entrada_n2_por_num_marco(t, num_marco);
+        if(ret != NULL){
             list_iterator_destroy(iterador);
             return ret;
         }
@@ -372,6 +371,15 @@ tabla_primer_nivel* crear_tablaN1(int tamanio_proceso)
 void reservar_marcos_proceso(proceso_en_memoria *p)
 {
 	log_debug(logger, "reservar_marcos_proceso: reservando para proceso PID: %d", p->id_proceso);
+
+	int cant_marcos_reservados_actualmente = list_size(p->marcos_reservados);
+	log_debug(logger, "reservar_marcos_proceso: El proceso PID: %d tiene actualmente: %d marcos reservados", p->id_proceso, cant_marcos_reservados_actualmente);
+
+	if(cant_marcos_reservados_actualmente == config_values.marcos_por_proceso){
+		log_warning(logger, "reservar_marcos_proceso: Se intento reservar para PID: %d mas marcos de los permitidos", cant_marcos_reservados_actualmente);
+		return;
+	}
+
     int cantidad_marcos_reservados = 0;
     for(int i = 0; cantidad_marcos_reservados < config_values.marcos_por_proceso; i++)
     {

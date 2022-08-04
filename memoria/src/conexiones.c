@@ -138,21 +138,21 @@ int manejarConexionKernel(int socket_cliente){
 			switch (cod_op) {
 
 			case SOLICITUD_NUEVO_PROCESO:
-				log_info(logger, "Memoria recibio SOLICITUD_NUEVO_PROCESO");
+				log_warning(logger, "Memoria recibio SOLICITUD_NUEVO_PROCESO");
 				solicitud_nuevo_proceso(socket_cliente, logger);
 				break;
 
 			case SOLICITUD_SUSPENSION_PROCESO:
-				log_debug(logger, "Memoria recibio SOLICITUD_SUSPENSION_PROCESO");
+				log_warning(logger, "Memoria recibio SOLICITUD_SUSPENSION_PROCESO");
 				solicitud_suspension_proceso(socket_cliente);
 				break;
 
 			case SOLICITUD_DESUSPENSION_PROCESO:
-				log_debug(logger, "Memoria recibio SOLICITUD_DESUSPENSION_PROCESO");
+				log_warning(logger, "Memoria recibio SOLICITUD_DESUSPENSION_PROCESO");
 				solicitud_desuspension_proceso(socket_cliente);
 				break;
 			case SOLICITUD_FINALIZAR_PROCESO:
-				log_debug(logger, "Memoria recibio SOLICITUD_FINALIZAR_PROCESO");
+				log_warning(logger, "Memoria recibio SOLICITUD_FINALIZAR_PROCESO");
 				solicitud_eliminar_proceso(socket_cliente);
 			    break;
 
