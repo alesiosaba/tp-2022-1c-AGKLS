@@ -2,6 +2,9 @@
 
 int main(int argc, char** argv) {
 
+	// Utilizados para calcular el tiempo total de ejecucion
+	struct timeval start, stop;
+
 	// Chequear que están los 2 parametros que pide el TP
 	// Path al archivo de pseudocodigo y tamanio de espacio de direcciones del proceso
 	if(argc != 3){
@@ -18,14 +21,40 @@ int main(int argc, char** argv) {
 	char* tamanio_proceso = argv[2];
 
 	enviar_info_proceso(path_pseudocodigo, tamanio_proceso);
+
+	// instante en el que "empieza" el proceso
+	log_info(logger, "Agarro start");
+	gettimeofday(&start, NULL);
+
 	log_info(logger, "Aguardando Respuesta de Kernel...");
+
 	respuesta_kernel = recv_mensajes_kernel(conexion);
+
 	if (respuesta_kernel == TERMINO_EL_PROCESO) {
 		log_info(logger, "Terminando la consola...");
 		terminar_programa();
 	}
+
+	sleep(60);
+	// instante en el que "termina" el proceso
+	log_info(logger, "Agarro end");
+	gettimeofday(&stop, NULL);
+
+	// Diferencia entre los instantes, resultado en microsegundos
+	unsigned long tiempo_ejecucion = (stop.tv_sec - start.tv_sec) * 1000000 + stop.tv_usec - start.tv_usec;
+
 	log_info(logger, "Finalizo correctamente el programa");
-	terminar_programa();
+	log_info(logger, "tiempo en microsegundos: %lu", tiempo_ejecucion);
+
+	int cant_minutos = tiempo_ejecucion / 60000000;
+	int cant_segundos = tiempo_ejecucion / 6000000;
+	int cant_milisegundos = tiempo_ejecucion / 6000000000;
+
+	log_info(logger, "Tiempo de ejecucion total: %d minutos %d segundos %d milisegundos",
+			cant_minutos,
+			cant_segundos,
+			cant_milisegundos);
+
 	return EXIT_SUCCESS;
 }
 
