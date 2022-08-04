@@ -155,8 +155,8 @@ typedef struct {
 } entrada_tabla_N2;
 
 typedef struct {
-	int num_tabla; //id tabla2
-	int dir; //index en lista general de tablasN2
+	int num_tabla; // Entrada en tabla
+	int dir; // ID (en la lista global) de la tabla N2 a la que apunta
 } entrada_tabla_N1;
 
 typedef t_list tabla_segundo_nivel; // elementos tipo entrada_tabla_N2

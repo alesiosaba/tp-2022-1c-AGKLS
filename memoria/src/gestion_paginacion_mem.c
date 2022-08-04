@@ -130,6 +130,8 @@ void traer_pagina_a_memoria(int id, int dir_tablaN1 , entrada_tabla_N2 *e){
 	            eliminar_pedido_disco(p);
 
 	         }
+        	log_warning(logger, "traer_pagina_a_memoria: Tabla N1: %d se pone en 0 bit de presencia de entrada N2 n: %d dir fisica %d", dir_tablaN1, e->num_pag, e->dir);
+
 	         aux->bit_presencia = 0;
 
 	    }
@@ -138,6 +140,7 @@ void traer_pagina_a_memoria(int id, int dir_tablaN1 , entrada_tabla_N2 *e){
 	    eliminar_pedido_disco(p);
 	    e->dir = dir_marco;
 	    e->bit_presencia = 1;
+    	log_warning(logger, "traer_pagina_a_memoria: Tabla N1: %d se pone en 1 bit de presencia de entrada N2 n: %d dir fisica %d", dir_tablaN1, e->num_pag, e->dir);
 	    log_info(logger, "el bit de presencia es: %d",e->bit_presencia);
 	    log_info(logger,"pagina %d del proceso %d lista en memoria",e->num_pag,id);
 

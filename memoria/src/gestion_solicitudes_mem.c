@@ -9,14 +9,13 @@ int solicitud_tabla_paginas(int id_tabla, int entrada_en_tabla){
     entrada_tabla_N1 *entrada = list_get(tabla, entrada_en_tabla);
     // Devolvemos el numero de entrada N2
     log_info(logger, "solicitud_tabla_paginas - devuelve nro de tabla N2: %d", entrada->num_tabla);
-    return entrada->num_tabla;
-
+    return entrada->dir;
 }
 
-int solicitud_marco(int pid, int dir_tabla_n2, int entrada_en_tabla){
+int solicitud_marco(int pid, int dir_tabla_n2, int entrada_en_tabla_n2){
 	// Recibe parametros del socket fd
     proceso_en_memoria *proceso = buscar_proceso_por_id(pid);
-	log_info(logger,"solicitud_marco - dir tabla_n1: %d dir tabla_n2: %d, numero pagina: %d", proceso->dir_tabla_n1, dir_tabla_n2, entrada_en_tabla);
+	log_info(logger,"solicitud_marco - dir tabla_n1: %d dir tabla_n2: %d, numero pagina: %d", proceso->dir_tabla_n1, dir_tabla_n2, entrada_en_tabla_n2);
     if(proceso->esta_suspendido == 1){
         log_info(logger,"solicitud_marco - Proceso %d esta suspendido. Desuspendiendo", pid);
         sem_wait(&(proceso->suspension_completa));
@@ -25,15 +24,19 @@ int solicitud_marco(int pid, int dir_tabla_n2, int entrada_en_tabla){
         log_info(logger,"solicitud_marco - Proceso desuspendido: %d", pid);
     }
 
-    entrada_tabla_N2 *e2 = conseguir_entrada_pagina(proceso->dir_tabla_n1, entrada_en_tabla);
-
+    tabla_segundo_nivel *t2 = list_get(tablas_segundo_nivel, dir_tabla_n2);
+    entrada_tabla_N2 * e2 = list_get(t2, entrada_en_tabla_n2);
     log_info(logger,"solicitud_marco - asignada tabla en entrada segundo nivel");
+	log_warning(logger, "Se encontro la entrada n2 con dir: %d num_pag: %d bit_presencia %d",e2->dir, e2->num_pag, e2->bit_presencia);
     if(e2->bit_presencia == 0)
     {
         log_info(logger,"solicitud_marco - bit de presencia en cero. Trayendo pagina de memoria");
         traer_pagina_a_memoria(pid, proceso->dir_tabla_n1, e2);
     }
-    log_info(logger,"solicitud_marco - se devuelve marco nro %d", e2->dir);
+
+    int desplazamiento_tablas_completas = dir_tabla_n2 * config_values.entradas_por_tabla;
+
+    log_warning(logger,"solicitud_marco - despl_tablas_completas %d", desplazamiento_tablas_completas);
 
     return floor(e2->dir / config_values.tam_pagina);
 

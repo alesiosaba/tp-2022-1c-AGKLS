@@ -247,7 +247,7 @@ entrada_tabla_N2* tabla_contiene_marco(tabla_segundo_nivel *t, int num_marco)
     return NULL;
 }
 
-
+// ▁ ▂ ▄ ▅ ▆ ▇ █ ŴÃŘŇĮŇĞ █ ▇ ▆ ▅ ▄ ▂ ▁
 entrada_tabla_N2* conseguir_entrada_pagina(int dir_tabla_n1, int pag)
 {
     //conseguir tabla nivel 1
@@ -269,6 +269,8 @@ entrada_tabla_N2* conseguir_entrada_pagina(int dir_tabla_n1, int pag)
 
 entrada_tabla_N2* conseguir_pagina_en_marco(int num_marco)
 {
+	log_warning(logger, "conseguir_pagina_en_marco: %d", num_marco);
+
     t_list_iterator *iterador = list_iterator_create(tablas_segundo_nivel);
     entrada_tabla_N2 *ret = NULL;
     tabla_segundo_nivel *t;
@@ -325,6 +327,7 @@ tabla_primer_nivel* crear_tablaN1(int tamanio_proceso)
     tabla_primer_nivel *t = list_create();
     int paginas_necesarias = cantidad_paginas_necesarias(tamanio_proceso);
     log_info(logger, "Paginas necesarias %d segun tamanio %d", paginas_necesarias, tamanio_proceso);
+	log_warning(logger, "creando tabla N1");
 
     for(int paginas_reservadas = 0; paginas_reservadas < paginas_necesarias; paginas_reservadas++)
     {
@@ -339,6 +342,10 @@ tabla_primer_nivel* crear_tablaN1(int tamanio_proceso)
             pthread_mutex_lock(&mutex_tablasN2);
             e->dir = list_add(tablas_segundo_nivel, t2);
             pthread_mutex_unlock(&mutex_tablasN2);
+        	log_warning(logger, "Se creo entrada N1");
+        	log_warning(logger, "se creo tabla N2 ");
+        	log_warning(logger, "La entrada N1 numero apunta a la tabla N2 numero: %d", e->dir);
+
         }
         //conseguir ultima entrada (ultima tabla 2)
         entrada_tabla_N1 *aux = list_get(t, list_size(t) -1);
@@ -350,6 +357,8 @@ tabla_primer_nivel* crear_tablaN1(int tamanio_proceso)
         aux3->num_pag = paginas_reservadas;
         aux3->dir = aux3->num_pag * config_values.tam_pagina;
         aux3->bit_presencia = 0;
+    	log_warning(logger, "Se agrego entrada de segundo nivel numero: %d dir: %d", aux3->num_pag, aux3->dir);
+
     }
     return t;
 }
