@@ -5,8 +5,8 @@
  *      Author: utnso
  */
 
-#ifndef DISCO_H_
-#define DISCO_H_
+#ifndef GESTION_SWAP_H_
+#define GESTION_SWAP_H_
 
 
 #include <stdio.h>
@@ -24,7 +24,7 @@ typedef struct t_pedido_disco
     int operacion_disco;
     int argumentos[3];
     sem_t pedido_swap_listo;
-} t_pedido_disco;
+} pedido_swap;
 
 enum OPERACIONES_DISCO
 {
@@ -44,15 +44,15 @@ void gestionar_solicitudes_swap();
 //Utils
 char* path_archivo_swap(int pid);
 // Gestion de pedidos
-t_pedido_disco* crear_pedido_escribir_swap(int id, int dir_marco, int num_pag);
-t_pedido_disco* crear_pedido_leer_swap(int id, int dir_marco, int num_pag);
-t_pedido_disco* crear_pedido_crear_archivo_swap(int id);
-t_pedido_disco* crear_pedido_eliminar_archivo_swap(int id);
-t_pedido_disco* crear_pedido_suspension_proceso_swap(int id, int dir_tabla_n1);
-void eliminar_pedido_disco(t_pedido_disco *p);
+pedido_swap* crear_pedido_escribir_swap(int id, int dir_marco, int num_pag);
+pedido_swap* crear_pedido_leer_swap(int id, int dir_marco, int num_pag);
+pedido_swap* crear_pedido_crear_archivo_swap(int id);
+pedido_swap* crear_pedido_eliminar_archivo_swap(int id);
+pedido_swap* crear_pedido_suspension_proceso_swap(int id, int dir_tabla_n1);
+void eliminar_pedido_disco(pedido_swap *p);
 // Manejo swap
 void crear_archivo_swap(int pid);
 void escribir_archivo_swap(int pid, int dir_pag, int num_pag);
 void eliminar_archivo_swap(int pid);
 void enviar_pagina_a_memoria(int pid, int dir_pag, int num_pag);
-#endif /* DISCO_H_ */
+#endif /* GESTION_SWAP_H_ */

@@ -1,4 +1,4 @@
-#include "../include/disco.h"
+#include "../include/gestion_swap.h"
 #include "../include/init.h"
 
 void gestionar_solicitudes_swap(){
@@ -14,9 +14,9 @@ void gestionar_solicitudes_swap(){
        usleep(config_values.retardo_swap * 1000);
        // Tomamos el proximo pedido de la cola de pedidos
        pthread_mutex_lock(&mutex_cola_pedidos_swap);
-       t_pedido_disco *p = queue_pop(pedidos_disco);
+       pedido_swap *p = queue_pop(pedidos_disco);
        pthread_mutex_unlock(&mutex_cola_pedidos_swap);
-
+       log_warning(logger, "******* ACCESO A SWAP *******");
        int pid, direccion, pag;
        switch(p->operacion_disco){
       	case CREAR_ARCHIVO_SWAP:
@@ -74,9 +74,9 @@ char* path_archivo_swap(int pid){
 }
 
 // Gestion de pedidos
-t_pedido_disco* crear_pedido_escribir_swap(int id, int dir_marco, int num_pag)
+pedido_swap* crear_pedido_escribir_swap(int id, int dir_marco, int num_pag)
 {
-    t_pedido_disco *p = malloc(sizeof(t_pedido_disco));
+    pedido_swap *p = malloc(sizeof(pedido_swap));
     p->operacion_disco = ESCRIBIR_ARCHIVO_SWAP;
     p->argumentos[0] = id;
     p->argumentos[1] = dir_marco;
@@ -91,9 +91,9 @@ t_pedido_disco* crear_pedido_escribir_swap(int id, int dir_marco, int num_pag)
     return p;
 }
 
-t_pedido_disco* crear_pedido_leer_swap(int id, int dir_marco, int num_pag)
+pedido_swap* crear_pedido_leer_swap(int id, int dir_marco, int num_pag)
 {
-    t_pedido_disco *p = malloc(sizeof(t_pedido_disco));
+    pedido_swap *p = malloc(sizeof(pedido_swap));
     p->operacion_disco = LEER_ARCHIVO_SWAP;
     p->argumentos[0] = id;
     p->argumentos[1] = dir_marco;
@@ -118,12 +118,12 @@ void enviar_pagina_a_memoria(int pid, int dir_pag, int num_pag){
 
     file = fopen(path, "r");
 
-    log_info(logger, "enviar_pagina_a_memoria: Para PID: %d se busca archivo swap: %s", pid, path);
+    log_debug(logger, "enviar_pagina_a_memoria: Para PID: %d se busca archivo swap: %s", pid, path);
     if(fseek(file,config_values.tam_pagina*num_pag,SEEK_SET)){
-        log_info(logger, "No se pudo ubicar pagina en swap");
+        log_debug(logger, "No se pudo ubicar pagina en swap");
     }
 
-    log_info(logger, "enviar_pagina_a_memoria: Se comienza a leer el archivo swap desde: %d", config_values.tam_pagina * num_pag);
+    log_debug(logger, "enviar_pagina_a_memoria: Se comienza a leer el archivo swap desde: %d", config_values.tam_pagina * num_pag);
 
 
     fread(espacio_lectura_escritura_procesos + dir_pag, config_values.tam_pagina,1, file);
@@ -133,10 +133,10 @@ void enviar_pagina_a_memoria(int pid, int dir_pag, int num_pag){
     free(path);
 }
 
-t_pedido_disco* crear_pedido_eliminar_archivo_swap(int id)
+pedido_swap* crear_pedido_eliminar_archivo_swap(int id)
 {
 	log_debug(logger,"crear_pedido_eliminar_archivo_swap - creando solicitud eliminar archivos SWAP");
-    t_pedido_disco *p = malloc(sizeof(t_pedido_disco));
+    pedido_swap *p = malloc(sizeof(pedido_swap));
     p->operacion_disco = ELIMINAR_ARCHIVO_SWAP;
     p->argumentos[0] = id;
     sem_init(&(p->pedido_swap_listo), 0, 0);
@@ -151,14 +151,14 @@ t_pedido_disco* crear_pedido_eliminar_archivo_swap(int id)
     return p;
 }
 
-void eliminar_pedido_disco(t_pedido_disco *p){
+void eliminar_pedido_disco(pedido_swap *p){
     // TODO: Ver de liberar los argumentos individualmente. Debe estar leakeando.
     free(p);
 }
 
-t_pedido_disco* crear_pedido_crear_archivo_swap(int id)
+pedido_swap* crear_pedido_crear_archivo_swap(int id)
 {
-    t_pedido_disco *p = malloc(sizeof(t_pedido_disco));
+    pedido_swap *p = malloc(sizeof(pedido_swap));
     p->operacion_disco = CREAR_ARCHIVO_SWAP;
     p->argumentos[0] = id;
     sem_init(&(p->pedido_swap_listo), 0,0);
@@ -171,8 +171,8 @@ t_pedido_disco* crear_pedido_crear_archivo_swap(int id)
     return p;
 }
 
-t_pedido_disco* crear_pedido_suspension_proceso_swap(int id, int dir_tabla_n1){
-	t_pedido_disco *p = malloc(sizeof(t_pedido_disco));
+pedido_swap* crear_pedido_suspension_proceso_swap(int id, int dir_tabla_n1){
+	pedido_swap *p = malloc(sizeof(pedido_swap));
 	p->operacion_disco = SUSPENDER_PROCESO_SWAP;
 	p->argumentos[0] = id;
 	p->argumentos[1] = dir_tabla_n1;
@@ -197,12 +197,12 @@ void crear_archivo_swap(int pid){
     if(stat(config_values.path_swap, &buffer) != 0){
     	// TODO: Revisar path. Queda generico?
         system("mkdir /home/utnso/swap");
-        log_info(logger,"crear_archivo_swap: El directorio %s no existe. Se crea nuevo directorio.", config_values.path_swap);
+        log_debug(logger,"crear_archivo_swap: El directorio %s no existe. Se crea nuevo directorio.", config_values.path_swap);
     }
 
 
     char * filename = path_archivo_swap(pid);
-    log_info(logger,"crear_archivo_swap: Se va a crear archivo: %s", filename);
+    log_debug(logger,"crear_archivo_swap: Se va a crear archivo: %s", filename);
 
     // Creacion del archivo
     FILE * archivo;
@@ -228,10 +228,10 @@ void eliminar_archivo_swap(int pid){
     char* aux = path_archivo_swap(pid);
 
     if(remove(aux)==0){
-        log_info(logger, "el archivo %s fue eliminado correctamente", aux);
+        log_info(logger, "eliminar_archivo_swap: el archivo %s fue eliminado correctamente", aux);
     }
     else{
-        log_error(logger, "el archivo no se pudo eliminar");
+        log_error(logger, "eliminar_archivo_swap: el archivo no se pudo eliminar");
     }
 
     free(aux);
@@ -254,7 +254,7 @@ void suspender_paginas(int pid, int dir_tablaN1)
             usleep(contador * 1000);
             contador = config_values.retardo_swap;
             escribir_archivo_swap(pid, e->dir, e->num_pag);
-            log_info(logger, "se guardaron los cambios de la pagina %d correctamente del proceso %d",e->num_pag, pid);
+            log_debug(logger, "suspender_paginas: se guardaron los cambios de la pagina %d correctamente del proceso %d",e->num_pag, pid);
         }
         e->bit_modificacion = 0;
         e->bit_presencia = 0;

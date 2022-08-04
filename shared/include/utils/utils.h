@@ -147,19 +147,19 @@ void error_handler(t_log* logger, char* message_handler,char *message, char *var
 // Estructuras paginacion memoria
 
 typedef struct {
-	int num_pag;
-	int dir; //MARCO
+	int num_pag; // Numero de entrada
+	int dir; // MARCO -> Direccion FISICA
 	int bit_presencia;
 	int bit_uso;
 	int bit_modificacion;
 } entrada_tabla_N2;
 
 typedef struct {
-	int num_tabla; // Entrada en tabla
-	int dir; // ID (en la lista global) de la tabla N2 a la que apunta
+	int numero_entrada; // Numero de entrada dentro de la tabla
+	int indice_tabla_n2; // ID (en la lista global) de la tabla N2 a la que apunta
 } entrada_tabla_N1;
 
-typedef t_list tabla_segundo_nivel; // elementos tipo entrada_tabla_N2
-typedef t_list tabla_primer_nivel; // elementos tipo entrada_tabla_N1
+typedef t_list tabla_segundo_nivel; // Lista de entrada_tabla_N2
+typedef t_list tabla_primer_nivel; // Lista de entrada_tabla_N1
 
 #endif /* UTILS_H_ */

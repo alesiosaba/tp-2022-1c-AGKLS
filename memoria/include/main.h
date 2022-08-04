@@ -10,7 +10,7 @@
 
 #include "globals.h"
 #include "../../shared/include/utils/utils.h"
-#include "disco.h"
+#include "gestion_swap.h"
 
 void terminar_programa();
 void esperar_hilos();

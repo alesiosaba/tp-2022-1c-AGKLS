@@ -13,20 +13,23 @@ int criterio_clock(entrada_tabla_N2 *e)
         return 1;
 }
 
-entrada_tabla_N2* aplicar_busqueda_clock(int id, int dir_tablaN1)
+entrada_tabla_N2* obtener_entrada_n2_clock(int id, int dir_tablaN1)
 {
+    log_warning(logger, "obtener_entrada_n2_clock - SE APLICA CRITERIO CLOCK");
+
     proceso_en_memoria *p = buscar_proceso_por_id(id);
     t_list *marcos_proceso = conseguir_marcos_proceso(dir_tablaN1);
     entrada_tabla_N2 *ret = NULL;
     while(criterio_clock(ret) == 0)
     {
+        log_warning(logger, "criterio_clock - ****** ACCESO SWAP ******");
         ret = list_get(marcos_proceso, p->posicion_puntero_clock);
         p->posicion_puntero_clock++;
         if(p->posicion_puntero_clock == list_size(marcos_proceso))
             p->posicion_puntero_clock = 0;
     }
     list_destroy(marcos_proceso);
-    log_info(logger, "Pagina a reemplazar %d en marco %d", ret->num_pag, ret->dir);
+    log_info(logger, "obtener_entrada_n2_clock: Pagina a reemplazar %d en marco %d", ret->num_pag, ret->dir);
     return ret;
 }
 
@@ -35,12 +38,13 @@ int criterio_clock_mejorado(entrada_tabla_N2 *e, int vuelta)
     switch(vuelta)
     {
         case 0:
-        return (e->bit_uso == 0 && e->bit_modificacion == 0);
+        	return (e->bit_uso == 0 && e->bit_modificacion == 0);
         break;
 
         case 1:
-        if(e->bit_uso == 0 && e->bit_modificacion == 1)
+        if(e->bit_uso == 0 && e->bit_modificacion == 1){
             return 1;
+        }
         else
         {
             e->bit_uso = 0;
@@ -49,21 +53,23 @@ int criterio_clock_mejorado(entrada_tabla_N2 *e, int vuelta)
         break;
 
         case 2:
-        return (e->bit_uso == 0 && e->bit_modificacion == 0);
+        	return (e->bit_uso == 0 && e->bit_modificacion == 0);
         break;
 
         case 3:
-        return (e->bit_uso == 0 && e->bit_modificacion == 1);
+        	return (e->bit_uso == 0 && e->bit_modificacion == 1);
         break;
 
         default:
-        return 0;
+        	return 0;
         break;
     }
 }
 
-entrada_tabla_N2* aplicar_busqueda_clock_mejorado(int id, int dir_tablaN1)
+entrada_tabla_N2* obtener_entrada_n2_clock_mejorado(int id, int dir_tablaN1)
 {
+    log_warning(logger, "obtener_entrada_n2_clock_mejorado - SE APLICA CRITERIO CLOCK MEJORADO");
+
     proceso_en_memoria *p = buscar_proceso_por_id(id);
     t_list *marcos_proceso = conseguir_marcos_proceso(dir_tablaN1);
 
@@ -73,6 +79,7 @@ entrada_tabla_N2* aplicar_busqueda_clock_mejorado(int id, int dir_tablaN1)
 
     while(criterio_clock_mejorado(ret, vuelta))
     {
+        log_warning(logger, "criterio_clock_mejorado - ****** ACCESO SWAP ******");
         ret = list_get(marcos_proceso, p->posicion_puntero_clock);
         p->posicion_puntero_clock++;
         if(p->posicion_puntero_clock == list_size(marcos_proceso))
@@ -85,7 +92,7 @@ entrada_tabla_N2* aplicar_busqueda_clock_mejorado(int id, int dir_tablaN1)
         }
     }
     list_destroy(marcos_proceso);
-    log_info(logger, "Pagina a reemplazar %d en marco %d", ret->num_pag, ret->dir);
+    log_debug(logger, "obtener_entrada_n2_clock_mejorado: Pagina a reemplazar %d en marco %d", ret->num_pag, ret->dir);
     return ret;
 }
 
@@ -102,22 +109,24 @@ int dir_marco_vacio_proceso(int id)
     return PAGINA_NO_ENCONTRADA;
 }
 
-void traer_pagina_a_memoria(int id, int dir_tablaN1 , entrada_tabla_N2 *e){
+void traer_pagina_a_memoria(int id, int dir_tabla_n1 , entrada_tabla_N2 *e){
 	  //DIR MARCO VACIO O -1 SI NO ENCUENTRA
 	    int num_marco = dir_marco_vacio_proceso(id);
 	    int dir_marco = num_marco * config_values.tam_pagina;
+	    log_info(logger,"traer_pagina_a_memoria: PID: %d pide de la tabla N1: %d el marco: %d", id, dir_tabla_n1, num_marco);
+
 	    if(num_marco == PAGINA_NO_ENCONTRADA){
 	        entrada_tabla_N2 *aux;
 
 	        if(strcmp(config_values.algoritmo_reemplazo, "CLOCK") == 0)
 	          {
-	             log_info(logger, "Buscando por criterio CLOCK");
-	             aux = aplicar_busqueda_clock(id, dir_tablaN1);
+	        	log_debug(logger, "Buscando por criterio CLOCK");
+	             aux = obtener_entrada_n2_clock(id, dir_tabla_n1);
 	          }
 	        else if(strcmp(config_values.algoritmo_reemplazo, "CLOCK-M") == 0)
 	          {
-	             log_info(logger, "Buscando por criterio CLOCK-M");
-	             aux = aplicar_busqueda_clock_mejorado(id, dir_tablaN1);
+	        	log_debug(logger, "Buscando por criterio CLOCK-M");
+	             aux = obtener_entrada_n2_clock_mejorado(id, dir_tabla_n1);
 	          }
 
 	        //GUARDAR DIR MARCO ELEGIDO
@@ -125,29 +134,27 @@ void traer_pagina_a_memoria(int id, int dir_tablaN1 , entrada_tabla_N2 *e){
 	        //SI FUE MODIFICADO, ESCRIBIR PAGINA EN MEMORIA
 	        if(aux->bit_modificacion == 1)
 	         {
-	            t_pedido_disco *p = crear_pedido_escribir_swap(id, aux->dir, aux->num_pag);
+	            pedido_swap *p = crear_pedido_escribir_swap(id, aux->dir, aux->num_pag);
 	            sem_wait(&(p->pedido_swap_listo));
 	            eliminar_pedido_disco(p);
 
 	         }
-        	log_warning(logger, "traer_pagina_a_memoria: Tabla N1: %d se pone en 0 bit de presencia de entrada N2 n: %d dir fisica %d", dir_tablaN1, e->num_pag, e->dir);
+        	log_warning(logger, "traer_pagina_a_memoria: Tabla N1: %d se pone en 0 bit de presencia de entrada N2 n: %d dir fisica %d", dir_tabla_n1, e->num_pag, e->dir);
 
 	         aux->bit_presencia = 0;
 
 	    }
-	    t_pedido_disco *p = crear_pedido_leer_swap(id, dir_marco, e->num_pag);
+	    pedido_swap *p = crear_pedido_leer_swap(id, dir_marco, e->num_pag);
 	    sem_wait(&(p->pedido_swap_listo));
 	    eliminar_pedido_disco(p);
 	    e->dir = dir_marco;
 	    e->bit_presencia = 1;
-    	log_warning(logger, "traer_pagina_a_memoria: Tabla N1: %d se pone en 1 bit de presencia de entrada N2 n: %d dir fisica %d", dir_tablaN1, e->num_pag, e->dir);
-	    log_info(logger, "el bit de presencia es: %d",e->bit_presencia);
+    	log_debug(logger, "traer_pagina_a_memoria: Tabla N1: %d se pone en 1 bit de presencia de entrada N2 n: %d dir fisica %d", dir_tabla_n1, e->num_pag, e->dir);
 	    log_info(logger,"pagina %d del proceso %d lista en memoria",e->num_pag,id);
-
-
 }
 
-
+// ej marco 0 despl 0
+// retorna -> |X--------|---------|---------|---------|---------|---------|
 // ej marco 0 despl 5
 // retorna -> |----X----|---------|---------|---------|---------|---------|
 // ej marco 1 despl 7
@@ -161,9 +168,9 @@ int escribir_memoria(int dato, uint32_t marco, uint32_t desplazamiento)
 {
     log_debug(logger, "escribir_memoria: Se intentara escribir %d en el marco %d", dato, marco);
     // Buscamos la pagina que tiene el marco solicitado para actualizarle los bits
-    log_info(logger, "escribir_memoria: Buscando pagina que contiene marco %d",marco);
+    log_debug(logger, "escribir_memoria: Buscando pagina que contiene marco %d",marco);
     entrada_tabla_N2 *pag = conseguir_pagina_en_marco(marco);
-    log_info(logger, "escribir_memoria: Se encontro la pagina %d", pag->num_pag);
+    log_debug(logger, "escribir_memoria: Se encontro la pagina %d", pag->num_pag);
     // Marcamos el uso
     pag->bit_uso = 1;
     // Marcamos modificacion
@@ -193,15 +200,15 @@ uint32_t leer_memoria(uint32_t marco, uint32_t desplazamiento){
 }
 
 void liberar_marcos_de_proceso(int pid){
-    log_info(logger, "liberar_marcos_de_proceso: Liberando marcos del proceso %d", pid);
+    log_debug(logger, "liberar_marcos_de_proceso: Liberando marcos del proceso %d", pid);
 	 // Buscamos el proceso por pid en nuestra lista global de procesos
 	 proceso_en_memoria *p = buscar_proceso_por_id(pid);
 	 // Liberamos los marcos en nuestra lista global de marcos reservados
 	 liberar_marcos_bitmap(p->marcos_reservados);
-	 log_info(logger, "liberar_marcos_de_proceso: liberados marcos en bitmap global");
+	 log_debug(logger, "liberar_marcos_de_proceso: liberados marcos en bitmap global");
 	 // Liberamos los marcos de la lista de marcos_reservados del proceso
 	 list_clean(p->marcos_reservados);
-	 log_info(logger, "liberar_marcos_de_proceso: liberados marcos lista de marcos reservados del proceso");
+	 log_debug(logger, "liberar_marcos_de_proceso: liberados marcos lista de marcos reservados del proceso");
 	 // TODO: ver posible leak
 //	 free(p);
 }

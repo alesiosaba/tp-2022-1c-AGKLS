@@ -95,8 +95,8 @@ void inicializar_tablas_de_entradas(){
 
 entrada_tabla_N1* agregar_entrada_tabla_primer_nivel(tabla_primer_nivel *tabla){
 	  entrada_tabla_N1* e = malloc(sizeof(entrada_tabla_N1));
-	  e->num_tabla = list_add(tabla, e);
-	  e->dir = -1;
+	  e->numero_entrada = list_add(tabla, e);
+	  e->indice_tabla_n2 = -1;
 	  return e;
 }
 
@@ -259,7 +259,7 @@ entrada_tabla_N2* conseguir_entrada_pagina(int dir_tabla_n1, int pag)
     entrada_tabla_N1 *e1 = list_get(t, num_entrada_n1);
 
     //conseguir tabla nivel 2
-    tabla_segundo_nivel *t2 = list_get(tablas_segundo_nivel, e1->dir);
+    tabla_segundo_nivel *t2 = list_get(tablas_segundo_nivel, e1->indice_tabla_n2);
 
     //desplazamiento en tabla = resto de division anterior
     int num_entrada_n2 = pag % config_values.entradas_por_tabla;
@@ -300,7 +300,7 @@ t_list* conseguir_marcos_proceso(int dir_tabla_n1)
         //ENTRADA TIENE DIR DE TABLA NIVEL 2
         entrada_tabla_N1 *e1 = list_iterator_next(iterador);
         //CONSIGUE TABLA
-        t_list_iterator *iterador2 = list_iterator_create(list_get(tablas_segundo_nivel, e1->dir));
+        t_list_iterator *iterador2 = list_iterator_create(list_get(tablas_segundo_nivel, e1->indice_tabla_n2));
         while(list_iterator_has_next(iterador2))
         {
             //CONSIGUE ENTRADA DE TABLA N2
@@ -316,6 +316,7 @@ t_list* conseguir_marcos_proceso(int dir_tabla_n1)
     return marcos;
 }
 
+// Devuelve lista con los numeros de marco que tiene asignado el proceso
 t_list* conseguir_numeros_marcos_proceso(int id)
 {
     proceso_en_memoria *ret = buscar_proceso_por_id(id);
@@ -325,42 +326,46 @@ t_list* conseguir_numeros_marcos_proceso(int id)
 tabla_primer_nivel* crear_tablaN1(int tamanio_proceso)
 {
     tabla_primer_nivel *t = list_create();
+    // Cantidad TOTAL de paginas que necesitaria el proceso
     int paginas_necesarias = cantidad_paginas_necesarias(tamanio_proceso);
-    log_info(logger, "Paginas necesarias %d segun tamanio %d", paginas_necesarias, tamanio_proceso);
-	log_debug(logger, "creando tabla N1");
+    log_info(logger, "crear_tabla_n1: Paginas necesarias %d segun tamanio %d", paginas_necesarias, tamanio_proceso);
 
+    // Iteramos hasta que tenga reservadas todas las paginas que precisa
     for(int paginas_reservadas = 0; paginas_reservadas < paginas_necesarias; paginas_reservadas++)
     {
+    	// Como T1 y T2 tienen misma cantidad de entradas, mediante el resto
+    	// nos fijamos si hace falta crear una nueva entrada N1
         if(paginas_reservadas % config_values.entradas_por_tabla == 0)
         {
-            //NECESITO TABLA NUEVA
-            //creo entrada
+            // creo entrada N1
             entrada_tabla_N1 *e = agregar_entrada_tabla_primer_nivel(t);
-            //creo tabla nivel 2
+            //creo tabla N2 que sera apuntada por esa tabla
             tabla_segundo_nivel *t2 = list_create();
-            //dir = index en lista general
             pthread_mutex_lock(&mutex_tablasN2);
-            e->dir = list_add(tablas_segundo_nivel, t2);
+            // Le asigno a la entrada N1 el numero de tabla N2 a la que apunta
+            e->indice_tabla_n2 = list_add(tablas_segundo_nivel, t2);
             pthread_mutex_unlock(&mutex_tablasN2);
         	log_debug(logger, "Se creo entrada N1");
         	log_debug(logger, "se creo tabla N2 ");
-        	log_debug(logger, "La entrada N1 numero apunta a la tabla N2 numero: %d", e->dir);
+        	log_debug(logger, "La entrada N1 numero apunta a la tabla N2 numero: %d", e->indice_tabla_n2);
 
         }
+
+        // Asigno a la tabla N2 de la ultima entrada N1, una nueva entrada N2.
+
         //conseguir ultima entrada (ultima tabla 2)
-        entrada_tabla_N1 *aux = list_get(t, list_size(t) -1);
+        entrada_tabla_N1 *ultima_entrada_n1 = list_get(t, list_size(t) -1);
         //buscar tabla en la dir que dice la entrada de tabla 1
-        tabla_segundo_nivel *aux2 = list_get(tablas_segundo_nivel, aux->dir);
-        entrada_tabla_N2 *aux3 = agregar_entrada_tabla_segundo_nivel(aux2);
+        tabla_segundo_nivel *tabla_n2_ultima_entrada_n1 = list_get(tablas_segundo_nivel, ultima_entrada_n1->indice_tabla_n2);
+        entrada_tabla_N2 *aux3 = agregar_entrada_tabla_segundo_nivel(tabla_n2_ultima_entrada_n1);
 
         //DIR = NUMERO PAGINA * TAMANIO PAGINA
         aux3->num_pag = paginas_reservadas;
         aux3->dir = aux3->num_pag * config_values.tam_pagina;
         aux3->bit_presencia = 0;
     	log_debug(logger, "Se agrego entrada de segundo nivel numero: %d dir: %d", aux3->num_pag, aux3->dir);
-        log_info(logger, "crear_tabla_n1: Se creo Tabla N1 exitosamente");
-
     }
+    log_info(logger, "crear_tabla_n1: Se creo Tabla N1 exitosamente");
     return t;
 }
 
@@ -438,7 +443,7 @@ void eliminar_paginas_proceso(int id, int dir_tabla_n1)
     while(list_iterator_has_next(iterador))
     {
         entrada_tabla_N1 *e1 = list_iterator_next(iterador);
-        tabla_segundo_nivel *t2 = list_get(tablas_segundo_nivel, e1->dir);
+        tabla_segundo_nivel *t2 = list_get(tablas_segundo_nivel, e1->indice_tabla_n2);
 
         list_clean_and_destroy_elements(t2, free);
 

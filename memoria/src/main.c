@@ -29,7 +29,6 @@ int main(int argc, char** argv) {
 	// abro un hilo para atender por el puerto de escucha al CPU
 	pthread_create(&thr_memoriaCPU, NULL, (void*) &iniciar_servidor_memoriaCPU, NULL);
 
-
 	// abro un hilo para atender por el puerto de escucha al Kernel
 	pthread_create(&thr_memoriaKernel, NULL, (void*) &iniciar_servidor_memoriaKernel, NULL);
 	

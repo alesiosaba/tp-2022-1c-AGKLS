@@ -28,6 +28,8 @@ config_t config_values;
 
 // Nodos de las listas de entradas de paginas
 
+
+// TODO: estods dos structs no se usan. Checkear.
 typedef struct entrada_primer_nivel
 {
 	// La tabla de primer nivel estará compuesta por referencias a las tablas de páginas de segundo nivel
@@ -46,14 +48,14 @@ typedef struct entrada_segundo_nivel
 // Nodos de la lista de procesos en memoria
 typedef struct
 {
-    int id_proceso;
-    t_list* entradas_N1;
-    t_list* marcos_reservados;
+    int id_proceso; // PID
+    t_list* entradas_N1; // TODO: creo que quedo viejo, revisar.
+    t_list* marcos_reservados; // Lista con los numeros de marcos que tiene reservados
 	int posicion_puntero_clock;
     int esta_suspendido;
     sem_t suspension_completa;
-	tabla_primer_nivel *tablaN1;
-	int dir_tabla_n1;
+	tabla_primer_nivel *tablaN1; // Lista a las entradas N1 que tiene
+	int dir_tabla_n1; // Indice de la tabla N1 asignada al proceso dentro de la lista global
 }proceso_en_memoria;
 
 
@@ -70,7 +72,7 @@ t_list* procesos_en_memoria;
 pthread_t thr_memoriaCPU;
 // hilo de atencion de servidor memoria a Kernel
 pthread_t thr_memoriaKernel;
-
+// hilo de atencion SWAP
 pthread_t thr_swap;
 
 // Sincronizacion
