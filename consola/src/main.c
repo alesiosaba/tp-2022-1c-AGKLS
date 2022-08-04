@@ -29,6 +29,7 @@ int main(int argc, char** argv) {
 	log_info(logger, "Aguardando Respuesta de Kernel...");
 
 	respuesta_kernel = recv_mensajes_kernel(conexion);
+<<<<<<< HEAD
 
 	if (respuesta_kernel == TERMINO_EL_PROCESO) {
 		log_info(logger, "Terminando la consola...");
@@ -55,6 +56,16 @@ int main(int argc, char** argv) {
 			cant_segundos,
 			cant_milisegundos);
 
+=======
+	if (respuesta_kernel == PAQUETE_KERNEL_EXIT) {
+		log_info(logger, "Finalizo correctamente el programa");
+		terminar_programa();
+	}
+	else {
+		log_info(logger, "Error: Terminando la consola...");
+		terminar_programa();
+	}
+>>>>>>> 6b08867dcc9bcd4a6fb98c6c22dff4421e21142c
 	return EXIT_SUCCESS;
 }
 
