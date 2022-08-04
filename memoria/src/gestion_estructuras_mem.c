@@ -269,7 +269,7 @@ entrada_tabla_N2* conseguir_entrada_pagina(int dir_tabla_n1, int pag)
 
 entrada_tabla_N2* conseguir_pagina_en_marco(int num_marco)
 {
-	log_warning(logger, "conseguir_pagina_en_marco: %d", num_marco);
+	log_debug(logger, "conseguir_pagina_en_marco: %d", num_marco);
 
     t_list_iterator *iterador = list_iterator_create(tablas_segundo_nivel);
     entrada_tabla_N2 *ret = NULL;
@@ -327,7 +327,7 @@ tabla_primer_nivel* crear_tablaN1(int tamanio_proceso)
     tabla_primer_nivel *t = list_create();
     int paginas_necesarias = cantidad_paginas_necesarias(tamanio_proceso);
     log_info(logger, "Paginas necesarias %d segun tamanio %d", paginas_necesarias, tamanio_proceso);
-	log_warning(logger, "creando tabla N1");
+	log_debug(logger, "creando tabla N1");
 
     for(int paginas_reservadas = 0; paginas_reservadas < paginas_necesarias; paginas_reservadas++)
     {
@@ -342,9 +342,9 @@ tabla_primer_nivel* crear_tablaN1(int tamanio_proceso)
             pthread_mutex_lock(&mutex_tablasN2);
             e->dir = list_add(tablas_segundo_nivel, t2);
             pthread_mutex_unlock(&mutex_tablasN2);
-        	log_warning(logger, "Se creo entrada N1");
-        	log_warning(logger, "se creo tabla N2 ");
-        	log_warning(logger, "La entrada N1 numero apunta a la tabla N2 numero: %d", e->dir);
+        	log_debug(logger, "Se creo entrada N1");
+        	log_debug(logger, "se creo tabla N2 ");
+        	log_debug(logger, "La entrada N1 numero apunta a la tabla N2 numero: %d", e->dir);
 
         }
         //conseguir ultima entrada (ultima tabla 2)
@@ -357,7 +357,8 @@ tabla_primer_nivel* crear_tablaN1(int tamanio_proceso)
         aux3->num_pag = paginas_reservadas;
         aux3->dir = aux3->num_pag * config_values.tam_pagina;
         aux3->bit_presencia = 0;
-    	log_warning(logger, "Se agrego entrada de segundo nivel numero: %d dir: %d", aux3->num_pag, aux3->dir);
+    	log_debug(logger, "Se agrego entrada de segundo nivel numero: %d dir: %d", aux3->num_pag, aux3->dir);
+        log_info(logger, "crear_tabla_n1: Se creo Tabla N1 exitosamente");
 
     }
     return t;
@@ -365,7 +366,7 @@ tabla_primer_nivel* crear_tablaN1(int tamanio_proceso)
 
 void reservar_marcos_proceso(proceso_en_memoria *p)
 {
-// TODO: Revisar criterio en funcion a que el 1 es ocupado y 0 es sin ocupar
+	log_debug(logger, "reservar_marcos_proceso: reservando para proceso PID: %d", p->id_proceso);
     int cantidad_marcos_reservados = 0;
     for(int i = 0; cantidad_marcos_reservados < config_values.marcos_por_proceso; i++)
     {
@@ -379,10 +380,11 @@ void reservar_marcos_proceso(proceso_en_memoria *p)
             cantidad_marcos_reservados++;
         }
     }
+	log_debug(logger, "reservar_marcos_proceso: Proceso PID: %d reservo sus marcos", p->id_proceso);
 }
 
 proceso_en_memoria* asignar_proceso(int id, int tamanio_proceso){
-
+	log_debug(logger, "asignar_proceso: asignando proceso PID: %d en memoria", id);
 	proceso_en_memoria *nuevoProceso = malloc(sizeof(proceso_en_memoria));
 	nuevoProceso->id_proceso = id;
 	nuevoProceso->posicion_puntero_clock = 0;
@@ -391,6 +393,7 @@ proceso_en_memoria* asignar_proceso(int id, int tamanio_proceso){
 	nuevoProceso->marcos_reservados = list_create();
 	sem_init(&(nuevoProceso->suspension_completa), 0, 0);
 	nuevoProceso->esta_suspendido = 0;
+	log_debug(logger, "reservar_marcos_proceso: proceso PID %d asignado correctamente", id);
 	return nuevoProceso;
 }
 
@@ -429,23 +432,22 @@ void liberar_marcos_bitmap(t_list *marcos)
 
 void eliminar_paginas_proceso(int id, int dir_tabla_n1)
 {
-    log_info(logger,"eliminar_paginas_proceso - Eliminando paginas del proceso %d con dir_tabla-n1", id, dir_tabla_n1);
+    log_debug(logger,"eliminar_paginas_proceso - Eliminando paginas del proceso %d con dir_tabla-n1", id, dir_tabla_n1);
     tabla_primer_nivel *t = list_get(tablas_primer_nivel, dir_tabla_n1);
     t_list_iterator *iterador = list_iterator_create(t);
     while(list_iterator_has_next(iterador))
     {
-        log_info(logger,"eliminar_paginas_proceso - Eliminando entradas de la Tabla N2");
         entrada_tabla_N1 *e1 = list_iterator_next(iterador);
         tabla_segundo_nivel *t2 = list_get(tablas_segundo_nivel, e1->dir);
 
         list_clean_and_destroy_elements(t2, free);
 
     }
-    log_info(logger,"eliminar_paginas_proceso - Eliminando Tabla N1");
     list_clean_and_destroy_elements(t, free);
     list_iterator_destroy(iterador);
-    log_info(logger,"eliminar_paginas_proceso - Liberando marcos de proceso %d", id);
+    log_debug(logger,"eliminar_paginas_proceso - Liberando marcos de proceso %d", id);
     liberar_marcos_de_proceso(id);
+    log_debug(logger,"eliminar_paginas_proceso  paginas del proceso %d liberadas", id);
 }
 
 void eliminar_estructura_proceso(int pid)

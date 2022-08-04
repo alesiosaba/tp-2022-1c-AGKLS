@@ -90,12 +90,10 @@ void exec_no_op(){
 
 void exec_read(nodo_instruccion* instruccion, pcb** pcb){
 	// log_debug(logger, "CASE de EXECUTE: entro en READ");
-
 	int* direccionLogica = list_get(instruccion->instruccion.parametros,0);
 
 	int valor = buscarValorEnMemoria(pcb, *direccionLogica);
-
-	// log_info(logger, "VALOR RETORNADO POR READ: %d",valor);
+	log_info(logger, "READ %d - Valor leido: %d", *direccionLogica, valor);
 }
 
 void exec_write(nodo_instruccion* instruccion, pcb** pcb){
