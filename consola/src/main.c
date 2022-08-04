@@ -20,12 +20,14 @@ int main(int argc, char** argv) {
 	enviar_info_proceso(path_pseudocodigo, tamanio_proceso);
 	log_info(logger, "Aguardando Respuesta de Kernel...");
 	respuesta_kernel = recv_mensajes_kernel(conexion);
-	if (respuesta_kernel == TERMINO_EL_PROCESO) {
-		log_info(logger, "Terminando la consola...");
+	if (respuesta_kernel == PAQUETE_KERNEL_EXIT) {
+		log_info(logger, "Finalizo correctamente el programa");
 		terminar_programa();
 	}
-	log_info(logger, "Finalizo correctamente el programa");
-	terminar_programa();
+	else {
+		log_info(logger, "Error: Terminando la consola...");
+		terminar_programa();
+	}
 	return EXIT_SUCCESS;
 }
 
