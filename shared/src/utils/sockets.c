@@ -37,6 +37,7 @@ int crear_conexion(char *ip, char* puerto)
 	socket_cliente = socket(server_info->ai_family, server_info->ai_socktype, server_info->ai_protocol);
 	int yes = 1;
 	setsockopt(socket_cliente, SOL_SOCKET, SO_REUSEADDR, &yes, sizeof yes);
+	setsockopt(socket_cliente, SOL_SOCKET, SO_REUSEPORT, &yes, sizeof yes);
 
 	// Ahora que tenemos el socket, vamos a conectarlo
 	if(connect(socket_cliente, server_info->ai_addr, server_info->ai_addrlen) == -1){
@@ -156,8 +157,11 @@ int iniciar_servidor(char* ip_server, char* puerto_escucha)
 							 servinfo->ai_socktype,
 							 servinfo->ai_protocol );
 
-	// Asociamos el socket a un puerto
+	int yes = 1;
+	setsockopt(socket_servidor, SOL_SOCKET, SO_REUSEADDR, &yes, sizeof yes);
+	setsockopt(socket_servidor, SOL_SOCKET, SO_REUSEPORT, &yes, sizeof yes);
 
+	// Asociamos el socket a un puerto
 	bind(socket_servidor, servinfo->ai_addr, servinfo->ai_addrlen);
 
 	// Escuchamos las conexiones entrantes

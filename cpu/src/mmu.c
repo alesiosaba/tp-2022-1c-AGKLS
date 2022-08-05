@@ -1,8 +1,17 @@
 #include "../include/mmu.h"
 
+/*unsigned long calcular_ultimo_instante_referencia(
+	return
+			(nuevo_instante_referencia->tv_sec - inicio_ejecucion_modulo_CPU.tv_sec) * 1000000
+			+ nuevo_instante_referencia->tv_usec - inicio_ejecucion_modulo_CPU.tv_usec;
+}*/
+
 struct direccion_fisica traducir_dir_logica(pcb** pcb, int direccion_logica){
 
 	struct direccion_fisica direccion_fisica_buscada;
+
+	// Con esto vamos a calcular los ins_ult_ref
+	struct timeval nuevo_instante_referencia;
 
 	int numero_pagina = obtener_numero_pagina(direccion_logica);
 	int desplazamiento = obtener_desplazamiento(direccion_logica, numero_pagina);
@@ -10,8 +19,15 @@ struct direccion_fisica traducir_dir_logica(pcb** pcb, int direccion_logica){
 	// Buscamos si la pagina está en la TLB
 	int marco_en_TLB = busqueda_pagina_en_TLB(numero_pagina);
 
+	// Si la pagina tiene una entrada en la TLB (TLB-HIT)
 	if(marco_en_TLB != -1){
-		time_t nuevo_instante_referencia = time(NULL);
+
+		log_warning(logger, "TLB_HIT");
+		log_info(logger, "Se encontró una entrada de TLB de la pagina %d con marco %d", numero_pagina , marco_en_TLB);
+		imprimir_TLB();
+
+
+		gettimeofday(&nuevo_instante_referencia, NULL);
 
 		int i = 0;
 
@@ -22,7 +38,12 @@ struct direccion_fisica traducir_dir_logica(pcb** pcb, int direccion_logica){
 			i++;
 		}
 
-		elem->insUltRef = nuevo_instante_referencia;
+		elem->insUltRef =
+				(nuevo_instante_referencia.tv_sec - inicio_ejecucion_modulo_CPU.tv_sec) * 1000000
+				+ nuevo_instante_referencia.tv_usec - inicio_ejecucion_modulo_CPU.tv_usec;
+
+		log_warning(logger , "Se actualizo la entrada con un nuevo instante de referencia");
+		imprimir_entrada_TLB(i);
 
 		log_debug(logger,"Finaliza traduccion de direccion logica");
 
@@ -32,7 +53,7 @@ struct direccion_fisica traducir_dir_logica(pcb** pcb, int direccion_logica){
 		return direccion_fisica_buscada;
 
 	}
-	//log_debug(logger,"TLB MISS");
+	log_warning(logger,"TLB MISS");
 
 	int id_tablaN1 = (*pcb)->tabla_paginas;
 	int entrada_tabla_primer_nivel = obtener_entrada_tabla_primer_nivel(numero_pagina);
@@ -67,8 +88,12 @@ struct direccion_fisica traducir_dir_logica(pcb** pcb, int direccion_logica){
 	entrada_nueva->numero_pagina = numero_pagina;
 	entrada_nueva->marco = frame;
 
-	entrada_nueva->insUltRef = time(NULL);
+	gettimeofday(&nuevo_instante_referencia, NULL);
 
+	entrada_nueva->insUltRef = (nuevo_instante_referencia.tv_sec - inicio_ejecucion_modulo_CPU.tv_sec) * 1000000
+			+ nuevo_instante_referencia.tv_usec - inicio_ejecucion_modulo_CPU.tv_usec;
+
+	log_info(logger, "Agregando una entrada a TLB con pagina %d marco %d ins_ult_ref %d", entrada_nueva->numero_pagina , entrada_nueva->marco, entrada_nueva->insUltRef);
 	agregar_entrada_TLB(entrada_nueva);
 
 	// La direccion fisica contiene el marco y desplazamiento para recorrer el void* en Memoria

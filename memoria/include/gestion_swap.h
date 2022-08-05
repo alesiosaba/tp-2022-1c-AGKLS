@@ -51,6 +51,7 @@ pedido_swap* crear_pedido_eliminar_archivo_swap(int id);
 pedido_swap* crear_pedido_suspension_proceso_swap(int id, int dir_tabla_n1);
 void eliminar_pedido_disco(pedido_swap *p);
 // Manejo swap
+void retardo_swap();
 void crear_archivo_swap(int pid);
 void escribir_archivo_swap(int pid, int dir_pag, int num_pag);
 void eliminar_archivo_swap(int pid);

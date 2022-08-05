@@ -24,7 +24,7 @@ int main(int argc, char** argv) {
 
 	// instante en el que "empieza" el proceso
 	gettimeofday(&start, NULL);
-	log_info(logger, "Agarro start");
+	log_debug(logger, "Agarro start");
 
 	log_info(logger, "Aguardando Respuesta de Kernel...");
 
@@ -32,7 +32,7 @@ int main(int argc, char** argv) {
 	
 	// instante en el que "termina" el proceso
 	gettimeofday(&stop, NULL);
-	log_info(logger, "Agarro end");
+	log_debug(logger, "Agarro end");
 
 	// Diferencia entre los instantes, resultado en microsegundos
 	unsigned long tiempo_ejecucion = (stop.tv_sec - start.tv_sec) * 1000000 + stop.tv_usec - start.tv_usec;

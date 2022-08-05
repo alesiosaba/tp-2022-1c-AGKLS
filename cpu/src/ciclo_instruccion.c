@@ -183,7 +183,7 @@ void check_interrupt(pcb** pcb){
 	// log_debug(logger, COMIENZO_ETAPA_CHECK_INTERRUPT, (*pcb)->id);
 
 	if(hay_interrupcion()){
-		log_debug(logger,"check_interrupt() detecto una INTERRUPCION");
+		log_warning(logger,"check_interrupt() detecto una INTERRUPCION");
 		// (desalojo por interrupcion) se envia el PCB de nuevo a kernel para replanificar
 		send_paquete_pcb(clienteDispatch, *pcb, PAQUETE_PCB);
 		activar_flag_desalojo();
@@ -278,7 +278,7 @@ void escribirValorEnMemoria(pcb** pcb, int direccionLogica, uint32_t valor_a_esc
 	// log_debug(logger,"\nescribir:\n\tPID: %d\n\tid_tablaN1: %d\n\tdir. logica:%d\n\tValor en uint32_t: %u", (*pcb)->id, id_tablaN1, direccionLogica, valor);
 
 	struct direccion_fisica direccion_fisica = traducir_dir_logica(pcb, direccionLogica);
-	log_debug(logger,"escribirValorEnMemoria: Se solicitara escribir en memoriaalor: %d", valor_a_escribir);
+	log_debug(logger,"escribirValorEnMemoria: Se solicitara escribir en memoria el valor: %d", valor_a_escribir);
 
 	send_pedido_escritura(conexionAMemoria, direccion_fisica, valor_a_escribir);
 

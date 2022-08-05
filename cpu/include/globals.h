@@ -37,7 +37,7 @@ IDENTIFICADOR_INSTRUCCION str_to_identificador_enum (charstr);
 struct entrada_TLB {
 	int numero_pagina;
 	int marco;
-	time_t insUltRef;
+	unsigned long insUltRef;
 } entrada_TLB;
 
 // VARIABLES GLOBALES
@@ -74,6 +74,9 @@ int serverInterrupt;
 int clienteInterrupt;
 
 int conexionAMemoria;
+
+// Instante en el que empieza a funcionar CPU
+struct timeval inicio_ejecucion_modulo_CPU;
 
 
 #endif

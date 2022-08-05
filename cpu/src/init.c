@@ -29,6 +29,9 @@ void inicializar(char* config_path){
 	desactivar_flag_desalojo();
 	desactivar_flag_interrupcion();
 
+	// Esto se usa para calcular los instantes de ultimas referencias en MMU
+	gettimeofday(&inicio_ejecucion_modulo_CPU, NULL);
+
 	// ID de proceso ejecutado en el CPU
 	procesoAnterior = -1;
 

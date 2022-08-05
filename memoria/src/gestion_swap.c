@@ -1,6 +1,10 @@
 #include "../include/gestion_swap.h"
 #include "../include/init.h"
 
+void retardo_swap(){
+	msleep(config_values.retardo_swap);
+}
+
 void gestionar_solicitudes_swap(){
 	// Inicializamos lista de pedidos
     pedidos_disco = queue_create();
@@ -8,6 +12,10 @@ void gestionar_solicitudes_swap(){
     sem_init(&semaforo_cola_pedidos_swap, 0, 0);
 
     while(1){
+
+    	//TIEMPO RETARDO SWAP
+    	retardo_swap();
+
        sem_wait(&semaforo_cola_pedidos_swap);
        log_debug(logger, "gestionar_solicitudes_swap - Solicitud de SWAP recibida");
        // Aplicar retardo SWAP

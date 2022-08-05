@@ -41,7 +41,7 @@ void iniciar_servidor_memoriaKernel(){
 
 void retardo_memoria() {
 	// retard_memoria viene en milisegundos
-	sleep(config_values.retardo_memoria / 1000);
+	msleep(config_values.retardo_memoria);
 }
 
 void handshake_inicial(){
@@ -69,9 +69,6 @@ void handshake_inicial(){
 
 int manejarConexionCPU(int socket_cliente){
 
-	//TIEMPO RETARDO MEMORIA
-	retardo_memoria();
-
 	struct consulta_en_tabla_paginas* consulta;
 	struct direccion_fisica* direccion_fisica_lectura;
 
@@ -79,6 +76,10 @@ int manejarConexionCPU(int socket_cliente){
 			// log_debug(logger, "dentro de manejarConexionCPU() socket: %d", socket_cliente);
 			// log_debug(logger,"Esperando nueva operacion en socket: %d", socket_cliente);
 			int cod_op = recibir_operacion(socket_cliente);
+
+			//TIEMPO RETARDO MEMORIA
+			retardo_memoria();
+
 			switch (cod_op) {
 
 			case SOLICITUD_TABLA_PAGINA_N1:
@@ -126,42 +127,38 @@ int manejarConexionCPU(int socket_cliente){
 
 int manejarConexionKernel(int socket_cliente){
 
-	//TIEMPO RETARDO MEMORIA
-	retardo_memoria();
-
-	// handshake_inicial();
-
 	while (1){
-			// log_debug(logger, "dentro de manejarConexionKERNEL() socket: %d", socket_cliente);
-			// log_debug(logger,"Esperando nueva operacion en socket: %d", socket_cliente);
-			int cod_op = recibir_operacion(socket_cliente);
-			switch (cod_op) {
 
-			case SOLICITUD_NUEVO_PROCESO:
-				log_warning(logger, "Memoria recibio SOLICITUD_NUEVO_PROCESO");
-				solicitud_nuevo_proceso(socket_cliente, logger);
-				break;
+	// log_debug(logger, "dentro de manejarConexionKERNEL() socket: %d", socket_cliente);
+	// log_debug(logger,"Esperando nueva operacion en socket: %d", socket_cliente);
+	int cod_op = recibir_operacion(socket_cliente);
+	switch (cod_op) {
 
-			case SOLICITUD_SUSPENSION_PROCESO:
-				log_warning(logger, "Memoria recibio SOLICITUD_SUSPENSION_PROCESO");
-				solicitud_suspension_proceso(socket_cliente);
-				break;
+	case SOLICITUD_NUEVO_PROCESO:
+		log_warning(logger, "Memoria recibio SOLICITUD_NUEVO_PROCESO");
+		solicitud_nuevo_proceso(socket_cliente, logger);
+		break;
 
-			case SOLICITUD_DESUSPENSION_PROCESO:
-				log_warning(logger, "Memoria recibio SOLICITUD_DESUSPENSION_PROCESO");
-				solicitud_desuspension_proceso(socket_cliente);
-				break;
-			case SOLICITUD_FINALIZAR_PROCESO:
-				log_warning(logger, "Memoria recibio SOLICITUD_FINALIZAR_PROCESO");
-				solicitud_eliminar_proceso(socket_cliente);
-			    break;
+	case SOLICITUD_SUSPENSION_PROCESO:
+		log_warning(logger, "Memoria recibio SOLICITUD_SUSPENSION_PROCESO");
+		solicitud_suspension_proceso(socket_cliente);
+		break;
 
-			case -1:
-				log_error(logger, SERVIDOR_DESCONEXION);
-				return EXIT_FAILURE;
-			default:
-				log_warning(logger,OPERACION_DESCONOCIDA);
-				break;
-			}
+	case SOLICITUD_DESUSPENSION_PROCESO:
+		log_warning(logger, "Memoria recibio SOLICITUD_DESUSPENSION_PROCESO");
+		solicitud_desuspension_proceso(socket_cliente);
+		break;
+	case SOLICITUD_FINALIZAR_PROCESO:
+		log_warning(logger, "Memoria recibio SOLICITUD_FINALIZAR_PROCESO");
+		solicitud_eliminar_proceso(socket_cliente);
+		break;
+
+	case -1:
+		log_error(logger, SERVIDOR_DESCONEXION);
+		return EXIT_FAILURE;
+	default:
+		log_warning(logger,OPERACION_DESCONOCIDA);
+		break;
 		}
+	}
 }
