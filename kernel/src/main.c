@@ -2,6 +2,7 @@
 
 //Finalizacion por interrupción cntrl + c
 void sighandler(int s){
+	print_process_endings();
 	matar_hilos();
 	terminar_programa();
 	exit(0);
@@ -88,5 +89,18 @@ void terminar_programa()
 	//log
 	log_debug(logger,TERMINANDO_EL_LOG);
 	log_destroy(logger);
+
+}
+
+void print_process_endings(){
+
+	list_iterate(listaExit, imprimir_fin);
+
+
+
+}
+
+void imprimir_fin(pcb* list_node){
+	log_info(logger, FINALIZACION_PROCESO, list_node->id);
 
 }
