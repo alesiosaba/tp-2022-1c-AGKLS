@@ -3,14 +3,14 @@
 int criterio_clock(entrada_tabla_N2 *e)
 {
     if(e == NULL)
-        return 0;
-    if(e->bit_uso == 1)
-    {
+        return AVANZAR_PUNTERO_CLOCK;
+    if(e->bit_uso == 1){
         e->bit_uso = 0;
-        return 0;
+        return AVANZAR_PUNTERO_CLOCK;
     }
-    else
-        return 1;
+     log_warning(logger, "criterio_clock - ******* ACCESO A SWAP *******");
+     incrementar_accesos_a_swap();
+     return TOMA_ENTRADA_VICTIMA;
 }
 
 entrada_tabla_N2* obtener_entrada_n2_clock(int id, int dir_tablaN1)
@@ -19,18 +19,17 @@ entrada_tabla_N2* obtener_entrada_n2_clock(int id, int dir_tablaN1)
 
     proceso_en_memoria *p = buscar_proceso_por_id(id);
     t_list *marcos_proceso = conseguir_marcos_proceso(dir_tablaN1);
-    entrada_tabla_N2 *ret = NULL;
-    while(criterio_clock(ret) == 0)
-    {
-        log_warning(logger, "criterio_clock - ******* ACCESO A SWAP *******");
-        ret = list_get(marcos_proceso, p->posicion_puntero_clock);
+    entrada_tabla_N2 *e2 = NULL;
+    while(criterio_clock(e2) == AVANZAR_PUNTERO_CLOCK) {
+        e2 = list_get(marcos_proceso, p->posicion_puntero_clock);
         p->posicion_puntero_clock++;
-        if(p->posicion_puntero_clock == list_size(marcos_proceso))
+        if(p->posicion_puntero_clock == list_size(marcos_proceso)){
             p->posicion_puntero_clock = 0;
+        }
     }
     list_destroy(marcos_proceso);
-    log_info(logger, "obtener_entrada_n2_clock: Pagina a reemplazar %d en marco %d", ret->num_pag, ret->dir);
-    return ret;
+    log_info(logger, "obtener_entrada_n2_clock: Pagina a reemplazar %d en marco %d", e2->num_pag, e2->dir);
+    return e2;
 }
 
 int criterio_clock_mejorado(entrada_tabla_N2 *e, int vuelta)
@@ -38,25 +37,38 @@ int criterio_clock_mejorado(entrada_tabla_N2 *e, int vuelta)
     switch(vuelta)
     {
         case 0:
+        	if(e->bit_uso == 0 && e->bit_modificacion == 0){
+                log_warning(logger, "criterio_clock_mejorado - ****** ACCESO SWAP ******");
+                incrementar_accesos_a_swap();
+        	}
+
         	return (e->bit_uso == 0 && e->bit_modificacion == 0);
         break;
 
         case 1:
         if(e->bit_uso == 0 && e->bit_modificacion == 1){
+            log_warning(logger, "criterio_clock_mejorado - ****** ACCESO SWAP ******");
+            incrementar_accesos_a_swap();
             return 1;
-        }
-        else
-        {
+        } else {
             e->bit_uso = 0;
             return 0;
         }
         break;
 
         case 2:
+            if(e->bit_uso == 0 && e->bit_modificacion == 0){
+            	log_warning(logger, "criterio_clock_mejorado - ****** ACCESO SWAP ******");
+            	incrementar_accesos_a_swap();
+            }
         	return (e->bit_uso == 0 && e->bit_modificacion == 0);
         break;
 
         case 3:
+        	if(e->bit_uso == 0 && e->bit_modificacion == 1){
+				log_warning(logger, "criterio_clock_mejorado - ****** ACCESO SWAP ******");
+				incrementar_accesos_a_swap();
+        	}
         	return (e->bit_uso == 0 && e->bit_modificacion == 1);
         break;
 
@@ -77,17 +89,13 @@ entrada_tabla_N2* obtener_entrada_n2_clock_mejorado(int id, int dir_tablaN1)
     int vuelta = 0;
     int pos_inicial = p->posicion_puntero_clock;
 
-    while(criterio_clock_mejorado(ret, vuelta))
-    {
-        log_warning(logger, "criterio_clock_mejorado - ****** ACCESO SWAP ******");
+    while(criterio_clock_mejorado(ret, vuelta)) {
         ret = list_get(marcos_proceso, p->posicion_puntero_clock);
         p->posicion_puntero_clock++;
-        if(p->posicion_puntero_clock == list_size(marcos_proceso))
-        {
+        if(p->posicion_puntero_clock == list_size(marcos_proceso)){
             p->posicion_puntero_clock = 0;
         }
-        if(p->posicion_puntero_clock == pos_inicial)
-        {
+        if(p->posicion_puntero_clock == pos_inicial){
             vuelta++;
         }
     }
@@ -105,7 +113,7 @@ int obtener_marco_vacio_de_proceso(int pid)
 
     for(int i = 0; i < list_size(marcos); i++) {
         int num_marco = (int)list_get(marcos, i);
-	    log_warning(logger,"obtener_marco_vacio_de_proceso: el marco numero %d de PID: %d es %d", i, pid, num_marco);
+	    log_warning(logger,"obtener_marco_vacio_de_proceso: el marco indice %d del PID: %d es el marco numero %d de la lista de marcos globales", i, pid, num_marco);
          // Por cada numero de marco, me fijo si existe una entrada N2 que lo contenga
             if(buscar_entrada_n2_por_num_marco(num_marco) == NULL){
         	    log_warning(logger,"obtener_marco_vacio_de_proceso: No se encontro entrada. El marco %d esta disponible", num_marco);
@@ -129,7 +137,7 @@ void traer_pagina_a_memoria(int id, int dir_tabla_n1 , entrada_tabla_N2 *e){
 	    // Si no hay, tenemos que elegir con los algoritmos de reemplazo
 	    if(num_marco_vacio == MARCO_VACIO_NO_ENCONTRADO){
 	        entrada_tabla_N2 *aux;
-		    log_warning(logger,"PAGINA NO ENCONTRADA");
+		    log_warning(logger,"traer_pagina_a_memoria: MARCO_VACIO_NO_ENCONTRADO");
 
 	        if(strcmp(config_values.algoritmo_reemplazo, "CLOCK") == 0)
 	          {
@@ -146,12 +154,10 @@ void traer_pagina_a_memoria(int id, int dir_tabla_n1 , entrada_tabla_N2 *e){
 	        dir_marco = aux->dir;
 
 	        // Escribir en SWAP si fue modificada la pagina
-	        if(aux->bit_modificacion == 1)
-	         {
+	        if(aux->bit_modificacion == 1)  {
 	            pedido_swap *p = crear_pedido_escribir_swap(id, aux->dir, aux->num_pag);
 	            sem_wait(&(p->pedido_swap_listo));
 	            eliminar_pedido_disco(p);
-
 	         }
         	log_warning(logger, "traer_pagina_a_memoria: Tabla N1: %d se pone en 0 bit de presencia de entrada N2 n: %d dir fisica %d", dir_tabla_n1, e->num_pag, e->dir);
         	// Actualizamos bit de presencia
@@ -161,6 +167,7 @@ void traer_pagina_a_memoria(int id, int dir_tabla_n1 , entrada_tabla_N2 *e){
 	    pedido_swap *p = crear_pedido_leer_swap(id, dir_marco, e->num_pag);
 	    sem_wait(&(p->pedido_swap_listo));
 	    eliminar_pedido_disco(p);
+	    // Actualizamos la direccion fisica de la entrada N2 para que apunte segun su marco asignado en la tabla de marcos globales
 	    e->dir = dir_marco;
 	    e->bit_presencia = 1;
     	log_debug(logger, "traer_pagina_a_memoria: Tabla N1: %d se pone en 1 bit de presencia de entrada N2 n: %d dir fisica %d", dir_tabla_n1, e->num_pag, e->dir);
@@ -227,5 +234,10 @@ void liberar_marcos_de_proceso(int pid){
 //	 free(p);
 }
 
+void incrementar_accesos_a_swap(){
+    pthread_mutex_lock(&mutex_accesos_swap);
+    ACCESOS_A_SWAP_GLOBALES++;
+    pthread_mutex_unlock(&mutex_accesos_swap);
+}
 
 

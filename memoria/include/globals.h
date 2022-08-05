@@ -79,7 +79,10 @@ pthread_t thr_swap;
 pthread_mutex_t mutex_tablasN1;
 pthread_mutex_t mutex_tablasN2;
 pthread_mutex_t mutex_procesos_en_memoria;
-// ------------------
+// SWAP
+
+int ACCESOS_A_SWAP_GLOBALES;
+pthread_mutex_t mutex_accesos_swap;
 
 void* espacio_lectura_escritura_procesos;
 

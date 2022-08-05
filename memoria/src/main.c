@@ -36,7 +36,7 @@ int main(int argc, char** argv) {
     pthread_create(&thr_swap, NULL, (void*) &gestionar_solicitudes_swap, NULL);
 
     esperar_hilos();
-
+	log_warning(logger, "*** CANTIDAD DE ACCESOS A SWAP -> %d ***", ACCESOS_A_SWAP_GLOBALES);
 	terminar_programa();
 
 	return EXIT_SUCCESS;
@@ -54,9 +54,7 @@ void matar_hilos(){
 	pthread_cancel(thr_swap);
 }
 
-void terminar_programa()
-{
-
+void terminar_programa(){
 	matar_hilos();
 	config_destroy(config);
 	log_debug(logger,CONFIGURACION_CERRADA);

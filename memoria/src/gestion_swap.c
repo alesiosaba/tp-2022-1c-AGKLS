@@ -17,6 +17,7 @@ void gestionar_solicitudes_swap(){
        pedido_swap *p = queue_pop(pedidos_disco);
        pthread_mutex_unlock(&mutex_cola_pedidos_swap);
        log_warning(logger, "******* ACCESO A SWAP *******");
+       incrementar_accesos_a_swap();
        int pid, direccion, pag;
        switch(p->operacion_disco){
       	case CREAR_ARCHIVO_SWAP:
