@@ -8,6 +8,8 @@
 
 struct direccion_fisica traducir_dir_logica(pcb** pcb, int direccion_logica){
 
+	log_debug(logger , "Traducir direccion logica: %d" , direccion_logica);
+
 	struct direccion_fisica direccion_fisica_buscada;
 
 	// Con esto vamos a calcular los ins_ult_ref
@@ -45,10 +47,12 @@ struct direccion_fisica traducir_dir_logica(pcb** pcb, int direccion_logica){
 		log_warning(logger , "Se actualizo la entrada con un nuevo instante de referencia");
 		imprimir_entrada_TLB(i);
 
-		log_debug(logger,"Finaliza traduccion de direccion logica");
-
 		direccion_fisica_buscada.marco = marco_en_TLB;
 		direccion_fisica_buscada.desplazamiento = desplazamiento;
+
+		log_debug(logger , "Traduccion a direccion fisica: %d" , direccion_fisica_buscada.marco * tamanio_pagina + desplazamiento);
+
+		log_debug(logger,"Finaliza traduccion de direccion logica - TLB HIT");
 
 		return direccion_fisica_buscada;
 
@@ -99,6 +103,10 @@ struct direccion_fisica traducir_dir_logica(pcb** pcb, int direccion_logica){
 	// La direccion fisica contiene el marco y desplazamiento para recorrer el void* en Memoria
 	direccion_fisica_buscada.marco = frame;
 	direccion_fisica_buscada.desplazamiento = desplazamiento;
+
+	log_debug(logger , "Traduccion a direccion fisica: %d" , direccion_fisica_buscada.marco * tamanio_pagina + desplazamiento);
+
+	log_debug(logger,"Finaliza traduccion de direccion logica - TLB MISS");
 
 	return direccion_fisica_buscada;
 }
