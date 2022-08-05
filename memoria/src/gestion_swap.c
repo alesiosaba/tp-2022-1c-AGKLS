@@ -9,22 +9,24 @@ void gestionar_solicitudes_swap(){
 
     while(1){
        sem_wait(&semaforo_cola_pedidos_swap);
-       log_info(logger, "gestionar_solicitudes_swap - Solicitud de SWAP recibida");
+       log_debug(logger, "gestionar_solicitudes_swap - Solicitud de SWAP recibida");
        // Aplicar retardo SWAP
        usleep(config_values.retardo_swap * 1000);
        // Tomamos el proximo pedido de la cola de pedidos
        pthread_mutex_lock(&mutex_cola_pedidos_swap);
        pedido_swap *p = queue_pop(pedidos_disco);
        pthread_mutex_unlock(&mutex_cola_pedidos_swap);
-       log_warning(logger, "******* ACCESO A SWAP *******");
+       log_debug(logger, "******* ACCESO A SWAP *******");
        incrementar_accesos_a_swap();
        int pid, direccion, pag;
        switch(p->operacion_disco){
       	case CREAR_ARCHIVO_SWAP:
+      		log_warning(logger,"Recibio solicitud CREAR_ARCHIVO_SWAP");
       		pid = p->argumentos[0];
       		crear_archivo_swap(pid);
       		break;
      	case ESCRIBIR_ARCHIVO_SWAP:
+     		log_warning(logger,"Recibio solicitud ESCRIBIR_ARCHIVO_SWAP");
       		pid = p->argumentos[0];
       		direccion = p->argumentos[1];
       		pag = p->argumentos[2];
@@ -33,16 +35,19 @@ void gestionar_solicitudes_swap(){
       		log_debug(logger,"gestionar_solicitudes_swap: solicitud ESCRIBIR_ARCHIVO_SWAP resuelta");
       		break;
      	case ELIMINAR_ARCHIVO_SWAP:
+     		log_warning(logger,"Recibio solicitud ELIMINAR_ARCHIVO_SWAP");
      	    pid = p->argumentos[0];
      	    eliminar_archivo_swap(pid);
      	    break;
      	case LEER_ARCHIVO_SWAP:
+     		log_warning(logger,"Recibio solicitud LEER_ARCHIVO_SWAP");
      	    pid = p->argumentos[0];
      	    direccion = p->argumentos[1];
      	    pag = p->argumentos[2];
      	    enviar_pagina_a_memoria(pid, direccion, pag);
      	    break;
      	 case SUSPENDER_PROCESO_SWAP:
+     		log_warning(logger,"Recibio solicitud SUSPENDER_PROCESO_SWAP");
      	    pid = p->argumentos[0];
      	    direccion = p->argumentos[1];
      	    suspender_paginas(pid, direccion);

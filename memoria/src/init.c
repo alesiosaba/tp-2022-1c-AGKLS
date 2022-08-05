@@ -44,7 +44,9 @@ void inicializar(char* config_path){
     pthread_mutex_init(&mutex_tablasN1,NULL);
     pthread_mutex_init(&mutex_tablasN2,NULL);
     pthread_mutex_init(&mutex_procesos_en_memoria, NULL);
+    pthread_mutex_init(&mutex_accesos_swap, NULL);
 
+    ACCESOS_A_SWAP_GLOBALES = 0;
 }
 
 

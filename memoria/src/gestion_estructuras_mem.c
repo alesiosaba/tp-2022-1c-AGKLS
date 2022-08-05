@@ -376,7 +376,7 @@ void reservar_marcos_proceso(proceso_en_memoria *p)
 	log_debug(logger, "reservar_marcos_proceso: El proceso PID: %d tiene actualmente: %d marcos reservados", p->id_proceso, cant_marcos_reservados_actualmente);
 
 	if(cant_marcos_reservados_actualmente == config_values.marcos_por_proceso){
-		log_warning(logger, "reservar_marcos_proceso: Se intento reservar para PID: %d mas marcos de los permitidos", cant_marcos_reservados_actualmente);
+		log_debug(logger, "reservar_marcos_proceso: Se intento reservar un marco para PID: %d pero excedio marcos_por_proceso", p->id_proceso, cant_marcos_reservados_actualmente);
 		return;
 	}
 

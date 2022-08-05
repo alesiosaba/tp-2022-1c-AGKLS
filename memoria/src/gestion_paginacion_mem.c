@@ -8,14 +8,14 @@ int criterio_clock(entrada_tabla_N2 *e)
         e->bit_uso = 0;
         return AVANZAR_PUNTERO_CLOCK;
     }
-     log_warning(logger, "criterio_clock - ******* ACCESO A SWAP *******");
+     log_debug(logger, "criterio_clock - ******* ACCESO A SWAP *******");
      incrementar_accesos_a_swap();
      return TOMA_ENTRADA_VICTIMA;
 }
 
 entrada_tabla_N2* obtener_entrada_n2_clock(int id, int dir_tablaN1)
 {
-    log_warning(logger, "obtener_entrada_n2_clock - SE APLICA CRITERIO CLOCK");
+    log_debug(logger, "obtener_entrada_n2_clock - SE APLICA CRITERIO CLOCK");
 
     proceso_en_memoria *p = buscar_proceso_por_id(id);
     t_list *marcos_proceso = conseguir_marcos_proceso(dir_tablaN1);
@@ -28,7 +28,7 @@ entrada_tabla_N2* obtener_entrada_n2_clock(int id, int dir_tablaN1)
         }
     }
     list_destroy(marcos_proceso);
-    log_info(logger, "obtener_entrada_n2_clock: Pagina a reemplazar %d en marco %d", e2->num_pag, e2->dir);
+    log_warning(logger, "obtener_entrada_n2_clock: PAGINA A REEMPLAZAR: %d", e2->num_pag);
     return e2;
 }
 
@@ -38,7 +38,7 @@ int criterio_clock_mejorado(entrada_tabla_N2 *e, int vuelta)
     {
         case 0:
         	if(e->bit_uso == 0 && e->bit_modificacion == 0){
-                log_warning(logger, "criterio_clock_mejorado - ****** ACCESO SWAP ******");
+                log_debug(logger, "criterio_clock_mejorado - ****** ACCESO SWAP ******");
                 incrementar_accesos_a_swap();
         	}
 
@@ -47,7 +47,7 @@ int criterio_clock_mejorado(entrada_tabla_N2 *e, int vuelta)
 
         case 1:
         if(e->bit_uso == 0 && e->bit_modificacion == 1){
-            log_warning(logger, "criterio_clock_mejorado - ****** ACCESO SWAP ******");
+            log_debug(logger, "criterio_clock_mejorado - ****** ACCESO SWAP ******");
             incrementar_accesos_a_swap();
             return 1;
         } else {
@@ -58,7 +58,7 @@ int criterio_clock_mejorado(entrada_tabla_N2 *e, int vuelta)
 
         case 2:
             if(e->bit_uso == 0 && e->bit_modificacion == 0){
-            	log_warning(logger, "criterio_clock_mejorado - ****** ACCESO SWAP ******");
+            	log_debug(logger, "criterio_clock_mejorado - ****** ACCESO SWAP ******");
             	incrementar_accesos_a_swap();
             }
         	return (e->bit_uso == 0 && e->bit_modificacion == 0);
@@ -66,7 +66,7 @@ int criterio_clock_mejorado(entrada_tabla_N2 *e, int vuelta)
 
         case 3:
         	if(e->bit_uso == 0 && e->bit_modificacion == 1){
-				log_warning(logger, "criterio_clock_mejorado - ****** ACCESO SWAP ******");
+				log_debug(logger, "criterio_clock_mejorado - ****** ACCESO SWAP ******");
 				incrementar_accesos_a_swap();
         	}
         	return (e->bit_uso == 0 && e->bit_modificacion == 1);
@@ -80,7 +80,7 @@ int criterio_clock_mejorado(entrada_tabla_N2 *e, int vuelta)
 
 entrada_tabla_N2* obtener_entrada_n2_clock_mejorado(int id, int dir_tablaN1)
 {
-    log_warning(logger, "obtener_entrada_n2_clock_mejorado - SE APLICA CRITERIO CLOCK MEJORADO");
+    log_debug(logger, "obtener_entrada_n2_clock_mejorado - SE APLICA CRITERIO CLOCK MEJORADO");
 
     proceso_en_memoria *p = buscar_proceso_por_id(id);
     t_list *marcos_proceso = conseguir_marcos_proceso(dir_tablaN1);
@@ -113,10 +113,10 @@ int obtener_marco_vacio_de_proceso(int pid)
 
     for(int i = 0; i < list_size(marcos); i++) {
         int num_marco = (int)list_get(marcos, i);
-	    log_warning(logger,"obtener_marco_vacio_de_proceso: el marco indice %d del PID: %d es el marco numero %d de la lista de marcos globales", i, pid, num_marco);
+	    log_debug(logger,"obtener_marco_vacio_de_proceso: el marco con indice %d del PID: %d es el marco numero %d de la lista de marcos globales", i, pid, num_marco);
          // Por cada numero de marco, me fijo si existe una entrada N2 que lo contenga
             if(buscar_entrada_n2_por_num_marco(num_marco) == NULL){
-        	    log_warning(logger,"obtener_marco_vacio_de_proceso: No se encontro entrada. El marco %d esta disponible", num_marco);
+        	    log_debug(logger,"obtener_marco_vacio_de_proceso: No se encontro entrada. El marco %d esta disponible", num_marco);
             	// Si no existe ninguna, devuelvo el numero marco
                 return num_marco;
             }
@@ -137,7 +137,6 @@ void traer_pagina_a_memoria(int id, int dir_tabla_n1 , entrada_tabla_N2 *e){
 	    // Si no hay, tenemos que elegir con los algoritmos de reemplazo
 	    if(num_marco_vacio == MARCO_VACIO_NO_ENCONTRADO){
 	        entrada_tabla_N2 *aux;
-		    log_warning(logger,"traer_pagina_a_memoria: MARCO_VACIO_NO_ENCONTRADO");
 
 	        if(strcmp(config_values.algoritmo_reemplazo, "CLOCK") == 0)
 	          {
@@ -159,7 +158,7 @@ void traer_pagina_a_memoria(int id, int dir_tabla_n1 , entrada_tabla_N2 *e){
 	            sem_wait(&(p->pedido_swap_listo));
 	            eliminar_pedido_disco(p);
 	         }
-        	log_warning(logger, "traer_pagina_a_memoria: Tabla N1: %d se pone en 0 bit de presencia de entrada N2 n: %d dir fisica %d", dir_tabla_n1, e->num_pag, e->dir);
+        	log_debug(logger, "traer_pagina_a_memoria: Tabla N1: %d se pone en 0 bit de presencia de entrada N2 n: %d dir fisica %d", dir_tabla_n1, e->num_pag, e->dir);
         	// Actualizamos bit de presencia
 	         aux->bit_presencia = 0;
 
@@ -171,7 +170,7 @@ void traer_pagina_a_memoria(int id, int dir_tabla_n1 , entrada_tabla_N2 *e){
 	    e->dir = dir_marco;
 	    e->bit_presencia = 1;
     	log_debug(logger, "traer_pagina_a_memoria: Tabla N1: %d se pone en 1 bit de presencia de entrada N2 n: %d dir fisica %d", dir_tabla_n1, e->num_pag, e->dir);
-	    log_warning(logger,"traer_pagina_a_memoria: pagina %d del proceso %d lista en memoria",e->num_pag,id);
+	    log_debug(logger,"traer_pagina_a_memoria: pagina %d del proceso %d lista en memoria",e->num_pag,id);
 }
 
 // ej marco 0 despl 0
