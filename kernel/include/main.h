@@ -18,4 +18,7 @@ void esperar_hilos();
 
 void recibirComandos();
 
+void imprimir_fin(pcb* list_node);
+void print_process_endings();
+
 #endif

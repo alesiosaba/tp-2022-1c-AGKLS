@@ -2,7 +2,7 @@
 
 void limpiar_tlb(int procesoEnEjecucion) {
 	if(procesoEnEjecucion != procesoAnterior){
-		log_debug(logger, "Tengo que limpiar TLB - PID anterior: %d - PID nuevo: %d" , procesoAnterior, procesoEnEjecucion);
+		log_info(logger, "Tengo que limpiar TLB - PID anterior: %d - PID nuevo: %d" , procesoAnterior, procesoEnEjecucion);
 		list_clean_and_destroy_elements(TLB,free);
 	}
 

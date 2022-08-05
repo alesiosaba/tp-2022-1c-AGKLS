@@ -1,5 +1,7 @@
+clear
+
 echo
-echo Actualizando consola.config ...
+echo Actualizando todos los archivos de configuracion de consola...
 echo
 
 read -p "Ingrese LOG_LEVEL: " LOG_LEVEL

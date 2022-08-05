@@ -1,5 +1,7 @@
+clear
+
 echo
-echo Actualizando memoria.config ...
+echo Actualizando todos los archivos de configuracion de kernel ...
 echo
 
 read -p "Ingrese LOG_LEVEL: " LOG_LEVEL

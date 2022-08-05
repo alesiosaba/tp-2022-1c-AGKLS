@@ -104,6 +104,7 @@ void exec_write(nodo_instruccion* instruccion, pcb** pcb){
 	int* direccionLogica = list_get(instruccion->instruccion.parametros,0);
 
 	escribirValorEnMemoria(pcb, *direccionLogica, valorAescribir);
+	log_info(logger, "WRITE %d - Valor escrito: %d", *direccionLogica, valorAescribir);
 }
 
 void exec_copy(nodo_instruccion* instruccion, uint32_t valorMemoria, pcb** pcb){
@@ -111,6 +112,9 @@ void exec_copy(nodo_instruccion* instruccion, uint32_t valorMemoria, pcb** pcb){
 
 	int* direccionLogica = list_get(instruccion->instruccion.parametros,0);
 	escribirValorEnMemoria(pcb, *direccionLogica, valorMemoria);
+	int* leidoDe = list_get(instruccion->instruccion.parametros,1);
+	log_info(logger, "COPY: %d %d - Valor escrito: %d", *direccionLogica,*leidoDe,valorMemoria);
+	free(leidoDe);
 }
 
 void exec_i_o(nodo_instruccion* instruccion, pcb** pcb){
