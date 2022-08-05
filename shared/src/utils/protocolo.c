@@ -109,10 +109,13 @@ void send_respuesta_solicitud_tabla(int fd, int valor_solicitado, op_code cod_op
 	log_debug(logger, "Entro a send_respuesta_solicitud_tabla()");
 
 	t_paquete* paquete = crear_paquete(cod_op);
-	char* valor_a_enviar = string_new();
-	sprintf(valor_a_enviar, "%d\0", valor_solicitado);
+	char* valor_a_enviar = string_itoa(valor_solicitado);
+
 	agregar_a_paquete(paquete, valor_a_enviar, strlen(valor_a_enviar) + 1);
 	enviar_paquete(paquete, fd);
+
+	free(valor_a_enviar);
+
 	eliminar_paquete(paquete);
 
 	log_debug(logger, "Salgo de send_respuesta_solicitud_tabla()");
@@ -210,15 +213,15 @@ bool send_respuesta_handshake_inicial(int fd, int tamanio_pagina, int cant_entra
 	t_paquete* paquete = crear_paquete(RESPUESTA_HANDSHAKE_INICIAL);
 	log_debug(logger, "Paquete creado");
 
-	char* tamanio_pagina_enviar = string_new();
-	sprintf(tamanio_pagina_enviar, "%d\0", tamanio_pagina);
+	char* tamanio_pagina_enviar = string_itoa(tamanio_pagina);
 	agregar_a_paquete(paquete, tamanio_pagina_enviar, strlen(tamanio_pagina_enviar) + 1);
 	log_debug(logger, "tamanio_pagina que se manda: %s",tamanio_pagina_enviar);
+	free(tamanio_pagina_enviar);
 
-	char* cant_entradas_por_tabla_enviar = string_new();
-	sprintf(cant_entradas_por_tabla_enviar, "%d\0", cant_entradas_por_tabla);
+	char* cant_entradas_por_tabla_enviar = string_itoa(cant_entradas_por_tabla);
 	agregar_a_paquete(paquete, cant_entradas_por_tabla_enviar, strlen(cant_entradas_por_tabla_enviar) + 1);
 	log_debug(logger, "cant_entradas que se manda: %s",cant_entradas_por_tabla_enviar);
+	free(cant_entradas_por_tabla_enviar);
 
 	log_debug(logger, "Paquete armado");
 	enviar_paquete(paquete, fd);
@@ -239,11 +242,15 @@ bool send_respuesta_nuevo_proceso(int fd, int numero_tabla){
 	// log_debug(logger, "Enviando respuesta a Kernel, numero de tabla %d", numero_tabla);
 
 	t_paquete *paquete = crear_paquete(RESPUESTA_NUEVO_PROCESO);
-	char* numero_tabla_str = string_new();
-	sprintf(numero_tabla_str, "%d\0", numero_tabla);
+	char* numero_tabla_str = string_itoa(numero_tabla);
 
 	agregar_a_paquete(paquete, numero_tabla_str, strlen(numero_tabla_str) + 1);
 	enviar_paquete(paquete, fd);
+
+	eliminar_paquete(paquete);
+
+	free(numero_tabla_str);
+
 	return true;
 }
 
@@ -306,14 +313,15 @@ void send_respuesta_pedido_lectura(int socket_cliente, uint32_t valor_leido){
 
 	t_paquete* paquete = crear_paquete(RESPUESTA_PEDIDO_LECTURA);
 
-	char* valor_a_enviar = string_new();
-	sprintf(valor_a_enviar, "%d\0", valor_leido);
+	char* valor_a_enviar = string_itoa(valor_leido);
 
 	// log_debug(logger,"valor a enviar por la lectura: %s", valor_a_enviar);
 
 	agregar_a_paquete(paquete, valor_a_enviar, strlen(valor_a_enviar) + 1);
 	enviar_paquete(paquete, socket_cliente);
 	eliminar_paquete(paquete);
+
+	free(valor_a_enviar);
 
 	// log_debug(logger, "Salgo de send_respuesta_pedido_lectura()");
 }
@@ -323,13 +331,13 @@ void send_pedido_lectura(int socketCliente, struct direccion_fisica direccion_fi
 	// log_debug(logger, "Entro a send_PEDIDO_LECTURA()");
 
 	t_paquete* paquete = crear_paquete(PEDIDO_LECTURA);
-	char* marco_str = string_new();
-	sprintf(marco_str, "%d\0", direccion_fisica_lectura.marco);
+	char* marco_str = string_itoa(direccion_fisica_lectura.marco);
 	agregar_a_paquete(paquete, marco_str, strlen(marco_str) + 1);
+	free(marco_str);
 
-	char* desplazamiento_str = string_new();
-	sprintf(desplazamiento_str, "%d\0",direccion_fisica_lectura.desplazamiento);
+	char* desplazamiento_str = string_itoa(direccion_fisica_lectura.desplazamiento);
 	agregar_a_paquete(paquete, desplazamiento_str,strlen(desplazamiento_str) + 1);
+	free(desplazamiento_str);
 
 	// log_debug(logger, "Arme paquete de PEDIDO_LECTURA");
 	enviar_paquete(paquete, socketCliente);
@@ -407,12 +415,14 @@ void send_respuesta_pedido_escritura(int socket_cliente, int resultadoEscritura)
 
 	t_paquete* paquete = crear_paquete(RESPUESTA_PEDIDO_LECTURA);
 
-	char* resultadoEscritura_str = string_new();
-	sprintf(resultadoEscritura_str, "%d\0", resultadoEscritura);
+	char* resultadoEscritura_str = string_itoa(resultadoEscritura);
 
 	log_debug(logger,"valor a enviar por la escritura: %s", resultadoEscritura_str);
 
 	agregar_a_paquete(paquete, resultadoEscritura_str, strlen(resultadoEscritura_str) + 1);
+
+	free(resultadoEscritura_str);
+
 	enviar_paquete(paquete, socket_cliente);
 	eliminar_paquete(paquete);
 

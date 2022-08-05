@@ -1,8 +1,8 @@
 clear
 echo Eliminando logs...
-cd ../consola/exec
+cd ../consola
 rm consola.log -f
-cd ../../cpu/exec
+cd ../cpu/exec
 rm CPU.log -f
 cd ../../kernel/exec
 rm kernel.log -f

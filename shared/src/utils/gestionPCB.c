@@ -103,7 +103,6 @@ char* generar_renglon_instruccion(struct instruccion* instruccion_a_enviar){
 			string_append(&renglon_instruccion, " ");
 
 			nodo_parametro* param = list_get(instruccion_a_enviar->parametros, i);
-			// sprintf(parametroStr, "%d", param->parametro);
 			char* parametroStr = string_itoa(param->parametro);
 
 			string_append(&renglon_instruccion, parametroStr);
