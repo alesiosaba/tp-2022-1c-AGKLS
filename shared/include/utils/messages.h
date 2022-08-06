@@ -34,7 +34,7 @@
 #define INTERRUPCION_ENVIADA    "Se envio una interrupcion a CPU"
 #define INTERRUPCION_RECIBIDA   "Se recibio una interrupcion de Kernel"
 
-#define INICIALIZACION_PROCESOS "-----ENCOLANDO EL PID %d-----"
+#define INICIALIZACION_PROCESOS "-----AGREGANDO EL PID %d A READY-----"
 #define FINALIZACION_PROCESO    "-----FINALIZO EL PID %d-----"
 #define BLOQUEO_PROCESO         "-----SE BLOQUEO EL PID %d-----"
 #define DESBLOQUEO_PROCESO      "-----SE DESBLOQUEO EL PID %d-----"

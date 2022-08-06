@@ -55,7 +55,7 @@ void planificadorMedianoPlazo(pcb *nodo_pcb){
 	int index = proceso_esta_en_lista(listaBlocked, nodo_pcb->id);
 	if(index != -1){
 		send_paquete_pcb(conexionAMemoria, nodo_pcb, SOLICITUD_SUSPENSION_PROCESO);
-		log_info(logger, SUSPENCION_PROCESO, nodo_pcb->id);
+		log_warning(logger, SUSPENCION_PROCESO, nodo_pcb->id);
 		dequeue_blocked_at_index(index);
 		movePCBto(&nodo_pcb, SUSPENDED_BLOCKED);
 		sem_post(&sem_multiprogramacion);
@@ -150,7 +150,7 @@ void planificacion_bloqueo(){
 		if(index != -1){
 			dequeue_blocked_at_index(index);
 			movePCBto(&pcb, READY);
-			log_info(logger, DESBLOQUEO_PROCESO, pcb->id);
+			log_warning(logger, DESBLOQUEO_PROCESO, pcb->id);
             sem_post(&sem_ProcesosReady);
 		}else{
 			index = proceso_esta_en_lista(listaSuspendedBlocked, pcb->id);
@@ -174,7 +174,7 @@ void planificacion_suspended(){
 		pcb = dequeue_suspended_ready();
 		send_paquete_pcb(conexionAMemoria, pcb, SOLICITUD_DESUSPENSION_PROCESO);
 		movePCBto(&pcb, READY);
-		log_info(logger, DESUSPENCION_PROCESO, pcb->id);
+		log_warning(logger, DESUSPENCION_PROCESO, pcb->id);
 		sem_post(&sem_ProcesosReady);
 	}
 }

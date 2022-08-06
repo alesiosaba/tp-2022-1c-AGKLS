@@ -70,6 +70,7 @@ char* errorMessageAux;
 //PROCESOS
 int arr_procesos[1024];
 int idProceso;
+char* printReady;
 
 //LISTAS
 t_list* listaNew;

@@ -93,9 +93,13 @@ void terminar_programa()
 }
 
 void print_process_endings(){
-	log_info(logger , "-----------   ORDEN DE FINALIZACION DE PROCESOS  ----------------");
+	log_info(logger,
+			"TERMINANDO EL KERNEL");
+	log_info(logger,
+			"-----------   ORDEN DE FINALIZACION DE PROCESOS  -----------");
 	list_iterate(listaExit, imprimir_fin);
-	log_info(logger , "-------------------------------------------");
+	log_info(logger,
+			"------------------------------------------------------------");
 }
 
 void imprimir_fin(pcb* list_node){
