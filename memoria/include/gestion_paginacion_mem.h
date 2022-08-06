@@ -35,5 +35,5 @@ void liberar_marcos_de_proceso(int pid);
 uint32_t direccion_fisica_completa(uint32_t marco, uint32_t desplazamiento);
 
 void incrementar_accesos_a_swap();
-
+void dump_estado_memoria();
 #endif /* GESTION_PAGINACION_MEM_H_ */

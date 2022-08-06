@@ -233,6 +233,23 @@ proceso_en_memoria* buscar_proceso_por_id(int id)
     return aux;
 }
 
+void imprimir_marcos_de_proceso(){
+	for(int i = 0; i < list_size(procesos_en_memoria); i++){
+		proceso_en_memoria *p = (proceso_en_memoria *)list_get(procesos_en_memoria, i);
+	    t_list *marcos = conseguir_numeros_marcos_proceso(p->id_proceso);
+	    char * pids = string_new();
+	    for(int j = 0 ; j < list_size(marcos); j++){
+	        int num_marco = (int)list_get(marcos, j);
+	    	string_append(&pids, string_itoa(num_marco));
+	    	string_append(&pids, "  ");
+//	        log_info(logger,"Marco %d -> %d", j+1, num_marco);
+	    }
+	 log_info(logger,"Marcos PID: %d -> %s", p->id_proceso, pids);
+	 free(pids);
+	}
+
+}
+
 // Recibe una tabla N2 y un numero de marco y devuelve la entrada N2 que tiene ese marco o NULL si no la tiene
 entrada_tabla_N2* obtener_entrada_n2_por_num_marco(tabla_segundo_nivel *t, int num_marco)
 {

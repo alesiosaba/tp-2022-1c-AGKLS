@@ -100,8 +100,26 @@ entrada_tabla_N2* obtener_entrada_n2_clock_mejorado(int id, int dir_tablaN1)
         }
     }
     list_destroy(marcos_proceso);
-    log_debug(logger, "obtener_entrada_n2_clock_mejorado: Pagina a reemplazar %d en marco %d", ret->num_pag, ret->dir);
+    log_warning(logger, "obtener_entrada_n2_clock_mejorado: PAGINA A REEMPLAZAR %d", ret->num_pag);
     return ret;
+}
+
+
+void dump_estado_memoria(){
+    log_warning(logger,"*** ESTADO MEMORIA *** ");
+    imprimir_marcos_de_proceso();
+	for(int num_marco = 0; num_marco < config_values.tam_memoria / config_values.tam_pagina; num_marco++){
+        entrada_tabla_N2 *e2 = buscar_entrada_n2_por_num_marco(num_marco);
+        proceso_en_memoria *p;
+        if(e2 == NULL){
+              // Esta vacio
+            log_info(logger,"Marco: %d - Pagina: X", num_marco);
+        } else {
+        	// Esta ocupado
+            log_info(logger,"Marco: %d - Pagina: %d", num_marco, e2->num_pag);
+        }
+	}
+
 }
 
 // Obtiene numero de marco proceso que no este cargado en memoria
@@ -122,17 +140,22 @@ int obtener_marco_vacio_de_proceso(int pid)
             }
     }
     log_warning(logger,"obtener_marco_vacio_de_proceso: MARCO VACIO NO ENCONTRADO");
-
     return MARCO_VACIO_NO_ENCONTRADO;
 }
 
 void traer_pagina_a_memoria(int id, int dir_tabla_n1 , entrada_tabla_N2 *e){
-	    log_warning(logger,"traer_pagina_a_memoria: PID: %d pide de la tabla N1: %d la entrada N2: %d", id, dir_tabla_n1, e->num_pag);
+	    log_warning(logger,"traer_pagina_a_memoria: PID: %d ID Tabla N1: %d Pagina N2: %d", id, dir_tabla_n1, e->num_pag);
 	    dump_bitmap(bitmap_marcos);
+	    dump_estado_memoria();
+
 	    // Nos fijamos si hay algun marco del PID que no este referenciado por ninguna entrada n2
 	    int num_marco_vacio = obtener_marco_vacio_de_proceso(id);
 	    // De haberlo, usamos ese numero de marco para calcular la direccion
 	    int dir_marco = num_marco_vacio * config_values.tam_pagina;
+
+	    if(num_marco_vacio != MARCO_VACIO_NO_ENCONTRADO){
+	    	log_warning(logger,"traer_pagina_a_memoria: Para PID: %d se utilizara el marco vacio %d resultando en la dir. fisica: %d", id, num_marco_vacio, dir_marco);
+		}
 
 	    // Si no hay, tenemos que elegir con los algoritmos de reemplazo
 	    if(num_marco_vacio == MARCO_VACIO_NO_ENCONTRADO){
@@ -171,6 +194,7 @@ void traer_pagina_a_memoria(int id, int dir_tabla_n1 , entrada_tabla_N2 *e){
 	    e->bit_presencia = 1;
     	log_debug(logger, "traer_pagina_a_memoria: Tabla N1: %d se pone en 1 bit de presencia de entrada N2 n: %d dir fisica %d", dir_tabla_n1, e->num_pag, e->dir);
 	    log_debug(logger,"traer_pagina_a_memoria: pagina %d del proceso %d lista en memoria",e->num_pag,id);
+	    dump_estado_memoria();
 }
 
 // ej marco 0 despl 0

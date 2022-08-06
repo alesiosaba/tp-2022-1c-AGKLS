@@ -111,7 +111,7 @@ void solicitud_suspension_proceso(int socket_cliente){
     liberar_marcos_de_proceso(nodo_pcb->id);
     log_debug(logger, "solicitud_suspension_proceso: Marcos liberados." );
     dump_bitmap(bitmap_marcos);
-
+    dump_estado_memoria();
     log_info(logger, "solicitud_suspension_proceso: Proceso suspendido. Posteando semaforo suspension completa." );
     sem_post(&(proceso->suspension_completa));
 }
@@ -127,6 +127,7 @@ void solicitud_desuspension_proceso(int socket_cliente){
     log_info(logger, "solicitud_desuspension_proceso: Reservando marcos para el proceso" );
 	reservar_marcos_proceso(proceso);
 	dump_bitmap(bitmap_marcos);
+	dump_estado_memoria();
 	(*proceso).esta_suspendido = 0;
 
 }

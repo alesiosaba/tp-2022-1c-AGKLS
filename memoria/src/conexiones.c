@@ -71,7 +71,7 @@ int manejarConexionCPU(int socket_cliente){
 
 	struct consulta_en_tabla_paginas* consulta;
 	struct direccion_fisica* direccion_fisica_lectura;
-
+	int valor_a_escribir;
 		while (1){
 			// log_debug(logger, "dentro de manejarConexionCPU() socket: %d", socket_cliente);
 			// log_debug(logger,"Esperando nueva operacion en socket: %d", socket_cliente);
@@ -99,15 +99,17 @@ int manejarConexionCPU(int socket_cliente){
 				break;
 
 			case PEDIDO_LECTURA:
-				log_warning(logger, "Memoria recibio PEDIDO_LECTURA");
+				log_warning(logger, "Memoria recibio PEDIDO_LECTURA - Marco: %d Despl.: %d", direccion_fisica_lectura->marco, direccion_fisica_lectura->desplazamiento);
 				recv_pedido_lectura(socket_cliente, &direccion_fisica_lectura);
 				uint32_t valor_leido = solicitud_lectura_memoria(direccion_fisica_lectura->marco, direccion_fisica_lectura->desplazamiento);
 				send_respuesta_pedido_lectura(socket_cliente, valor_leido);
 				break;
 
 			case PEDIDO_ESCRITURA:
-				log_warning(logger, "Memoria recibio PEDIDO_ESCRITURA");
-				int valor_a_escribir = recv_pedido_escritura(socket_cliente, &direccion_fisica_lectura);
+//				log_warning(logger, "Memoria recibio PEDIDO_ESCRITURA");
+				valor_a_escribir = recv_pedido_escritura(socket_cliente, &direccion_fisica_lectura);
+				log_warning(logger, "Memoria recibio PEDIDO_ESCRITURA Valor: %d Marco: %d Despl.: %d", valor_a_escribir, direccion_fisica_lectura->marco, direccion_fisica_lectura->desplazamiento);
+
 				int resultadoEscritura = solicitud_escritura_memoria(valor_a_escribir, direccion_fisica_lectura->marco, direccion_fisica_lectura->desplazamiento);
 				send_respuesta_pedido_escritura(socket_cliente,resultadoEscritura);
 				break;
