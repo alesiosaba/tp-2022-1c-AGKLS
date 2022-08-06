@@ -45,7 +45,7 @@ struct direccion_fisica traducir_dir_logica(pcb** pcb, int direccion_logica){
 				+ nuevo_instante_referencia.tv_usec - inicio_ejecucion_modulo_CPU.tv_usec;
 
 		log_warning(logger , "Se actualizo la entrada con un nuevo instante de referencia");
-		imprimir_entrada_TLB(i);
+	//	imprimir_entrada_TLB(i);
 
 		direccion_fisica_buscada.marco = marco_en_TLB;
 		direccion_fisica_buscada.desplazamiento = desplazamiento;
