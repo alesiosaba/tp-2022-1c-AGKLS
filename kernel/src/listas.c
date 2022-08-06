@@ -4,7 +4,11 @@ pcb* dequeu_ready(){
 	pcb* pcb;
 	pthread_mutex_lock(&mtx_ready);
 	if(!planificador_es_fifo()){
+		imprimir_cola_ready();
+		log_warning(logger, "REPLANIFICANDO - READY ANTERIOR: %s", printReady);
 		list_sort(listaReady, (void*)menor_rafaga);
+		imprimir_cola_ready();
+		log_warning(logger, "REPLANIFICANDO - READY NUEVA: %s", printReady);
 	}
 	pcb = list_remove(listaReady,0);
 	pthread_mutex_unlock(&mtx_ready);
@@ -84,6 +88,22 @@ bool enqueue_desbloqueo_pendiente(pcb** pcb){
 bool menor_rafaga(pcb *pcb1, pcb *pcb2) {
     return pcb1->estimacion_rafaga <= pcb2->estimacion_rafaga;
 }
+
+void agregarAListaChar(pcb* pcb) {
+	char* id = string_new();
+	id = string_itoa(pcb->id);
+	strcat(printReady, id);
+}
+
+
+void imprimir_cola_ready() {
+	printReady = string_new();
+
+	list_iterate(listaReady, agregarAListaChar);
+
+}
+
+
 
 
 

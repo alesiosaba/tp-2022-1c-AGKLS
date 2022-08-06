@@ -27,4 +27,8 @@ bool enqueue_desbloqueo_pendiente(pcb** pcb);
 
 bool menor_rafaga(pcb *pcb1, pcb *pcb2);
 
+void agregarAListaChar(pcb* pcb);
+
+void imprimir_cola_ready();
+
 #endif
