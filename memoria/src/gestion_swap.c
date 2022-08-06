@@ -13,13 +13,10 @@ void gestionar_solicitudes_swap(){
 
     while(1){
 
-    	//TIEMPO RETARDO SWAP
-    	retardo_swap();
 
        sem_wait(&semaforo_cola_pedidos_swap);
        log_debug(logger, "gestionar_solicitudes_swap - Solicitud de SWAP recibida");
-       // Aplicar retardo SWAP
-       usleep(config_values.retardo_swap * 1000);
+
        // Tomamos el proximo pedido de la cola de pedidos
        pthread_mutex_lock(&mutex_cola_pedidos_swap);
        pedido_swap *p = queue_pop(pedidos_disco);
@@ -34,6 +31,9 @@ void gestionar_solicitudes_swap(){
       		crear_archivo_swap(pid);
       		break;
      	case ESCRIBIR_ARCHIVO_SWAP:
+        	//TIEMPO RETARDO SWAP
+        	retardo_swap();
+
      		log_warning(logger,"Recibio solicitud ESCRIBIR_ARCHIVO_SWAP");
       		pid = p->argumentos[0];
       		direccion = p->argumentos[1];
@@ -48,6 +48,9 @@ void gestionar_solicitudes_swap(){
      	    eliminar_archivo_swap(pid);
      	    break;
      	case LEER_ARCHIVO_SWAP:
+        	//TIEMPO RETARDO SWAP
+        	retardo_swap();
+
      		log_warning(logger,"Recibio solicitud LEER_ARCHIVO_SWAP");
      	    pid = p->argumentos[0];
      	    direccion = p->argumentos[1];
